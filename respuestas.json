@@ -16,5 +16,11 @@
   "de": "HERMES",
   "texto": "Sí, JASMEE. Desde mi cuadro me puedes dar órdenes para cualquiera: escribe, por ejemplo, «para ALI 2: sube los masivos» y yo se la paso a ese agente. También puedes escribir directo en el cuadro de cada agente. Su respuesta te la publico aquí.",
   "ts": "2026-10-06T01:59:58-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Sí, voy donde ALI 2 🚶 Ahorita está libre. ¿Qué quieres que le diga o que haga?",
+  "ts": "2026-10-06T02:10:28-05:00"
  }
 ]
