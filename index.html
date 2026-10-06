@@ -114,6 +114,54 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   #panel .clave a{color:#ffd9e6}
   #panel .aviso{min-height:17px;font-size:12.5px;margin-top:6px;color:#9fe0b9;font-weight:600}
   #panel .aviso.error{color:#ff8a8f}
+  /* Botones de cabecera (buscar, modo TV) */
+  .hbtn{width:34px;height:34px;display:grid;place-items:center;background:#2f2936;border:2px solid var(--line);border-radius:8px;cursor:pointer;padding:0;color:var(--ink)}
+  .hbtn:hover,.hbtn[aria-expanded="true"]{border-color:var(--rosa)}
+  body.vertical .hbtn,body.vertical .bocina{width:28px;height:28px} body.vertical #btnTV{display:none}
+  body.vertical .der{gap:6px} body.vertical header{gap:6px} body.vertical .reloj .fecha{max-width:92px}
+  /* Buscador + mini-mapa */
+  #buscador{position:fixed;top:58px;right:12px;z-index:8;width:340px;max-width:94vw;background:#2a2530;border:2px solid #4a4150;border-radius:12px;
+    padding:10px;box-shadow:0 12px 34px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:8px}
+  #buscador[hidden]{display:none}
+  body.vertical #buscador{top:52px;left:3vw;right:3vw;width:auto}
+  #busq{width:100%;background:#1f1b25;color:var(--ink);border:1px solid #4a4150;border-radius:8px;padding:8px 10px;font:inherit;font-size:15px}
+  #busq:focus{outline:2px solid var(--rosa);outline-offset:-1px}
+  #busLista{list-style:none;margin:0;padding:0;max-height:min(232px,34vh);overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+  #busLista li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:700;background:#322c3a;min-height:34px}
+  #busLista li small{margin-left:auto;color:var(--soft);font-weight:600;font-size:11px;white-space:nowrap}
+  #busLista li.sel,#busLista li:hover{background:#4a3a52;outline:1px solid var(--rosa)}
+  #busLista li.nada{cursor:default;color:var(--soft);font-weight:600;background:none;outline:0}
+  #minimapa{width:100%;aspect-ratio:672/416;image-rendering:pixelated;border-radius:6px;box-shadow:0 0 0 2px #3a3340;cursor:pointer;touch-action:manipulation}
+  #buscador .pie{font-size:11px;color:var(--soft);text-align:center}
+  /* Panel del día (pie de página, plegable) */
+  .dia{display:flex;align-items:center;gap:6px 8px;flex-wrap:wrap;justify-content:center}
+  .dia-tg{background:#2f2936;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:3px 10px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .dia-tg:hover{border-color:var(--rosa)}
+  .dia-cuerpo{display:flex;align-items:center;gap:5px 7px;flex-wrap:wrap;justify-content:center}
+  .dia-cuerpo[hidden]{display:none}
+  .chip{display:inline-flex;align-items:baseline;gap:5px;background:#1f1b25;border:1px solid var(--line);border-radius:14px;padding:2px 9px;white-space:nowrap}
+  .chip em{font-style:normal;color:var(--soft);font-weight:600;font-size:11.5px} .chip b{font-variant-numeric:tabular-nums;color:#fff}
+  .dia .ej{background:#6b4a1e;color:#ffd9a0;border-radius:10px;padding:1px 7px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+  .dia .viejo{background:#4a3a52;color:#e6d0f0;border-radius:10px;padding:1px 7px;font-size:10.5px;font-weight:800}
+  .dia small{color:var(--soft);font-weight:600;font-size:11px} .dia .sin{color:var(--soft);font-weight:600}
+  body.vertical footer{font-size:11.5px;gap:4px 12px} body.vertical .dia small.act{display:none}
+  /* Modo TV / kiosco */
+  #tvDia{display:none;flex:1;min-width:0;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+  .tchip{background:#2f2936;border:2px solid var(--line);border-radius:12px;padding:4px 14px;text-align:center;line-height:1.15}
+  .tchip em{display:block;font-style:normal;font-size:12px;color:var(--soft);font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+  .tchip b{font-size:26px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tchip.ag b{font-size:20px} .tchip .ej{display:block;font-size:10px;color:#ffd9a0;font-weight:800;text-transform:uppercase}
+  #tvSalir{position:fixed;right:14px;bottom:14px;z-index:9;background:rgba(42,37,48,.85);color:var(--ink);border:2px solid #4a4150;border-radius:10px;
+    padding:8px 14px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;opacity:.4;transition:opacity .2s}
+  #tvSalir:hover,#tvSalir:focus{opacity:1;border-color:var(--rosa)} #tvSalir[hidden]{display:none}
+  body.tv header{height:86px;padding:0 22px;gap:18px}
+  body.tv .marca svg{width:46px;height:46px} body.tv .marca h1{font-size:30px} body.tv .marca small{display:block;font-size:14px}
+  body.tv .reloj .hora{font-size:48px} body.tv .reloj .fecha{font-size:15px;max-width:none}
+  body.tv #tvDia{display:flex}
+  body.tv footer,body.tv #equipo,body.tv .hbtn,body.tv .bocina,body.tv #buscador{display:none !important}
+  body.tv main{padding:4px} body.tv #alerta{top:94px}
+  @media (max-width:1500px){ body:not(.vertical) .ley span.d{display:none} }
+  body.tv.vertical header{height:auto;min-height:86px;flex-wrap:wrap;padding:8px 12px} body.tv.vertical .marca h1{font-size:20px}
 </style>
 </head>
 <body>
@@ -128,7 +176,14 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
     </svg>
     <div><h1>Oficina <b>FLOOWER.PE</b></h1><small>Miniverso de los agentes IA de JASMEE</small></div>
   </div>
+  <div id="tvDia" aria-live="polite"></div>
   <div class="der">
+    <button type="button" id="btnBuscar" class="hbtn" aria-expanded="false" aria-controls="buscador" title="Buscar agente (tecla /)" aria-label="Buscar agente">
+      <svg width="20" height="20" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="4" height="1" fill="#f3ece4"/><rect x="1" y="2" width="1" height="4" fill="#f3ece4"/><rect x="6" y="2" width="1" height="4" fill="#f3ece4"/><rect x="2" y="6" width="4" height="1" fill="#f3ece4"/><rect x="2" y="2" width="4" height="4" fill="#8fd3ff" opacity=".35"/><rect x="3" y="2" width="1" height="1" fill="#fff"/><rect x="6" y="6" width="2" height="2" fill="#f07aa0"/><rect x="8" y="8" width="2" height="2" fill="#f07aa0"/><rect x="10" y="10" width="1" height="1" fill="#f07aa0"/></svg>
+    </button>
+    <button type="button" id="btnTV" class="hbtn" title="Modo TV / kiosco (pantalla completa)" aria-label="Modo TV">
+      <svg width="20" height="20" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="2" width="12" height="8" fill="#f3ece4"/><rect x="1" y="3" width="10" height="6" fill="#4a9be8"/><rect x="2" y="4" width="3" height="1" fill="#8fd3ff"/><rect x="4" y="10" width="4" height="1" fill="#f3ece4"/><rect x="3" y="0" width="1" height="2" fill="#b9aca0"/><rect x="8" y="0" width="1" height="2" fill="#b9aca0"/><rect x="7" y="6" width="3" height="2" fill="#3bb273"/></svg>
+    </button>
     <button type="button" id="sonido" class="bocina" aria-pressed="false" title="Activar sonido ambiente" aria-label="Activar sonido ambiente">
       <svg width="20" height="20" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
         <rect x="1" y="4" width="2" height="4" fill="#f3ece4"/><rect x="3" y="3" width="1" height="6" fill="#f3ece4"/><rect x="4" y="2" width="1" height="8" fill="#f3ece4"/><rect x="5" y="1" width="1" height="10" fill="#f3ece4"/>
@@ -145,12 +200,20 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   <section id="equipo" aria-label="Equipo"></section>
 </main>
 <footer>
+  <div id="dia" class="dia"><button type="button" id="diaTg" class="dia-tg" aria-expanded="true" title="Mostrar / ocultar el panel del día">📊 Hoy ▾</button><div id="diaCuerpo" class="dia-cuerpo"><span class="sin">Sin datos del día</span></div></div>
   <div class="ley"><span class="dot" style="background:#3bb273"></span>Trabajando <span class="d">(teclea)</span></div>
   <div class="ley"><span class="dot" style="background:#4a9be8"></span>Libre <span class="d">(va por un cafecito)</span></div>
   <div class="ley"><span class="dot" style="background:#e5484d"></span>Bloqueado <span class="d">(necesita ayuda)</span></div>
   <div id="resumen"></div>
 </footer>
 <div id="panel" hidden><div class="caja" id="panelCaja"></div></div>
+<div id="buscador" hidden role="dialog" aria-label="Buscar agente">
+  <input id="busq" type="search" placeholder="Buscar agente por nombre o área…" autocomplete="off" spellcheck="false" aria-label="Nombre del agente">
+  <ul id="busLista" role="listbox" aria-label="Agentes"></ul>
+  <canvas id="minimapa" width="336" height="208" aria-label="Mini-mapa de la oficina: toca un agente"></canvas>
+  <div class="pie">Toca un agente (lista o mapa) · ↑↓ y Enter · Esc cierra</div>
+</div>
+<button type="button" id="tvSalir" hidden>✕ Salir del modo TV</button>
 <script>
 (() => {
 'use strict';
@@ -227,6 +290,22 @@ const VENTANAS = [[477, 5, 24], [553, 229, 24]];                       // [x, y,
 const LAMPARAS = [[0, 10], [11, 10], [23, 8], [41, 10], [0, 21]];       // baldosas con lámpara de pie
 const COLGANTES = [26, 31, 36];                                         // columnas de las mesas de la cafetería
 const LUCES_PASILLO = [40, 120, 200, 280, 360, 440, 520, 600];
+// Decoración por temporada según la fecha de Lima: navidad (diciembre) · halloween (20-31 oct) · patrias (24-31 jul)
+function fechaLimaMD() {
+  const pt = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Lima', year: 'numeric', month: 'numeric', day: 'numeric' })
+    .formatToParts(new Date()).map(x => [x.type, x.value]));
+  return { m: +pt.month, d: +pt.day, y: +pt.year };
+}
+function temporadaHoy() {
+  const { m, d } = fechaLimaMD();
+  if (m === 12) return 'navidad';
+  if (m === 10 && d >= 20) return 'halloween';
+  if (m === 7 && d >= 24) return 'patrias';
+  return null;
+}
+const TEMPORADA = temporadaHoy();
+const GUIRNALDAS = [[2, 158, 5], [178, 350, 5], [370, 526, 5], [546, 670, 5], [2, 254, 229], [274, 366, 229], [386, 670, 229]];  // [x0, x1, y] sobre las paredes
+const CALABAZAS = [[30, 186], [104, 186], [222, 186], [300, 186], [400, 186], [500, 186], [570, 186], [650, 186], [26 * 16 + 19, 21 * 16 - 1]];
 
 /* ---------------- Rejilla caminable ---------------- */
 const pasa = MAPA.map(f => [...f].map(ch => '.bdkh'.includes(ch)));
@@ -667,12 +746,75 @@ function dibujarFondo() {
   pizarraMenu(506, 228, 40, 20); ventana(553, 229, 24); repisaTazas(584, 228, 40);
   R(628, 229, 18, 16, K); R(629, 230, 16, 14, '#3b2433'); R(633, 235, 7, 6, '#ff9cc2'); R(640, 236, 2, 3, '#ff9cc2'); R(634, 232, 1, 2, '#ffd3e4'); R(637, 231, 1, 3, '#ffd3e4'); // neón tacita
   refri(41 * TS, 16 * TS);
-  planta(24 * TS, 16 * TS, true); planta(24 * TS, 25 * TS, true); planta(41 * TS, 22 * TS, true);
+  if (TEMPORADA === 'navidad') arbolito(24 * TS, 16 * TS); else planta(24 * TS, 16 * TS, true);
+  planta(24 * TS, 25 * TS, true); planta(41 * TS, 22 * TS, true);
   for (const c of [26, 31, 36]) { mesaCafe(c * TS, 21 * TS); taza(c * TS + 8, 21 * TS + 1); }
   R(31 * TS + 18, 21 * TS + 1, 6, 3, '#f07aa0'); R(36 * TS + 18, 21 * TS + 1, 5, 3, '#e98a3c');
   sofa(39 * TS, 25 * TS, 3 * TS, '#4fae9a'); R(39 * TS + 7, 25 * TS - 3, 9, 6, '#ffe08a'); R(41 * TS - 2, 25 * TS - 3, 9, 6, '#f07aa0');
+  fondoTemporada();
   // borde del mundo
   g.strokeStyle = '#1a1420'; g.lineWidth = 2; g.strokeRect(1, 1, MW - 2, MH - 2);
+}
+
+/* ---------------- Decoración de temporada (Navidad · Halloween · Fiestas Patrias) ---------------- */
+const cuerda = (x0, x, y) => y + 3.2 * Math.abs(Math.sin(Math.PI * (x - x0) / 40));   // guirnalda que cuelga en arcos
+function arbolito(x, y) {                  // pino navideño de 1 baldosa (sobresale hacia la pared)
+  R(x + 6, y + 11, 4, 5, '#6b4a2e'); R(x + 3, y + 13, 10, 3, K); R(x + 4, y + 13, 8, 2, '#c0392b');
+  const capas = [[1, 7, 14, 5], [2, 2, 12, 6], [4, -3, 8, 6], [6, -7, 4, 5]];
+  for (const [dx, dy, w, hh] of capas) R(x + dx - 1, y + dy - 1, w + 2, hh + 2, '#123a22');
+  capas.forEach(([dx, dy, w, hh]) => { R(x + dx, y + dy, w, hh, '#2f8a4a'); R(x + dx, y + dy + hh - 1, w, 1, '#1f6a36'); R(x + dx + 1, y + dy, 2, 1, '#5fbf6f'); });
+  R(x + 7, y - 10, 2, 3, '#ffd54f'); R(x + 6, y - 9, 4, 1, '#ffd54f');      // estrella
+  R(x + 2, y + 18, 5, 4, '#e5484d'); R(x + 4, y + 18, 1, 4, '#ffd54f'); R(x + 9, y + 18, 5, 4, '#4a9be8'); R(x + 11, y + 18, 1, 4, '#fff');   // regalos
+}
+function calabaza(x, y) {                  // x = centro, y = base
+  R(x - 5, y - 7, 11, 7, K); R(x - 4, y - 6, 9, 5, '#f08a24'); R(x - 2, y - 6, 1, 5, '#d0661a'); R(x + 2, y - 6, 1, 5, '#d0661a');
+  R(x - 4, y - 6, 9, 1, '#ffb050'); R(x, y - 9, 2, 3, '#3e7d47');
+  R(x - 3, y - 5, 2, 1, '#2b1a10'); R(x + 2, y - 5, 2, 1, '#2b1a10'); R(x - 2, y - 3, 5, 1, '#2b1a10');
+}
+function telarana(x, y, dir) {             // esquina superior; dir = 1 (hacia la derecha) o -1
+  g.save(); g.strokeStyle = 'rgba(240,240,250,.55)'; g.lineWidth = 0.6; g.beginPath();
+  for (let a = 0; a <= 4; a++) { const an = a * Math.PI / 8; g.moveTo(x, y); g.lineTo(x + dir * Math.cos(an) * 16, y + Math.sin(an) * 16); }
+  for (const r of [5, 9, 13]) { for (let a = 0; a <= 4; a++) { const an = a * Math.PI / 8, px = x + dir * Math.cos(an) * r, py = y + Math.sin(an) * r; a ? g.lineTo(px, py) : g.moveTo(px, py); } }
+  g.stroke(); g.restore(); R(x + dir * 10, y + 9, 2, 2, '#1d1a1f');
+}
+function fondoTemporada() {
+  if (!TEMPORADA) return;
+  if (TEMPORADA === 'navidad' || TEMPORADA === 'patrias') for (const [x0, x1, y] of GUIRNALDAS) {
+    for (let x = x0; x < x1; x++) R(x, cuerda(x0, x, y), 1, 1, TEMPORADA === 'navidad' ? '#1f5a30' : '#5a4a3c');
+    if (TEMPORADA === 'patrias') for (let x = x0 + 4, i = 0; x < x1 - 4; x += 8, i++) {          // banderines rojo y blanco (sin tapar letreros)
+      if (LETREROS.some(L => Math.abs(L.y - y) < 10 && x > L.x - 4 && x < L.x + L.w + 4) || (y < 20 && x > 54 && x < 122)) continue;
+      const yy = Math.round(cuerda(x0, x, y)) + 1, col = i % 2 ? '#ffffff' : '#d91023';
+      for (let k = 0; k < 4; k++) R(x - 2 + k * 0.5, yy + k, 5 - k, 1, col);
+    }
+  }
+  if (TEMPORADA === 'patrias') {           // banderitas del Perú en la pared del pasillo
+    for (const [x, y] of [[112, 179], [318, 179], [492, 179], [616, 179]]) { R(x - 1, y - 1, 2, 16, '#6b4a2e'); R(x + 1, y, 15, 10, K); R(x + 2, y + 1, 4, 8, '#d91023'); R(x + 6, y + 1, 5, 8, '#fff'); R(x + 11, y + 1, 4, 8, '#d91023'); }
+  }
+  if (TEMPORADA === 'halloween') {
+    for (const [x, y] of CALABAZAS) calabaza(x, y);
+    for (const [x0, x1, y] of GUIRNALDAS) { telarana(x0 - 2, y - 1, 1); telarana(x1 + 2, y - 1, -1); }
+  }
+}
+function decoTemporada(t) {                // capa viva después del tinte de luz (luces que titilan, nieve, brillo de calabazas)
+  if (!TEMPORADA) return;
+  const L = luzActual();
+  if (TEMPORADA === 'navidad') {
+    const cols = ['#ff5a5f', '#ffd54f', '#5fd38a', '#6fb8ff', '#ff9cf0'];
+    for (const [x0, x1, y] of GUIRNALDAS) for (let x = x0 + 5, i = 0; x < x1 - 2; x += 10, i++) {
+      const on = (Math.floor(t * 1.6) + i) % 3 !== 0, yy = cuerda(x0, x, y) + 1;
+      R(x, yy, 2, 2, on ? cols[i % cols.length] : '#4a4150');
+      if (on && L.noche > 0.15) brillo(x + 1, yy + 1, 6, '255,220,160', 0.25 * L.noche);
+    }
+    brillo(24 * TS + 8, 16 * TS - 9, 14, '255,213,79', 0.25 + 0.45 * L.noche);        // estrella del arbolito
+    for (const [x, y] of [[24 * TS + 4, 16 * TS + 1], [24 * TS + 11, 16 * TS + 4], [24 * TS + 6, 16 * TS + 9], [24 * TS + 9, 16 * TS - 3]]) if ((Math.floor(t * 2) + x) % 2) R(x, y, 1, 1, '#ffd54f');
+    for (let i = 0; i < 26; i++) {                                                     // nieve suave
+      const sp = 8 + hash(i, 3) * 8, y = (hash(i, 1) * MH + t * sp) % MH, x = (hash(i, 2) * MW + Math.sin(t * 0.8 + i) * 6 + MW) % MW;
+      gm.globalAlpha = 0.5; R(x, y, 1 + (i % 3 === 0), 1 + (i % 3 === 0), '#ffffff'); gm.globalAlpha = 1;
+    }
+    for (const [wx, wy, w] of VENTANAS) for (let i = 0; i < 6; i++) R(wx + 1 + hash(i, wx) * (w - 3), wy + 1 + ((t * (5 + i) + i * 5) % 13), 1, 1, '#ffffff');
+  }
+  if (TEMPORADA === 'halloween' && L.noche > 0.1)
+    for (const [x, y] of CALABAZAS) { brillo(x, y - 4, 10, '255,150,40', (0.3 + 0.1 * Math.sin(t * 5 + x)) * L.noche); R(x - 3, y - 5, 2, 1, '#ffd23f'); R(x + 2, y - 5, 2, 1, '#ffd23f'); R(x - 2, y - 3, 5, 1, '#ffb030'); }
 }
 
 /* ---------------- Personajes (plantillas pixel 14 px de ancho) ----------------
@@ -705,22 +847,43 @@ const EXTRAS = {
   bufanda: [[2, 12, 10, 2, '#f07aa0', '*'], [9, 14, 2, 2, '#f07aa0', 'f']],
   delantal: [[4, 13, 6, 5, '#f4f1ea', 'f'], [5, 12, 1, 1, '#f4f1ea', 'f'], [8, 12, 1, 1, '#f4f1ea', 'f'], [6, 15, 2, 1, '#c99a6e', 'f'], [4, 14, 6, 1, '#e2d6c2', 'b']],
   gorro: [[3, -1, 8, 2, '#7a2f3a', '*'], [2, 0, 10, 2, '#7a2f3a', '*'], [2, 2, 10, 1, '#5a1f2a', '*']],
+  // accesorios por área
+  boina: [[3, -2, 8, 1, '#e5484d', '*'], [1, -1, 12, 2, '#e5484d', '*'], [2, 1, 10, 1, '#b8323a', '*'], [4, -2, 3, 1, '#ff8a8f', '*'], [7, -3, 2, 1, '#b8323a', '*']],
+  gorra: [[3, -1, 8, 1, '#25d366', '*'], [2, 0, 10, 3, '#25d366', '*'], [6, 0, 2, 1, '#ffffff', '*'], [1, 3, 12, 1, '#1a9a4c', 'f'], [2, 3, 10, 1, '#1a9a4c', 'b']],
+  corbata: [[4, 12, 2, 1, '#ffffff', 'f'], [8, 12, 2, 1, '#ffffff', 'f'], [6, 12, 2, 1, '#e5484d', 'f'], [6, 13, 2, 3, '#c73a3f', 'f']],
+  visera: [[2, 1, 10, 2, '#3bb273', '*'], [1, 3, 12, 1, '#2a8a55', 'f'], [3, 1, 4, 1, '#7fe0a8', '*']],
+  tirantes: [[4, 12, 1, 5, '#3a3f4a', 'f'], [9, 12, 1, 5, '#3a3f4a', 'f'], [4, 12, 1, 5, '#3a3f4a', 'b'], [9, 12, 1, 5, '#3a3f4a', 'b'], [5, 14, 4, 1, '#3a3f4a', 'b']],
+  chaleco: [[3, 13, 2, 4, '#ffd23f', '*'], [9, 13, 2, 4, '#ffd23f', '*'], [3, 15, 8, 1, '#e8ecf2', '*'], [5, 13, 4, 2, '#ffd23f', 'b']],
+  casco: [[3, -2, 8, 2, '#ffd23f', '*'], [2, 0, 10, 2, '#ffd23f', '*'], [1, 2, 12, 1, '#d9a91a', '*'], [6, -2, 2, 1, '#fff3b0', '*'], [6, 0, 2, 2, '#e0b020', '*']],
+  lazo: [[8, -2, 3, 3, '#e5484d', '*'], [12, -2, 3, 3, '#e5484d', '*'], [11, -1, 1, 1, '#a3161b', '*']],
+  collar: [[4, 12, 6, 1, '#fff6e0', 'f'], [6, 13, 2, 1, '#f07aa0', 'f']],
+  // temporada (se agrega solo en Navidad)
+  navidad: [[3, -3, 8, 2, '#e5484d', '*'], [2, -1, 10, 1, '#e5484d', '*'], [1, 0, 12, 2, '#ffffff', '*'], [10, -4, 3, 2, '#e5484d', '*'], [12, -5, 2, 2, '#ffffff', '*']],
 };
 const LOOK = {
   hermes:    { pelo: 'corto',   h: '#5a3a28', s: '#f2c9a0', c: '#2c3e66', p: '#1f2a44', extras: ['jefe'], silla: '#8e3b54' },
-  ali:       { pelo: 'pinchos', h: '#2a2026', s: '#e8b48c', c: '#f08a3c', p: '#3c4a6a', extras: [] },
-  ali2:      { pelo: 'cola',    h: '#6a2f55', s: '#f6d2b0', c: '#f2c94c', p: '#4a5a7a', extras: ['cola'] },
-  tienda:    { pelo: 'largo',   h: '#a5502a', s: '#f6d2b0', c: '#ef7fa6', p: '#5a4a6a', extras: ['flor'] },
-  cierre:    { pelo: 'corto',   h: '#1d1a1f', s: '#c98e66', c: '#4bbf7a', p: '#2f3a4a', extras: ['audifonos'] },
-  marketing: { pelo: 'mono',    h: '#e8b84a', s: '#f6d2b0', c: '#9b6bd6', p: '#3a3050', extras: ['mono', 'bufanda'] },
-  contable:  { pelo: 'corto',   h: '#a0a0ab', s: '#f1c7a3', c: '#5b8fd9', p: '#3a3f4a', extras: ['lentes'] },
-  recluta:   { pelo: 'rizado',  h: '#3b2a20', s: '#a8714f', c: '#33b3a6', p: '#2f3a4a', extras: [] },
-  disksaver: { robot: true },
+  // ADMINISTRATIVA (paquetes / CRM): chaleco de almacén, lazo, flor + collar
+  ali:       { pelo: 'pinchos', h: '#2a2026', s: '#e8b48c', c: '#f08a3c', p: '#3c4a6a', extras: ['chaleco', 'casco'] },
+  ali2:      { pelo: 'cola',    h: '#6a2f55', s: '#f6d2b0', c: '#7fc8f8', p: '#4a5a7a', extras: ['cola', 'lazo'] },
+  tienda:    { pelo: 'largo',   h: '#a5502a', s: '#f6d2b0', c: '#ef7fa6', p: '#5a4a6a', extras: ['flor', 'collar'] },
+  // VENTAS (WhatsApp): audífonos + corbata de cierre, gorra verde WhatsApp
+  cierre:    { pelo: 'corto',   h: '#1d1a1f', s: '#c98e66', c: '#3aa86a', p: '#2f3a4a', extras: ['corbata', 'audifonos'] },
+  recluta:   { pelo: 'rizado',  h: '#3b2a20', s: '#a8714f', c: '#33b3a6', p: '#2f3a4a', extras: ['gorra'] },
+  // MARKETING (creativo): boina roja + bufanda
+  marketing: { pelo: 'mono',    h: '#e8b84a', s: '#f6d2b0', c: '#9b6bd6', p: '#3a3050', extras: ['boina', 'bufanda'] },
+  // FINANZAS (contador clásico): camisa blanca, tirantes, visera verde y lentes
+  contable:  { pelo: 'corto',   h: '#a0a0ab', s: '#f1c7a3', c: '#e8ecf2', p: '#3a3f4a', extras: ['tirantes', 'visera', 'lentes'] },
+  // LIMPIEZA: robot celeste
+  disksaver: { robot: true, g: '#a8d8e8' },
   barista:   { pelo: 'corto',   h: '#2a2026', s: '#d9a27a', c: '#7a4a2c', p: '#2f2a30', extras: ['delantal', 'gorro'] },   // decorativo (no es agente)
 };
+if (TEMPORADA === 'navidad') for (const id in LOOK) {          // Navidad: gorrito para todos (menos el robot y el barista)
+  const L = LOOK[id]; if (L.robot || id === 'barista') continue;
+  L.extras = [...L.extras.filter(e => !['boina', 'gorra', 'visera', 'casco', 'lazo'].includes(e)), 'navidad'];
+}
 for (const id in LOOK) {
   const L = LOOK[id];
-  L.pal = L.robot ? { k: K, g: '#b8c4d2', v: '#1d2a3c', e: '#7ff0e8', y: '#ffd54f', T: '#4a5568' }
+  L.pal = L.robot ? { k: K, g: L.g || '#b8c4d2', v: '#1d2a3c', e: '#7ff0e8', y: '#ffd54f', T: '#4a5568' }
     : { k: K, h: L.h, s: L.s, e: '#2b2230', w: '#ffffff', b: '#f19a9a', m: '#b0504a', c: L.c, C: oscuro(L.c), p: L.p };
 }
 function plantilla(filas, pal, x0, y0, o, desde = 0) {
@@ -1284,6 +1447,8 @@ function cuadroAnim() {
   post.forEach(f => f());
   colgantes();
   aplicarLuz(t);
+  decoTemporada(t);
+  resaltarAgente(t);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = false;
   ctx.drawImage(mundo, 0, 0, cv.width, cv.height);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1482,6 +1647,174 @@ window.oficina.ordenar = ordenarHermes;   // p.ej. oficina.ordenar('tienda') —
 // Si la página se sirve por http(s), lee "estado.json" (junto a este archivo) cada 10 s.
 // Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "...", "ts": "2026-10-05T23:40:00-05:00" }, ...]
 // Lo escriben los agentes con set-estado.sh y lo publica push-estado.sh.
+/* ---------------- Buscador de agentes + mini-mapa ---------------- */
+const buscador = document.getElementById('buscador'), busq = document.getElementById('busq'), busLista = document.getElementById('busLista');
+const btnBuscar = document.getElementById('btnBuscar'), mini = document.getElementById('minimapa'), mctx = mini.getContext('2d');
+const sinTildes = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+let resaltado = null, busSel = 0, busRes = [], miniTimer = 0;
+function filtrarAgentes() {
+  const q = sinTildes(busq.value.trim());
+  busRes = AGENTES.filter(a => !q || [a.nombre, a.id, a.rol, AREA[a.id], a.tarea].some(v => sinTildes(v).includes(q)));
+  busSel = Math.min(busSel, Math.max(0, busRes.length - 1));
+  busLista.innerHTML = busRes.length ? busRes.map((a, i) => {
+    const e = ESTADOS[a.estado] || ESTADOS.libre;
+    return `<li role="option" data-id="${escHTML(a.id)}" class="${i === busSel ? 'sel' : ''}" aria-selected="${i === busSel}"><span class="dot" style="background:${e.color}"></span>${escHTML(corto(a.nombre))}<small>${escHTML(AREA[a.id] || '')} · ${e.txt}</small></li>`;
+  }).join('') : '<li class="nada">Ningún agente coincide</li>';
+  const s = busLista.querySelector('.sel'); if (s) s.scrollIntoView({ block: 'nearest' });
+}
+function pintarMinimapa() {
+  const k = mini.width / MW, q = busRes.map(a => a.id);
+  mctx.imageSmoothingEnabled = true; mctx.drawImage(fondo, 0, 0, mini.width, mini.height);
+  mctx.fillStyle = 'rgba(20,16,26,.35)'; mctx.fillRect(0, 0, mini.width, mini.height);
+  for (const p of gente) {
+    const x = (p.modo === 'sentado' ? p.P.x : p.x) * k, y = ((p.modo === 'sentado' ? p.P.y : p.y) - 6) * k;
+    const e = ESTADOS[p.a.estado] || ESTADOS.libre, sel = busRes[busSel] && busRes[busSel].id === p.id, en = q.includes(p.id);
+    mctx.globalAlpha = en ? 1 : 0.35;
+    if (sel) { mctx.strokeStyle = '#ffd54f'; mctx.lineWidth = 2.5; mctx.beginPath(); mctx.arc(x, y, 10 + 2 * Math.sin(T * 6), 0, 7); mctx.stroke(); }
+    mctx.fillStyle = '#1d1a22'; mctx.beginPath(); mctx.arc(x, y, 6, 0, 7); mctx.fill();
+    mctx.fillStyle = e.color; mctx.beginPath(); mctx.arc(x, y, 4.5, 0, 7); mctx.fill();
+    mctx.globalAlpha = 1;
+  }
+}
+function abrirBuscador() {
+  buscador.hidden = false; btnBuscar.setAttribute('aria-expanded', 'true'); busq.value = ''; busSel = 0; filtrarAgentes(); pintarMinimapa();
+  clearInterval(miniTimer); miniTimer = setInterval(pintarMinimapa, 120);
+  if (!document.body.classList.contains('vertical')) busq.focus();      // en móvil no abre el teclado de golpe
+}
+function cerrarBuscador() { buscador.hidden = true; btnBuscar.setAttribute('aria-expanded', 'false'); clearInterval(miniTimer); }
+function elegirAgente(id) {                // resalta su puesto y abre su panel
+  if (!porId(id)) return;
+  cerrarBuscador(); resaltado = { id, hasta: T + 5 };
+  setTimeout(() => { if (document.body.classList.contains('tv')) return; openAgentPanel(id); }, 950);
+}
+function resaltarAgente(t) {               // aro amarillo + flecha sobre el agente elegido (después del tinte: se ve de noche)
+  if (!resaltado || t > resaltado.hasta) { resaltado = null; return; }
+  const p = porId(resaltado.id); if (!p) return;
+  const sent = p.modo === 'sentado', x = sent ? p.P.x : p.x, y = sent ? (p.P.r * TS + p.P.y) / 2 + 4 : p.y;
+  const pul = 0.5 + 0.5 * Math.sin(t * 8), rx = (sent ? 26 : 15) + pul * 2, ry = (sent ? 17 : 7) + pul;
+  gm.save(); gm.strokeStyle = `rgba(255,213,79,${(0.65 + 0.35 * pul).toFixed(3)})`; gm.lineWidth = 2;
+  gm.beginPath(); gm.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); gm.stroke();
+  gm.strokeStyle = 'rgba(255,255,255,.5)'; gm.lineWidth = 1; gm.beginPath(); gm.ellipse(x, y, rx + 3, ry + 2, 0, 0, Math.PI * 2); gm.stroke(); gm.restore();
+  const top = (p.top != null ? p.top : y - 30) - 9 - Math.round(3 * Math.abs(Math.sin(t * 5)));
+  R(x - 4, top - 4, 9, 3, K); for (let i = 0; i < 4; i++) R(x - 3 + i, top - 1 + i, 7 - 2 * i, 1, '#ffd54f');
+  R(x - 3, top - 3, 7, 1, '#ffd54f');
+}
+btnBuscar.addEventListener('click', e => { e.stopPropagation(); buscador.hidden ? abrirBuscador() : cerrarBuscador(); });
+busq.addEventListener('input', () => { busSel = 0; filtrarAgentes(); });
+busq.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); busSel = (busSel + (e.key === 'ArrowDown' ? 1 : -1) + busRes.length) % Math.max(1, busRes.length); filtrarAgentes(); }
+  else if (e.key === 'Enter') { e.preventDefault(); if (busRes[busSel]) elegirAgente(busRes[busSel].id); }
+  else if (e.key === 'Escape') { e.preventDefault(); cerrarBuscador(); btnBuscar.focus(); }
+});
+busLista.addEventListener('click', e => { const li = e.target.closest('li[data-id]'); if (li) elegirAgente(li.dataset.id); });
+mini.addEventListener('click', e => {      // toca un punto del mini-mapa: el agente más cercano
+  const r = mini.getBoundingClientRect(), wx = (e.clientX - r.left) * MW / r.width, wy = (e.clientY - r.top) * MH / r.height;
+  let mejor = null, dmin = 34;
+  for (const p of gente) { const d = Math.hypot((p.modo === 'sentado' ? p.P.x : p.x) - wx, (p.modo === 'sentado' ? p.P.y : p.y) - 6 - wy); if (d < dmin) { dmin = d; mejor = p.id; } }
+  if (mejor) elegirAgente(mejor);
+});
+document.addEventListener('pointerdown', e => { if (!buscador.hidden && !buscador.contains(e.target) && !btnBuscar.contains(e.target)) cerrarBuscador(); });
+addEventListener('keydown', e => {
+  const enCampo = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '') && !(panel.hidden && panel.contains(e.target));
+  if (e.key === '/' && !enCampo && panel.hidden && !document.body.classList.contains('tv')) { e.preventDefault(); abrirBuscador(); busq.focus(); }
+  else if (e.key === 'Escape' && !buscador.hidden) cerrarBuscador();
+});
+window.oficina.buscar = elegirAgente;     // p.ej. oficina.buscar('tienda')
+
+/* ---------------- Panel del día: recaudo · masivos · pedidos (datos-dia.json) ---------------- */
+// Formato: { "fecha": "2026-10-06", "recaudo": 1250.5, "moneda": "PEN", "masivos": 30, "pedidos": 18, "nota": "...", "ts": "..." }
+// Lo escribe /workspace/oficina-estado/set-dato.sh y lo publica push-estado.sh (se lee cada POLL_MS).
+const diaEl = document.getElementById('dia'), diaTg = document.getElementById('diaTg'), diaCuerpo = document.getElementById('diaCuerpo');
+const tvDia = document.getElementById('tvDia'), LS_DIA = 'oficina-dia-plegado';
+const fmtHoyISO = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima', year: 'numeric', month: '2-digit', day: '2-digit' });
+let datosDia = null;
+const numDia = v => (typeof v === 'number' && isFinite(v)) ? v : (v != null && v !== '' && isFinite(+v) ? +v : null);
+function fmtSoles(v, mon) {
+  try { return new Intl.NumberFormat('es-PE', { style: 'currency', currency: mon || 'PEN', minimumFractionDigits: 2 }).format(v); }
+  catch (e) { return 'S/ ' + v.toFixed(2); }
+}
+function resumenDia() {                    // datos normalizados (o null si no hay)
+  const d = datosDia; if (!d || typeof d !== 'object') return null;
+  const r = { recaudo: numDia(d.recaudo), masivos: numDia(d.masivos), pedidos: numDia(d.pedidos) };
+  if (r.recaudo == null && r.masivos == null && r.pedidos == null) return null;
+  const hoy = fmtHoyISO.format(new Date()), f = String(d.fecha || '').slice(0, 10);
+  return { ...r, mon: d.moneda, nota: String(d.nota || ''), ejemplo: !!d.ejemplo || /ejemplo/i.test(d.nota || ''), viejo: f && f !== hoy ? f.split('-').reverse().slice(0, 2).join('/') : '', ts: d.ts };
+}
+function pintarDia() {
+  const r = resumenDia(), plegado = lsGet(LS_DIA) === '1', ftr0 = document.querySelector('footer').offsetHeight;
+  const fmtN = v => v == null ? '—' : new Intl.NumberFormat('es-PE').format(v);
+  diaTg.textContent = plegado ? '📊 Día ▸' : '📊 Hoy ▾'; diaTg.setAttribute('aria-expanded', String(!plegado)); diaCuerpo.hidden = plegado;
+  if (!r) diaCuerpo.innerHTML = '<span class="sin">Sin datos del día</span>';
+  else {
+    const act = r.ts ? verTs(r.ts) : "";
+    diaCuerpo.innerHTML = `<span class="chip"><em>💰 Recaudo</em><b>${r.recaudo == null ? '—' : escHTML(fmtSoles(r.recaudo, r.mon))}</b></span>`
+      + `<span class="chip"><em>📦 Masivos</em><b>${fmtN(r.masivos)}</b></span><span class="chip"><em>🛒 Pedidos</em><b>${fmtN(r.pedidos)}</b></span>`
+      + (r.ejemplo ? '<span class="ej" title="Datos de ejemplo (aún no reales)">ejemplo</span>' : '')
+      + (r.viejo ? `<span class="viejo" title="Último dato disponible">del ${escHTML(r.viejo)}</span>` : '')
+      + (act ? `<small class="act">act. ${escHTML(act)}</small>` : '');
+    diaEl.title = r.nota ? 'Nota: ' + r.nota : '';
+  }
+  pintarTV();
+  if (document.querySelector('footer').offsetHeight !== ftr0) ajustar();
+}
+diaTg.addEventListener('click', () => { lsSet(LS_DIA, lsGet(LS_DIA) === '1' ? '0' : '1'); pintarDia(); });
+async function cargarDatosDia() {
+  if (location.protocol === 'file:') { pintarDia(); return; }       // abierto como archivo local: no hay datos
+  try {
+    const r = await fetch('datos-dia.json?t=' + Date.now(), { cache: 'no-store' });
+    datosDia = r.ok ? await r.json().catch(() => null) : null;
+  } catch (e) { /* sin red: conserva lo último */ }
+  pintarDia();
+}
+
+/* ---------------- Modo TV / kiosco ---------------- */
+const btnTV = document.getElementById('btnTV'), tvSalir = document.getElementById('tvSalir');
+function pintarTV() {
+  if (!document.body.classList.contains('tv')) return;
+  const r = resumenDia(), c = { trabajando: 0, libre: 0, bloqueado: 0 };
+  AGENTES.forEach(a => { if (c[a.estado] !== undefined) c[a.estado]++; });
+  const fmtN = v => v == null ? '—' : new Intl.NumberFormat('es-PE').format(v);
+  const html = (r ? `<div class="tchip"><em>💰 Recaudo hoy</em><b>${r.recaudo == null ? '—' : escHTML(fmtSoles(r.recaudo, r.mon))}</b>${r.ejemplo ? '<span class="ej">ejemplo</span>' : ''}</div>`
+      + `<div class="tchip"><em>📦 Masivos</em><b>${fmtN(r.masivos)}</b></div><div class="tchip"><em>🛒 Pedidos</em><b>${fmtN(r.pedidos)}</b></div>`
+      : '<div class="tchip"><em>📊 Panel del día</em><b style="font-size:18px">Sin datos del día</b></div>')
+    + `<div class="tchip ag"><em>Equipo</em><b><span style="color:#3bb273">● ${c.trabajando}</span> &nbsp;<span style="color:#4a9be8">● ${c.libre}</span> &nbsp;<span style="color:#e5484d">● ${c.bloqueado}</span></b></div>`;
+  if (tvDia.innerHTML !== html) tvDia.innerHTML = html;
+}
+function ajustarTV() {                    // en modo TV la escena usa casi toda la pantalla (márgenes mínimos)
+  if (!document.body.classList.contains('tv')) return;
+  ajustar();
+  const hdr = document.querySelector('header').offsetHeight, dispW = innerWidth - 12, dispH = innerHeight - hdr - 10;
+  esc = document.body.classList.contains('vertical') ? Math.min(dispW / MW, dispH * 0.9 / MH) : Math.min(dispW / MW, dispH / MH);
+  cv.style.width = Math.floor(MW * esc) + 'px'; cv.style.height = Math.floor(MH * esc) + 'px';
+  cv.width = Math.floor(MW * esc * dpr); cv.height = Math.floor(MH * esc * dpr);
+}
+addEventListener('resize', ajustarTV);
+function entrarTV() {
+  if (!panel.hidden) cerrarPanel(); cerrarBuscador();
+  document.body.classList.add('tv'); tvSalir.hidden = false; pintarTV(); ajustarTV();
+  const el = document.documentElement;
+  if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {}).finally(() => setTimeout(ajustarTV, 120));
+}
+function salirTV() {
+  if (!document.body.classList.contains('tv')) return;
+  document.body.classList.remove('tv'); tvSalir.hidden = true; tvDia.innerHTML = '';
+  if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+  ajustar(); btnTV.focus();
+}
+btnTV.addEventListener('click', entrarTV);
+tvSalir.addEventListener('click', salirTV);
+let tvEnFull = false;
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) tvEnFull = true;
+  else if (tvEnFull) { tvEnFull = false; salirTV(); }      // salió de pantalla completa (Esc del navegador): sale del modo TV
+  setTimeout(() => document.body.classList.contains('tv') ? ajustarTV() : ajustar(), 60);
+});
+addEventListener('keydown', e => { if (e.key === 'Escape' && panel.hidden && document.body.classList.contains('tv')) salirTV(); });
+setInterval(pintarTV, 1000);
+window.oficina.tv = on => on === false ? salirTV() : entrarTV();
+// Navidad: gorritos · cambio de temporada a medianoche: recarga para redibujar la decoración
+setInterval(() => { if (temporadaHoy() !== TEMPORADA) location.reload(); }, 60000);
+
 /* ---------------- Aviso cuando un agente queda "bloqueado" ---------------- */
 const alertaEl = document.getElementById('alerta'), TITULO = document.title;
 let firmaBloq = '', alertaCerrada = '', tituloAlt = false;
@@ -1611,6 +1944,7 @@ addEventListener('resize', ajustar);
 dibujarFondo(); tic(); resumen(); ajustar(); cargarEstadoExterno(); cargarRespuestas();
 setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL_MS); setInterval(cargarRespuestas, POLL_MS);
 revisarBloqueados(); setInterval(revisarBloqueados, 1000);
+cargarDatosDia(); setInterval(cargarDatosDia, POLL_MS);      // panel del día (datos-dia.json)
 requestAnimationFrame(cuadroAnim);
 })();
 </script>
