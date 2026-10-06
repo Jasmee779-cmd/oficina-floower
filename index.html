@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oficina FLOOWER.PE · Agentes IA</title>
+<script>
+/* =====================================================================
+   DATOS DE LOS AGENTES  —  edita SOLO esta lista para actualizar la oficina
+   ---------------------------------------------------------------------
+   estado : 'trabajando' | 'libre' | 'bloqueado'
+   tarea  : texto corto que sale en el globito ('' = texto por defecto)
+   id     : no lo cambies (une al agente con su escritorio y su look)
+   También puedes cambiarlo en vivo desde la consola del navegador:
+     oficina.actualizar('cierre', 'trabajando', 'cerrando venta #123')
+   ===================================================================== */
+const AGENTES = [
+  { id: 'hermes',    nombre: 'HERMES',           rol: 'Jefe · coordina a todos',        estado: 'trabajando', tarea: 'coordinando' },
+  { id: 'ali',       nombre: 'AGENTE ALI',       rol: 'Aliclik · masivos y entregas',   estado: 'libre',      tarea: 'masivos 06/10 subidos 30/30' },
+  { id: 'ali2',      nombre: 'AGENTE ALI 2',     rol: 'Aliclik · va primero',           estado: 'libre',      tarea: '' },
+  { id: 'tienda',    nombre: 'AGENTE TIENDA',    rol: 'CRM Flower',                     estado: 'libre',      tarea: 'Flower 05/10 cerrado' },
+  { id: 'cierre',    nombre: 'AGENTE CIERRE',    rol: 'Cierra ventas por WhatsApp',     estado: 'libre',      tarea: '' },
+  { id: 'marketing', nombre: 'AGENTE MARKETING', rol: 'Contenido Instagram FLOOWER.PE', estado: 'libre',      tarea: '' },
+  { id: 'contable',  nombre: 'AGENTE CONTABLE',  rol: 'Contabilidad',                   estado: 'libre',      tarea: '' },
+  { id: 'recluta',   nombre: 'WhatsApp Recluta', rol: 'Reclutamiento',                  estado: 'libre',      tarea: '' },
+  { id: 'disksaver', nombre: 'Disk Saver',       rol: 'Limpieza del disco',             estado: 'libre',      tarea: '' },
+];
+</script>
+<style>
+  :root{
+    --bg:#fdf3ea; --ink:#4a3a33; --soft:#8a7064; --card:#fffaf5; --line:#ecd6c4;
+    --verde:#3bb273; --azul:#4a9be8; --rojo:#e5484d; --rosa:#e86a92;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI","Helvetica Neue",Arial,"DejaVu Sans",sans-serif;overflow:hidden}
+  body{display:flex;flex-direction:column}
+  header{height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;background:linear-gradient(90deg,#ffe1e8,#fff0dc 55%,#e5f4ec);
+    border-bottom:3px solid var(--line)}
+  .marca{display:flex;align-items:center;gap:12px}
+  .marca h1{margin:0;font-size:22px;letter-spacing:.5px;color:#5b3d4a}
+  .marca h1 b{color:var(--rosa)}
+  .marca small{display:block;font-size:12px;color:var(--soft);font-weight:600;margin-top:1px}
+  .reloj{text-align:right;line-height:1.1}
+  .reloj .hora{font-size:24px;font-weight:800;color:#5b3d4a;font-variant-numeric:tabular-nums}
+  .reloj .fecha{font-size:12px;color:var(--soft);font-weight:600}
+  main{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+  canvas{display:block;border-radius:14px;box-shadow:0 6px 0 #ecd6c4,0 10px 26px rgba(120,70,40,.18)}
+  footer{height:44px;flex:none;display:flex;align-items:center;justify-content:center;gap:26px;
+    font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border-top:3px solid var(--line)}
+  .ley{display:flex;align-items:center;gap:8px}
+  .ico{width:16px;height:16px;border-radius:4px;display:inline-grid;place-items:center;
+    color:#fff;font-size:12px;font-weight:900;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+  .ico.t{background:var(--verde)} .ico.l{background:var(--azul)} .ico.b{background:var(--rojo);border-radius:50%}
+  .ley span.d{color:var(--soft);font-weight:500}
+  .sep{width:2px;height:22px;background:var(--line)}
+  #resumen{color:#5b3d4a}
+</style>
+</head>
+<body>
+<header>
+  <div class="marca">
+    <svg width="36" height="36" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+      <rect x="5" y="1" width="2" height="3" fill="#f48fb1"/><rect x="5" y="8" width="2" height="3" fill="#f48fb1"/>
+      <rect x="1" y="5" width="3" height="2" fill="#f48fb1"/><rect x="8" y="5" width="3" height="2" fill="#f48fb1"/>
+      <rect x="2" y="2" width="2" height="2" fill="#f8bbd0"/><rect x="8" y="2" width="2" height="2" fill="#f8bbd0"/>
+      <rect x="2" y="8" width="2" height="2" fill="#f8bbd0"/><rect x="8" y="8" width="2" height="2" fill="#f8bbd0"/>
+      <rect x="4" y="4" width="4" height="4" fill="#ffd54f"/><rect x="5" y="5" width="1" height="1" fill="#ffb300"/>
+    </svg>
+    <div><h1>Oficina <b>FLOOWER.PE</b></h1><small>Equipo de agentes IA de JASMEE</small></div>
+  </div>
+  <div class="reloj"><div class="hora" id="hora">--:--:--</div><div class="fecha" id="fecha">Hora de Lima</div></div>
+</header>
+<main><canvas id="oficina" aria-label="Oficina virtual animada con los agentes"></canvas></main>
+<footer>
+  <div class="ley"><span class="ico t">&#8203;</span>Trabajando <span class="d">(teclea)</span></div>
+  <div class="ley"><span class="ico l">&#8203;</span>Libre <span class="d">(toma cafecito)</span></div>
+  <div class="ley"><span class="ico b">!</span>Bloqueado <span class="d">(necesita ayuda)</span></div>
+  <div class="sep"></div>
+  <div id="resumen"></div>
+</footer>
+
+<script>
+(() => {
+'use strict';
+/* ---------------- Configuración visual (posiciones y looks) ---------------- */
+const W = 1200, H = 684, U = 4;           // lienzo lógico y tamaño de "pixel"
+const ESTADOS = {
+  trabajando: { txt: 'TRABAJANDO', color: '#3bb273', defecto: 'Trabajando…' },
+  libre:      { txt: 'LIBRE',      color: '#4a9be8', defecto: 'Disponible, esperando órdenes' },
+  bloqueado:  { txt: 'BLOQUEADO',  color: '#e5484d', defecto: '¡Necesito ayuda!' },
+};
+const F_TAREA = "600 13px 'Segoe UI','Helvetica Neue',Arial,'DejaVu Sans',sans-serif";
+const F_CHIP  = "800 10px 'Segoe UI','Helvetica Neue',Arial,'DejaVu Sans',sans-serif";
+const F_NOMBRE= "800 12px 'Segoe UI','Helvetica Neue',Arial,'DejaVu Sans',sans-serif";
+const F_ROL   = "600 11px 'Segoe UI','Helvetica Neue',Arial,'DejaVu Sans',sans-serif";
+const BORDE = '#5a4a42';
+
+const FILA1 = 378, FILA2 = 600;
+const LOOK = {
+  hermes:    { x: 600,  y: 150,  jefe: true, piel:'#f6d2b0', pelo:'corto',  colorPelo:'#6b4a3a', camisa:'#8e6bd1', acc:'alas', corbata:'#f2c14e', color:'#7c5cc4', item:'trofeo' },
+  ali:       { x: 150,  y: FILA1, piel:'#f1c7a3', pelo:'corto',  colorPelo:'#4a3226', camisa:'#ff9f5a', color:'#e9822f', item:'cajas' },
+  ali2:      { x: 450,  y: FILA1, piel:'#e9b994', pelo:'cola',   colorPelo:'#2e2430', camisa:'#ffb37a', color:'#df7d45', item:'banderin' },
+  tienda:    { x: 750,  y: FILA1, piel:'#f6d2b0', pelo:'largo',  colorPelo:'#a0522d', camisa:'#f59ab8', color:'#d9668f', item:'florero' },
+  cierre:    { x: 1050, y: FILA1, piel:'#d9a47c', pelo:'corto',  colorPelo:'#231c1c', camisa:'#5fcf8a', color:'#2f9e5c', acc:'audifonos', item:'celular' },
+  marketing: { x: 150,  y: FILA2, piel:'#f6d2b0', pelo:'mono',   colorPelo:'#e8b84a', camisa:'#c983e0', color:'#9c55bb', acc:'boina', colorAcc:'#e2557a', item:'camara' },
+  contable:  { x: 450,  y: FILA2, piel:'#f1c7a3', pelo:'corto',  colorPelo:'#a3a3ae', camisa:'#6f9be0', color:'#4775c4', acc:'lentes', item:'calculadora' },
+  recluta:   { x: 750,  y: FILA2, piel:'#c98e66', pelo:'rizado', colorPelo:'#3b2a20', camisa:'#4fc3b5', color:'#24968a', item:'portapapeles' },
+  disksaver: { x: 1050, y: FILA2, robot: true, piel:'#c9d3df', camisa:'#9fb3c8', color:'#5f7894', item:'basurero' },
+};
+
+/* ---------------- Lienzo ---------------- */
+const cv = document.getElementById('oficina');
+const ctx = cv.getContext('2d');
+const fondo = document.createElement('canvas');
+let g = ctx, escala = 1, dpr = 1;
+
+function ajustar() {
+  const hdr = document.querySelector('header').offsetHeight, ftr = document.querySelector('footer').offsetHeight;
+  const disp = Math.max(200, innerHeight - hdr - ftr - 18);
+  escala = Math.min((innerWidth - 20) / W, disp / H);
+  dpr = window.devicePixelRatio || 1;
+  cv.style.width = Math.round(W * escala) + 'px';
+  cv.style.height = Math.round(H * escala) + 'px';
+  cv.width = Math.round(W * escala * dpr); cv.height = Math.round(H * escala * dpr);
+  fondo.width = cv.width; fondo.height = cv.height;
+  const fc = fondo.getContext('2d');
+  fc.setTransform(escala * dpr, 0, 0, escala * dpr, 0, 0);
+  g = fc; dibujarFondo(); g = ctx;
+}
+
+/* ---------------- Primitivas pixel ---------------- */
+function R(x, y, w, h, c) { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), w, h); }
+function S(ox, oy, gx, gy, w, h, c) { g.fillStyle = c; g.fillRect(Math.round(ox + gx * U), Math.round(oy + gy * U), w * U, h * U); }
+function caja(x, y, w, h, relleno, borde) {
+  x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
+  R(x + 4, y, w - 8, h, borde); R(x, y + 4, w, h - 8, borde); R(x + 2, y + 2, w - 4, h - 4, borde);
+  R(x + 4, y + 2, w - 8, h - 4, relleno); R(x + 2, y + 4, w - 4, h - 8, relleno);
+}
+function texto(t, x, y, font, color, align = 'center') {
+  g.font = font; g.fillStyle = color; g.textAlign = align; g.textBaseline = 'middle'; g.fillText(t, x, y);
+}
+function ancho(t, font) { g.font = font; return g.measureText(t).width; }
+function cap(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+function envolver(t, font, max, maxLineas = 2) {
+  const pal = t.split(/\s+/), lineas = []; let act = '';
+  for (const p of pal) {
+    const prueba = act ? act + ' ' + p : p;
+    if (ancho(prueba, font) <= max || !act) act = prueba; else { lineas.push(act); act = p; }
+  }
+  if (act) lineas.push(act);
+  if (lineas.length > maxLineas) {
+    const l = lineas.slice(0, maxLineas); let u = l[maxLineas - 1];
+    while (ancho(u + '…', font) > max && u.length) u = u.slice(0, -1);
+    l[maxLineas - 1] = u + '…'; return l;
+  }
+  return lineas;
+}
+
+/* ---------------- Decoración ---------------- */
+function planta(x, y, grande) {
+  const k = grande ? 1.35 : 1;
+  R(x - 11 * k, y - 18 * k, 22 * k, 18 * k, '#d9826a'); R(x - 13 * k, y - 21 * k, 26 * k, 5 * k, '#eb9c83');
+  R(x - 11 * k, y - 4, 22 * k, 4, '#c26f58');
+  const h = [[-3, -46, 6, 26, '#58ad6a'], [-15, -38, 11, 7, '#6cc27e'], [4, -42, 12, 7, '#6cc27e'], [-12, -32, 6, 12, '#4f9c60'],
+             [7, -36, 6, 14, '#4f9c60'], [-7, -52, 6, 10, '#7fd090'], [2, -55, 5, 12, '#6cc27e'], [-20, -44, 8, 6, '#7fd090'], [12, -50, 7, 6, '#7fd090']];
+  for (const [dx, dy, w, hh, c] of h) R(x + dx * k, y + dy * k, w * k, hh * k, c);
+}
+function alfombra(x, y, w, h, c1, c2) {
+  caja(x, y, w, h, c1, c2);
+  for (let i = x + 14; i < x + w - 14; i += 28) R(i, y + 6, 14, 3, c2), R(i + 14, y + h - 9, 14, 3, c2);
+}
+function vidrio(x, y, w, h) {
+  R(x, y, w, h, 'rgba(160,210,238,.55)'); g.strokeStyle = '#9fb8cc'; g.lineWidth = 2; g.strokeRect(x + 1, y + 1, w - 2, h - 2);
+  g.fillStyle = 'rgba(255,255,255,.7)';
+  if (w > h) for (let i = x + 20; i < x + w - 10; i += 46) g.fillRect(i, y + 2, 10, 2);
+  else for (let i = y + 20; i < y + h - 10; i += 46) g.fillRect(x + 2, i, 2, 10);
+}
+function dibujarFondo() {
+  // piso de madera
+  R(0, 0, W, H, '#f3dfc5');
+  for (let y = 70, f = 0; y < H; y += 28, f++) {
+    R(0, y, W, 2, '#e8cdab');
+    for (let x = (f % 2 ? 0 : 90); x < W; x += 180) R(x, y, 2, 28, '#e8cdab');
+  }
+  // pared
+  R(0, 0, W, 70, '#fde6d6'); R(0, 0, W, 6, '#f4cdb8');
+  for (let y = 14; y < 60; y += 16) for (let x = (y % 32 ? 8 : 0); x < W; x += 16) R(x, y, 3, 3, '#f9d7c3');
+  R(0, 60, W, 10, '#e8b89f'); R(0, 60, W, 2, '#f4cdb8');
+  // alfombras de las filas
+  alfombra(16, FILA1 - 92, W - 32, 140, '#d3eee2', '#b4dcca');
+  alfombra(16, FILA2 - 92, W - 32, 140, '#fadbe1', '#f1bfca');
+  // oficina del jefe
+  R(420, 70, 360, 172, '#ebe3f8');
+  for (let y = 70; y < 242; y += 20) for (let x = 420 + ((y / 20) % 2) * 20; x < 780; x += 40) R(x, y, 20, 20, '#e2d8f3');
+  alfombra(470, 92, 260, 128, '#f6e7b8', '#ead28a');
+  // estante en la pared del jefe
+  R(436, 12, 64, 58, '#b98b63'); R(440, 16, 56, 50, '#8e6542');
+  const libros = ['#f28b82', '#fbbc04', '#81c995', '#8ab4f8', '#c58af9', '#f7a8c8'];
+  for (let s = 0; s < 2; s++) { R(440, 39 + s * 25, 56, 3, '#b98b63'); for (let i = 0; i < 6; i++) R(444 + i * 8, 22 + s * 25 + (i % 3), 6, 17 - (i % 3), libros[(i + s * 2) % 6]); }
+  planta(758, 120, false);
+  // paredes de vidrio
+  vidrio(420, 70, 8, 172); vidrio(772, 70, 8, 172); vidrio(420, 236, 146, 8); vidrio(634, 236, 146, 8);
+  R(564, 228, 4, 18, '#8aa3b8'); R(632, 228, 4, 18, '#8aa3b8');
+  caja(574, 248, 52, 12, '#e7a9bd', '#cf8aa1');
+  // letrero "Dirección"
+  caja(668, 214, 84, 18, '#fffaf0', '#c9a24a'); texto('DIRECCIÓN', 710, 223, F_CHIP, '#9a7420');
+
+  // --- zona café (izquierda) ---
+  caja(78, 8, 128, 50, '#cfe9f8', '#a7c0d0'); // ventana marco (cielo animado luego)
+  R(24, 72, 184, 22, '#f5ebdf'); R(24, 72, 184, 3, '#fff7ee'); R(24, 94, 184, 26, '#cda37b'); R(24, 94, 184, 2, '#b5865c');
+  for (let i = 0; i < 4; i++) { R(30 + i * 45, 99, 40, 17, '#c2966c'); R(46 + i * 45, 106, 8, 3, '#8e6542'); }
+  // cafetera
+  R(36, 34, 40, 44, '#5d6272'); R(40, 38, 32, 10, '#3d4150'); R(44, 41, 10, 4, '#7fe0c0'); R(46, 52, 20, 18, '#2f3240');
+  R(54, 52, 4, 6, '#c0c4cc'); R(49, 64, 14, 10, '#ffffff'); R(62, 66, 4, 5, '#ffffff'); R(32, 76, 48, 4, '#4a4e5c');
+  // tazas y frutero
+  R(92, 66, 10, 10, '#f7a8c8'); R(102, 69, 3, 5, '#f7a8c8'); R(110, 66, 10, 10, '#8ab4f8'); R(120, 69, 3, 5, '#8ab4f8');
+  R(140, 70, 34, 8, '#e0b98f'); R(144, 62, 8, 8, '#f28b82'); R(152, 60, 8, 8, '#fbbc04'); R(160, 63, 8, 8, '#81c995');
+  // dispensador de agua
+  R(226, 26, 28, 30, 'rgba(130,195,240,.85)'); R(230, 30, 6, 20, 'rgba(255,255,255,.6)'); R(232, 22, 16, 6, '#7fb2d6');
+  R(222, 56, 36, 54, '#eef2f6'); R(222, 56, 36, 3, '#ffffff'); R(232, 68, 6, 6, '#e5484d'); R(242, 68, 6, 6, '#4a9be8'); R(226, 106, 28, 6, '#cfd8e0');
+  // letrero neón
+  caja(276, 12, 128, 40, '#5b3d4a', '#3e2832');
+  g.save(); g.shadowColor = '#ff8fb8'; g.shadowBlur = 10; texto('FLOOWER.PE', 352, 33, "900 15px 'Segoe UI',Arial,'DejaVu Sans',sans-serif", '#ffc2d8'); g.restore();
+  R(286, 26, 4, 4, '#ffd54f'); R(282, 26, 4, 4, '#ff8fb8'); R(290, 26, 4, 4, '#ff8fb8'); R(286, 22, 4, 4, '#ff8fb8'); R(286, 30, 4, 4, '#ff8fb8');
+  // mesita redonda con florero
+  R(78, 196, 16, 10, '#f29fb0'); R(176, 196, 16, 10, '#f29fb0');
+  caja(98, 168, 74, 30, '#fff3e0', '#d9b48c'); R(130, 198, 10, 18, '#d9b48c'); R(118, 214, 34, 4, '#c79f76');
+  R(130, 160, 10, 12, '#9fd3e8'); R(126, 150, 6, 6, '#f48fb1'); R(136, 148, 6, 6, '#ffd54f'); R(131, 154, 6, 6, '#e86a92'); R(134, 156, 2, 6, '#58ad6a');
+  R(108, 176, 12, 8, '#ffffff'); R(150, 178, 10, 8, '#ffffff');
+  planta(320, 132, true); planta(392, 222, false);
+
+  // --- zona descanso (derecha) ---
+  caja(806, 8, 184, 54, '#ffffff', '#b9a596');
+  texto('Metas de hoy', 898, 20, F_CHIP, '#e86a92');
+  const metas = ['Masivos Aliclik', 'Cierres WhatsApp', 'Post Instagram'];
+  metas.forEach((m, i) => { R(818 + i * 0, 28 + i * 10, 7, 7, '#81c995'); texto(m, 830, 32 + i * 10, "700 9px 'Segoe UI',Arial,'DejaVu Sans',sans-serif", '#6d5a50', 'left'); });
+  R(950, 46, 30, 4, '#f28b82'); R(950, 52, 22, 4, '#8ab4f8');
+  // sofá
+  R(826, 76, 160, 28, '#f29fb0'); R(826, 76, 160, 4, '#f7b9c6'); R(826, 102, 160, 26, '#f7b6c3'); R(818, 88, 16, 44, '#ec8ea2'); R(978, 88, 16, 44, '#ec8ea2');
+  R(840, 104, 64, 4, '#fbd0d9'); R(908, 104, 64, 4, '#fbd0d9'); R(834, 128, 6, 8, '#b5865c'); R(972, 128, 6, 8, '#b5865c');
+  R(848, 84, 22, 18, '#ffe08a'); R(942, 84, 22, 18, '#9fd3e8');
+  // gatito durmiendo
+  R(892, 94, 28, 12, '#f2a65a'); R(914, 88, 12, 12, '#f2a65a'); R(914, 85, 4, 4, '#f2a65a'); R(922, 85, 4, 4, '#f2a65a');
+  R(917, 94, 3, 1, '#5a4a42'); R(922, 94, 3, 1, '#5a4a42'); R(888, 100, 8, 4, '#e08e45'); R(898, 96, 4, 8, '#e08e45'); R(906, 96, 4, 8, '#e08e45');
+  // mesita de centro
+  caja(860, 150, 92, 26, '#fff3e0', '#d9b48c'); R(870, 156, 22, 14, '#8ab4f8'); R(874, 158, 22, 14, '#f7a8c8'); R(920, 154, 10, 12, '#ffffff'); R(930, 157, 3, 5, '#ffffff');
+  // librero
+  R(1028, 12, 144, 104, '#b98b63'); R(1034, 18, 132, 92, '#8e6542');
+  for (let s = 0; s < 3; s++) {
+    R(1034, 46 + s * 31, 132, 4, '#b98b63');
+    for (let i = 0; i < 14; i++) { if (i === 9 && s === 1) { planta(1112, 77, false); i += 2; continue; } R(1038 + i * 9, 24 + s * 31 + (i % 4), 7, 22 - (i % 4), libros[(i * 5 + s) % 6]); }
+  }
+  planta(808, 222, false); planta(1176, 226, true);
+  planta(26, H - 6, true); planta(W - 26, H - 6, true);
+}
+
+/* ---------------- Escritorio, monitor, objetos ---------------- */
+function escritorio(cx, cy, half) {
+  g.fillStyle = 'rgba(120,80,50,.16)'; g.fillRect(cx - half + 6, cy + 40, half * 2, 6);
+  R(cx - half, cy - 15, half * 2, 37, '#ebc79f'); R(cx - half, cy - 15, half * 2, 3, '#f6dcbc');
+  R(cx - half, cy + 22, half * 2, 18, '#c99a6e'); R(cx - half, cy + 22, half * 2, 2, '#b5865c');
+  R(cx - half + 10, cy + 27, 34, 9, '#b5865c'); R(cx - half + 24, cy + 30, 6, 2, '#8e6542');
+  R(cx + half - 44, cy + 27, 34, 9, '#b5865c'); R(cx + half - 30, cy + 30, 6, 2, '#8e6542');
+}
+function silla(ox, oy, color) {
+  R(ox - 6, oy + 34, 68, 40, color); R(ox - 2, oy + 30, 60, 6, color); R(ox - 2, oy + 34, 60, 3, 'rgba(255,255,255,.25)');
+}
+function monitor(cx, cy, estado, t, fase) {
+  R(cx + 40, cy - 18, 8, 8, '#8a8f9c'); R(cx + 30, cy - 11, 28, 4, '#7a7f8c');
+  R(cx + 20, cy - 54, 48, 38, '#4a4f5c'); R(cx + 20, cy - 54, 48, 3, '#626878');
+  const sx = cx + 23, sy = cy - 50, sw = 42, sh = 30;
+  if (estado === 'trabajando') {
+    R(sx, sy, sw, sh, '#1f2a44');
+    const cols = ['#7fe0c0', '#ffd54f', '#f7a8c8', '#8ab4f8'];
+    const off = Math.floor(t * 3 + fase);
+    for (let i = 0; i < 5; i++) {
+      const n = (off + i) * 7.3; const w = 8 + Math.floor((Math.sin(n) * 0.5 + 0.5) * 24);
+      R(sx + 3 + (i % 2) * 4, sy + 3 + i * 5, Math.min(w, sw - 10), 3, cols[(off + i) % 4]);
+    }
+    if (Math.floor(t * 3) % 2) R(sx + 30, sy + 23, 5, 4, '#ffffff');
+    g.fillStyle = 'rgba(127,224,192,.10)'; g.fillRect(sx - 6, sy - 6, sw + 12, sh + 14);
+  } else if (estado === 'bloqueado') {
+    R(sx, sy, sw, sh, Math.floor(t * 2) % 2 ? '#ff6b6b' : '#e5484d');
+    R(sx + 19, sy + 5, 4, 13, '#ffffff'); R(sx + 19, sy + 21, 4, 4, '#ffffff');
+  } else {
+    R(sx, sy, sw, sh, '#cfe9f8');
+    const fx = sx + 8 + Math.round((Math.sin(t * 0.7 + fase) * 0.5 + 0.5) * 22), fy = sy + 8 + Math.round((Math.cos(t * 0.9 + fase) * 0.5 + 0.5) * 12);
+    R(fx + 3, fy, 3, 3, '#f48fb1'); R(fx + 3, fy + 6, 3, 3, '#f48fb1'); R(fx, fy + 3, 3, 3, '#f48fb1'); R(fx + 6, fy + 3, 3, 3, '#f48fb1'); R(fx + 3, fy + 3, 3, 3, '#ffd54f');
+  }
+}
+function teclado(cx, cy) {
+  R(cx - 34, cy - 8, 48, 10, '#cfd6e0'); R(cx - 33, cy - 7, 46, 8, '#fbfcfe');
+  for (let i = 0; i < 7; i++) R(cx - 31 + i * 6, cy - 5, 4, 2, '#d8dee8');
+}
+function taza(x, y) { R(x, y, 9, 10, '#ffffff'); R(x + 9, y + 2, 3, 5, '#ffffff'); R(x + 1, y + 1, 7, 2, '#8b5a3c'); R(x, y + 9, 9, 1, '#d8dee8'); }
+function objeto(tipo, x, y, t) { // x,y = esquina inferior izquierda aprox. sobre el escritorio
+  switch (tipo) {
+    case 'cajas': R(x, y - 14, 20, 14, '#d9a066'); R(x + 3, y - 26, 16, 12, '#e8b47a'); R(x + 8, y - 14, 4, 14, '#b9834d'); R(x + 9, y - 26, 4, 12, '#c99258'); break;
+    case 'banderin': R(x, y - 14, 20, 14, '#d9a066'); R(x + 8, y - 14, 4, 14, '#b9834d'); R(x + 14, y - 40, 2, 26, '#8e6542'); R(x + 16, y - 40, 12, 9, '#e5484d'); R(x + 19, y - 38, 4, 5, '#ffffff'); break;
+    case 'florero': R(x + 4, y - 14, 12, 14, '#9fd3e8'); R(x + 5, y - 13, 3, 10, '#d4eef8');
+      R(x + 9, y - 24, 2, 10, '#58ad6a'); R(x + 3, y - 30, 7, 7, '#f48fb1'); R(x + 11, y - 32, 7, 7, '#e86a92'); R(x + 7, y - 37, 6, 6, '#ffd54f'); break;
+    case 'celular': R(x + 2, y - 18, 12, 18, '#2f3240'); R(x + 4, y - 16, 8, 13, Math.floor(t * 1.5) % 2 ? '#5fcf8a' : '#9be8b8'); R(x + 6, y - 12, 4, 3, '#ffffff'); break;
+    case 'camara': R(x, y - 14, 22, 14, '#4a4f5c'); R(x + 4, y - 17, 7, 3, '#4a4f5c'); R(x + 7, y - 12, 9, 9, '#cfd6e0'); R(x + 9, y - 10, 5, 5, '#2f3240'); R(x + 17, y - 12, 3, 2, '#ffd54f'); break;
+    case 'calculadora': R(x + 2, y - 18, 16, 18, '#6d7280'); R(x + 4, y - 16, 12, 5, '#bfe8c8');
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) R(x + 4 + i * 4, y - 9 + j * 4, 3, 3, '#f5f5f5'); break;
+    case 'portapapeles': R(x + 1, y - 20, 18, 20, '#c99a6e'); R(x + 3, y - 17, 14, 16, '#ffffff'); R(x + 7, y - 22, 6, 4, '#8a8f9c');
+      R(x + 5, y - 13, 10, 2, '#4fc3b5'); R(x + 5, y - 9, 8, 2, '#c8ccd4'); R(x + 5, y - 5, 10, 2, '#c8ccd4'); break;
+    case 'basurero': R(x, y - 14, 18, 14, '#8fa3b8'); R(x - 2, y - 17, 22, 4, '#6f86a0'); R(x + 5, y - 11, 2, 9, '#6f86a0'); R(x + 11, y - 11, 2, 9, '#6f86a0'); break;
+    case 'trofeo': R(x + 4, y - 4, 14, 4, '#b98b2a'); R(x + 8, y - 10, 6, 6, '#e0a82e'); R(x + 3, y - 24, 16, 14, '#f2c14e'); R(x, y - 22, 3, 7, '#f2c14e'); R(x + 19, y - 22, 3, 7, '#f2c14e'); R(x + 6, y - 22, 3, 8, '#fde28a'); break;
+  }
+}
+
+/* ---------------- Personajes ---------------- */
+function oscuro(hex, f = 0.82) {
+  const n = parseInt(hex.slice(1), 16); const r = (n >> 16) * f, gg = ((n >> 8) & 255) * f, b = (n & 255) * f;
+  return 'rgb(' + (r | 0) + ',' + (gg | 0) + ',' + (b | 0) + ')';
+}
+function cabeza(a, ox, oy, parpadeo) {
+  const s = (gx, gy, w, h, c) => S(ox, oy, gx, gy, w, h, c);
+  if (a.robot) {
+    s(6, -2, 2, 2, '#8a9aac'); s(6, -3, 2, 1, parpadeo ? '#ff6b6b' : '#ffd54f');
+    s(2, 0, 10, 10, '#b7c4d3'); s(3, 0, 8, 1, '#dde5ee'); s(2, 9, 10, 1, '#93a3b6');
+    s(3, 3, 8, 4, '#2d3a4f'); if (!parpadeo) { s(4, 4, 2, 2, '#7ff0e8'); s(8, 4, 2, 2, '#7ff0e8'); } else { s(4, 5, 2, 1, '#7ff0e8'); s(8, 5, 2, 1, '#7ff0e8'); }
+    s(5, 8, 4, 1, '#6f7f92'); s(1, 4, 1, 3, '#93a3b6'); s(12, 4, 1, 3, '#93a3b6');
+    return;
+  }
+  const P = a.colorPelo;
+  if (a.pelo === 'largo') s(1, 1, 12, 10, P);
+  if (a.pelo === 'cola') { s(12, 2, 2, 6, P); s(13, 4, 1, 4, oscuro(P)); }
+  // cara
+  s(3, 1, 8, 9, a.piel); s(2, 2, 10, 7, a.piel);
+  // ojos
+  if (parpadeo) { s(4, 5, 2, 1, '#3a2b2b'); s(8, 5, 2, 1, '#3a2b2b'); }
+  else { s(4, 4, 2, 2, '#3a2b2b'); s(8, 4, 2, 2, '#3a2b2b'); g.fillStyle = '#ffffff'; g.fillRect(ox + 4 * U, oy + 4 * U, 2, 2); g.fillRect(ox + 8 * U, oy + 4 * U, 2, 2); }
+  s(3, 6, 1, 1, '#f4a3a3'); s(10, 6, 1, 1, '#f4a3a3'); s(6, 7, 2, 1, '#c0605a');
+  // pelo
+  if (a.pelo === 'rizado') {
+    s(1, -1, 12, 3, P); s(0, 0, 1, 4, P); s(13, 0, 1, 4, P); s(2, -2, 2, 1, P); s(6, -2, 2, 1, P); s(10, -2, 2, 1, P); s(2, 2, 2, 1, P); s(10, 2, 2, 1, P);
+  } else {
+    s(2, -1, 10, 2, P); s(1, 0, 12, 2, P); s(2, 1, 10, 1, P); s(1, 2, 1, 3, P); s(12, 2, 1, 3, P); s(2, 2, 2, 1, P);
+    if (a.pelo === 'largo') { s(1, 0, 2, 10, P); s(11, 0, 2, 10, P); }
+    if (a.pelo === 'mono') { s(5, -3, 4, 2, P); s(6, -4, 2, 1, P); }
+  }
+  // accesorios
+  if (a.acc === 'alas') {
+    s(1, -2, 12, 3, '#f2c14e'); s(2, -3, 10, 1, '#f2c14e'); s(2, -2, 10, 1, '#fde28a'); s(6, -3, 2, 1, '#fff2b3');
+    s(-2, -2, 3, 2, '#ffffff'); s(-3, -3, 3, 1, '#ffffff'); s(-3, -1, 2, 1, '#e6e9f0');
+    s(13, -2, 3, 2, '#ffffff'); s(14, -3, 3, 1, '#ffffff'); s(15, -1, 2, 1, '#e6e9f0');
+  } else if (a.acc === 'audifonos') {
+    s(1, -2, 12, 1, '#3d4150'); s(0, -1, 1, 4, '#3d4150'); s(13, -1, 1, 4, '#3d4150');
+    s(0, 3, 2, 3, '#4a4f5c'); s(12, 3, 2, 3, '#4a4f5c'); s(2, 6, 1, 2, '#3d4150'); s(3, 7, 2, 1, '#3d4150');
+  } else if (a.acc === 'lentes') {
+    const c = '#3a2b2b'; s(3, 3, 4, 1, c); s(3, 6, 4, 1, c); s(3, 3, 1, 4, c); s(6, 3, 1, 4, c);
+    s(7, 3, 4, 1, c); s(7, 6, 4, 1, c); s(7, 3, 1, 4, c); s(10, 3, 1, 4, c);
+  } else if (a.acc === 'boina') {
+    s(1, -2, 12, 2, a.colorAcc); s(0, -1, 2, 1, a.colorAcc); s(6, -3, 2, 1, oscuro(a.colorAcc));
+  }
+}
+function torso(a, ox, oy) {
+  const s = (gx, gy, w, h, c) => S(ox, oy, gx, gy, w, h, c);
+  if (a.robot) { s(6, 10, 2, 1, '#93a3b6'); s(2, 11, 10, 7, a.camisa); s(1, 12, 12, 6, a.camisa); s(5, 13, 4, 2, '#7ff0e8'); s(0, 12, 2, 4, '#93a3b6'); s(12, 12, 2, 4, '#93a3b6'); return; }
+  s(6, 10, 2, 1, a.piel);
+  s(2, 11, 10, 7, a.camisa); s(1, 12, 12, 6, a.camisa); s(0, 12, 2, 4, oscuro(a.camisa)); s(12, 12, 2, 4, oscuro(a.camisa));
+  s(5, 11, 4, 1, '#ffffff');
+  if (a.corbata) { s(6, 11, 2, 1, oscuro(a.corbata)); s(6, 12, 2, 5, a.corbata); }
+}
+function manos(a, ox, oy, modo, t, fase) {
+  const s = (gx, gy, w, h, c) => S(ox, oy, gx, gy, w, h, c);
+  const manga = a.robot ? '#93a3b6' : oscuro(a.camisa), piel = a.robot ? '#b7c4d3' : a.piel;
+  let li = 0, de = 0;
+  if (modo === 'teclear') { const k = Math.floor(t * 8 + fase) % 2; li = k ? -2 : 0; de = k ? 0 : -2; }
+  // mano izquierda
+  s(1, 13, 3, 2, manga); g.fillStyle = piel; g.fillRect(Math.round(ox + 2 * U), Math.round(oy + 15 * U + li), 3 * U, 2 * U);
+  if (modo === 'sorbo') {
+    s(11, 9, 2, 4, manga); s(8, 7, 2, 2, piel); taza(ox + 6 * U - 2, oy + 6 * U);
+    const v = Math.floor(t * 4) % 2; g.fillStyle = 'rgba(255,255,255,.85)';
+    g.fillRect(ox + 7 * U + v * 3, oy + 4 * U, 3, 3); g.fillRect(ox + 8 * U - v * 3, oy + 3 * U - 2, 3, 3);
+  } else {
+    s(10, 13, 3, 2, manga); g.fillStyle = piel; g.fillRect(Math.round(ox + 9 * U), Math.round(oy + 15 * U + de), 3 * U, 2 * U);
+  }
+}
+function caminante(a, fx, fy, paso, señalar) {
+  const ox = fx - 7 * U, oy = fy - 20 * U, s = (gx, gy, w, h, c) => S(ox, oy + (paso ? -2 : 0), gx, gy, w, h, c);
+  g.fillStyle = 'rgba(90,60,40,.22)'; g.beginPath(); g.ellipse(fx, fy, 22, 6, 0, 0, Math.PI * 2); g.fill();
+  // piernas
+  const L = paso === 1 ? -1 : 0, Rr = paso === 2 ? -1 : 0;
+  S(ox, oy, 4, 17 + L, 2, 2 - L, '#4a4060'); S(ox, oy, 8, 17 + Rr, 2, 2 - Rr, '#4a4060');
+  S(ox, oy, 3, 19 + L, 3, 1, '#3a2b2b'); S(ox, oy, 8, 19 + Rr, 3, 1, '#3a2b2b');
+  // cuerpo
+  s(6, 10, 2, 1, a.piel); s(2, 11, 10, 6, a.camisa); s(5, 11, 4, 1, '#ffffff');
+  if (a.corbata) { s(6, 11, 2, 1, oscuro(a.corbata)); s(6, 12, 2, 4, a.corbata); }
+  if (señalar) { s(-3, 12, 5, 2, oscuro(a.camisa)); s(-4, 12, 1, 2, a.piel); }
+  else { s(0, 11, 2, 5, oscuro(a.camisa)); s(0, 16, 2, 1, a.piel); }
+  s(12, 11, 2, 5, oscuro(a.camisa)); s(12, 16, 2, 1, a.piel);
+  cabeza(a, ox, oy + (paso ? -2 : 0), false);
+}
+
+/* ---------------- Globos y etiquetas ---------------- */
+function globo(cx, abajo, chip, chipColor, txt) {
+  const lineas = envolver(txt, F_TAREA, 220, 2);
+  const wTxt = Math.max(...lineas.map(l => ancho(l, F_TAREA)));
+  const wChip = chip ? ancho(chip, F_CHIP) + 14 : 0;
+  const w = Math.ceil(Math.max(wTxt, wChip) + 22), h = (chip ? 18 : 6) + lineas.length * 16 + 8;
+  const x = Math.max(6, Math.min(W - w - 6, cx - w / 2)), y = abajo - 8 - h;
+  caja(x, y, w, h, '#ffffff', BORDE);
+  const tx = Math.round(Math.max(x + 14, Math.min(x + w - 14, cx)));
+  for (let i = 0; i < 4; i++) { const ww = 14 - i * 4, yy = y + h - 2 + i * 2; R(tx - ww / 2, yy, ww, 2, BORDE); if (ww > 4) R(tx - ww / 2 + 2, yy, ww - 4, 2, '#ffffff'); }
+  let ty = y + 8;
+  if (chip) { R(x + 11, ty + 1, 7, 7, chipColor); texto(chip, x + 22, ty + 5, F_CHIP, chipColor, 'left'); ty += 14; }
+  lineas.forEach((l, i) => texto(l, x + 11, ty + 8 + i * 16, F_TAREA, '#3b2f2f', 'left'));
+}
+function etiqueta(ag, L, cx, y) {
+  const e = ESTADOS[ag.estado] || ESTADOS.libre;
+  const w = Math.ceil(ancho(ag.nombre, F_NOMBRE) + 34);
+  caja(cx - w / 2, y, w, 22, L.color, BORDE);
+  R(cx - w / 2 + 8, y + 7, 8, 8, '#ffffff'); R(cx - w / 2 + 9, y + 8, 6, 6, e.color);
+  texto(ag.nombre, cx + 7, y + 11.5, F_NOMBRE, '#ffffff');
+  texto(ag.rol, cx, y + 31, F_ROL, '#6d5a50');
+}
+function alerta(x, y, t) {
+  const b = Math.round(Math.abs(Math.sin(t * 5)) * -5);
+  caja(x - 11, y - 11 + b, 22, 22, '#e5484d', '#9e2227');
+  R(x - 2, y - 7 + b, 4, 9, '#ffffff'); R(x - 2, y + 4 + b, 4, 3, '#ffffff');
+}
+
+/* ---------------- Escena dinámica ---------------- */
+function ventana(t) {
+  g.save(); g.beginPath(); g.rect(82, 12, 120, 42); g.clip();
+  R(82, 12, 120, 42, '#bfe6ff'); R(82, 40, 120, 14, '#d8f0ff');
+  for (const [o, y, w] of [[0, 18, 26], [70, 30, 34], [140, 22, 20]]) {
+    const x = 82 + ((t * 7 + o) % 160) - 30; R(x, y, w, 6, '#ffffff'); R(x + 5, y - 4, w - 12, 4, '#ffffff');
+  }
+  g.restore();
+  R(140, 12, 4, 42, '#a7c0d0'); R(82, 31, 120, 3, '#a7c0d0');
+}
+let horaLima = { h: 0, m: 0, s: 0 };
+function relojPared() {
+  const cx = 740, cy = 34;
+  g.fillStyle = BORDE; g.beginPath(); g.arc(cx, cy, 17, 0, 7); g.fill();
+  g.fillStyle = '#fffaf0'; g.beginPath(); g.arc(cx, cy, 14, 0, 7); g.fill();
+  for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; R(cx + Math.sin(a) * 11 - 1, cy - Math.cos(a) * 11 - 1, 2, 2, '#c9a24a'); }
+  const am = (horaLima.m + horaLima.s / 60) / 60 * Math.PI * 2, ah = ((horaLima.h % 12) + horaLima.m / 60) / 12 * Math.PI * 2;
+  g.strokeStyle = BORDE; g.lineCap = 'round';
+  g.lineWidth = 3; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.sin(ah) * 7, cy - Math.cos(ah) * 7); g.stroke();
+  g.lineWidth = 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.sin(am) * 11, cy - Math.cos(am) * 11); g.stroke();
+  R(cx - 2, cy - 2, 4, 4, '#e86a92');
+}
+function vaporCafetera(t) {
+  g.fillStyle = 'rgba(255,255,255,.8)';
+  for (let i = 0; i < 3; i++) { const yy = 60 - ((t * 14 + i * 7) % 20); g.fillRect(53 + Math.round(Math.sin(t * 3 + i) * 2), yy - 4, 3, 3); }
+}
+
+/* ---------------- Hermes (jefe que camina) ---------------- */
+const VEL = 150;
+const jefe = { modo: 'sentado', prox: 4, inicio: 0, ruta: null, largo: 0, objetivo: null, ultimo: null };
+function ruta(hacia) {
+  const h = LOOK.hermes, L = LOOK[hacia.id];
+  return [[h.x + 135, h.y + 25], [h.x + 135, h.y + 75], [600, h.y + 75], [600, 262], [600, L.y - 72], [L.x + 115, L.y - 72], [L.x + 115, L.y + 18]];
+}
+function largoRuta(p) { let d = 0; for (let i = 1; i < p.length; i++) d += Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]); return d; }
+function puntoEn(p, d) {
+  for (let i = 1; i < p.length; i++) {
+    const seg = Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+    if (d <= seg) { const k = seg ? d / seg : 0; return [p[i - 1][0] + (p[i][0] - p[i - 1][0]) * k, p[i - 1][1] + (p[i][1] - p[i - 1][1]) * k]; }
+    d -= seg;
+  }
+  return p[p.length - 1];
+}
+function actualizarJefe(t) {
+  const herm = AGENTES.find(a => a.id === 'hermes');
+  if (!herm) return;
+  if (jefe.modo === 'sentado') {
+    if (herm.estado === 'trabajando' && t >= jefe.prox) {
+      const otros = AGENTES.filter(a => a.id !== 'hermes' && LOOK[a.id] && a.id !== jefe.ultimo);
+      if (!otros.length) return;
+      jefe.objetivo = otros[Math.floor(Math.random() * otros.length)]; jefe.ultimo = jefe.objetivo.id;
+      jefe.ruta = ruta(jefe.objetivo); jefe.largo = largoRuta(jefe.ruta); jefe.modo = 'ida'; jefe.inicio = t;
+    }
+  } else if (jefe.modo === 'ida') {
+    if ((t - jefe.inicio) * VEL >= jefe.largo) { jefe.modo = 'ordenando'; jefe.inicio = t; }
+  } else if (jefe.modo === 'ordenando') {
+    if (t - jefe.inicio >= 3.6) { jefe.modo = 'vuelta'; jefe.inicio = t; }
+  } else if (jefe.modo === 'vuelta') {
+    if ((t - jefe.inicio) * VEL >= jefe.largo) { jefe.modo = 'sentado'; jefe.prox = t + 8 + Math.random() * 6; jefe.objetivo = null; }
+  }
+}
+
+/* ---------------- Bucle principal ---------------- */
+const t0 = performance.now();
+function cuadro() {
+  const t = (performance.now() - t0) / 1000;
+  actualizarJefe(t);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(fondo, 0, 0);
+  ctx.setTransform(escala * dpr, 0, 0, escala * dpr, 0, 0);
+  g = ctx;
+  ventana(t); relojPared(); vaporCafetera(t);
+
+  const visibles = AGENTES.map((a, i) => ({ a, L: LOOK[a.id], i })).filter(o => o.L).sort((p, q) => p.L.y - q.L.y);
+  const globos = [], alertas = [];
+  for (const { a, L, i } of visibles) {
+    const fase = i * 1.37, cx = L.x, cy = L.y, ox = cx - 38, oy = cy - 67;
+    const jefeFuera = a.id === 'hermes' && jefe.modo !== 'sentado';
+    const half = L.jefe ? 110 : 80;
+    silla(ox, oy, L.jefe ? '#8e6bd1' : '#8f9cc0');
+    let modo = 'quieto', bob = 0;
+    if (!jefeFuera) {
+      if (a.estado === 'trabajando') { modo = 'teclear'; bob = Math.floor(t * 4 + fase) % 2 ? -1 : 0; }
+      else if (a.estado === 'libre') { const c = (t + fase * 2.3) % 9; modo = (c > 6.4 && c < 8.4) ? 'sorbo' : 'quieto'; bob = Math.sin(t * 1.6 + fase) > 0.2 ? -2 : 0; }
+      else { bob = Math.floor(t * 10) % 2 ? 1 : -1; }
+      torso(L, ox, oy);
+      cabeza(L, ox, oy + bob, ((t + fase) % 3.7) < 0.13);
+      if (a.estado === 'bloqueado') S(ox, oy + bob, 12, 1, 1, 2, '#7fd0ff');
+    }
+    escritorio(cx, cy, half);
+    monitor(cx, cy, a.estado, t, fase);
+    teclado(cx, cy);
+    if (L.jefe) {
+      objeto(L.item, cx - 104, cy + 2, t);
+      caja(cx - 76, cy + 2, 34, 14, '#f2c14e', '#b98b2a'); texto('JEFE', cx - 59, cy + 9, "900 9px 'Segoe UI',Arial,'DejaVu Sans',sans-serif", '#7a5a10');
+      R(cx + 76, cy - 6, 22, 16, '#ffffff'); R(cx + 80, cy - 2, 14, 2, '#c8ccd4'); R(cx + 80, cy + 3, 10, 2, '#c8ccd4');
+    } else {
+      objeto(L.item, cx - 78, cy + 2, t);
+    }
+    if (!jefeFuera) {
+      if (modo !== 'sorbo') taza(cx - 52, cy - 10);
+      manos(L, ox, oy, modo, t, fase);
+    }
+    // datos para capas superiores
+    const e = ESTADOS[a.estado] || ESTADOS.libre;
+    let ocultar = jefeFuera || (jefe.modo === 'ordenando' && jefe.objetivo && jefe.objetivo.id === a.id);
+    if (!ocultar) globos.push([cx - 10, oy - 15, e.txt, e.color, cap(a.tarea) || e.defecto]);
+    if (a.estado === 'bloqueado' && !jefeFuera) alertas.push([ox + 66, oy + 2]);
+    etiqueta(a, L, cx, cy + 42);
+  }
+  for (const gl of globos) globo(...gl);
+  for (const al of alertas) alerta(al[0], al[1], t);
+
+  // Hermes caminando encima de todo
+  if (jefe.modo !== 'sentado' && jefe.objetivo) {
+    const Lh = LOOK.hermes;
+    let x, y, paso = 0, senal = false;
+    if (jefe.modo === 'ordenando') { [x, y] = jefe.ruta[jefe.ruta.length - 1]; senal = true; }
+    else {
+      const d = Math.min(jefe.largo, (t - jefe.inicio) * VEL);
+      [x, y] = puntoEn(jefe.ruta, jefe.modo === 'ida' ? d : jefe.largo - d);
+      paso = 1 + Math.floor(d / 16) % 2;
+    }
+    caminante(Lh, Math.round(x), Math.round(y), paso, senal);
+    if (jefe.modo === 'ordenando') {
+      const k = t - jefe.inicio, Lo = LOOK[jefe.objetivo.id];
+      if (k < 1.8) globo(x, y - 94, null, null, '¡Nueva orden para ti!');
+      else globo(Lo.x - 10, Lo.y - 82, null, null, '¡Entendido, jefe!');
+    }
+  }
+  requestAnimationFrame(cuadro);
+}
+
+/* ---------------- Reloj (hora de Lima) y resumen ---------------- */
+const fmtHora = new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+const fmtFecha = new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+function tic() {
+  const ahora = new Date();
+  const partes = Object.fromEntries(fmtHora.formatToParts(ahora).map(p => [p.type, p.value]));
+  horaLima = { h: +partes.hour % 24, m: +partes.minute, s: +partes.second };
+  document.getElementById('hora').textContent = `${String(horaLima.h).padStart(2, '0')}:${partes.minute}:${partes.second}`;
+  document.getElementById('fecha').textContent = 'Lima · ' + cap(fmtFecha.format(ahora));
+}
+function resumen() {
+  const c = { trabajando: 0, libre: 0, bloqueado: 0 };
+  AGENTES.forEach(a => { if (c[a.estado] !== undefined) c[a.estado]++; });
+  document.getElementById('resumen').textContent =
+    `${c.trabajando} trabajando · ${c.libre} libre${c.libre === 1 ? '' : 's'} · ${c.bloqueado} bloqueado${c.bloqueado === 1 ? '' : 's'}`;
+}
+
+/* ---------------- API para actualizar en vivo ---------------- */
+function actualizar(id, estado, tarea) {
+  const a = AGENTES.find(x => x.id === id); if (!a) return false;
+  if (estado && ESTADOS[estado]) a.estado = estado;
+  if (tarea !== undefined) a.tarea = tarea;
+  resumen(); return true;
+}
+window.oficina = { actualizar, agentes: AGENTES };
+// Opcional: si la página se sirve por http(s) y existe "estado.json" junto a este archivo,
+// se lee cada 30 s. Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "..." }, ...]
+async function cargarEstadoExterno() {
+  if (location.protocol === 'file:') return;
+  try {
+    const r = await fetch('estado.json', { cache: 'no-store' }); if (!r.ok) return;
+    const d = await r.json(); (Array.isArray(d) ? d : (d.agentes || [])).forEach(x => actualizar(x.id, x.estado, x.tarea));
+  } catch (e) { /* sin estado.json: se usan los datos de arriba */ }
+}
+
+addEventListener('resize', ajustar);
+ajustar(); tic(); resumen(); cargarEstadoExterno();
+setInterval(tic, 1000); setInterval(cargarEstadoExterno, 30000);
+requestAnimationFrame(cuadro);
+})();
+</script>
+</body>
+</html>
