@@ -146,8 +146,9 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   .dia small{color:var(--soft);font-weight:600;font-size:11px} .dia .sin{color:var(--soft);font-weight:600}
   body.vertical footer{font-size:11.5px;gap:4px 12px} body.vertical .dia small.act{display:none}
   /* Modo TV / kiosco */
-  #tvDia{display:none;flex:1;min-width:0;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-  .tchip{background:#2f2936;border:2px solid var(--line);border-radius:12px;padding:4px 14px;text-align:center;line-height:1.15}
+  #tvDia{display:none;flex:1;min-width:0;align-items:center;justify-content:center;gap:12px;flex-wrap:nowrap;overflow:hidden;align-self:stretch}
+  #tvDia.c1 .barras.tv .v{display:none} #tvDia.c1 .barras.tv{height:40px} #tvDia.c2 .tchip.ag{display:none} #tvDia.c3 .tchip.mp{display:none} #tvDia.c4 .tchip.sem{display:none}
+  .tchip{flex:none;white-space:nowrap;background:#2f2936;border:2px solid var(--line);border-radius:12px;padding:4px 14px;text-align:center;line-height:1.15}
   .tchip em{display:block;font-style:normal;font-size:12px;color:var(--soft);font-weight:800;text-transform:uppercase;letter-spacing:.6px}
   .tchip b{font-size:26px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .tchip.ag b{font-size:20px} .tchip .ej{display:block;font-size:10px;color:#ffd9a0;font-weight:800;text-transform:uppercase}
@@ -158,9 +159,39 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   body.tv .marca svg{width:46px;height:46px} body.tv .marca h1{font-size:30px} body.tv .marca small{display:block;font-size:14px}
   body.tv .reloj .hora{font-size:48px} body.tv .reloj .fecha{font-size:15px;max-width:none}
   body.tv #tvDia{display:flex}
-  body.tv footer,body.tv #equipo,body.tv .hbtn,body.tv .bocina,body.tv #buscador{display:none !important}
+  body.tv footer,body.tv #equipo,body.tv .hbtn,body.tv .bocina,body.tv #buscador,body.tv #semana{display:none !important}
   body.tv main{padding:4px} body.tv #alerta{top:94px}
   @media (max-width:1500px){ body:not(.vertical) .ley span.d{display:none} }
+  /* Clima de Lima (junto al reloj) */
+  .clima{display:flex;align-items:center;gap:6px;height:34px;padding:0 9px 0 7px;background:#2f2936;border:2px solid var(--line);border-radius:8px;flex:none;cursor:default}
+  .clima[hidden]{display:none} .clima .ic{font-size:18px;line-height:1} .clima .tt{line-height:1.05;text-align:left}
+  .clima b{display:block;font-size:15px;font-variant-numeric:tabular-nums} .clima small{display:block;font-size:9.5px;color:var(--soft);font-weight:700}
+  body.vertical .clima{height:28px;padding:0 5px;gap:3px} body.vertical .clima .ic{font-size:14px} body.vertical .clima b{font-size:12.5px} body.vertical .clima small{display:none}
+  body.vertical .marca h1{font-size:15px} body.vertical .marca h1 .of{display:none} body.vertical .marca svg{display:none}
+  body.tv .clima{height:auto;padding:6px 14px;gap:10px} body.tv .clima .ic{font-size:32px} body.tv .clima b{font-size:28px} body.tv .clima small{font-size:12px}
+  /* Gráfico semanal de recaudo */
+  .sem-tg{display:inline-flex;align-items:center;gap:6px;background:#2f2936;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:2px 10px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .sem-tg:hover,.sem-tg[aria-expanded="true"]{border-color:var(--rosa)} .sem-tg.vacio{cursor:default} .sem-tg .sin{color:var(--soft);font-weight:600}
+  .dia-tg[aria-expanded="false"] ~ .sem-tg{display:none}
+  .mini-b{display:inline-flex;align-items:flex-end;gap:2px;height:16px}
+  .mini-b i{display:block;width:5px;background:#4a9be8;box-shadow:inset 0 1px 0 #8fd3ff} .mini-b i.hoy{background:#f07aa0;box-shadow:inset 0 1px 0 #ffd9e6}
+  #semana{position:fixed;right:12px;bottom:50px;z-index:8;width:380px;max-width:94vw;background:#2a2530;border:2px solid #4a4150;border-radius:12px;padding:10px 12px;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+  #semana[hidden]{display:none} body.vertical #semana{left:3vw;right:3vw;width:auto}
+  .sem-cab{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:6px;padding-right:22px;position:relative}
+  .sem-cab .x{position:absolute;right:-4px;top:-6px;background:none;border:0;color:var(--soft);font-size:22px;cursor:pointer;line-height:1}
+  .sem-cab .ej{background:#6b4a1e;color:#ffd9a0;border-radius:10px;padding:1px 7px;font-size:10.5px;font-weight:800;text-transform:uppercase}
+  .sem-pie{font-size:12px;color:var(--soft);margin-top:6px;text-align:center} .sem-pie b{color:var(--ink)}
+  .barras{display:flex;align-items:flex-end;gap:7px;height:150px;padding:2px 2px 0}
+  .bar{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+  .bar i{display:block;width:100%;max-width:36px;background:#4a9be8;border:2px solid #1d1a22;border-bottom:0;box-shadow:inset 0 3px 0 #8fd3ff,inset -3px 0 0 #3a7cc0}
+  .bar.hoy i{background:#f07aa0;box-shadow:inset 0 3px 0 #ffd9e6,inset -3px 0 0 #c95a80}
+  .bar .v{font-size:10.5px;font-weight:800;margin-bottom:3px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .bar .f{font-size:10.5px;color:var(--soft);font-weight:700;margin-top:0;padding-top:3px;border-top:2px solid #4a4150;width:100%;text-align:center}
+  .bar.hoy .f,.bar.hoy .v{color:#ffd9e6}
+  .barras.tv{height:52px;gap:4px;padding:0} .barras.tv .bar{width:30px;flex:none} .barras.tv .bar i{max-width:22px;border-width:1px;box-shadow:inset 0 2px 0 #8fd3ff}
+  .barras.tv .bar.hoy i{box-shadow:inset 0 2px 0 #ffd9e6} .barras.tv .v,.barras.tv .f{font-size:9.5px} .barras.tv .f{padding-top:1px;border-top-width:1px}
+  .tchip.sem{padding:3px 10px 4px} .tchip.sem em{margin-bottom:1px}
+  @media (max-width:1560px){ body.tv .marca small{display:none} body.tv .marca h1{font-size:24px} body.tv .tchip b{font-size:22px} body.tv .tchip{padding:4px 10px} body.tv header{gap:12px} }
   body.tv.vertical header{height:auto;min-height:86px;flex-wrap:wrap;padding:8px 12px} body.tv.vertical .marca h1{font-size:20px}
 </style>
 </head>
@@ -174,7 +205,7 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
       <rect x="2" y="8" width="2" height="2" fill="#f8bbd0"/><rect x="8" y="8" width="2" height="2" fill="#f8bbd0"/>
       <rect x="4" y="4" width="4" height="4" fill="#ffd54f"/><rect x="5" y="5" width="1" height="1" fill="#ffb300"/>
     </svg>
-    <div><h1>Oficina <b>FLOOWER.PE</b></h1><small>Miniverso de los agentes IA de JASMEE</small></div>
+    <div><h1><span class="of">Oficina </span><b>FLOOWER.PE</b></h1><small>Miniverso de los agentes IA de JASMEE</small></div>
   </div>
   <div id="tvDia" aria-live="polite"></div>
   <div class="der">
@@ -191,6 +222,7 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
         <g class="mute"><rect x="7" y="4" width="1" height="1" fill="#e5484d"/><rect x="8" y="5" width="1" height="1" fill="#e5484d"/><rect x="9" y="6" width="1" height="1" fill="#e5484d"/><rect x="10" y="7" width="1" height="1" fill="#e5484d"/><rect x="10" y="4" width="1" height="1" fill="#e5484d"/><rect x="9" y="5" width="1" height="1" fill="#e5484d"/><rect x="8" y="6" width="1" height="1" fill="#e5484d"/><rect x="7" y="7" width="1" height="1" fill="#e5484d"/></g>
       </svg>
     </button>
+    <div id="clima" class="clima" hidden role="img"><span class="ic" id="climaIc"></span><span class="tt"><b id="climaT"></b><small>Lima</small></span></div>
     <div class="reloj"><div class="hora" id="hora">--:--:--</div><div class="fecha" id="fecha">Hora de Lima</div></div>
   </div>
 </header>
@@ -200,7 +232,7 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   <section id="equipo" aria-label="Equipo"></section>
 </main>
 <footer>
-  <div id="dia" class="dia"><button type="button" id="diaTg" class="dia-tg" aria-expanded="true" title="Mostrar / ocultar el panel del día">📊 Hoy ▾</button><div id="diaCuerpo" class="dia-cuerpo"><span class="sin">Sin datos del día</span></div></div>
+  <div id="dia" class="dia"><button type="button" id="diaTg" class="dia-tg" aria-expanded="true" title="Mostrar / ocultar el panel del día">📊 Hoy ▾</button><div id="diaCuerpo" class="dia-cuerpo"><span class="sin">Sin datos del día</span></div><button type="button" id="semTg" class="sem-tg vacio" aria-expanded="false" aria-controls="semana" title="Recaudo de los últimos 7 días">📈 <span class="sin">Sin histórico</span></button></div>
   <div class="ley"><span class="dot" style="background:#3bb273"></span>Trabajando <span class="d">(teclea)</span></div>
   <div class="ley"><span class="dot" style="background:#4a9be8"></span>Libre <span class="d">(va por un cafecito)</span></div>
   <div class="ley"><span class="dot" style="background:#e5484d"></span>Bloqueado <span class="d">(necesita ayuda)</span></div>
@@ -213,6 +245,7 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   <canvas id="minimapa" width="336" height="208" aria-label="Mini-mapa de la oficina: toca un agente"></canvas>
   <div class="pie">Toca un agente (lista o mapa) · ↑↓ y Enter · Esc cierra</div>
 </div>
+<div id="semana" hidden role="dialog" aria-label="Recaudo de la semana"></div>
 <button type="button" id="tvSalir" hidden>✕ Salir del modo TV</button>
 <script>
 (() => {
@@ -1447,6 +1480,7 @@ function cuadroAnim() {
   post.forEach(f => f());
   colgantes();
   aplicarLuz(t);
+  aplicarClima(t);
   decoTemporada(t);
   resaltarAgente(t);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = false;
@@ -1754,8 +1788,8 @@ function pintarDia() {
       + (act ? `<small class="act">act. ${escHTML(act)}</small>` : '');
     diaEl.title = r.nota ? 'Nota: ' + r.nota : '';
   }
-  pintarTV();
-  if (document.querySelector('footer').offsetHeight !== ftr0) ajustar();
+  pintarSemana(); pintarTV();
+  if (document.querySelector('footer').offsetHeight !== ftr0) { ajustar(); colocarSemana(); }
 }
 diaTg.addEventListener('click', () => { lsSet(LS_DIA, lsGet(LS_DIA) === '1' ? '0' : '1'); pintarDia(); });
 async function cargarDatosDia() {
@@ -1767,6 +1801,171 @@ async function cargarDatosDia() {
   pintarDia();
 }
 
+/* ---------------- Clima real de Lima (open-meteo, sin API key) ---------------- */
+// Se consulta al cargar y cada 10 min. Si falla la red, no se muestra clima (y la escena sigue igual).
+const CLIMA_URL = 'https://api.open-meteo.com/v1/forecast?latitude=-12.046&longitude=-77.043&current=temperature_2m,weather_code&timezone=America%2FLima';
+const CLIMA_MS = 10 * 60 * 1000;
+let clima = null;                          // { code, temp, tipo, int, desc, hora, recibido }
+const rayo = { t0: -9, prox: 6 };
+function tipoClima(c) {                    // código WMO -> [tipo, intensidad 0..1, descripción]
+  if (c === 0) return ['despejado', 0, 'Despejado'];
+  if (c === 1) return ['nublado', 0.3, 'Mayormente despejado'];
+  if (c === 2) return ['nublado', 0.6, 'Parcialmente nublado'];
+  if (c === 3) return ['nublado', 1, 'Nublado'];
+  if (c === 45 || c === 48) return ['neblina', 1, 'Neblina'];
+  if (c >= 51 && c <= 57) return ['lluvia', c >= 55 ? 0.5 : 0.35, 'Llovizna'];
+  if (c === 61 || c === 66) return ['lluvia', 0.55, 'Lluvia ligera'];
+  if (c === 63) return ['lluvia', 0.75, 'Lluvia'];
+  if (c === 65 || c === 67) return ['lluvia', 1, 'Lluvia fuerte'];
+  if (c >= 80 && c <= 82) return ['lluvia', c === 82 ? 1 : c === 81 ? 0.75 : 0.55, 'Chubascos'];
+  if (c >= 95 && c <= 99) return ['tormenta', 1, 'Tormenta'];
+  if ((c >= 71 && c <= 77) || c === 85 || c === 86) return ['nublado', 1, 'Nieve'];
+  return ['nublado', 0.5, 'Nublado'];
+}
+function iconoClima(cl, noche) {
+  if (!cl) return '';
+  if (cl.tipo === 'despejado') return noche ? '🌙' : '☀️';
+  if (cl.tipo === 'nublado') return cl.code === 1 ? (noche ? '🌙' : '🌤️') : cl.code === 2 ? (noche ? '☁️' : '⛅') : '☁️';
+  if (cl.tipo === 'neblina') return '🌫️';
+  if (cl.tipo === 'tormenta') return '⛈️';
+  return cl.desc === 'Llovizna' && !noche ? '🌦️' : '🌧️';
+}
+const climaEl = document.getElementById('clima');
+function pintarClima() {
+  if (!clima) { climaEl.hidden = true; return; }
+  const noche = luzActual().noche > 0.5;
+  climaEl.hidden = false;
+  document.getElementById('climaIc').textContent = iconoClima(clima, noche);
+  document.getElementById('climaT').textContent = Math.round(clima.temp) + '°C';
+  climaEl.title = `Lima: ${clima.desc}, ${clima.temp.toFixed(1)} °C` + (clima.hora ? ` · medido ${clima.hora.slice(11, 16)} (hora de Lima)` : '') + ' · open-meteo.com';
+  climaEl.setAttribute('aria-label', climaEl.title);
+}
+async function cargarClima() {
+  const ctl = typeof AbortController === 'function' ? new AbortController() : null, to = setTimeout(() => ctl && ctl.abort(), 9000);
+  try {
+    const r = await fetch(CLIMA_URL, { cache: 'no-store', signal: ctl ? ctl.signal : undefined });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json(), cur = j && j.current;
+    const code = Number(cur && cur.weather_code), temp = Number(cur && cur.temperature_2m);
+    if (!cur || !isFinite(code) || !isFinite(temp)) throw new Error('respuesta sin datos');
+    const [tipo, int, desc] = tipoClima(code);
+    clima = { code, temp, tipo, int, desc, hora: String(cur.time || ''), recibido: Date.now() };
+  } catch (e) {
+    if (clima && Date.now() - clima.recibido > 45 * 60 * 1000) clima = null;   // dato muy viejo: deja de mostrarlo
+  } finally { clearTimeout(to); }
+  pintarClima();
+}
+function cieloClima(x, y, w, t, L) {       // ventanas: nubes / lluvia / relámpago sobre el cielo de la hora
+  const c = clima, dia = 1 - L.noche;
+  gm.save(); gm.beginPath(); gm.rect(x + 1, y + 1, w - 2, 14); gm.clip();
+  if (c.tipo === 'despejado') { if (dia > 0.5) { R(x + w - 8, y + 2, 5, 5, '#ffe27a'); R(x + w - 7, y + 3, 3, 3, '#fff6c8'); } }
+  else {
+    const k = c.tipo === 'nublado' ? 0.25 + 0.35 * c.int : c.tipo === 'neblina' ? 0.55 : 0.6;
+    gm.fillStyle = `rgba(${dia > 0.5 ? '170,176,188' : '52,56,72'},${k.toFixed(2)})`; gm.fillRect(x + 1, y + 1, w - 2, 14);
+    const nube = dia > 0.5 ? (c.tipo === 'nublado' ? '#e4e8ee' : '#9aa2b0') : '#4a5064';
+    for (let i = 0; i < 2 + (c.int > 0.5); i++) {
+      const cx = x + ((t * (1.2 + i * 0.5) + i * 13) % (w + 12)) - 6, cy = y + 3 + i * 4;
+      R(cx, cy + 1, 9, 3, nube); R(cx + 2, cy, 5, 1, nube);
+    }
+    if (c.tipo === 'lluvia' || c.tipo === 'tormenta') for (let i = 0; i < 7; i++)
+      R(x + 2 + ((i * 7 + Math.floor(t * 3)) % (w - 4)), y + 1 + ((t * 40 + i * 9) % 14), 1, 2, 'rgba(200,220,255,.8)');
+    if (c.tipo === 'tormenta' && T - rayo.t0 < 0.35) { gm.fillStyle = 'rgba(240,244,255,.7)'; gm.fillRect(x + 1, y + 1, w - 2, 14); R(x + 12, y + 1, 2, 4, '#fff6a0'); R(x + 10, y + 5, 2, 4, '#fff6a0'); R(x + 12, y + 9, 2, 5, '#fff6a0'); }
+  }
+  gm.restore();
+  const marco = rgb([245, 240, 230], L.mult); R(x + w / 2 - 1, y, 2, 16, marco); R(x, y + 7, w, 2, marco);
+}
+function aplicarClima(t) {                 // capa sutil sobre la escena, después del ciclo día/noche
+  if (!clima) return;
+  const L = luzActual(), dia = 1 - L.noche, c = clima;
+  for (const [x, y, w] of VENTANAS) cieloClima(x, y, w, t, L);
+  if (c.tipo === 'despejado') {            // sol: un poco más de luz cálida entrando por las ventanas
+    if (dia > 0.3) { gm.save(); gm.globalCompositeOperation = 'lighter'; for (const [x, y, w] of VENTANAS) brillo(x + w / 2, y + 22, 48, '255,226,150', 0.12 * dia); gm.restore(); }
+    return;
+  }
+  const gris = c.tipo === 'nublado' ? 0.03 + 0.05 * c.int : c.tipo === 'neblina' ? 0.06 : 0.1 + 0.05 * c.int;
+  gm.fillStyle = `rgba(${dia > 0.5 ? '120,128,145' : '18,22,38'},${gris.toFixed(3)})`; gm.fillRect(0, 0, MW, MH);
+  if (c.tipo === 'neblina') for (let i = 0; i < 4; i++) {      // bancos de neblina que se desplazan
+    const yy = ((i * 131 + t * 5) % (MH + 120)) - 60, gr = gm.createLinearGradient(0, yy - 40, 0, yy + 40), col = dia > 0.5 ? '232,236,242' : '120,130,160';
+    gr.addColorStop(0, `rgba(${col},0)`); gr.addColorStop(0.5, `rgba(${col},0.11)`); gr.addColorStop(1, `rgba(${col},0)`);
+    gm.fillStyle = gr; gm.fillRect(0, yy - 40, MW, 80);
+  }
+  if (c.tipo === 'lluvia' || c.tipo === 'tormenta') {          // gotas finas en diagonal
+    const n = Math.round(36 + 84 * c.int);
+    gm.save(); gm.strokeStyle = `rgba(${dia > 0.5 ? '205,222,245' : '150,175,225'},${(0.34 + 0.16 * c.int).toFixed(2)})`; gm.lineWidth = 1; gm.beginPath();
+    for (let i = 0; i < n; i++) {
+      const v = 150 + 90 * hash(i, 11), y = ((hash(i, 12) * (MH + 20)) + t * v) % (MH + 20) - 10, x = ((hash(i, 13) * (MW + 40)) - y * 0.18 + MW + 40) % (MW + 40) - 20;
+      gm.moveTo(x, y); gm.lineTo(x - 1.6, y + 7);
+    }
+    gm.stroke(); gm.restore();
+    for (let i = 0; i < Math.round(6 * c.int); i++) {          // salpicaduras en el piso
+      const fase = (t * 1.7 + hash(i, 21) * 3) % 1, x = hash(i, 22) * MW, y = 40 + hash(Math.floor(t * 1.7 + hash(i, 21) * 3), i) * (MH - 50);
+      if (fase < 0.25) { gm.fillStyle = `rgba(210,228,255,${(0.35 * (1 - fase * 4)).toFixed(2)})`; gm.fillRect(x - 2, y, 1, 1); gm.fillRect(x + 2, y, 1, 1); gm.fillRect(x, y - 1, 1, 1); }
+    }
+  }
+  if (c.tipo === 'tormenta') {             // relámpago ocasional (doble destello)
+    if (t > rayo.prox) { rayo.t0 = t; rayo.prox = t + 7 + Math.random() * 13; }
+    const k = t - rayo.t0, a = k < 0.08 ? 0.26 : k < 0.16 ? 0.03 : k < 0.26 ? 0.2 : k < 0.7 ? 0.2 * (1 - (k - 0.26) / 0.44) : 0;
+    if (a > 0) { gm.fillStyle = `rgba(235,240,255,${a.toFixed(3)})`; gm.fillRect(0, 0, MW, MH); }
+  }
+}
+
+/* ---------------- Gráfico semanal de recaudo (historico.json) ---------------- */
+// Formato: { "dias": [ { "fecha": "2026-09-30", "recaudo": 2100.0 }, ... ], "moneda": "PEN", "ts": "2026-10-06T23:59:00-05:00" }
+// (opcional: "ejemplo": true / "nota"). Se muestran los últimos 7 días; hoy se resalta. Si hoy no está en el
+// histórico pero datos-dia.json es de hoy, se agrega la barra de hoy "en curso" con ese recaudo.
+const semTg = document.getElementById('semTg'), semCard = document.getElementById('semana'), LS_SEM = 'oficina-semana-abierta';
+let historico = null;
+function datosSemana() {
+  const h = historico; if (!h || typeof h !== 'object' || !Array.isArray(h.dias)) return null;
+  const hoy = fmtHoyISO.format(new Date());
+  let dias = h.dias.map(d => ({ fecha: String(d && d.fecha || '').slice(0, 10), recaudo: numDia(d && d.recaudo) }))
+    .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d.fecha) && d.recaudo != null && d.fecha <= hoy);
+  const unicos = new Map(); dias.forEach(d => unicos.set(d.fecha, d)); dias = [...unicos.values()].sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  if (!dias.length) return null;                                   // histórico vacío: "Sin histórico"
+  const rd = resumenDia();
+  if (!dias.some(d => d.fecha === hoy) && rd && !rd.viejo && rd.recaudo != null) dias.push({ fecha: hoy, recaudo: rd.recaudo, curso: true });
+  dias = dias.slice(-7); if (!dias.length) return null;
+  dias.forEach(d => { d.hoy = d.fecha === hoy; });
+  const total = dias.reduce((s, d) => s + d.recaudo, 0);
+  return { dias, mon: h.moneda || (datosDia && datosDia.moneda) || 'PEN', ejemplo: !!h.ejemplo || /ejemplo/i.test(h.nota || ''), total, prom: total / dias.length, max: Math.max(...dias.map(d => d.recaudo), 1), ts: h.ts };
+}
+const ddmm = f => f.slice(8, 10) + '/' + f.slice(5, 7);
+const kilo = v => v >= 1000 ? (v / 1000).toLocaleString('es-PE', { maximumFractionDigits: 1 }) + 'k' : String(Math.round(v));
+function barrasHTML(s, modo) {             // modo: 'grande' (tarjeta) | 'tv' | 'mini' (pie de página)
+  if (modo === 'mini') return '<span class="mini-b" aria-hidden="true">' + s.dias.map(d => `<i class="${d.hoy ? 'hoy' : ''}" style="height:${Math.max(12, Math.round(100 * d.recaudo / s.max))}%"></i>`).join('') + '</span>';
+  return `<div class="barras ${modo}">` + s.dias.map(d => {
+    const v = modo === 'tv' ? kilo(d.recaudo) : new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 }).format(d.recaudo);
+    const tip = `${ddmm(d.fecha)}${d.hoy ? ' (hoy' + (d.curso ? ', en curso' : '') + ')' : ''}: ${fmtSoles(d.recaudo, s.mon)}`;
+    return `<div class="bar${d.hoy ? ' hoy' : ''}" title="${escHTML(tip)}"><span class="v">${v}</span><i style="height:${Math.max(3, Math.round(100 * d.recaudo / s.max))}%"></i><span class="f">${d.hoy ? 'hoy' : ddmm(d.fecha)}</span></div>`;
+  }).join('') + '</div>';
+}
+function pintarSemana() {
+  const s = datosSemana(), abierta = lsGet(LS_SEM) === '1';
+  semTg.innerHTML = s ? `📈 Semana ${barrasHTML(s, 'mini')}` : '📈 <span class="sin">Sin histórico</span>';
+  semTg.classList.toggle('vacio', !s); semTg.setAttribute('aria-expanded', String(abierta && !!s));
+  semCard.hidden = !(abierta && s) || document.body.classList.contains('tv');
+  if (s) semCard.innerHTML = `<div class="sem-cab"><b>📈 Recaudo · ${s.dias.length > 1 ? ddmm(s.dias[0].fecha) + ' – ' + ddmm(s.dias[s.dias.length - 1].fecha) : ddmm(s.dias[0].fecha)}</b>${s.ejemplo ? '<span class="ej">ejemplo</span>' : ''}<button type="button" class="x" id="semX" aria-label="Cerrar">×</button></div>`
+    + barrasHTML(s, 'grande')
+    + `<div class="sem-pie">Total <b>${escHTML(fmtSoles(s.total, s.mon))}</b> · Promedio <b>${escHTML(fmtSoles(s.prom, s.mon))}</b>${s.ts ? ` · act. ${escHTML(verTs(s.ts))}` : ''}</div>`;
+  const x = document.getElementById('semX'); if (x) x.onclick = () => { lsSet(LS_SEM, '0'); pintarSemana(); };
+  colocarSemana();
+}
+function colocarSemana() {                 // la tarjeta flota justo encima del pie de página
+  if (!semCard.hidden) semCard.style.bottom = (document.querySelector('footer').offsetHeight + 8) + 'px';
+}
+semTg.addEventListener('click', e => { e.stopPropagation(); if (!datosSemana()) return; lsSet(LS_SEM, lsGet(LS_SEM) === '1' ? '0' : '1'); pintarSemana(); });
+document.addEventListener('pointerdown', e => { if (!semCard.hidden && !semCard.contains(e.target) && !semTg.contains(e.target) && !cv.contains(e.target)) { lsSet(LS_SEM, '0'); pintarSemana(); } });
+addEventListener('keydown', e => { if (e.key === 'Escape' && !semCard.hidden && panel.hidden) { lsSet(LS_SEM, '0'); pintarSemana(); } });
+addEventListener('resize', colocarSemana);
+async function cargarHistorico() {
+  if (location.protocol === 'file:') { pintarSemana(); return; }   // abierto como archivo local: sin histórico
+  try {
+    const r = await fetch('historico.json?t=' + Date.now(), { cache: 'no-store' });
+    historico = r.ok ? await r.json().catch(() => null) : null;
+  } catch (e) { /* sin red: conserva lo último */ }
+  pintarSemana(); pintarTV();
+}
+
 /* ---------------- Modo TV / kiosco ---------------- */
 const btnTV = document.getElementById('btnTV'), tvSalir = document.getElementById('tvSalir');
 function pintarTV() {
@@ -1775,11 +1974,21 @@ function pintarTV() {
   AGENTES.forEach(a => { if (c[a.estado] !== undefined) c[a.estado]++; });
   const fmtN = v => v == null ? '—' : new Intl.NumberFormat('es-PE').format(v);
   const html = (r ? `<div class="tchip"><em>💰 Recaudo hoy</em><b>${r.recaudo == null ? '—' : escHTML(fmtSoles(r.recaudo, r.mon))}</b>${r.ejemplo ? '<span class="ej">ejemplo</span>' : ''}</div>`
-      + `<div class="tchip"><em>📦 Masivos</em><b>${fmtN(r.masivos)}</b></div><div class="tchip"><em>🛒 Pedidos</em><b>${fmtN(r.pedidos)}</b></div>`
+      + `<div class="tchip mp"><em>📦 Masivos</em><b>${fmtN(r.masivos)}</b></div><div class="tchip mp"><em>🛒 Pedidos</em><b>${fmtN(r.pedidos)}</b></div>`
       : '<div class="tchip"><em>📊 Panel del día</em><b style="font-size:18px">Sin datos del día</b></div>')
+    + (datosSemana() ? `<div class="tchip sem"><em>📈 Semana</em>${barrasHTML(datosSemana(), 'tv')}</div>` : '')
     + `<div class="tchip ag"><em>Equipo</em><b><span style="color:#3bb273">● ${c.trabajando}</span> &nbsp;<span style="color:#4a9be8">● ${c.libre}</span> &nbsp;<span style="color:#e5484d">● ${c.bloqueado}</span></b></div>`;
   if (tvDia.innerHTML !== html) tvDia.innerHTML = html;
+  encajarTV();                             // re-encaja (p.ej. cuando aparece el clima o cambia el reloj)
 }
+function encajarTV() {                     // si los chips no caben en el encabezado de TV, quita detalles por pasos
+  if (!document.body.classList.contains('tv')) return;
+  for (let n = 0; n <= 4; n++) {
+    tvDia.className = Array.from({ length: n }, (_, i) => 'c' + (i + 1)).join(' ');
+    if (tvDia.scrollHeight <= tvDia.clientHeight + 2 && tvDia.scrollWidth <= tvDia.clientWidth + 2) break;
+  }
+}
+addEventListener('resize', encajarTV);
 function ajustarTV() {                    // en modo TV la escena usa casi toda la pantalla (márgenes mínimos)
   if (!document.body.classList.contains('tv')) return;
   ajustar();
@@ -1791,7 +2000,7 @@ function ajustarTV() {                    // en modo TV la escena usa casi toda 
 addEventListener('resize', ajustarTV);
 function entrarTV() {
   if (!panel.hidden) cerrarPanel(); cerrarBuscador();
-  document.body.classList.add('tv'); tvSalir.hidden = false; pintarTV(); ajustarTV();
+  document.body.classList.add('tv'); tvSalir.hidden = false; pintarTV(); encajarTV(); ajustarTV();
   const el = document.documentElement;
   if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {}).finally(() => setTimeout(ajustarTV, 120));
 }
@@ -1945,6 +2154,9 @@ dibujarFondo(); tic(); resumen(); ajustar(); cargarEstadoExterno(); cargarRespue
 setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL_MS); setInterval(cargarRespuestas, POLL_MS);
 revisarBloqueados(); setInterval(revisarBloqueados, 1000);
 cargarDatosDia(); setInterval(cargarDatosDia, POLL_MS);      // panel del día (datos-dia.json)
+cargarHistorico(); setInterval(cargarHistorico, POLL_MS * 6);  // gráfico semanal (historico.json, cada 60 s)
+cargarClima(); setInterval(cargarClima, CLIMA_MS);            // clima real de Lima (open-meteo, cada 10 min)
+setInterval(pintarClima, 60000);                               // ícono día/noche
 requestAnimationFrame(cuadroAnim);
 })();
 </script>
