@@ -1,0 +1,15 @@
+{
+ "dias": [
+  {"fecha": "2026-09-30", "recaudo": 2100.0},
+  {"fecha": "2026-10-01", "recaudo": 1850.5},
+  {"fecha": "2026-10-02", "recaudo": 2320.0},
+  {"fecha": "2026-10-03", "recaudo": 2675.8},
+  {"fecha": "2026-10-04", "recaudo": 1490.0},
+  {"fecha": "2026-10-05", "recaudo": 1985.4},
+  {"fecha": "2026-10-06", "recaudo": 1250.5}
+ ],
+ "moneda": "PEN",
+ "ejemplo": true,
+ "nota": "datos de ejemplo",
+ "ts": "2026-10-06T04:40:00-05:00"
+}
