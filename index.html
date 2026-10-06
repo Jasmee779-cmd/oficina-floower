@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Oficina FLOOWER.PE · Miniverso de agentes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Crect x='5' y='1' width='2' height='10' fill='%23f48fb1'/%3E%3Crect x='1' y='5' width='10' height='2' fill='%23f48fb1'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%23ffd54f'/%3E%3C/svg%3E">
 <script>
 /* =====================================================================
    DATOS DE LOS AGENTES  —  edita SOLO esta lista para actualizar la oficina
@@ -25,6 +26,9 @@ const AGENTES = [
   { id: 'recluta',   nombre: 'WhatsApp Recluta', rol: 'Reclutamiento',                  estado: 'libre',      tarea: '' },
   { id: 'disksaver', nombre: 'Disk Saver',       rol: 'Limpieza del disco',             estado: 'libre',      tarea: '' },
 ];
+/* Webhook de Slack CIFRADO (AES-GCM + PBKDF2-SHA256 600000 iter.). Sin la clave no sirve para nada.
+   RELLENAR con encrypt-webhook.js  (node /workspace/oficina-estado/encrypt-webhook.js) — no editar a mano. */
+const CIFRADO_WEBHOOK = { salt: '', iv: '', ct: '' }; // RELLENAR con encrypt-webhook.js
 </script>
 <style>
   :root{ --bg:#1d1a22; --ink:#f3ece4; --soft:#b9aca0; --card:#2a2530; --line:#3a3340;
@@ -63,15 +67,35 @@ const AGENTES = [
   body.vertical header{height:48px;padding:0 10px}
   body.vertical .marca h1{font-size:16px} body.vertical .marca small{display:none}
   body.vertical .reloj .hora{font-size:17px}
-  /* Panel del agente (placeholder) */
+  /* Panel del agente: datos + chat de órdenes */
   #panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,8,14,.55);z-index:10}
   #panel[hidden]{display:none}
-  #panel .caja{background:#2a2530;border:2px solid #4a4150;border-radius:12px;padding:16px 18px;width:min(340px,92vw);
-    box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  #panel h2{margin:0 0 2px;font-size:18px} #panel .rol{color:var(--soft);font-size:13px;margin-bottom:10px}
-  #panel .fila{font-size:13px;margin:6px 0} #panel .fila span{color:var(--soft)}
-  #panel .nota{font-size:11.5px;color:var(--soft);margin-top:12px;border-top:1px dashed #4a4150;padding-top:8px}
-  #panel button{margin-top:12px;background:var(--rosa);color:#2a1020;border:0;border-radius:8px;padding:7px 14px;font-weight:800;cursor:pointer}
+  #panel [hidden]{display:none !important}
+  #panel .caja{position:relative;display:flex;flex-direction:column;background:#2a2530;border:2px solid #4a4150;border-radius:12px;
+    padding:14px 16px;width:min(460px,94vw);max-height:92vh;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  #panel h2{margin:0 0 2px;font-size:18px;padding-right:30px} #panel .rol{color:var(--soft);font-size:13px;margin-bottom:6px}
+  #panel .fila{font-size:13px;margin:4px 0} #panel .fila .et{color:var(--soft)} #panel .fila small{color:var(--soft);font-size:11px}
+  #panel .x{position:absolute;top:8px;right:10px;background:none;border:0;color:var(--soft);font-size:24px;line-height:1;cursor:pointer;padding:2px 6px}
+  #panel .x:hover{color:var(--ink)}
+  #panel .msgs{flex:1 1 auto;min-height:150px;max-height:46vh;overflow-y:auto;margin:10px 0 8px;padding:8px;background:#1f1b25;
+    border:1px solid var(--line);border-radius:9px;display:flex;flex-direction:column;gap:6px}
+  #panel .vacio{color:var(--soft);font-size:12.5px;text-align:center;margin:auto 0}
+  #panel .msg{max-width:85%;padding:6px 9px;border-radius:10px;font-size:13px;line-height:1.35;white-space:pre-wrap;word-wrap:break-word}
+  #panel .msg.mio{align-self:flex-end;background:#f07aa0;color:#2a1020;border-bottom-right-radius:3px}
+  #panel .msg.otro{align-self:flex-start;background:#3a3442;border-bottom-left-radius:3px}
+  #panel .msg .meta{display:block;font-size:10.5px;font-weight:700;opacity:.72;margin-bottom:2px}
+  #panel .envio{display:flex;gap:8px;align-items:stretch}
+  #panel textarea,#panel input[type=password]{flex:1;min-width:0;background:#1f1b25;color:var(--ink);border:1px solid #4a4150;border-radius:8px;
+    padding:7px 9px;font:inherit;font-size:14px;resize:none}
+  #panel textarea:focus,#panel input:focus{outline:2px solid var(--rosa);outline-offset:-1px}
+  #panel button.btn{background:var(--rosa);color:#2a1020;border:0;border-radius:8px;padding:7px 16px;font-weight:800;cursor:pointer;font-size:14px}
+  #panel button.btn:disabled{opacity:.55;cursor:wait}
+  #panel .clave{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:8px;font-size:12.5px;color:var(--soft)}
+  #panel .clave input[type=password]{flex:1 1 170px;font-size:13px;padding:6px 8px}
+  #panel .clave label{display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap}
+  #panel .clave a{color:#ffd9e6}
+  #panel .aviso{min-height:17px;font-size:12.5px;margin-top:6px;color:#9fe0b9;font-weight:600}
+  #panel .aviso.error{color:#ff8a8f}
 </style>
 </head>
 <body>
@@ -724,27 +748,133 @@ function agenteEn(ev) {
 cv.addEventListener('mousemove', e => { hover = agenteEn(e); cv.style.cursor = hover ? 'pointer' : 'default'; });
 cv.addEventListener('mouseleave', () => { hover = null; });
 cv.addEventListener('click', e => { const id = agenteEn(e); if (id) openAgentPanel(id); });
+// (openAgentPanel y el chat de órdenes están más abajo)
 
 const escHTML = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const panel = document.getElementById('panel'), panelCaja = document.getElementById('panelCaja');
-/* Panel del agente (por ahora solo informativo).
-   TODO(órdenes): aquí conectaremos el envío REAL de órdenes al agente:
-     - agregar un <textarea> + botón "Enviar orden" dentro del panel,
-     - hacer POST a la API/bot del agente con { agentId, orden },
-     - y al confirmar llamar a oficina.actualizar(agentId, 'trabajando', orden). */
+
+/* ---------------- Panel de órdenes: chat con cada agente ----------------
+   Enviar: descifra (con la clave de JASMEE) el webhook de Slack guardado en CIFRADO_WEBHOOK y publica
+           la orden en Slack, donde la lee HERMES.
+   Respuestas: HERMES las publica con add-respuesta.sh -> respuestas.json (se lee cada 20 s). */
+const LS_CLAVE = 'oficina-clave', lsChat = id => 'oficina-chat-' + id;
+let panelId = null, respuestas = [], webhookCache = null, ultimoPintado = '';
+const fmtTs = new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+const verTs = ts => { const d = new Date(ts); return isNaN(d) ? '' : fmtTs.format(d); };
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* modo privado */ } }
+function leerChat(id) { try { const v = JSON.parse(lsGet(lsChat(id)) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+const b64 = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+async function descifrarWebhook(clave) {             // mismos parámetros que encrypt-webhook.js
+  const C = typeof CIFRADO_WEBHOOK === 'object' ? CIFRADO_WEBHOOK : null;
+  if (!C || !C.salt || !C.iv || !C.ct) throw new Error('sin-config');
+  if (!(window.crypto && crypto.subtle)) throw new Error('sin-crypto');
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(clave), 'PBKDF2', false, ['deriveKey']);
+  const llave = await crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: b64(C.salt), iterations: 600000 },
+    base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+  let claro;
+  try { claro = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(C.iv) }, llave, b64(C.ct)); }
+  catch (e) { throw new Error('clave'); }
+  const url = new TextDecoder().decode(claro);
+  if (!/^https:\/\//.test(url)) throw new Error('clave');
+  return url;
+}
+async function obtenerWebhook(clave) {
+  if (webhookCache && webhookCache.clave === clave) return webhookCache.url;
+  const url = await descifrarWebhook(clave);
+  webhookCache = { clave, url }; return url;
+}
+const $p = id => document.getElementById(id);
+function aviso(txt, error) { const el = $p('pAviso'); if (el) { el.textContent = txt || ''; el.classList.toggle('error', !!error); } }
+function pintarClave() {
+  const guardada = !!lsGet(LS_CLAVE);
+  $p('pClaveZona').hidden = guardada; $p('pClaveOk').hidden = !guardada;
+}
+function pintarInfo() {
+  const a = AGENTES.find(x => x.id === panelId); if (!a) return;
+  const e = ESTADOS[a.estado] || ESTADOS.libre;
+  $p('pNombre').textContent = corto(a.nombre); $p('pRol').textContent = a.rol;
+  const est = $p('pEstado'); est.textContent = e.txt; est.style.color = e.color;
+  $p('pTs').textContent = a.ts && verTs(a.ts) ? '· actualizado ' + verTs(a.ts) : '';
+  $p('pTarea').textContent = cap(a.tarea) || e.defecto;
+}
+function pintarMensajes() {
+  const caja = $p('pMsgs'); if (!caja || !panelId) return;
+  const mios = leerChat(panelId).map(m => ({ ...m, mio: true }));
+  const otros = respuestas.filter(r => r && r.id === panelId && r.texto).map(r => ({ de: r.de || 'HERMES', texto: r.texto, ts: r.ts }));
+  const todos = mios.concat(otros).sort((x, y) => (new Date(x.ts) - new Date(y.ts)) || 0);
+  const firma = panelId + JSON.stringify(todos); if (firma === ultimoPintado) return; ultimoPintado = firma;
+  const abajo = caja.scrollHeight - caja.scrollTop - caja.clientHeight < 40;
+  caja.innerHTML = todos.length ? todos.map(m => `<div class="msg ${m.mio ? 'mio' : 'otro'}"><span class="meta">${escHTML(m.mio ? 'Tú (JASMEE)' : m.de)} · ${escHTML(verTs(m.ts))}</span>${escHTML(m.texto)}</div>`).join('')
+    : '<div class="vacio">Aún no hay mensajes.<br>Escribe una orden abajo y pulsa «Enviar».</div>';
+  if (abajo || !caja.dataset.listo) { caja.scrollTop = caja.scrollHeight; caja.dataset.listo = '1'; }
+}
 function openAgentPanel(agentId) {
   const a = AGENTES.find(x => x.id === agentId); if (!a) return;
-  const e = ESTADOS[a.estado] || ESTADOS.libre;
-  panelCaja.innerHTML = `<h2>${escHTML(corto(a.nombre))}</h2><div class="rol">${escHTML(a.rol)}</div>
-    <div class="fila"><span>Estado:</span> <b style="color:${e.color}">${e.txt}</b></div>
-    <div class="fila"><span>Tarea:</span> ${escHTML(cap(a.tarea) || e.defecto)}</div>
-    <div class="nota">Próximamente: enviar órdenes a este agente desde aquí.</div>
-    <button type="button" id="cerrarPanel">Cerrar</button>`;
+  panelId = agentId; ultimoPintado = '';
+  panelCaja.innerHTML = `<button type="button" class="x" id="cerrarPanel" aria-label="Cerrar" title="Cerrar">×</button>
+    <h2 id="pNombre"></h2><div class="rol" id="pRol"></div>
+    <div class="fila"><span class="et">Estado:</span> <b id="pEstado"></b> <small id="pTs"></small></div>
+    <div class="fila"><span class="et">Tarea:</span> <span id="pTarea"></span></div>
+    <div class="msgs" id="pMsgs" aria-live="polite"></div>
+    <div class="envio">
+      <textarea id="pTexto" rows="2" maxlength="2000" placeholder="${agentId === 'hermes' ? 'Escribe un mensaje para HERMES…' : 'Escribe una orden para ' + escHTML(corto(a.nombre)) + '…'}"></textarea>
+      <button type="button" class="btn" id="pEnviar">Enviar</button>
+    </div>
+    <div class="clave" id="pClaveZona">
+      <input type="password" id="pClave" placeholder="Clave de la oficina" autocomplete="current-password" aria-label="Clave de la oficina">
+      <label><input type="checkbox" id="pRecordar"> recordar clave en este equipo</label>
+    </div>
+    <div class="clave" id="pClaveOk" hidden>🔒 Clave guardada en este equipo · <a href="#" id="pOlvidar">olvidar clave</a></div>
+    <div class="aviso" id="pAviso"></div>`;
   panel.hidden = false;
-  document.getElementById('cerrarPanel').onclick = () => { panel.hidden = true; };
+  pintarInfo(); pintarClave(); pintarMensajes();
+  $p('cerrarPanel').onclick = cerrarPanel;
+  $p('pEnviar').onclick = enviarOrden;
+  $p('pTexto').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarOrden(); } });
+  $p('pClave').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); enviarOrden(); } });
+  $p('pOlvidar').onclick = e => { e.preventDefault(); lsSet(LS_CLAVE, null); webhookCache = null; pintarClave(); aviso('Clave olvidada en este equipo.'); };
+  if (matchMedia('(pointer:fine)').matches) $p('pTexto').focus();
 }
-panel.addEventListener('click', e => { if (e.target === panel) panel.hidden = true; });
-addEventListener('keydown', e => { if (e.key === 'Escape') panel.hidden = true; });
+function cerrarPanel() { panel.hidden = true; panelId = null; }
+let enviando = false;
+async function enviarOrden() {
+  if (enviando || !panelId) return;
+  const id = panelId, a = AGENTES.find(x => x.id === id), texto = $p('pTexto').value.trim();
+  if (!texto) { aviso('Escribe una orden primero.', true); $p('pTexto').focus(); return; }
+  const guardada = lsGet(LS_CLAVE), clave = guardada || $p('pClave').value;
+  if (!clave) { aviso('Escribe la clave de la oficina para poder enviar.', true); $p('pClave').focus(); return; }
+  enviando = true; $p('pEnviar').disabled = true; aviso('Enviando…');
+  try {
+    let url;
+    try { url = await obtenerWebhook(clave); }
+    catch (e) {
+      if (e.message === 'sin-config') aviso('El envío aún no está configurado (falta el webhook cifrado).', true);
+      else if (e.message === 'sin-crypto') aviso('Este navegador no permite cifrado; abre la página con https.', true);
+      else {
+        aviso('Clave incorrecta', true);
+        if (guardada) { lsSet(LS_CLAVE, null); pintarClave(); }
+        const c = $p('pClave'); c.value = ''; c.focus();
+      }
+      return;
+    }
+    if (!guardada && $p('pRecordar').checked) { lsSet(LS_CLAVE, clave); pintarClave(); }
+    const msg = id === 'hermes' ? `[OFICINA] Para HERMES — de JASMEE: ${texto}`
+                                : `[OFICINA] ${a.nombre} (${id}) — orden de JASMEE: ${texto}`;
+    try {
+      // Petición "simple" (form-urlencoded, sin preflight). Slack no manda cabeceras CORS, por eso
+      // usamos mode:'no-cors': llega igual, pero el navegador no deja leer la respuesta.
+      await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'payload=' + encodeURIComponent(JSON.stringify({ text: msg })) });
+    } catch (e) { aviso('No se pudo enviar. Revisa tu conexión a internet e inténtalo otra vez.', true); return; }
+    const lista = leerChat(id); lista.push({ de: 'JASMEE', texto, ts: new Date().toISOString() });
+    lsSet(lsChat(id), JSON.stringify(lista.slice(-200)));
+    $p('pTexto').value = ''; $p('pClave').value = '';
+    pintarMensajes(); aviso('✓ Orden enviada. La respuesta aparecerá aquí.');
+  } finally { enviando = false; const b = $p('pEnviar'); if (b) b.disabled = false; }
+}
+panel.addEventListener('click', e => { if (e.target === panel) cerrarPanel(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) cerrarPanel(); });
 document.getElementById('equipo').addEventListener('click', e => { const d = e.target.closest('.ag'); if (d) openAgentPanel(d.dataset.id); });
 
 /* ---------------- Reloj (hora de Lima) y resumen ---------------- */
@@ -769,27 +899,42 @@ function resumen() {
 }
 
 /* ---------------- API para actualizar en vivo ---------------- */
-function actualizar(id, estado, tarea) {
+function actualizar(id, estado, tarea, ts) {
   const a = AGENTES.find(x => x.id === id); if (!a) return false;
   if (estado && ESTADOS[estado]) a.estado = estado;
-  if (tarea !== undefined) a.tarea = tarea;
-  resumen(); return true;
+  if (tarea !== undefined && tarea !== null) a.tarea = String(tarea);   // texto del globito de tarea
+  if (ts) a.ts = ts;
+  resumen(); if (panelId === id) pintarInfo(); return true;
 }
 window.oficina = { actualizar, agentes: AGENTES };
 window.openAgentPanel = openAgentPanel;
-// Opcional: si la página se sirve por http(s) y existe "estado.json" junto a este archivo,
-// se lee cada 30 s. Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "..." }, ...]
+// Si la página se sirve por http(s), lee "estado.json" (junto a este archivo) cada 20 s.
+// Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "...", "ts": "2026-10-05T23:40:00-05:00" }, ...]
+// Lo escriben los agentes con set-estado.sh y lo publica push-estado.sh.
+const POLL_MS = 20000;
+let firmaEstado = '';
 async function cargarEstadoExterno() {
   if (location.protocol === 'file:') return;
   try {
-    const r = await fetch('estado.json', { cache: 'no-store' }); if (!r.ok) return;
-    const d = await r.json(); (Array.isArray(d) ? d : (d.agentes || [])).forEach(x => actualizar(x.id, x.estado, x.tarea));
+    const r = await fetch('estado.json?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return;
+    const txt = await r.text(); if (txt === firmaEstado) return; firmaEstado = txt;
+    const d = JSON.parse(txt);
+    (Array.isArray(d) ? d : (d.agentes || [])).forEach(x => x && actualizar(x.id, x.estado, x.tarea, x.ts));
   } catch (e) { /* sin estado.json: se usan los datos de arriba */ }
+}
+// Respuestas de HERMES/agentes para el chat: "respuestas.json" = [{ "id", "de", "texto", "ts" }]
+async function cargarRespuestas() {
+  if (location.protocol === 'file:') return;
+  try {
+    const r = await fetch('respuestas.json?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return;
+    const d = await r.json(); if (!Array.isArray(d)) return;
+    respuestas = d; if (panelId) pintarMensajes();
+  } catch (e) { /* sin respuestas.json: no se muestra nada */ }
 }
 
 addEventListener('resize', ajustar);
-dibujarFondo(); tic(); resumen(); ajustar(); cargarEstadoExterno();
-setInterval(tic, 1000); setInterval(cargarEstadoExterno, 30000);
+dibujarFondo(); tic(); resumen(); ajustar(); cargarEstadoExterno(); cargarRespuestas();
+setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL_MS); setInterval(cargarRespuestas, POLL_MS);
 requestAnimationFrame(cuadroAnim);
 })();
 </script>
