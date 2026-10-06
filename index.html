@@ -908,10 +908,10 @@ function actualizar(id, estado, tarea, ts) {
 }
 window.oficina = { actualizar, agentes: AGENTES };
 window.openAgentPanel = openAgentPanel;
-// Si la página se sirve por http(s), lee "estado.json" (junto a este archivo) cada 20 s.
+// Si la página se sirve por http(s), lee "estado.json" (junto a este archivo) cada 10 s.
 // Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "...", "ts": "2026-10-05T23:40:00-05:00" }, ...]
 // Lo escriben los agentes con set-estado.sh y lo publica push-estado.sh.
-const POLL_MS = 20000;
+const POLL_MS = 10000;
 let firmaEstado = '';
 async function cargarEstadoExterno() {
   if (location.protocol === 'file:') return;
