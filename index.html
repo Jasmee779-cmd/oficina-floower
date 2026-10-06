@@ -55,6 +55,23 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
   .ley span.d{color:var(--soft);font-weight:500}
   #resumen{color:#ffd9e6}
+  .der{display:flex;align-items:center;gap:12px;flex:none}
+  .bocina{width:34px;height:34px;display:grid;place-items:center;background:#2f2936;border:2px solid var(--line);border-radius:8px;cursor:pointer;padding:0}
+  .bocina:hover{border-color:var(--rosa)} .bocina[aria-pressed="true"]{border-color:var(--verde);background:#26362c}
+  .bocina[aria-pressed="true"] .mute{display:none} .bocina[aria-pressed="false"] .ondas{display:none}
+  .bocina[hidden]{display:none}
+  /* Aviso de agente bloqueado */
+  #alerta{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 8px;
+    max-width:94vw;padding:7px 10px 7px 14px;background:#e5484d;color:#fff;font-weight:800;font-size:14px;border-radius:10px;border:2px solid #ff9a9d;
+    box-shadow:0 8px 24px rgba(0,0,0,.45);animation:latido 1.2s ease-in-out infinite}
+  #alerta[hidden]{display:none}
+  #alerta .ag-al{background:#fff;color:#a3161b;border:0;border-radius:6px;padding:3px 8px;font-weight:800;cursor:pointer;font-size:13px;font-family:inherit}
+  #alerta .cerrar{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;line-height:1;padding:0 2px;opacity:.85}
+  @keyframes latido{0%,100%{box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 0 0 rgba(229,72,77,.65)}50%{box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 0 9px rgba(229,72,77,0)}}
+  body.vertical #alerta{top:54px;font-size:13px}
+  body.vertical .bocina{width:30px;height:30px}
+  .marca > div{min-width:0} .marca h1{overflow:hidden;text-overflow:ellipsis}
+  body.vertical .der{gap:8px} body.vertical .marca{gap:7px} body.vertical .marca svg{width:24px;height:24px} body.vertical .marca h1{font-size:14px} body.vertical .reloj .fecha{max-width:104px;font-size:9px;line-height:1.15}
   /* Lista del equipo (solo en pantallas verticales / móvil) */
   #equipo{display:none;width:100%;max-width:520px;overflow:auto;min-height:0;flex:1 1 auto;
     grid-template-columns:1fr 1fr;gap:6px;align-content:start}
@@ -79,6 +96,7 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
   #panel .x:hover{color:var(--ink)}
   #panel .msgs{flex:1 1 auto;min-height:150px;max-height:46vh;overflow-y:auto;margin:10px 0 8px;padding:8px;background:#1f1b25;
     border:1px solid var(--line);border-radius:9px;display:flex;flex-direction:column;gap:6px}
+  #panel .hist{align-self:center;font-size:11px;color:var(--soft);font-weight:700;background:#2a2530;border:1px solid var(--line);border-radius:20px;padding:2px 10px;margin-bottom:2px}
   #panel .vacio{color:var(--soft);font-size:12.5px;text-align:center;margin:auto 0}
   #panel .msg{max-width:85%;padding:6px 9px;border-radius:10px;font-size:13px;line-height:1.35;white-space:pre-wrap;word-wrap:break-word}
   #panel .msg.mio{align-self:flex-end;background:#f07aa0;color:#2a1020;border-bottom-right-radius:3px}
@@ -110,8 +128,18 @@ const CIFRADO_WEBHOOK = { salt: "yHvlQ3OxBm65nomAEi7C/Q==", iv: "wN/pWPy57XijZEf
     </svg>
     <div><h1>Oficina <b>FLOOWER.PE</b></h1><small>Miniverso de los agentes IA de JASMEE</small></div>
   </div>
-  <div class="reloj"><div class="hora" id="hora">--:--:--</div><div class="fecha" id="fecha">Hora de Lima</div></div>
+  <div class="der">
+    <button type="button" id="sonido" class="bocina" aria-pressed="false" title="Activar sonido ambiente" aria-label="Activar sonido ambiente">
+      <svg width="20" height="20" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="4" width="2" height="4" fill="#f3ece4"/><rect x="3" y="3" width="1" height="6" fill="#f3ece4"/><rect x="4" y="2" width="1" height="8" fill="#f3ece4"/><rect x="5" y="1" width="1" height="10" fill="#f3ece4"/>
+        <g class="ondas"><rect x="7" y="5" width="1" height="2" fill="#3bb273"/><rect x="8" y="3" width="1" height="1" fill="#3bb273"/><rect x="9" y="4" width="1" height="4" fill="#3bb273"/><rect x="8" y="8" width="1" height="1" fill="#3bb273"/><rect x="10" y="2" width="1" height="1" fill="#3bb273"/><rect x="11" y="3" width="1" height="6" fill="#3bb273"/><rect x="10" y="9" width="1" height="1" fill="#3bb273"/></g>
+        <g class="mute"><rect x="7" y="4" width="1" height="1" fill="#e5484d"/><rect x="8" y="5" width="1" height="1" fill="#e5484d"/><rect x="9" y="6" width="1" height="1" fill="#e5484d"/><rect x="10" y="7" width="1" height="1" fill="#e5484d"/><rect x="10" y="4" width="1" height="1" fill="#e5484d"/><rect x="9" y="5" width="1" height="1" fill="#e5484d"/><rect x="8" y="6" width="1" height="1" fill="#e5484d"/><rect x="7" y="7" width="1" height="1" fill="#e5484d"/></g>
+      </svg>
+    </button>
+    <div class="reloj"><div class="hora" id="hora">--:--:--</div><div class="fecha" id="fecha">Hora de Lima</div></div>
+  </div>
 </header>
+<div id="alerta" role="alert" hidden></div>
 <main>
   <canvas id="oficina" aria-label="Oficina virtual pixel art con los agentes"></canvas>
   <section id="equipo" aria-label="Equipo"></section>
@@ -194,6 +222,11 @@ for (const id in PUESTOS) {               // asiento (pies del personaje sentado
 const CAFE = [[25, 21, 'der'], [28, 21, 'izq'], [30, 21, 'der'], [33, 21, 'izq'], [35, 21, 'der'], [38, 21, 'izq'], [34, 18, 'arriba'], [37, 18, 'arriba']];
 const BARISTA_CASA = [36, 16];             // detrás de la barra
 const BARRA = { c: 33, r: 17, w: 7 };      // barra de la cafetería (se dibuja como capa para tapar al barista)
+// Iluminación (ciclo día/noche): ventanas con cielo vivo, lámparas de pie, colgantes de la cafetería, luces del pasillo
+const VENTANAS = [[477, 5, 24], [553, 229, 24]];                       // [x, y, ancho] (sala de HERMES, cafetería)
+const LAMPARAS = [[0, 10], [11, 10], [23, 8], [41, 10], [0, 21]];       // baldosas con lámpara de pie
+const COLGANTES = [26, 31, 36];                                         // columnas de las mesas de la cafetería
+const LUCES_PASILLO = [40, 120, 200, 280, 360, 440, 520, 600];
 
 /* ---------------- Rejilla caminable ---------------- */
 const pasa = MAPA.map(f => [...f].map(ch => '.bdkh'.includes(ch)));
@@ -214,6 +247,7 @@ bloquear(0, 16, 3, 1); bloquear(13, 16, 3, 1); bloquear(13, 21, 2, 2); bloquear(
 // LIMPIEZA: rack, cono, carrito, tachos
 bloquear(17, 16); bloquear(22, 21); bloquear(17, 23); bloquear(21, 24, 2, 1);
 // CAFETERÍA: barra, refri, plantas, mesas, sofá
+for (const [c, r] of LAMPARAS) bloquear(c, r);
 bloquear(BARRA.c, BARRA.r, BARRA.w, 1); bloquear(41, 16); bloquear(24, 16); bloquear(24, 25);
 bloquear(26, 21, 2, 1); bloquear(31, 21, 2, 1); bloquear(36, 21, 2, 1); bloquear(39, 25, 3, 1); bloquear(41, 22);
 function ruta(c0, r0, c1, r1) {            // BFS 4 direcciones -> lista de baldosas
@@ -526,6 +560,10 @@ function mesaCafe(x, y) {                  // mesa de 2 baldosas con banquitos a
   R(x + 1, y - 2, 30, 14, K); R(x + 2, y - 1, 28, 8, '#f4f1ea'); R(x + 2, y + 7, 28, 4, '#c8c2b6');
   R(x - 10, y + 5, 8, 7, K); R(x - 9, y + 6, 6, 4, '#e98a3c'); R(x + 34, y + 5, 8, 7, K); R(x + 35, y + 6, 6, 4, '#e98a3c');
 }
+function lamparaPie(x, y) {               // x,y = esquina de la baldosa
+  R(x + 4, y + 12, 8, 4, K); R(x + 5, y + 13, 6, 2, '#5a4a3c'); R(x + 7, y - 6, 2, 19, '#5a4a3c');
+  R(x + 2, y - 15, 12, 10, K); R(x + 3, y - 14, 10, 8, '#f4e2c4'); R(x + 3, y - 14, 10, 1, '#fff6e0'); R(x + 3, y - 7, 10, 1, '#d9c39a');
+}
 function vapor(x, y, t, n = 2) { const v = Math.floor(t * 4) % 2; R(x + v, y - 3, 1, 2, '#ffffffcc'); if (n > 1) R(x + 2 - v, y - 5, 1, 2, '#ffffffaa'); }
 function barra(t) {                        // barra de la cafetería (capa dinámica: tapa al barista)
   const bx = BARRA.c * TS, by = BARRA.r * TS, W = BARRA.w * TS;
@@ -582,7 +620,7 @@ function dibujarFondo() {
   planta(0, 2 * TS, false); planta(9 * TS, 2 * TS, false);
   camaraTripode(1 * TS, 3 * TS); aroLuz(8 * TS, 3 * TS);
   sofa(1 * TS, 9 * TS, 3 * TS, '#e86a92'); R(1 * TS + 6, 9 * TS - 2, 8, 6, '#ffe08a'); R(2 * TS + 10, 9 * TS - 2, 8, 6, '#9fd3e8');
-  caballete(8 * TS, 9 * TS); planta(0, 10 * TS, false);
+  caballete(8 * TS, 9 * TS);
 
   // ---------- VENTAS ----------
   posterWhats(182, 5);
@@ -595,7 +633,7 @@ function dibujarFondo() {
 
   // ---------- SALA DE HERMES ----------
   librero(23 * TS + 1, 2 * TS, 2 * TS - 2);
-  cuadro(478, 6, 20, 13, 'flor');
+  ventana(477, 5, 24);
   planta(32 * TS, 2 * TS, false); planta(32 * TS, 9 * TS, true);
   R(23 * TS + 1, 5 * TS - 3, 14, 34, K); R(23 * TS + 2, 5 * TS - 2, 12, 32, '#8e3b54'); R(23 * TS + 6, 5 * TS + 1, 7, 26, '#b14d6c');   // sillón
   sillita(26 * TS, 8 * TS, '#5a7fc0'); sillita(29 * TS, 8 * TS, '#5a7fc0');
@@ -603,13 +641,15 @@ function dibujarFondo() {
   // ---------- FINANZAS ----------
   archivador(34 * TS, 2 * TS); archivador(35 * TS, 2 * TS, '#7a8796');
   posterBillete(632, 6); calcPared(660, 6);
-  planta(41 * TS, 2 * TS, false); planta(41 * TS, 10 * TS, false);
+  planta(41 * TS, 2 * TS, false);
   mesaBaja(34 * TS, 8 * TS, 2 * TS, '#c98f58', '#8f5a33');
   billetes(34 * TS + 4, 8 * TS - 1); billetes(34 * TS + 14, 8 * TS); monedas(34 * TS + 25, 8 * TS);
   cajaFuerte(41 * TS, 8 * TS);
 
   // ---------- PASILLO ----------
   planta(0, 12 * TS, true); planta(41 * TS, 12 * TS, true);
+  for (const x of LUCES_PASILLO) { R(x - 3, 12 * TS + 1, 7, 4, '#8a7f70'); R(x - 2, 12 * TS + 2, 5, 2, '#f4ead2'); }
+  for (const [c, r] of LAMPARAS) lamparaPie(c * TS, r * TS);
 
   // ---------- ADMINISTRATIVA ----------
   estante(0, 16 * TS, 3 * TS); estante(13 * TS, 16 * TS, 3 * TS);
@@ -624,7 +664,7 @@ function dibujarFondo() {
   tacho(21 * TS, 24 * TS, '#4a9be8'); tacho(22 * TS, 24 * TS, '#3bb273');
 
   // ---------- CAFETERÍA ----------
-  pizarraMenu(508, 228, 46, 20); repisaTazas(564, 228, 52);
+  pizarraMenu(506, 228, 40, 20); ventana(553, 229, 24); repisaTazas(584, 228, 40);
   R(628, 229, 18, 16, K); R(629, 230, 16, 14, '#3b2433'); R(633, 235, 7, 6, '#ff9cc2'); R(640, 236, 2, 3, '#ff9cc2'); R(634, 232, 1, 2, '#ffd3e4'); R(637, 231, 1, 3, '#ffd3e4'); // neón tacita
   refri(41 * TS, 16 * TS);
   planta(24 * TS, 16 * TS, true); planta(24 * TS, 25 * TS, true); planta(41 * TS, 22 * TS, true);
@@ -776,9 +816,46 @@ function mover(p, dt) {
 }
 
 /* ---------------- Hermes: sale de su oficina a dar órdenes ---------------- */
-const jefe = { p: null, fase: 'sentado', prox: 1.2, t0: 0, obj: null, n: 0 };
+const jefe = { p: null, fase: 'sentado', prox: 1.2, t0: 0, obj: null, n: 0, cola: [], tipo: 'ronda', ausente: false };
+/* Orden enviada desde el chat: HERMES la lleva en persona al puesto del agente (prioridad sobre la ronda). */
+function ordenarHermes(id) {
+  if (id === 'hermes' || !porId(id)) return false;             // si es para HERMES, no camina
+  const enCurso = jefe.tipo === 'chat' && jefe.obj && jefe.obj.id === id && (jefe.fase === 'ida' || jefe.fase === 'espera' || jefe.fase === 'orden');
+  if (!enCurso && !jefe.cola.includes(id)) jefe.cola.push(id);
+  return true;
+}
+function iniciarOrden(h) {
+  const o = porId(jefe.cola.shift()); if (!o) return;
+  if ((jefe.fase === 'ida' || jefe.fase === 'orden') && jefe.obj) jefe.obj.reservado = false;   // suelta la ronda aleatoria
+  jefe.obj = o; jefe.tipo = 'chat'; jefe.fase = 'ida'; jefe.ausente = false;
+  if (o.modo === 'sentado' && !o.atendido && !o.enVisita) o.reservado = true;   // se queda en su puesto esperando
+  if (o.modo === 'cafe') o.fin = 0;                              // estaba en el café: vuelve a su puesto
+  else if (o.modo === 'caminando' && o.cafe) {                   // iba (o volvía) del café: directo a su puesto
+    o.ruta = o.ruta.slice(0, 1);
+    o.alLlegar = () => volverAlPuesto(o, T, () => { o.cafe = null; o.prox = T + 10 + Math.random() * 14; });
+  }
+  if (visita.v === o && (visita.fase === 'ida' || visita.fase === 'charla')) terminarVisita();   // estaba de visita: regresa
+  const ir = () => irA(h, o.P.c + 2, o.P.sr, null, () => {
+    h.modo = 'parado'; h.dir = 'izq'; jefe.t0 = T;
+    if (presenteParaOrden(o)) entregarOrden(o);
+    else if (o.modo === 'caminando') jefe.fase = 'espera';       // viene en camino: lo espera un ratito
+    else entregarOrden(o, true);
+  });
+  if (h.modo === 'caminando' && h.ruta.length) { h.ruta = h.ruta.slice(0, 1); h.alLlegar = ir; }  // termina el paso actual
+  else ir();
+}
+const presenteParaOrden = o => o.modo === 'sentado' && !charlando(o) && !atendiendo(o);
+function entregarOrden(o, ausente) {
+  if (!ausente) { o.reservado = true; if (visita.o === o && visita.fase === 'ida') terminarVisita(); }
+  else o.notaOrden = true;                                       // no está: le deja la orden en su mesa
+  jefe.ausente = !!ausente; jefe.fase = 'orden'; jefe.t0 = T;
+}
 function actualizarJefe(t) {
   const h = jefe.p = porId('hermes'); if (!h) return;
+  if (jefe.cola.length && h.a.estado !== 'bloqueado' &&
+      ((jefe.fase === 'sentado' && h.modo === 'sentado') || jefe.fase === 'vuelta' || (jefe.tipo === 'ronda' && jefe.fase !== 'sentado'))) {
+    iniciarOrden(h); return;
+  }
   if (jefe.fase === 'sentado') {
     if (h.modo !== 'sentado' || h.atendido || h.a.estado === 'bloqueado' || t < jefe.prox) return;
     const libres = gente.filter(p => p !== h && p.modo === 'sentado' && !p.reservado && !p.atendido && !p.enVisita && p.id !== (jefe.obj && jefe.obj.id));
@@ -787,13 +864,16 @@ function actualizarJefe(t) {
     const dist = p => Math.abs(p.P.c - h.P.c) + Math.abs(p.P.r - h.P.r);
     const o = jefe.n++ === 0 ? libres.reduce((m, p) => (dist(p) < dist(m) ? p : m))
                              : libres[Math.floor(Math.random() * libres.length)];
-    jefe.obj = o; o.reservado = true; jefe.fase = 'ida';
+    jefe.obj = o; o.reservado = true; jefe.fase = 'ida'; jefe.tipo = 'ronda';
     irA(h, o.P.c + 2, o.P.sr, null, () => { jefe.fase = 'orden'; jefe.t0 = T; h.modo = 'parado'; h.dir = 'izq'; });
+  } else if (jefe.fase === 'espera') {      // esperando al agente que regresa a su puesto (máx. 16 s)
+    const o = jefe.obj; if (o.modo === 'cafe') o.fin = 0;
+    if (presenteParaOrden(o)) entregarOrden(o); else if (t - jefe.t0 > 16) entregarOrden(o, true);
   } else if (jefe.fase === 'orden') {
-    if (t - jefe.t0 > 4.6) {
+    if (t - jefe.t0 > (jefe.tipo === 'chat' && jefe.ausente ? 3.6 : 4.6)) {
       jefe.fase = 'vuelta';
       const o = jefe.obj; o.reservado = false; o.prox = Math.max(o.prox, t + 3);
-      volverAlPuesto(h, t, () => { jefe.fase = 'sentado'; jefe.prox = T + 9 + Math.random() * 6; });
+      volverAlPuesto(h, t, () => { jefe.fase = 'sentado'; jefe.tipo = 'ronda'; jefe.prox = T + 9 + Math.random() * 6; });
     }
   }
 }
@@ -821,6 +901,7 @@ function actualizarBarista(t, dt) {
     irA(b, dest[0], dest[1], null, () => {
       b.fase = 'sirve'; b.t0 = T; b.modo = 'parado'; b.dir = dest[0] < o.P.sc ? 'der' : dest[0] > o.P.sc ? 'izq' : (o.P.tipo === 'A' ? 'arriba' : 'abajo');
       b.lleva = false; o.servido = T + 16;
+      if (o.modo !== 'sentado' || o.reservado) b.t0 = T - 3.6;   // no está o está con HERMES: deja el café y se va
     });
   } else if (b.fase === 'sirve') {
     if (t - b.t0 > 3.6) {
@@ -901,6 +982,7 @@ function actualizarGente(t, dt) {
   actualizarBarista(t, dt);
   actualizarVisitas(t);
   for (const p of gente) {
+    if (p.notaOrden && p.modo === 'sentado') { if (!p.notaT) p.notaT = t + 4; else if (t > p.notaT) { p.notaOrden = false; p.notaT = 0; } }
     if (p.id === 'hermes') { if (p.modo === 'caminando') mover(p, dt); continue; }
     if (p.modo === 'sentado' && p.a.estado === 'libre' && !p.reservado && !p.atendido && !p.enVisita && t > p.prox) {
       const ocupados = gente.filter(q => q.cafe).map(q => q.cafe.join());
@@ -951,6 +1033,11 @@ function unidad(p, t, post) {             // escritorio + silla + personaje sent
     if (sentado && est === 'trabajando') { const k = Math.floor(t * 8 + p.fase) % 2, piel = L.pal.s || '#b8c4d2'; R(P.x - 11, y + 2 + k, 3, 2, piel); R(P.x + 8, y + 3 - k, 3, 2, piel); }
   }
   if (p.servido > t) vapor(P.x + (P.tipo === 'A' ? 11 : 12), y, t);   // cafecito recién servido
+  if (p.notaOrden) {                       // orden que HERMES dejó en la mesa
+    const nx = P.x + 2, ny = y - 1 - (Math.floor(t * 2) % 2);
+    R(nx - 1, ny - 1, 9, 9, K); R(nx, ny, 7, 7, '#fbfbf7'); R(nx + 2, ny - 2, 3, 2, '#c99a6e');
+    R(nx + 1, ny + 2, 5, 1, '#4a9be8'); R(nx + 1, ny + 4, 4, 1, '#4a9be8'); R(nx + 5, ny + 5, 1, 1, '#e5484d');
+  }
   if (top !== null && est === 'bloqueado') post.push(() => exclamacion(P.x + 12, top + 7, t));
   return top;
 }
@@ -981,6 +1068,91 @@ function dibujarBarista(b, t) {
     R(tx - 1, ty + 3, 11, 2, '#cfd6e0'); R(tx - 1, ty + 5, 11, 1, K); taza(tx + 3, ty); vapor(tx + 4, ty, t);
   }
   return top;
+}
+function halosBloqueo(t) {                // aro rojo palpitante bajo los agentes bloqueados
+  const a = 0.3 + 0.22 * Math.sin(t * 6);
+  for (const p of gente) if (p.a.estado === 'bloqueado') {
+    const sent = p.modo === 'sentado', x = sent ? p.P.x : p.x, y = sent ? (p.P.r * TS + p.P.y) / 2 + 4 : p.y;
+    const rx = sent ? 24 : 15, ry = sent ? 15 : 6;
+    gm.fillStyle = `rgba(229,72,77,${a.toFixed(3)})`; gm.beginPath(); gm.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); gm.fill();
+    gm.fillStyle = `rgba(255,140,140,${(a * 0.8).toFixed(3)})`; gm.beginPath(); gm.ellipse(x, y, rx * 0.62, ry * 0.6, 0, 0, Math.PI * 2); gm.fill();
+  }
+}
+/* ---------------- Ciclo día / noche (hora real de Lima) ---------------- */
+// [hora, tinte rgb, fuerza del tinte, noche 0..1, cielo arriba, cielo abajo]
+const CICLO = [
+  [0,    [34, 44, 104],  .56, 1,   [16, 22, 52],    [34, 46, 92]],
+  [5,    [34, 44, 104],  .56, 1,   [16, 22, 52],    [34, 46, 92]],
+  [6,    [250, 160, 150], .3, .45, [120, 110, 170], [250, 170, 150]],
+  [7.2,  [255, 236, 210], .06, 0,  [140, 200, 245], [200, 232, 250]],
+  [12,   [255, 255, 255], 0,  0,   [120, 196, 250], [190, 232, 255]],
+  [16.3, [255, 240, 215], .05, 0,  [130, 196, 240], [200, 228, 245]],
+  [17.4, [255, 150, 70],  .26, .2, [240, 140, 90],  [255, 200, 130]],
+  [18.4, [130, 80, 150],  .42, .7, [70, 50, 110],   [200, 110, 110]],
+  [19.4, [34, 44, 104],  .56, 1,   [16, 22, 52],    [34, 46, 92]],
+  [24,   [34, 44, 104],  .56, 1,   [16, 22, 52],    [34, 46, 92]],
+];
+function luzActual() {                     // interpola suave según la hora (con segundos)
+  const hf = horaLima.h + horaLima.m / 60 + horaLima.s / 3600;
+  let i = 0; while (i < CICLO.length - 2 && CICLO[i + 1][0] <= hf) i++;
+  const a = CICLO[i], b = CICLO[i + 1], k = Math.min(1, Math.max(0, (hf - a[0]) / (b[0] - a[0])));
+  const mez = (u, v) => Array.isArray(u) ? u.map((x, j) => x + (v[j] - x) * k) : u + (v - u) * k;
+  const tinte = mez(a[1], b[1]), f = mez(a[2], b[2]);
+  return { hf, f, noche: mez(a[3], b[3]), mult: tinte.map(c => 255 * (1 - f) + c * f), cieloA: mez(a[4], b[4]), cieloB: mez(a[5], b[5]) };
+}
+const rgb = (c, m) => 'rgb(' + c.map((x, j) => Math.round(m ? x * m[j] / 255 : x)).join(',') + ')';
+function brillo(x, y, r, col, a) {
+  if (a <= 0.01) return;
+  const gr = gm.createRadialGradient(x, y, 0, x, y, r);
+  gr.addColorStop(0, `rgba(${col},${a.toFixed(3)})`); gr.addColorStop(0.45, `rgba(${col},${(a * 0.45).toFixed(3)})`); gr.addColorStop(1, `rgba(${col},0)`);
+  gm.fillStyle = gr; gm.fillRect(x - r, y - r, 2 * r, 2 * r);
+}
+function colgantes() {                     // lámparas colgantes sobre las mesas del café (por encima de todos)
+  for (const c of COLGANTES) {
+    const x = c * TS + 16, y = 21 * TS - 16;
+    R(x, y - 16, 1, 13, '#3a3040'); R(x - 6, y - 4, 13, 7, K); R(x - 5, y - 3, 11, 5, '#e98a3c'); R(x - 5, y - 3, 11, 1, '#f6b36c'); R(x - 2, y + 2, 5, 2, '#fff1c4');
+  }
+}
+function fuentesLuz(t) {                   // [x, y, radio, 'r,g,b', intensidad]
+  const L = [];
+  for (const [c, r] of LAMPARAS) L.push([c * TS + 8, r * TS - 9, 50, '255,200,110', 0.55]);
+  for (const c of COLGANTES) L.push([c * TS + 16, 21 * TS - 10, 42, '255,196,120', 0.55]);
+  for (const x of LUCES_PASILLO) L.push([x, 12 * TS + 4, 28, '255,214,150', 0.38]);
+  for (const p of gente) {
+    const est = p.a.estado, col = est === 'bloqueado' ? '255,80,80' : est === 'trabajando' ? '120,255,190' : '130,200,255';
+    L.push([p.P.x, p.P.r * TS + (p.P.tipo === 'A' ? -8 : -3), 24, col, est === 'bloqueado' ? 0.5 + 0.25 * Math.sin(t * 6) : 0.4]);
+  }
+  L.push([NEON.x, NEON.y + 1, 46, '255,92,154', 0.45], [637, 237, 26, '255,120,180', 0.45], [136, 34, 30, '255,246,214', 0.4],
+         [BARRA.c * TS + 89, BARRA.r * TS - 16, 26, '255,190,120', 0.32], [176, 238, 32, '120,200,255', 0.32], [280, 244, 18, '120,255,170', 0.32]);
+  for (const [x, y, w] of VENTANAS) L.push([x + w / 2, y + 12, 30, '150,180,255', 0.22]);
+  return L;
+}
+function aplicarLuz(t) {
+  const L = luzActual();
+  if (L.f > 0.004) {                       // 1) tinte de la hora (multiplica)
+    gm.save(); gm.globalCompositeOperation = 'multiply'; gm.fillStyle = rgb(L.mult); gm.fillRect(0, 0, MW, MH); gm.restore();
+  }
+  for (const [x, y, w] of VENTANAS) {      // 2) cielo de las ventanas según la hora
+    R(x + 1, y + 1, w - 2, 9, rgb(L.cieloA)); R(x + 1, y + 10, w - 2, 5, rgb(L.cieloB));
+    if (L.noche > 0.5) {
+      const a = ((L.noche - 0.5) * 2).toFixed(2), s = `rgba(255,255,255,${a})`;
+      R(x + 3, y + 3, 1, 1, s); R(x + 9, y + 5, 1, 1, s); R(x + 15, y + 2, 1, 1, s); R(x + 5, y + 11, 1, 1, s); R(x + 19, y + 12, 1, 1, s);
+      R(x + w - 7, y + 2, 3, 3, `rgba(255,244,200,${a})`); R(x + w - 6, y + 2, 2, 1, `rgba(255,255,235,${a})`);
+    } else if (L.noche < 0.3) { R(x + 3, y + 4, 6, 2, 'rgba(255,255,255,.85)'); R(x + 4, y + 3, 3, 1, 'rgba(255,255,255,.85)'); }
+    const marco = rgb([245, 240, 230], L.mult); R(x + w / 2 - 1, y, 2, 16, marco); R(x, y + 7, w, 2, marco);
+  }
+  if (L.f > 0.05) {                        // letreros de los cuartos iluminados (siguen legibles de noche)
+    gm.save(); gm.globalAlpha = Math.min(0.75, L.f * 1.3); for (const s of LETREROS) letreroFondo(s); gm.restore();
+  }
+  if (L.noche > 0.02) {                    // 3) luces encendidas (suman luz)
+    gm.save(); gm.globalCompositeOperation = 'lighter';
+    for (const [x, y, r, col, a] of fuentesLuz(t)) brillo(x, y, r, col, a * L.noche);
+    gm.restore();
+    const a = L.noche.toFixed(2), on = `rgba(255,236,170,${a})`;   // bombillas encendidas
+    for (const [c, r] of LAMPARAS) { R(c * TS + 3, r * TS - 14, 10, 7, on); R(c * TS + 4, r * TS - 7, 8, 1, `rgba(255,250,215,${a})`); }
+    for (const c of COLGANTES) R(c * TS + 13, 21 * TS - 14, 7, 3, `rgba(255,250,215,${a})`);
+    for (const x of LUCES_PASILLO) R(x - 2, 12 * TS + 2, 5, 2, `rgba(255,250,220,${a})`);
+  }
 }
 function relojPared(x, y) {
   R(x - 5, y - 6, 11, 13, K); R(x - 6, y - 5, 13, 11, K); R(x - 4, y - 5, 9, 11, '#fffaf0'); R(x - 5, y - 4, 11, 9, '#fffaf0');
@@ -1056,10 +1228,13 @@ function capaHD(t) {
   const fb = fs + 1;
   // diálogo jefe -> agente
   if (jefe.fase === 'orden' && jefe.obj) {
-    const k = T - jefe.t0, h1 = jefe.p, o = jefe.obj;
-    if (k < 2.3) globo(h1.x * S, (h1.top - 1) * S, '¡Nueva orden para ti!', fb, true, (h1.y + 3) * S);
-    else globo(o.P.x * S, (o.top - 1) * S, '¡Entendido, jefe!', fb, false, (o.P.y + 3) * S);
+    const k = T - jefe.t0, h1 = jefe.p, o = jefe.obj, chat = jefe.tipo === 'chat', nom = corto(o.a.nombre);
+    if (chat && jefe.ausente) globo(h1.x * S, (h1.top - 1) * S, `📋 Orden de JASMEE para ${nom}: te la dejo en tu mesa`, fb, true, (h1.y + 3) * S);
+    else if (k < 2.3) globo(h1.x * S, (h1.top - 1) * S, chat ? `📋 Orden para ${nom} de parte de JASMEE` : '¡Nueva orden para ti!', fb, true, (h1.y + 3) * S);
+    else if (o.top != null) globo(o.P.x * S, (o.top - 1) * S, chat ? '¡Recibido, jefe! 👍' : '¡Entendido, jefe!', fb, false, (o.P.y + 3) * S);
   }
+  if (jefe.fase === 'espera' && jefe.obj && jefe.p && jefe.p.top != null)
+    globo(jefe.p.x * S, (jefe.p.top - 1) * S, `⏳ Te espero en tu puesto, ${corto(jefe.obj.a.nombre)}`, fb, true, (jefe.p.y + 3) * S);
   // charla entre agentes (visita): pares = visitante, impares = visitado
   if (visita.fase === 'charla' && visita.v && visita.o) {
     const v = visita.v, o = visita.o, i = Math.min(visita.lineas.length - 1, Math.floor((T - visita.t0) / DUR_LINEA));
@@ -1067,7 +1242,7 @@ function capaHD(t) {
     else if (o.top != null) globo(o.P.x * S, (o.top - 1) * S, visita.lineas[i], fb, false, (o.P.y + 3) * S);
   }
   // diálogo barista -> agente
-  if (barista.fase === 'sirve' && barista.obj && barista.top != null) {
+  if (barista.fase === 'sirve' && barista.obj && barista.top != null && !hablando(barista.obj) && T - barista.t0 < 3.6) {
     const k = T - barista.t0, o = barista.obj;
     if (k < 1.8) globo(barista.x * S, (barista.top - 1) * S, '☕ ¡Tu cafecito!', fb, false, (barista.y + 3) * S);
     else if (o.top != null) globo(o.P.x * S, (o.top - 1) * S, '¡Gracias! ☕', fb, false, (o.P.y + 3) * S);
@@ -1095,6 +1270,7 @@ function cuadroAnim() {
   }
   g = gm; gm.drawImage(fondo, 0, 0);
   relojPared(514, 13);
+  halosBloqueo(t);
   const capas = [], post = [];
   capas.push({ k: BARRA.r * TS + 15, f: () => barra(t) });
   capas.push({ k: barista.y, f: () => { barista.top = dibujarBarista(barista, t); } });
@@ -1102,9 +1278,12 @@ function cuadroAnim() {
     p.top = null;
     capas.push({ k: p.P.tipo === 'A' ? p.P.y : p.P.r * TS + 16, f: () => { const top = unidad(p, t, post); if (p.modo === 'sentado') p.top = top; } });
     if (p.modo !== 'sentado') capas.push({ k: p.y, f: () => { p.top = caminante(p, t); } });
+    if (p.modo !== 'sentado' && p.a.estado === 'bloqueado') post.push(() => { if (p.top != null) exclamacion(p.x + 10, p.top + 7, t); });
   }
   capas.sort((a, b) => a.k - b.k).forEach(c => c.f());
   post.forEach(f => f());
+  colgantes();
+  aplicarLuz(t);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = false;
   ctx.drawImage(mundo, 0, 0, cv.width, cv.height);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1194,7 +1373,8 @@ function pintarMensajes() {
   const todos = mios.concat(otros).sort((x, y) => (new Date(x.ts) - new Date(y.ts)) || 0);
   const firma = panelId + JSON.stringify(todos); if (firma === ultimoPintado) return; ultimoPintado = firma;
   const abajo = caja.scrollHeight - caja.scrollTop - caja.clientHeight < 40;
-  caja.innerHTML = todos.length ? todos.map(m => `<div class="msg ${m.mio ? 'mio' : 'otro'}"><span class="meta">${escHTML(m.mio ? 'Tú (JASMEE)' : m.de)} · ${escHTML(verTs(m.ts))}</span>${escHTML(m.texto)}</div>`).join('')
+  const MAX_HIST = 60, ver = todos.slice(-MAX_HIST), a = AGENTES.find(x => x.id === panelId);
+  caja.innerHTML = todos.length ? `<div class="hist">Historial con ${escHTML(a ? corto(a.nombre) : panelId)} · ${todos.length > MAX_HIST ? 'últimos ' + MAX_HIST + ' de ' + todos.length : todos.length} mensaje${todos.length === 1 ? '' : 's'} · hora de Lima</div>` + ver.map(m => `<div class="msg ${m.mio ? 'mio' : 'otro'}"><span class="meta">${escHTML(m.mio ? 'Tú (JASMEE)' : m.de)} · ${escHTML(verTs(m.ts))}</span>${escHTML(m.texto)}</div>`).join('')
     : '<div class="vacio">Aún no hay mensajes.<br>Escribe una orden abajo y pulsa «Enviar».</div>';
   if (abajo || !caja.dataset.listo) { caja.scrollTop = caja.scrollHeight; caja.dataset.listo = '1'; }
 }
@@ -1260,6 +1440,7 @@ async function enviarOrden() {
     lsSet(lsChat(id), JSON.stringify(lista.slice(-200)));
     $p('pTexto').value = ''; $p('pClave').value = '';
     pintarMensajes(); aviso('✓ Orden enviada. La respuesta aparecerá aquí.');
+    ordenarHermes(id);                     // HERMES camina a entregarla
   } finally { enviando = false; const b = $p('pEnviar'); if (b) b.disabled = false; }
 }
 panel.addEventListener('click', e => { if (e.target === panel) cerrarPanel(); });
@@ -1297,9 +1478,114 @@ function actualizar(id, estado, tarea, ts) {
 }
 window.oficina = { actualizar, agentes: AGENTES };
 window.openAgentPanel = openAgentPanel;
+window.oficina.ordenar = ordenarHermes;   // p.ej. oficina.ordenar('tienda') — HERMES lleva una orden
 // Si la página se sirve por http(s), lee "estado.json" (junto a este archivo) cada 10 s.
 // Formato: [{ "id": "ali", "estado": "trabajando", "tarea": "...", "ts": "2026-10-05T23:40:00-05:00" }, ...]
 // Lo escriben los agentes con set-estado.sh y lo publica push-estado.sh.
+/* ---------------- Aviso cuando un agente queda "bloqueado" ---------------- */
+const alertaEl = document.getElementById('alerta'), TITULO = document.title;
+let firmaBloq = '', alertaCerrada = '', tituloAlt = false;
+function revisarBloqueados() {
+  const bloq = AGENTES.filter(a => a.estado === 'bloqueado'), firma = bloq.map(a => a.id).join(',');
+  if (firma !== firmaBloq) {
+    firmaBloq = firma;
+    if (!bloq.length) { alertaEl.hidden = true; alertaCerrada = ''; }
+    else if (firma !== alertaCerrada) {
+      alertaEl.innerHTML = '<span>⚠️</span>' + bloq.map(a => `<button type="button" class="ag-al" data-id="${escHTML(a.id)}" title="Abrir su panel">${escHTML(a.nombre)}</button>`).join('') +
+        `<span>${bloq.length === 1 ? 'necesita ayuda' : 'necesitan ayuda'}</span><button type="button" class="cerrar" aria-label="Ocultar aviso" title="Ocultar aviso">×</button>`;
+      alertaEl.hidden = false;
+    }
+  }
+  if (bloq.length) {                         // el título de la pestaña parpadea
+    tituloAlt = !tituloAlt;
+    document.title = tituloAlt ? `⚠️ ${corto(bloq[0].nombre)}${bloq.length > 1 ? ' +' + (bloq.length - 1) : ''} necesita ayuda` : TITULO;
+  } else if (document.title !== TITULO) document.title = TITULO;
+}
+alertaEl.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.classList.contains('cerrar')) { alertaCerrada = firmaBloq; alertaEl.hidden = true; } else if (b.dataset.id) openAgentPanel(b.dataset.id);
+});
+
+/* ---------------- Sonido ambiente de oficina (WebAudio, sintetizado; silenciado por defecto) ---------------- */
+const LS_SONIDO = 'oficina-sonido', VOL_AMB = 0.2, btnSon = document.getElementById('sonido');
+const sonido = { ctx: null, on: false, master: null, timer: null, click: null };
+function ruidoEnBucle(c, seg, marron) {      // buffer de ruido que empalma sin chasquido
+  const len = Math.floor(c.sampleRate * seg), N = Math.floor(c.sampleRate * 0.25), x = new Float32Array(len + N);
+  let last = 0, max = 0;
+  for (let i = 0; i < len + N; i++) { const w = Math.random() * 2 - 1; x[i] = marron ? (last = (last + 0.02 * w) / 1.02) : w; max = Math.max(max, Math.abs(x[i])); }
+  const buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (i < N ? x[i] * (i / N) + x[len + i] * (1 - i / N) : x[i]) / (max || 1) * 0.9;
+  return buf;
+}
+function iniciarAudio() {
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+  const c = sonido.ctx = new AC(), master = sonido.master = c.createGain();
+  master.gain.value = 0; master.connect(c.destination);
+  // 1) rumor de fondo (ruido marrón, grave)
+  const s1 = c.createBufferSource(); s1.buffer = ruidoEnBucle(c, 6, true); s1.loop = true;
+  const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 420;
+  const g1 = c.createGain(); g1.gain.value = 0.32; s1.connect(lp).connect(g1).connect(master); s1.start();
+  // 2) murmullo de voces lejanas (ruido en banda de voz, con vaivén lento)
+  const s2 = c.createBufferSource(); s2.buffer = ruidoEnBucle(c, 5, false); s2.loop = true;
+  const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 520; bp.Q.value = 1.4;
+  const g2 = c.createGain(); g2.gain.value = 0.05;
+  for (const [f, a] of [[0.21, 0.025], [0.37, 0.018]]) { const o = c.createOscillator(), og = c.createGain(); o.frequency.value = f; og.gain.value = a; o.connect(og).connect(g2.gain); o.start(); }
+  s2.connect(bp).connect(g2).connect(master); s2.start();
+  // 3) "tecla": clic corto de ruido
+  const n = Math.floor(c.sampleRate * 0.035); sonido.click = c.createBuffer(1, n, c.sampleRate);
+  const d = sonido.click.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (n * 0.12));
+  return true;
+}
+function tecla(when, vol) {
+  const c = sonido.ctx, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+  s.buffer = sonido.click; s.playbackRate.value = 0.75 + Math.random() * 0.5;
+  f.type = 'bandpass'; f.frequency.value = 1700 + Math.random() * 1600; f.Q.value = 1.1; g.gain.value = vol;
+  s.connect(f).connect(g).connect(sonido.master); s.start(when);
+}
+function programarTeclas() {               // ráfagas de tecleo; más seguidas si hay agentes trabajando
+  if (!sonido.on || !sonido.ctx) return;
+  const c = sonido.ctx, trab = AGENTES.filter(a => a.estado === 'trabajando').length;
+  let w = c.currentTime + 0.05; const n = 3 + Math.floor(Math.random() * 9);
+  for (let i = 0; i < n; i++) { tecla(w, 0.25 + Math.random() * 0.2); w += 0.07 + Math.random() * 0.15; }
+  const pausa = trab ? 0.5 + Math.random() * 1.6 : 1.8 + Math.random() * 4;
+  sonido.timer = setTimeout(programarTeclas, (w - c.currentTime + pausa) * 1000);
+}
+function pintarBocina(on) {
+  const t = on ? 'Silenciar sonido ambiente' : 'Activar sonido ambiente';
+  btnSon.setAttribute('aria-pressed', on ? 'true' : 'false'); btnSon.title = t; btnSon.setAttribute('aria-label', t);
+}
+function ponerSonido(on) {
+  pintarBocina(on); sonido.on = on; clearTimeout(sonido.timer);
+  if (on) {
+    if (!sonido.ctx && !iniciarAudio()) { pintarBocina(false); sonido.on = false; return; }
+    const c = sonido.ctx, g = sonido.master.gain; if (c.state !== 'running') c.resume();
+    g.cancelScheduledValues(c.currentTime); g.setValueAtTime(g.value, c.currentTime); g.linearRampToValueAtTime(VOL_AMB, c.currentTime + 1.5);
+    programarTeclas();
+  } else if (sonido.ctx) {
+    const c = sonido.ctx, g = sonido.master.gain;
+    g.cancelScheduledValues(c.currentTime); g.setValueAtTime(g.value, c.currentTime); g.linearRampToValueAtTime(0, c.currentTime + 0.4);
+    setTimeout(() => { if (!sonido.on) c.suspend(); }, 500);
+  }
+}
+btnSon.addEventListener('click', () => {
+  const on = btnSon.getAttribute('aria-pressed') !== 'true';
+  lsSet(LS_SONIDO, on ? '1' : '0'); ponerSonido(on);
+});
+document.addEventListener('visibilitychange', () => {   // pausa en pestañas ocultas
+  if (!sonido.ctx || !sonido.on) return;
+  if (document.hidden) { clearTimeout(sonido.timer); sonido.ctx.suspend(); } else { sonido.ctx.resume(); programarTeclas(); }
+});
+if (!(window.AudioContext || window.webkitAudioContext)) btnSon.hidden = true;
+else if (lsGet(LS_SONIDO) === '1') {        // recordado: arranca con el primer toque (el navegador no deja autoplay)
+  pintarBocina(true);
+  const arrancar = e => {
+    if (e.target && e.target.closest && e.target.closest('#sonido')) return;
+    removeEventListener('pointerdown', arrancar, true); removeEventListener('keydown', arrancar, true);
+    if (btnSon.getAttribute('aria-pressed') === 'true' && !sonido.on) ponerSonido(true);
+  };
+  addEventListener('pointerdown', arrancar, true); addEventListener('keydown', arrancar, true);
+}
+
 const POLL_MS = 10000;
 let firmaEstado = '';
 async function cargarEstadoExterno() {
@@ -1324,6 +1610,7 @@ async function cargarRespuestas() {
 addEventListener('resize', ajustar);
 dibujarFondo(); tic(); resumen(); ajustar(); cargarEstadoExterno(); cargarRespuestas();
 setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL_MS); setInterval(cargarRespuestas, POLL_MS);
+revisarBloqueados(); setInterval(revisarBloqueados, 1000);
 requestAnimationFrame(cuadroAnim);
 })();
 </script>
