@@ -1,0 +1,56 @@
+[
+ {
+  "id": "hermes",
+  "estado": "trabajando",
+  "tarea": "coordinando",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "ali",
+  "estado": "libre",
+  "tarea": "masivos 06/10 subidos 30/30",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "ali2",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "tienda",
+  "estado": "libre",
+  "tarea": "Flower 05/10 cerrado",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "cierre",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "marketing",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "contable",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "recluta",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ },
+ {
+  "id": "disksaver",
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-05T23:48:33-05:00"
+ }
+]
