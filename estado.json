@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "Plantilla 07/10 lista (20 filas)",
-  "ts": "2026-10-06T19:50:25-05:00"
+  "estado": "trabajando",
+  "tarea": "Lista pedidos del día 06/10 (cierre 9 PM)",
+  "ts": "2026-10-06T21:10:47-05:00"
  },
  {
   "id": "cierre",
