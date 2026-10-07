@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-05T23:48:33-05:00"
+  "estado": "trabajando",
+  "tarea": "Preparando cierre de 8 pedidos nuevos",
+  "ts": "2026-10-07T13:50:24-05:00"
  },
  {
   "id": "marketing",
