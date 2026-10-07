@@ -1,10 +1,9 @@
 {
  "fecha": "2026-10-06",
- "recaudo": 1250.5,
- "masivos": 30,
- "pedidos": 18,
+ "recaudo": 0,
+ "masivos": 19,
+ "pedidos": 0,
  "moneda": "PEN",
- "nota": "datos de ejemplo",
- "ejemplo": true,
- "ts": "2026-10-06T04:10:00-05:00"
+ "nota": "",
+ "ts": "2026-10-06T19:55:24-05:00"
 }
