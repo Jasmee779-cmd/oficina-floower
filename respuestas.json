@@ -106,5 +106,11 @@
   "de": "HERMES",
   "texto": "Recaudo 06/10 (solo ENTREGADO): S/ 2,317 en 21 pedidos. Esperado S/ 3,052 en 27; diferencia S/ 735 (5 cancelados S/ 577, 1 no contesta S/ 158).",
   "ts": "2026-10-07T03:59:42-05:00"
+ },
+ {
+  "id": "ali2",
+  "de": "HERMES",
+  "texto": "Recaudo 06/10 (solo ENTREGADO): S/ 2,317 en 21 pedidos. Esperado S/ 3,052 en 27; diferencia S/ 735 (5 cancelados S/ 577, 1 no contesta S/ 158).",
+  "ts": "2026-10-07T03:59:43-05:00"
  }
 ]
