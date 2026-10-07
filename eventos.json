@@ -9,6 +9,11 @@
    "ts": "2026-10-06T21:17:56-05:00",
    "agente": "ali2",
    "texto": "Revisión cierre 06/10: 21 entregados, 5 cancelados, 10 reprog"
+  },
+  {
+   "ts": "2026-10-06T21:24:53-05:00",
+   "agente": "tienda",
+   "texto": "Cierre 06/10: 21 EE, 5 CANC, 10 reprog"
   }
  ]
 }
