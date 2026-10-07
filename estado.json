@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Armando plantilla masivos 07/10",
-  "ts": "2026-10-06T19:46:53-05:00"
+  "estado": "libre",
+  "tarea": "Plantilla 07/10 lista (20 filas)",
+  "ts": "2026-10-06T19:50:25-05:00"
  },
  {
   "id": "cierre",
