@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "confirmación de pedido en el CRM",
-  "ts": "2026-10-07T14:42:40-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-07T14:43:54-05:00"
  },
  {
   "id": "marketing",
