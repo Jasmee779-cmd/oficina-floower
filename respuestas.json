@@ -34,5 +34,11 @@
   "de": "HERMES",
   "texto": "Listo JASMEE, el AGENTE CIERRE está atento para aprender. Escríbeme qué le quieres enseñar (paso a paso o ejemplos) y se lo paso para que lo guarde y lo aplique.",
   "ts": "2026-10-06T02:23:42-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Desde ahora este chat y el de la app quedan sincronizados: lo que te respondo allá también aparece aquí.",
+  "ts": "2026-10-07T03:39:41-05:00"
  }
 ]
