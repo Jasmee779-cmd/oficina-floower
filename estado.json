@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Enviando confirmaciones (tanda 2)",
-  "ts": "2026-10-07T14:09:29-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-07T14:13:02-05:00"
  },
  {
   "id": "marketing",
