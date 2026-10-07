@@ -1593,6 +1593,9 @@ function cuadroAnim() {
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.imageSmoothingEnabled = false;
   {                                             // vista (zoom/paneo): el mundo se escala sin suavizado (pixel-art nítido)
     const s = esc * dpr * vista.z, ox = Math.round(-vista.x * s), oy = Math.round(-vista.y * s);
+    const vw = vistaW(), vh = vistaH();
+    if (vista.x < 0 || vista.y < 0 || vista.x + vw > MW || vista.y + vh > MH) exterior(s, ox, oy, vw, vh);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(mundo, ox, oy, Math.round(MW * s), Math.round(MH * s));
     const e0 = esc; esc = e0 * vista.z;          // la capa HD se dibuja a la escala del zoom
     ctx.setTransform(dpr, 0, 0, dpr, ox, oy);
@@ -1602,6 +1605,29 @@ function cuadroAnim() {
 }
 
 /* ---------------- Tamaño responsivo ---------------- */
+/* Exterior: jardín pixel-art alrededor del edificio para llenar la pantalla sin franjas (a 1x la oficina entera cabe) */
+let patronPasto = null;
+function exterior(s, ox, oy, vw, vh) {
+  if (!patronPasto) {
+    const t = document.createElement('canvas'); t.width = t.height = 64; const q = t.getContext('2d');
+    let sem = 7; const rnd = () => (sem = (sem * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    q.fillStyle = '#4b8a3e'; q.fillRect(0, 0, 64, 64);
+    for (let i = 0; i < 260; i++) { q.fillStyle = rnd() < 0.55 ? '#3f7a35' : '#5a9b49'; q.fillRect(Math.floor(rnd() * 64), Math.floor(rnd() * 64), 1, rnd() < 0.3 ? 2 : 1); }
+    for (let i = 0; i < 10; i++) { const x = Math.floor(rnd() * 62), y = Math.floor(rnd() * 61); q.fillStyle = '#356b2d'; q.fillRect(x, y + 1, 1, 2); q.fillRect(x + 2, y, 1, 3); q.fillStyle = '#62a851'; q.fillRect(x + 1, y + 1, 1, 2); }
+    const flor = ['#f07aa0', '#ffffff', '#ffd54f', '#c58cf0'];
+    for (let i = 0; i < 6; i++) { const x = 1 + Math.floor(rnd() * 61), y = 1 + Math.floor(rnd() * 61); q.fillStyle = flor[i % 4]; q.fillRect(x - 1, y, 3, 1); q.fillRect(x, y - 1, 1, 3); q.fillStyle = '#ffe9a8'; q.fillRect(x, y, 1, 1); }
+    patronPasto = ctx.createPattern(t, 'repeat');
+  }
+  const c = ctx, L = luzActual();
+  c.save(); c.setTransform(s, 0, 0, s, ox, oy); c.imageSmoothingEnabled = false;
+  c.fillStyle = patronPasto; c.fillRect(Math.floor(vista.x) - 2, Math.floor(vista.y) - 2, Math.ceil(vw) + 4, Math.ceil(vh) + 4);
+  c.fillStyle = '#9c968e'; c.fillRect(-10, -10, MW + 20, MH + 20);              // vereda de piedra
+  c.fillStyle = '#857f78'; for (let x = -10; x < MW + 10; x += 8) { c.fillRect(x, -10, 1, 10); c.fillRect(x, MH, 1, 10); }
+  for (let y = -10; y < MH + 10; y += 8) { c.fillRect(-10, y, 10, 1); c.fillRect(MW, y, 10, 1); }
+  c.fillStyle = 'rgba(0,0,0,.35)'; c.fillRect(-3, -3, MW + 6, MH + 6);           // sombra del edificio
+  if (L.f > 0.004) { c.globalCompositeOperation = 'multiply'; c.fillStyle = rgb(L.mult); c.fillRect(Math.floor(vista.x) - 2, Math.floor(vista.y) - 2, Math.ceil(vw) + 4, Math.ceil(vh) + 4); }
+  c.restore();
+}
 function ajustar() {
   const vertical = innerWidth / innerHeight < 0.9;
   document.body.classList.toggle('vertical', vertical);
@@ -1610,10 +1636,9 @@ function ajustar() {
   // El mundo escala hasta cubrirlo ("cover"); si sobra en un eje, esa parte se ve arrastrando el mapa.
   const W = innerWidth, H = Math.max(120, innerHeight - hdr - ftr);
   // En celular (vertical) el mapa ocupa el alto que deja libre la lista del equipo (mínimo: el mundo entero a lo ancho).
-  const eqEl = document.getElementById('equipo'), ult = eqEl.lastElementChild;   // alto real del contenido (la sección se estira)
-  const eq = vertical && ult ? Math.ceil(ult.getBoundingClientRect().bottom - eqEl.getBoundingClientRect().top + eqEl.scrollTop) + 8 : 0;
-  const cw = W, ch = vertical ? Math.round(Math.max(W * MH / MW, Math.min(H * 0.72, H - eq - 18))) : H;
-  esc = Math.max(cw / MW, ch / MH);
+  // En celular vertical el canvas toma la proporción del mundo (ancho completo, sin recorte ni relleno).
+  const cw = W, ch = vertical ? Math.round(Math.min(W * MH / MW, H * 0.72)) : H;
+  esc = Math.min(cw / MW, ch / MH);         // «contain»: a 1x la oficina entera cabe; lo que sobra es jardín (exterior)
   dpr = window.devicePixelRatio || 1;
   cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
   cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
@@ -1639,7 +1664,8 @@ cv.addEventListener('click', e => { if (tragarClick) { tragarClick = false; retu
    Rueda = zoom al cursor · arrastrar = mover · doble clic = acercar · pellizco (2 dedos) = zoom · botones ＋ － ⟲ */
 const ZMIN = 1, ZMAX = 4, UMBRAL_ARRASTRE = 8;
 const zMas = document.getElementById('zMas'), zMenos = document.getElementById('zMenos'), zReset = document.getElementById('zReset'), zNivel = document.getElementById('zNivel');
-const vistaW = (z = vista.z) => Math.min(MW, cv.width / dpr / (esc * z)), vistaH = (z = vista.z) => Math.min(MH, cv.height / dpr / (esc * z));   // px del mundo visibles
+const vistaW = (z = vista.z) => cv.width / dpr / (esc * z), vistaH = (z = vista.z) => cv.height / dpr / (esc * z);   // px del mundo visibles (a 1x puede sobrar: exterior)
+const limEje = (v, w, M) => w >= M ? (M - w) / 2 : Math.min(M - w, Math.max(0, v));   // si cabe entero: centrado; si no: sin salirse del mapa
 const puedeMover = () => vistaW() < MW - 0.5 || vistaH() < MH - 0.5;
 function aMundo(cx, cy) {                    // px de pantalla -> px del mundo (con zoom/paneo)
   const r = cv.getBoundingClientRect();
@@ -1655,7 +1681,7 @@ function limitarVista() {
   vista.z = Math.min(ZMAX, Math.max(ZMIN, vista.z));
   if (vista.z < 1.001) vista.z = 1;
   const w = vistaW(), h = vistaH();
-  vista.x = Math.min(MW - w, Math.max(0, vista.x)); vista.y = Math.min(MH - h, Math.max(0, vista.y));
+  vista.x = limEje(vista.x, w, MW); vista.y = limEje(vista.y, h, MH);
   zMas.disabled = vista.z >= ZMAX - 0.01; zMenos.disabled = vista.z === 1; zReset.disabled = vista.z === 1 && !vista.movida;
   zNivel.hidden = vista.z === 1; zNivel.textContent = (Math.round(vista.z * 10) / 10) + '×';
   cv.classList.toggle('mov', puedeMover());
@@ -1667,7 +1693,7 @@ function zoomEn(cx, cy, nz) {                // zoom manteniendo fijo el punto d
 }
 function animarVista(z, wx, wy, ms = 480) {   // vuelo suave a un nivel z centrado en (wx, wy) del mundo
   z = Math.min(ZMAX, Math.max(ZMIN, z)); const w = vistaW(z), h = vistaH(z);
-  vista.anim = { z0: vista.z, x0: vista.x, y0: vista.y, z1: z, x1: Math.min(MW - w, Math.max(0, wx - w / 2)), y1: Math.min(MH - h, Math.max(0, wy - h / 2)), t0: performance.now(), d: ms };
+  vista.anim = { z0: vista.z, x0: vista.x, y0: vista.y, z1: z, x1: limEje(wx - w / 2, w, MW), y1: limEje(wy - h / 2, h, MH), t0: performance.now(), d: ms };
 }
 function pasoVista() {
   const a = vista.anim; if (!a) return;
