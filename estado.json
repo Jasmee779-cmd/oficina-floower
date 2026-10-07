@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Actualizando Flower cierre 06/10",
-  "ts": "2026-10-06T21:17:53-05:00"
+  "estado": "libre",
+  "tarea": "Cierre pedidos 06/10 terminado",
+  "ts": "2026-10-06T21:24:54-05:00"
  },
  {
   "id": "cierre",
