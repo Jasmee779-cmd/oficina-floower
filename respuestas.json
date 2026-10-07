@@ -40,5 +40,11 @@
   "de": "HERMES",
   "texto": "Desde ahora este chat y el de la app quedan sincronizados: lo que te respondo allá también aparece aquí.",
   "ts": "2026-10-07T03:39:41-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Aquí estoy, JASMEE. ¿Qué necesitas? Dime la orden y la paso al agente.",
+  "ts": "2026-10-07T03:48:22-05:00"
  }
 ]
