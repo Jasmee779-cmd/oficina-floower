@@ -11,6 +11,11 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 #c{position:fixed;inset:0;display:block;width:100vw;height:100vh;touch-action:none;outline:none}
 header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:7px 12px;background:linear-gradient(rgba(29,26,34,.92),rgba(29,26,34,.7));pointer-events:none}
 header>*{pointer-events:auto}
+a.pie-btn{text-decoration:none}
+#vistas{position:fixed;left:8px;z-index:5;display:flex;gap:5px;overflow-x:auto;max-width:calc(100vw - 16px);padding-bottom:2px;scrollbar-width:none}
+#vistas::-webkit-scrollbar{display:none}
+#vistas .pie-btn{background:rgba(47,41,54,.88);font-size:11.5px;padding:3px 9px}
+#vistas .pie-btn.on{border-color:var(--rosa);color:#ffd9e6}
 header h1{margin:0;font-size:16px;letter-spacing:.5px;white-space:nowrap} header h1 span{color:var(--rosa)}
 #reloj{font-variant-numeric:tabular-nums;font-weight:800} #fecha{color:var(--soft);font-size:12px}
 #resumen{color:var(--soft);font-size:12.5px;font-weight:600}
@@ -43,6 +48,8 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 .gl.marca .ok{display:inline}
 .gl.bloq{animation:latido 1.2s ease-in-out infinite}
 .gl.lejos small{display:none}
+.gl.subido:after{border-top-color:transparent}
+.gl.subido:before{content:'';position:absolute;left:calc(50% + var(--cola,0px));top:100%;width:2px;height:8px;margin-left:-1px;background:currentColor;opacity:.35}
 @media (max-width:700px){ .gl small{display:none} .gl{font-size:11px;padding:2px 6px} header h1{font-size:14px} #fecha,#resumen{display:none} }
 @keyframes latido{0%,100%{box-shadow:0 2px 8px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 4px rgba(229,72,77,.45)}}
 #alerta{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 8px;max-width:94vw;padding:7px 10px 7px 14px;background:#e5484d;color:#fff;font-weight:800;font-size:14px;border-radius:10px;border:2px solid #ff9a9d;box-shadow:0 8px 24px rgba(0,0,0,.45);animation:latido 1.2s ease-in-out infinite}
@@ -103,9 +110,12 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
   <div class="btns">
     <button type="button" class="pie-btn" id="avTg" aria-expanded="false" title="Avisos de fin de proceso">🔔 Avisos <span class="badge" id="avBadge" hidden>0</span></button>
     <button type="button" class="pie-btn" id="btnLuz" title="Iluminación: automática (hora de Lima) / día / noche">🕒 Auto</button>
-    <button type="button" class="pie-btn" id="btnVista" title="Restablecer la vista">⟲ Vista</button>
+    <a class="pie-btn" id="ver2d" href="index-2d.html" title="Ver la oficina clásica en 2D">Ver 2D</a>
   </div>
 </header>
+<nav id="vistas" aria-label="Vistas de cámara">
+  <button type="button" class="pie-btn" data-v="general">🏢 General</button><button type="button" class="pie-btn" data-v="marketing">🎨 Marketing</button><button type="button" class="pie-btn" data-v="ventas">💬 Ventas</button><button type="button" class="pie-btn" data-v="hermes">👔 HERMES</button><button type="button" class="pie-btn" data-v="finanzas">💰 Finanzas</button><button type="button" class="pie-btn" data-v="cafeteria">☕ Cafetería</button>
+</nav>
 <div id="alerta" role="alert" hidden></div>
 <footer><div id="dia" class="dia"><span id="diaCuerpo" class="dia-cuerpo"></span></div></footer>
 <div id="panel" hidden><div class="caja" id="panelCaja"></div></div>
@@ -494,8 +504,9 @@ for (const a of AGENTES) {
   AG3[a.id] = { a, esc, per, pantMat, aro, item: it, fase: Math.random() * 6, asiento: new THREE.Vector3(0, 0, 0.82) };
 }
 // barista (decorativo)
-const barista = persona(LOOK.barista); barista.cad.position.y = 0.75; barista.g.position.set(X(36.5), 0, Z(16) + 0.45); barista.g.rotation.y = Math.PI; scene.add(barista.g);
-for (const b of barista.brazos) b.rotation.x = 0.6;
+const baristaM = persona(LOOK.barista); baristaM.cad.position.y = 0.75; scene.add(baristaM.g);
+const tazaB = box(0.14, 0.16, 0.14, '#ffffff', 0, -0.05, -0.5, baristaM.brazos[0], false);   // taza en la mano
+for (const id in AG3) { const tz = box(0.12, 0.14, 0.12, '#ffffff', 0.55, 1.0, 0.15, AG3[id].esc, false); tz.visible = false; AG3[id].tazaMesa = tz; }
 
 /* ---- Globos HTML ---- */
 const capaG = document.getElementById('globos');
@@ -518,16 +529,16 @@ function pintarGlobos() {
 }
 
 /* ---- HERMES entrega órdenes en persona (camina) ---- */
-const PUERTA = { marketing: [5, 9.5, 11.5], recluta: [17, 9.5, 11.5], cierre: [17, 9.5, 11.5], contable: [38, 9.5, 11.5],
-                 ali: [8, 16.6, 14.5], ali2: [8, 16.6, 14.5], tienda: [8, 16.6, 14.5], disksaver: [22, 16.6, 14.5] };
+const pxX = x => x / 16 - COLS / 2, pxZ = y => (y - 4) / 16 - ROWS / 2;   // 2D px -> mundo 3D
 const jefe = { fase: 'sentado', ruta: [], i: 0, obj: null, t: 0, mundo: new THREE.Vector3() };
-function ordenarHermes(id) {
+function ordenarHermes(id) {                    // camino más corto con ruta() del 2D (BFS por la rejilla caminable)
   if (id === 'hermes' || !AG3[id] || !AG3.hermes) return false;
   if (jefe.fase !== 'sentado') { jefe.cola = id; return true; }
-  const P = PUESTOS[id], d = PUERTA[id], tx = (P.c + 1) + (P.tipo === 'A' ? 1.25 : 1.25), tz = P.sr + 0.5;
-  const w = [[28, 4.6], [30.3, 4.6], [30.3, 9.5], [28.5, 10.2], [28.5, 12.5], [d[0], 12.5], [d[0], d[2]], [d[0], d[1]], [tx, d[1]], [tx, tz]];
+  const hp = porId('hermes'), o = porId(id); if (!hp || !o) return false;
+  const dest = sitioJunto(hp, o); if (!dest) return false;
+  const [c0, r0] = baldosa(hp), b = ruta(c0, r0, dest[0], dest[1]); if (!b.length) return false;
   const h = AG3.hermes; h.esc.remove(h.per.g); scene.add(h.per.g);
-  jefe.ruta = w.map(([c, r]) => new THREE.Vector3(X(c), 0, Z(r))); jefe.ruta.unshift(new THREE.Vector3(X(28), 0, Z(5.2)));
+  jefe.ruta = [[hp.P.x, hp.P.y]].concat(b.slice(1).map(([bc, br]) => [bc * TS + 8, br * TS + 12])).map(([x, y]) => new THREE.Vector3(pxX(x), 0, pxZ(y)));
   jefe.i = 1; jefe.fase = 'ida'; jefe.obj = id; h.per.g.position.copy(jefe.ruta[0]); return true;
 }
 function pasoJefe(dt, t) {
@@ -586,7 +597,22 @@ function ajustar() {
   renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w < h ? 50 : 42; camera.updateProjectionMatrix();
 }
 addEventListener('resize', ajustar); ajustar(); vistaInicial();
-document.getElementById('btnVista').addEventListener('click', vistaInicial);
+const CUARTOS = {                                  // centro en baldosas [c, r]
+  marketing: [5, 6.5], ventas: [16.5, 6.5], hermes: [28, 6.5], finanzas: [38, 6.5], cafeteria: [33, 21] };
+let vuelo = null;
+function volarA(v) {
+  const ver = innerWidth < innerHeight, tgt = new THREE.Vector3(), pos = new THREE.Vector3();
+  if (v === 'general' || !CUARTOS[v]) { if (ver) { tgt.set(0, 0, 0); pos.set(42, 60, 0.5); } else { tgt.set(0, 0, 0.5); pos.set(0, 30, 27); } }
+  else { const [c, r] = CUARTOS[v]; tgt.set(X(c), 0.3, Z(r)); pos.copy(tgt).add(ver ? new THREE.Vector3(0, 15, 9.5) : (v === 'cafeteria' ? new THREE.Vector3(0, 13, 11) : new THREE.Vector3(0, 10, 10.5))); }
+  vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1: pos, t1: tgt };
+  for (const b of document.querySelectorAll('#vistas .pie-btn')) b.classList.toggle('on', b.dataset.v === v);
+}
+function pasoVuelo() {
+  if (!vuelo) return; const k = Math.min(1, (performance.now() - vuelo.t0) / vuelo.ms), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+  camera.position.lerpVectors(vuelo.p0, vuelo.p1, e); controls.target.lerpVectors(vuelo.t0v, vuelo.t1, e); if (k >= 1) vuelo = null;
+}
+document.getElementById('vistas').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) volarA(b.dataset.v); });
+controls.addEventListener('start', () => { vuelo = null; });
 
 /* ---- Clic / tap en un agente (distingue de arrastrar) ---- */
 const ray = new THREE.Raycaster(), pt = new THREE.Vector2(); let abajo = null;
@@ -672,12 +698,7 @@ function mover(p, dt) {
   }
   if (!p.ruta.length && p.alLlegar) { const cb = p.alLlegar; p.alLlegar = null; cb(); }
 }
-function sitioJunto(b, o) {                // baldosa libre al lado del asiento, alcanzable
-  const [c0, r0] = baldosa(b);
-  for (const [c, r] of [[o.P.sc - 1, o.P.sr], [o.P.sc + 2, o.P.sr], [o.P.sc, o.P.sr + (o.P.tipo === 'A' ? 1 : -1)]])
-    if (pasa[r] && pasa[r][c] && ruta(c0, r0, c, r).length) return [c, r];
-  return null;
-}
+// sitioJunto() viene en el bloque del barista
 let T = 0;
 const AREA = { marketing: 'MARKETING', recluta: 'VENTAS', cierre: 'VENTAS', hermes: 'HERMES', contable: 'FINANZAS',
   ali: 'ADMINISTRATIVA', ali2: 'ADMINISTRATIVA', tienda: 'ADMINISTRATIVA', disksaver: 'LIMPIEZA' };
@@ -702,7 +723,7 @@ const DUR_LINEA = 1.9;                     // segundos por globo
 const visita = { fase: 'nada', v: null, o: null, t0: 0, lineas: [], prox: 7 + Math.random() * 5 };
 const azar = a => a[Math.floor(Math.random() * a.length)];
 const libreParaVisita = p => p.id !== 'hermes' && p.modo === 'sentado' && p.a.estado === 'libre' &&
-  !p.reservado && !p.enVisita && p.id !== jefe.obj;
+  !p.reservado && !p.atendido && !p.enVisita && p.id !== jefe.obj && p !== barista.obj;
 function terminarVisita() {                // el visitado queda libre; el visitante regresa a su puesto
   const { v, o } = visita;
   if (o) o.enVisita = false;
@@ -738,11 +759,53 @@ function actualizarVisitas(t) {
   }
 }
 const charlando = p => visita.fase === 'charla' && (p === visita.v || p === visita.o);
-function actualizarGente3D(t, dt) {          // = actualizarGente() del 2D (sin barista ni jefe, que aquí van aparte)
+const CASA_X = BARISTA_CASA[0] * TS + 8, CASA_Y = BARISTA_CASA[1] * TS + 9;
+const barista = { id: 'barista', L: LOOK.barista, x: CASA_X, y: CASA_Y, modo: 'parado', ruta: [], dir: 'abajo', dist: 0,
+  alLlegar: null, fase: 'barra', prox: 4, obj: null, ult: null, t0: 0, lleva: false, top: null };
+function sitioJunto(b, o) {                // baldosa libre al lado del asiento, alcanzable
+  const [c0, r0] = baldosa(b);
+  for (const [c, r] of [[o.P.sc - 1, o.P.sr], [o.P.sc + 2, o.P.sr], [o.P.sc, o.P.sr + (o.P.tipo === 'A' ? 1 : -1)]])
+    if (pasa[r] && pasa[r][c] && ruta(c0, r0, c, r).length) return [c, r];
+  return null;
+}
+function actualizarBarista(t, dt) {
+  const b = barista;
+  if (b.modo === 'caminando') mover(b, dt);
+  if (b.fase === 'barra') {
+    if (t < b.prox) return;
+    const cand = gente.filter(p => p.modo === 'sentado' && !p.reservado && !p.atendido && !p.enVisita && p !== b.ult && p.id !== jefe.obj &&
+      !(p.id === 'hermes' && jefe.fase !== 'sentado'));
+    if (!cand.length) { b.prox = t + 3; return; }
+    const o = cand[Math.floor(Math.random() * cand.length)], dest = sitioJunto(b, o);
+    b.ult = o; if (!dest) { b.prox = t + 2; return; }
+    o.atendido = true; b.obj = o; b.lleva = true; b.fase = 'ida';
+    irA(b, dest[0], dest[1], null, () => {
+      b.fase = 'sirve'; b.t0 = T; b.modo = 'parado'; b.dir = dest[0] < o.P.sc ? 'der' : dest[0] > o.P.sc ? 'izq' : (o.P.tipo === 'A' ? 'arriba' : 'abajo');
+      b.lleva = false; o.servido = T + 16;
+      if (o.modo !== 'sentado' || o.reservado) b.t0 = T - 3.6;   // no está o está con HERMES: deja el café y se va
+    });
+  } else if (b.fase === 'sirve') {
+    if (t - b.t0 > 3.6) {
+      const o = b.obj; o.atendido = false; o.prox = Math.max(o.prox, t + 4); b.fase = 'vuelta';
+      irA(b, BARISTA_CASA[0], BARISTA_CASA[1], [CASA_X, CASA_Y], () => { b.fase = 'barra'; b.modo = 'parado'; b.dir = 'abajo'; b.obj = null; b.prox = T + 5 + Math.random() * 6; });
+    }
+  }
+}
+const atendiendo = p => barista.fase === 'sirve' && barista.obj === p;
+CHARLAS.push(
+  ['¿Ya probaste el café nuevo?', '¡Sí, está buenazo! ☕'], ['¿Cómo amaneciste?', '¡Con toda la energía! ⚡'],
+  ['¿Te ayudo con algo?', 'Gracias, ya casi termino'], ['¡Qué bonito quedó tu escritorio!', 'Le puse flores 🌸'],
+  ['¿Almorzamos juntos?', '¡Dale, a la una!'], ['¿Viste la oficina en 3D?', '¡Se ve increíble! 😍'],
+  ['¿Qué música escuchas?', 'Algo tranqui para concentrarme 🎧'], ['¿Cómo va la semana?', 'Volando, ya casi viernes'],
+  ['¿Revisaste los pendientes?', 'Sí, todo al día ✅'], ['¡Buenas! ¿Mucho movimiento?', 'Lo normal, bajo control']);
+CIERRES.push(['¡Me voy a seguir!', '¡Suerte! 🍀'], ['Luego me cuentas', '¡Claro que sí!'], ['¡Gracias por la charla!', '¡Cuando quieras! 😊'],
+  ['Vuelvo a lo mío', '¡Ánimo! 💪'], ['¡Un abrazo!', '¡Igualmente! 🤗']);
+function actualizarGente3D(t, dt) {          // = actualizarGente() del 2D (el jefe va aparte)
+  actualizarBarista(t, dt);
   actualizarVisitas(t);
   for (const p of gente) {
     if (p.id === 'hermes') continue;
-    if (p.modo === 'sentado' && p.a.estado === 'libre' && !p.reservado && !p.enVisita && p.id !== jefe.obj && t > p.prox) {
+    if (p.modo === 'sentado' && p.a.estado === 'libre' && !p.reservado && !p.atendido && !p.enVisita && p.id !== jefe.obj && t > p.prox) {
       const ocupados = gente.filter(q => q.cafe).map(q => q.cafe.join());
       const sitios = CAFE.filter(s => !ocupados.includes(s.join()));
       if (!sitios.length) { p.prox = t + 3; continue; }
@@ -756,7 +819,6 @@ function actualizarGente3D(t, dt) {          // = actualizarGente() del 2D (sin 
   }
 }
 // 2D px -> mundo 3D
-const pxX = x => x / 16 - COLS / 2, pxZ = y => (y - 4) / 16 - ROWS / 2;
 const ROT = { arriba: 0, abajo: Math.PI, izq: Math.PI / 2, der: -Math.PI / 2 };
 function colocarGente(t) {
   for (const p of gente) {
@@ -800,10 +862,54 @@ function forzarVisita(vId, oId) {               // para pruebas: oficina.visitar
   return true;
 }
 
+/* ---- Confeti 3D (meta del día / masivos subidos) ---- */
+const N_CONF = 260, confGeo = new THREE.PlaneGeometry(0.16, 0.1);
+const confeti = new THREE.InstancedMesh(confGeo, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }), N_CONF);
+confeti.frustumCulled = false; confeti.visible = false; scene.add(confeti);
+const confD = Array.from({ length: N_CONF }, () => ({ p: new THREE.Vector3(), v: new THREE.Vector3(), r: new THREE.Euler(), w: new THREE.Vector3() }));
+const COLC = ['#f07aa0', '#f2c14e', '#3bb273', '#4a9be8', '#9b6bd6', '#ffffff', '#e5484d'].map(c => new THREE.Color(c));
+let confT = 0; const m4c = new THREE.Matrix4(), qc = new THREE.Quaternion(), sc1 = new THREE.Vector3(1, 1, 1);
+function lanzarConfeti(motivo) {
+  const c = controls.target;
+  confD.forEach((d, i) => {
+    d.p.set(c.x + (Math.random() - 0.5) * 16, 9 + Math.random() * 7, c.z + (Math.random() - 0.5) * 12);
+    d.v.set((Math.random() - 0.5) * 1.5, -1.2 - Math.random() * 1.6, (Math.random() - 0.5) * 1.5);
+    d.r.set(Math.random() * 6, Math.random() * 6, Math.random() * 6); d.w.set(Math.random() * 6 - 3, Math.random() * 6 - 3, Math.random() * 6 - 3);
+    confeti.setColorAt(i, COLC[i % COLC.length]);
+  });
+  confeti.instanceColor.needsUpdate = true; confeti.visible = true; confT = 7;
+  window.oficina && (window.oficina.confetis = (window.oficina.confetis || 0) + 1);
+  if (motivo) mostrarToast({ agente: '', texto: motivo, ts: '' });
+}
+function pasoConfeti(dt) {
+  if (!confeti.visible) return; confT -= dt; if (confT <= 0) { confeti.visible = false; return; }
+  confD.forEach((d, i) => {
+    d.p.addScaledVector(d.v, dt); d.p.x += Math.sin(T * 2 + i) * 0.01; if (d.p.y < 0.02) { d.p.y = 0.02; d.v.set(0, 0, 0); d.w.set(0, 0, 0); d.r.x = -Math.PI / 2; }
+    d.r.x += d.w.x * dt; d.r.y += d.w.y * dt; d.r.z += d.w.z * dt;
+    m4c.compose(d.p, qc.setFromEuler(d.r), sc1); confeti.setMatrixAt(i, m4c);
+  });
+  confeti.instanceMatrix.needsUpdate = true;
+}
+const LS_CONF = 'oficina-confeti-vistos';
+function confetiVistos() { try { const v = JSON.parse(localStorage.getItem(LS_CONF) || 'null'); return Array.isArray(v) ? v : null; } catch (e) { return null; } }
+function marcarConfeti(k) { const v = confetiVistos() || []; v.push(k); try { localStorage.setItem(LS_CONF, JSON.stringify(v.slice(-60))); } catch (e) { } }
+function revisarConfeti() {                       // una sola vez por evento (se recuerda en este equipo)
+  let v = confetiVistos();
+  const masivos = (typeof eventos !== 'undefined' ? eventos : []).filter(e => /masivo/i.test(e.texto) && /subid/i.test(e.texto)).map(e => ({ k: 'ev|' + claveEv(e), e }));
+  if (v === null) { v = masivos.map(m => m.k); try { localStorage.setItem(LS_CONF, JSON.stringify(v)); } catch (e) { } }   // primera visita: no celebra lo viejo
+  const r = resumenDia();
+  if (r && r.recaudo != null) {
+    const M = avanceMeta(r), k = 'meta|' + (datosDia && datosDia.fecha || fmtHoyISO.format(new Date()));
+    if (M.pct >= 100 && !M.ejemplo && !v.includes(k)) { marcarConfeti(k); lanzarConfeti('🎉 ¡Meta del día cumplida! Recaudo entregado ' + fmtSoles(r.recaudo, r.mon)); return; }
+  }
+  const nuevo = masivos.find(m => !v.includes(m.k));
+  if (nuevo) { marcarConfeti(nuevo.k); lanzarConfeti('🎉 ' + nuevo.e.texto); }
+}
+
 /* ---- Bucle ---- */
 const tmp = new THREE.Vector3(), reloj = new THREE.Clock();
 let headerH = 50, footerH = 40;
-function medirBordes() { headerH = document.querySelector('header').offsetHeight; footerH = document.querySelector('footer').offsetHeight; }
+function medirBordes() { headerH = document.querySelector('header').offsetHeight; footerH = document.querySelector('footer').offsetHeight; const v = document.getElementById('vistas'); v.style.top = (headerH + 4) + 'px'; headerH += v.offsetHeight + 6; }
 addEventListener('resize', medirBordes); setTimeout(medirBordes, 0); setInterval(medirBordes, 2000);
 let marcas = [];
 renderer.setAnimationLoop(() => {
@@ -821,12 +927,16 @@ renderer.setAnimationLoop(() => {
     if (o.item.userData.trofeo) o.item.userData.trofeo.rotation.y = t * 0.6;
   }
   pasoJefe(dt, t); colocarGente(t);
-  barista.g.position.x = X(36.5) + Math.sin(t * 0.35) * 2.2; barista.torso.scale.y = 1 + Math.sin(t * 2) * 0.02;
-  const s = Math.sin(t * 0.7); barista.piernas[0].rotation.x = Math.cos(t * 0.35) * Math.sin(t * 8) * 0.35; barista.piernas[1].rotation.x = -barista.piernas[0].rotation.x;
-  controls.update(); renderer.render(scene, camera);
+  { const b = barista, m = baristaM; m.g.position.set(pxX(b.x), 0, pxZ(b.y)); m.g.rotation.y = ROT[b.dir] ?? Math.PI; m.torso.scale.y = 1 + Math.sin(t * 2) * 0.02;
+    const k = b.modo === 'caminando' ? Math.sin(b.dist / 16 * Math.PI * 1.6) : 0;
+    m.piernas[0].rotation.x = k * 0.55; m.piernas[1].rotation.x = -k * 0.55; m.brazos[1].rotation.x = -k * 0.45;
+    m.brazos[0].rotation.x = b.lleva ? 1.3 : b.fase === 'sirve' ? 1.0 + Math.sin(t * 5) * 0.2 : -k * 0.45 + 0.1; tazaB.visible = b.lleva;
+    for (const p of gente) { const o = AG3[p.id]; if (o) o.tazaMesa.visible = !!(p.servido && T < p.servido); } }
+  pasoVuelo(); pasoConfeti(dt); controls.update(); renderer.render(scene, camera);
   // globos
   const ahora = performance.now() / 1000; marcas = marcas.filter(m => ahora < m.hasta);
   const dCam = camera.position.distanceTo(controls.target);
+  const colG = [];
   for (const id in AG3) {
     const o = AG3[id]; o.per.cab.getWorldPosition(tmp); tmp.y += 0.6; tmp.project(camera);
     const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
@@ -835,9 +945,9 @@ renderer.setAnimationLoop(() => {
     if (vis) {
       const w = o.el.offsetWidth, h = o.el.offsetHeight, m = 4, top0 = headerH + h + 4;
       const cx = Math.min(Math.max(sx, w / 2 + m), innerWidth - w / 2 - m), cy = Math.min(Math.max(sy, top0), innerHeight - footerH - 4);
-      o.el.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) translate(-50%,-100%)`;
-      o.el.style.setProperty('--cola', (sx - cx).toFixed(1) + 'px');
+      o.ox = cx; o.oy = cy;
     }
+    if (vis) colG.push({ o, cx: o.ox, cy: o.oy, w: o.el.offsetWidth, h: o.el.offsetHeight, sx, sy });
     const pg = porId(id), txt = pg ? lineaDe(pg) : '';
     if (txt && vis) {
       if (o.dlg.textContent !== txt) o.dlg.textContent = txt;
@@ -847,6 +957,20 @@ renderer.setAnimationLoop(() => {
     } else o.dlg.style.display = 'none';
     o.el.classList.toggle('lejos', dCam > 40 && id !== 'hermes' && !(typeof pendientes === 'object' && pendientes[id]));
     o.el.classList.toggle('marca', marcas.some(m => m.id === id));
+  }
+  // anticolisión: de abajo hacia arriba, el que choca sube (o se corre a un lado si ya no cabe arriba)
+  colG.sort((a, b) => b.cy - a.cy); const puestos = [];
+  for (const g of colG) {
+    for (let k = 0; k < 12; k++) {
+      const c = puestos.find(q => Math.abs(q.cx - g.cx) < (q.w + g.w) / 2 + 2 && g.cy > q.cy - q.h - 2 && g.cy - g.h < q.cy + 2);
+      if (!c) break;
+      const arriba = c.cy - c.h - 3;
+      if (arriba - g.h >= headerH + 2) g.cy = arriba; else g.cx = c.cx + (g.sx >= c.cx ? 1 : -1) * ((c.w + g.w) / 2 + 3);
+    }
+    g.cx = Math.min(Math.max(g.cx, g.w / 2 + 4), innerWidth - g.w / 2 - 4); puestos.push(g);
+    g.o.el.style.transform = `translate(${g.cx.toFixed(1)}px,${g.cy.toFixed(1)}px) translate(-50%,-100%)`;
+    const cola = Math.max(-g.w / 2 + 8, Math.min(g.w / 2 - 8, g.sx - g.cx)); g.o.el.style.setProperty('--cola', cola.toFixed(1) + 'px');
+    g.o.el.classList.toggle('subido', g.sy - g.cy > 14);
   }
 });
 let ultLuz = 0; setInterval(() => { if (Date.now() - ultLuz > 30000) { ultLuz = Date.now(); aplicarLuz(); } }, 1000);
@@ -1004,7 +1128,8 @@ function actualizar(id, estado, tarea, ts) {
   if (ts) a.ts = ts;
   resumen(); if (panelId === id) pintarInfo(); return true;
 }
-window.oficina = { actualizar, agentes: AGENTES, ordenar: id => ordenarHermes(id), camera, controls, visitar: forzarVisita, gente, modoLuz: m => { while (modoLuz !== m) btnLuz.click(); } };
+window.oficina = { actualizar, agentes: AGENTES, ordenar: id => ordenarHermes(id), camera, controls, visitar: forzarVisita, gente, confeti: lanzarConfeti, volarA, ordenarHermes, modoLuz: m => { while (modoLuz !== m) btnLuz.click(); } };
+window.oficina.ordenar = id => ordenarHermes(id);
 window.openAgentPanel = openAgentPanel;
 
 /* ---------------- Aviso de agente bloqueado ---------------- */
@@ -1211,8 +1336,8 @@ setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL3D); setInterval(ca
 setInterval(() => { revisarBloqueados(); pintarGlobos(); }, 1000);
 setInterval(revisarPendientes, 15000);
 for (const id in pendientes) if (pendientes[id] && pendientes[id].desde) activarRapido(pendientes[id].desde);
-cargarDatosDia(); setInterval(cargarDatosDia, POLL3D);
-cargarEventos(); setInterval(cargarEventos, POLL3D);
+async function cicloDatos() { await Promise.all([cargarDatosDia(), cargarEventos()]); revisarConfeti(); }
+cicloDatos(); setInterval(cicloDatos, POLL3D);
 document.getElementById('cargando').remove();
 </script>
 </body></html>
