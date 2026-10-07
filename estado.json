@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "validando adelanto en el CRM",
-  "ts": "2026-10-07T14:40:41-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-07T14:42:30-05:00"
  },
  {
   "id": "marketing",
