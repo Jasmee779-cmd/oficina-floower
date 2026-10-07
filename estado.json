@@ -26,8 +26,8 @@
  {
   "id": "cierre",
   "estado": "trabajando",
-  "tarea": "Preparando cierre de 8 pedidos nuevos",
-  "ts": "2026-10-07T13:50:24-05:00"
+  "tarea": "Enviando confirmaciones (tanda 1)",
+  "ts": "2026-10-07T14:04:59-05:00"
  },
  {
   "id": "marketing",
