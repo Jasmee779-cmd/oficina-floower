@@ -33,8 +33,10 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 .dia small{color:var(--soft);font-weight:600;font-size:11px} .dia .sin{color:var(--soft);font-weight:600}
 /* globos sobre los agentes */
 #globos{position:fixed;inset:0;pointer-events:none;z-index:3}
+.dlg{position:absolute;left:0;top:0;max-width:170px;background:#fffbe8;color:#2b2230;border:2px solid #2b2230;border-radius:12px;padding:4px 9px;font-size:12.5px;font-weight:700;line-height:1.25;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.35);pointer-events:none;white-space:normal;width:max-content;animation:entra .25s ease-out}
+.dlg:after{content:'';position:absolute;left:50%;bottom:-7px;margin-left:-5px;border:5px solid transparent;border-top-color:#2b2230;border-bottom:0}
 .gl{position:absolute;left:0;top:0;transform:translate(-50%,-100%);background:#fff;color:#222;padding:3px 8px;border-radius:10px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #4a9be8;pointer-events:auto;cursor:pointer;will-change:transform}
-.gl:after{content:'';position:absolute;left:50%;bottom:-7px;margin-left:-5px;border:5px solid transparent;border-top-color:inherit;border-bottom:0}
+.gl:after{content:'';position:absolute;left:calc(50% + var(--cola,0px));bottom:-7px;margin-left:-5px;border:5px solid transparent;border-top-color:inherit;border-bottom:0}
 .gl .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
 .gl small{display:block;font-weight:500;color:#555;font-size:10.5px;max-width:170px;overflow:hidden;text-overflow:ellipsis}
 .gl .ok{display:none;margin-left:4px;color:#fff;background:#3bb273;border-radius:50%;padding:0 4px}
@@ -501,6 +503,7 @@ for (const id in AG3) {
   const el = document.createElement('div'); el.className = 'gl'; el.dataset.id = id;
   el.innerHTML = '<span class="dot"></span><span class="n"></span><span class="ok">✓</span><small></small>';
   el.addEventListener('click', () => openAgentPanel(id)); capaG.appendChild(el); AG3[id].el = el;
+  const dl = document.createElement('div'); dl.className = 'dlg'; dl.style.display = 'none'; capaG.appendChild(dl); AG3[id].dlg = dl;
 }
 const PANT = { trabajando: '#7fd6cf', libre: '#4a9be8', bloqueado: '#e5484d' };
 function pintarGlobos() {
@@ -545,7 +548,7 @@ function pasoJefe(dt, t) {
     if (jefe.fase === 'ida') { jefe.fase = 'orden'; jefe.t = 2.6; const o = AG3[jefe.obj]; if (o) { o.esc.getWorldPosition(jefe.mundo); const sp = o.esc.localToWorld(o.asiento.clone()); g.rotation.y = Math.atan2(-(sp.x - g.position.x), -(sp.z - g.position.z)); } for (const p of h.per.piernas) p.rotation.x = 0; }
     else {
       scene.remove(g); h.esc.add(g); g.position.copy(h.asiento); g.rotation.y = 0; h.per.cad.position.y = 0.5;
-      for (const p of h.per.piernas) p.rotation.x = Math.PI / 2; jefe.fase = 'sentado';
+      for (const p of h.per.piernas) p.rotation.x = Math.PI / 2; jefe.fase = 'sentado'; jefe.obj = null;
       if (jefe.cola) { const c = jefe.cola; jefe.cola = null; setTimeout(() => ordenarHermes(c), 400); }
     }
   }
@@ -562,10 +565,10 @@ function aplicarLuz() {
   const n = L.noche, mult = new THREE.Color(L.mult[0] / 255, L.mult[1] / 255, L.mult[2] / 255);
   cA.setRGB(L.cieloA[0] / 255, L.cieloA[1] / 255, L.cieloA[2] / 255, THREE.SRGBColorSpace);
   cB.setRGB(L.cieloB[0] / 255, L.cieloB[1] / 255, L.cieloB[2] / 255, THREE.SRGBColorSpace);
-  scene.background = cA.clone().lerp(new THREE.Color('#1b1626'), 0.55);
+  scene.background = cA.clone().lerp(new THREE.Color('#2a2238'), 0.45);
   cieloMat.color.copy(cB);
-  sol.intensity = 0.35 + (1 - n) * 1.45; sol.color.setRGB(1, 0.9, 0.75).multiply(mult);
-  hemi.intensity = 0.55 + (1 - n) * 0.55; hemi.color.set('#ffe9c7').multiply(mult).lerp(new THREE.Color('#ffcf8a'), n * 0.4);
+  sol.intensity = 0.75 + (1 - n) * 1.05; sol.color.setRGB(1, 0.9, 0.75).multiply(mult);
+  hemi.intensity = 1.0 + (1 - n) * 0.2; hemi.color.set('#ffe9c7').lerp(new THREE.Color('#ffd49a'), n * 0.5); renderer.toneMappingExposure = 1;
   for (const m of luzMats) m.emissiveIntensity = 0.15 + n * 2.2;
   neonMat.emissiveIntensity = 0.5 + n * 1.0;
 }
@@ -599,14 +602,217 @@ canvas.addEventListener('pointermove', e => {
   canvas.style.cursor = ray.intersectObjects(hits, false).length ? 'pointer' : 'grab';
 });
 
+/* ---- Movimiento y visitas (lógica portada de index.html) ---- */
+const CAFE = [[25, 21, 'der'], [28, 21, 'izq'], [30, 21, 'der'], [33, 21, 'izq'], [35, 21, 'der'], [38, 21, 'izq'], [34, 18, 'arriba'], [37, 18, 'arriba']];
+const BARISTA_CASA = [36, 16];             // detrás de la barra
+const BARRA = { c: 33, r: 17, w: 7 };      // barra de la cafetería (se dibuja como capa para tapar al barista)
+const pasa = MAPA.map(f => [...f].map(ch => '.bdkh'.includes(ch)));
+function bloquear(c, r, w = 1, h = 1) { for (let y = r; y < r + h; y++) for (let x = c; x < c + w; x++) if (pasa[y]) pasa[y][x] = false; }
+for (const id in PUESTOS) bloquear(PUESTOS[id].c, PUESTOS[id].r, 2, 1);
+// MARKETING: plantas, cámara, aro de luz, sofá, caballete, planta
+bloquear(0, 2); bloquear(9, 2); bloquear(1, 3); bloquear(8, 3); bloquear(1, 9, 3, 1); bloquear(8, 9); bloquear(0, 10);
+// VENTAS: plantas, mesa de celulares, dispensador
+bloquear(11, 2); bloquear(21, 2); bloquear(12, 9, 2, 1); bloquear(21, 9);
+// SALA DE HERMES: librero, planta, sillón, sillas de visita, planta
+bloquear(23, 2, 2, 1); bloquear(32, 2); bloquear(23, 5, 1, 2); bloquear(26, 8); bloquear(29, 8); bloquear(32, 9);
+// FINANZAS: archivadores, planta, mesa de caja, caja fuerte, planta
+bloquear(34, 2, 2, 1); bloquear(41, 2); bloquear(34, 8, 2, 1); bloquear(41, 8); bloquear(41, 10);
+// PASILLO: plantas en los extremos
+bloquear(0, 12); bloquear(41, 12);
+// ADMINISTRATIVA: estantes, palé de cajas, mesa de embalaje, plantas
+bloquear(0, 16, 3, 1); bloquear(13, 16, 3, 1); bloquear(13, 21, 2, 2); bloquear(4, 23, 4, 1); bloquear(0, 25); bloquear(15, 25);
+// LIMPIEZA: rack, cono, carrito, tachos
+bloquear(17, 16); bloquear(22, 21); bloquear(17, 23); bloquear(21, 24, 2, 1);
+// CAFETERÍA: barra, refri, plantas, mesas, sofá
+for (const [c, r] of LAMPARAS) bloquear(c, r);
+bloquear(BARRA.c, BARRA.r, BARRA.w, 1); bloquear(41, 16); bloquear(24, 16); bloquear(24, 25);
+bloquear(26, 21, 2, 1); bloquear(31, 21, 2, 1); bloquear(36, 21, 2, 1); bloquear(39, 25, 3, 1); bloquear(41, 22);
+function ruta(c0, r0, c1, r1) {            // BFS 4 direcciones -> lista de baldosas
+  const key = (c, r) => r * COLS + c, prev = new Map([[key(c0, r0), -1]]), q = [[c0, r0]];
+  while (q.length) {
+    const [c, r] = q.shift();
+    if (c === c1 && r === r1) break;
+    for (const [dc, dr] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nc = c + dc, nr = r + dr;
+      if (nc < 0 || nr < 0 || nc >= COLS || nr >= ROWS || prev.has(key(nc, nr))) continue;
+      if (!pasa[nr][nc] && !(nc === c1 && nr === r1)) continue;
+      prev.set(key(nc, nr), key(c, r)); q.push([nc, nr]);
+    }
+  }
+  const out = []; let k = key(c1, r1);
+  if (!prev.has(k)) return [];
+  while (k !== -1) { out.unshift([k % COLS, Math.floor(k / COLS)]); k = prev.get(k); }
+  return out;
+}
+const VEL = 54;                                  // px del mundo por segundo
+const gente = AGENTES.filter(a => PUESTOS[a.id] && LOOK[a.id]).map((a, i) => ({
+  a, id: a.id, P: PUESTOS[a.id], L: LOOK[a.id], x: PUESTOS[a.id].x, y: PUESTOS[a.id].y,
+  modo: 'sentado', ruta: [], dir: 'abajo', dist: 0, fin: 0, alLlegar: null, reservado: false,
+  prox: 1.5 + i * 2.2, fase: i * 1.37, cafe: null,
+}));
+const porId = id => gente.find(p => p.id === id);
+const baldosa = p => [Math.floor((p.x - 1) / TS), Math.floor((p.y - 4) / TS)];
+function irA(p, c, r, final, cb) {
+  const [c0, r0] = baldosa(p), b = ruta(c0, r0, c, r);
+  p.ruta = b.slice(1).map(([bc, br]) => [bc * TS + 8, br * TS + 12]);
+  if (!b.length) p.ruta = [];
+  if (final) p.ruta.push(final);
+  p.modo = 'caminando'; p.alLlegar = cb;
+}
+function volverAlPuesto(p, t, cb) {
+  irA(p, p.P.sc, p.P.sr, [p.P.x, p.P.y], () => { p.modo = 'sentado'; p.dir = p.P.tipo === 'A' ? 'arriba' : 'abajo'; if (cb) cb(); });
+}
+function mover(p, dt) {
+  let paso = VEL * dt;
+  while (paso > 0 && p.ruta.length) {
+    const [tx, ty] = p.ruta[0], dx = tx - p.x, dy = ty - p.y, d = Math.hypot(dx, dy);
+    if (d > 0.01) p.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'der' : 'izq') : (dy > 0 ? 'abajo' : 'arriba');
+    if (d <= paso) { p.x = tx; p.y = ty; p.ruta.shift(); paso -= d; p.dist += d; }
+    else { p.x += dx / d * paso; p.y += dy / d * paso; p.dist += paso; paso = 0; }
+  }
+  if (!p.ruta.length && p.alLlegar) { const cb = p.alLlegar; p.alLlegar = null; cb(); }
+}
+function sitioJunto(b, o) {                // baldosa libre al lado del asiento, alcanzable
+  const [c0, r0] = baldosa(b);
+  for (const [c, r] of [[o.P.sc - 1, o.P.sr], [o.P.sc + 2, o.P.sr], [o.P.sc, o.P.sr + (o.P.tipo === 'A' ? 1 : -1)]])
+    if (pasa[r] && pasa[r][c] && ruta(c0, r0, c, r).length) return [c, r];
+  return null;
+}
+let T = 0;
+const AREA = { marketing: 'MARKETING', recluta: 'VENTAS', cierre: 'VENTAS', hermes: 'HERMES', contable: 'FINANZAS',
+  ali: 'ADMINISTRATIVA', ali2: 'ADMINISTRATIVA', tienda: 'ADMINISTRATIVA', disksaver: 'LIMPIEZA' };
+const CHARLAS = [                          // [visitante, visitado]
+  ['¿Cómo va todo?', '¡Todo bien! ¿Y tú?'],
+  ['¿Todo listo por aquí?', 'Sí, avanzando 💪'],
+  ['¿Un cafecito luego?', '¡Claro, me apunto! ☕'],
+  ['¡Hola, vecino!', '¡Hola! Qué gusto verte'],
+  ['¿Necesitas una mano?', 'Por ahora todo en orden 👍'],
+  ['¿Viste los números de hoy?', '¡Van muy bien!'],
+  ['¿Qué tal tu mañana?', 'Tranquila, todo fluye'],
+  ['¿Cómo vas con lo tuyo?', 'Ya casi lo termino'],
+];
+const CIERRES = [
+  ['¡Buen trabajo!', '¡Gracias, igualmente!'],
+  ['Te dejo seguir 😊', '¡Nos vemos!'],
+  ['¡Sigamos así!', '¡A darle! 🌸'],
+  ['Cualquier cosa me avisas', '¡Hecho!'],
+  ['¡Éxitos con eso!', '¡Gracias! 🙌'],
+];
+const DUR_LINEA = 1.9;                     // segundos por globo
+const visita = { fase: 'nada', v: null, o: null, t0: 0, lineas: [], prox: 7 + Math.random() * 5 };
+const azar = a => a[Math.floor(Math.random() * a.length)];
+const libreParaVisita = p => p.id !== 'hermes' && p.modo === 'sentado' && p.a.estado === 'libre' &&
+  !p.reservado && !p.enVisita && p.id !== jefe.obj;
+function terminarVisita() {                // el visitado queda libre; el visitante regresa a su puesto
+  const { v, o } = visita;
+  if (o) o.enVisita = false;
+  visita.fase = 'vuelta'; visita.o = null;
+  const volver = () => volverAlPuesto(v, T, () => {
+    v.enVisita = false; v.prox = Math.max(v.prox, T + 6);
+    visita.fase = 'nada'; visita.v = null; visita.prox = T + 12 + Math.random() * 13;
+  });
+  if (v.modo === 'caminando' && v.ruta.length) { v.ruta = v.ruta.slice(0, 1); v.alLlegar = volver; }   // termina el paso actual
+  else volver();
+}
+function actualizarVisitas(t) {
+  if (visita.fase === 'nada') {
+    if (t < visita.prox) return;
+    const libres = gente.filter(libreParaVisita), pares = [];
+    for (const a of libres) for (const b of libres) if (a !== b && AREA[a.id] !== AREA[b.id]) pares.push([a, b]);
+    if (!pares.length) for (const a of libres) for (const b of libres) if (a !== b) pares.push([a, b]);
+    if (!pares.length) { visita.prox = t + 3; return; }
+    const [v, o] = azar(pares), dest = sitioJunto(v, o);
+    if (!dest) { visita.prox = t + 3; return; }
+    const ab = azar(CHARLAS), ci = azar(CIERRES);
+    visita.lineas = [ab[0], ab[1], ci[0], ci[1]];
+    v.enVisita = o.enVisita = true; visita.v = v; visita.o = o; visita.fase = 'ida';
+    irA(v, dest[0], dest[1], null, () => {
+      if (visita.fase !== 'ida') return;
+      visita.fase = 'charla'; visita.t0 = T; v.modo = 'parado';
+      v.dir = dest[0] < o.P.sc ? 'der' : dest[0] > o.P.sc ? 'izq' : (o.P.tipo === 'A' ? 'arriba' : 'abajo');
+    });
+  } else if (visita.fase === 'ida' || visita.fase === 'charla') {
+    const { v, o } = visita;
+    const corta = v.a.estado !== 'libre' || o.a.estado !== 'libre';           // alguien pasó a trabajar / bloqueado
+    if (corta || (visita.fase === 'charla' && t - visita.t0 > visita.lineas.length * DUR_LINEA)) terminarVisita();
+  }
+}
+const charlando = p => visita.fase === 'charla' && (p === visita.v || p === visita.o);
+function actualizarGente3D(t, dt) {          // = actualizarGente() del 2D (sin barista ni jefe, que aquí van aparte)
+  actualizarVisitas(t);
+  for (const p of gente) {
+    if (p.id === 'hermes') continue;
+    if (p.modo === 'sentado' && p.a.estado === 'libre' && !p.reservado && !p.enVisita && p.id !== jefe.obj && t > p.prox) {
+      const ocupados = gente.filter(q => q.cafe).map(q => q.cafe.join());
+      const sitios = CAFE.filter(s => !ocupados.includes(s.join()));
+      if (!sitios.length) { p.prox = t + 3; continue; }
+      const s = sitios[Math.floor(Math.random() * sitios.length)]; p.cafe = s;
+      irA(p, s[0], s[1], null, () => { p.modo = 'cafe'; p.dir = s[2] || 'abajo'; p.fin = T + 3.5 + Math.random() * 3; });
+    }
+    if (p.modo === 'cafe') {
+      if (t > p.fin || p.a.estado !== 'libre') volverAlPuesto(p, t, () => { p.cafe = null; p.prox = T + 10 + Math.random() * 14; });
+    }
+    if (p.modo === 'caminando') mover(p, dt);
+  }
+}
+// 2D px -> mundo 3D
+const pxX = x => x / 16 - COLS / 2, pxZ = y => (y - 4) / 16 - ROWS / 2;
+const ROT = { arriba: 0, abajo: Math.PI, izq: Math.PI / 2, der: -Math.PI / 2 };
+function colocarGente(t) {
+  for (const p of gente) {
+    if (p.id === 'hermes') continue;
+    const o = AG3[p.id]; if (!o) continue; const g = o.per.g, per = o.per;
+    const fuera = p.modo !== 'sentado';
+    if (fuera && g.parent !== scene) { o.esc.remove(g); scene.add(g); }
+    if (!fuera && g.parent === scene) { scene.remove(g); o.esc.add(g); g.position.copy(o.asiento); g.rotation.y = 0; per.cad.position.y = 0.5; for (const l of per.piernas) l.rotation.x = Math.PI / 2; }
+    if (!fuera) continue;
+    const prev = o.ult || new THREE.Vector3(pxX(p.x), 0, pxZ(p.y));
+    g.position.set(pxX(p.x), 0, pxZ(p.y));
+    let rot = ROT[p.dir] ?? 0;
+    if (p.modo === 'parado' && charlando(p)) { const q = p === visita.v ? visita.o : visita.v, qg = AG3[q.id].per.g, w = new THREE.Vector3(); qg.getWorldPosition(w); rot = Math.atan2(-(w.x - g.position.x), -(w.z - g.position.z)); }
+    g.rotation.y = rot; o.ult = g.position.clone();
+    if (p.modo === 'caminando') {
+      const k = Math.sin(p.dist / 16 * Math.PI * 1.6); per.cad.position.y = 0.75 + Math.abs(k) * 0.035;
+      per.piernas[0].rotation.x = k * 0.55; per.piernas[1].rotation.x = -k * 0.55;
+      per.brazos[0].rotation.x = -k * 0.45; per.brazos[1].rotation.x = k * 0.45;
+    } else if (p.modo === 'cafe') {               // sentado en el banquito con su taza
+      per.cad.position.y = 0.55; for (const l of per.piernas) l.rotation.x = Math.PI / 2;
+      per.brazos[0].rotation.x = 1.1 + Math.sin(t * 1.3 + o.fase) * 0.25; per.brazos[1].rotation.x = 0.2;
+    } else {                                      // parado (charla): gesticula al hablar
+      per.cad.position.y = 0.75; for (const l of per.piernas) l.rotation.x = 0;
+      const habla = lineaDe(p); per.brazos[0].rotation.x = habla ? 0.9 + Math.sin(t * 6) * 0.35 : 0.1; per.brazos[1].rotation.x = 0.1;
+    }
+  }
+}
+// Globos de diálogo (mismas frases que 2D)
+function lineaDe(p) {
+  if (visita.fase !== 'charla') return '';
+  const i = Math.floor((T - visita.t0) / DUR_LINEA); if (i < 0 || i >= visita.lineas.length) return '';
+  const quien = i % 2 === 0 ? visita.v : visita.o; return quien === p ? visita.lineas[i] : '';
+}
+function forzarVisita(vId, oId) {               // para pruebas: oficina.visitar('marketing', 'contable')
+  const v = porId(vId), o = porId(oId); if (!v || !o || visita.fase !== 'nada') return false;
+  if (!libreParaVisita(v) || !libreParaVisita(o)) return false;
+  const dest = sitioJunto(v, o); if (!dest) return false;
+  const ab = azar(CHARLAS), ci = azar(CIERRES); visita.lineas = [ab[0], ab[1], ci[0], ci[1]];
+  v.enVisita = o.enVisita = true; visita.v = v; visita.o = o; visita.fase = 'ida';
+  irA(v, dest[0], dest[1], null, () => { if (visita.fase !== 'ida') return; visita.fase = 'charla'; visita.t0 = T; v.modo = 'parado'; });
+  return true;
+}
+
 /* ---- Bucle ---- */
 const tmp = new THREE.Vector3(), reloj = new THREE.Clock();
+let headerH = 50, footerH = 40;
+function medirBordes() { headerH = document.querySelector('header').offsetHeight; footerH = document.querySelector('footer').offsetHeight; }
+addEventListener('resize', medirBordes); setTimeout(medirBordes, 0); setInterval(medirBordes, 2000);
 let marcas = [];
 renderer.setAnimationLoop(() => {
-  const dt = Math.min(reloj.getDelta(), 0.1), t = reloj.elapsedTime;
+  const dt = Math.min(reloj.getDelta(), 0.1), t = reloj.elapsedTime; T = t;
+  actualizarGente3D(t, dt);
   for (const id in AG3) {
     const o = AG3[id], p = o.per, est = o.a.estado, f = t + o.fase;
     if (id === 'hermes' && jefe.fase !== 'sentado') continue;
+    const pg = porId(id); if (pg && pg.modo !== 'sentado') continue;
     p.torso.scale.y = 1 + Math.sin(f * 2) * 0.02;
     if (est === 'trabajando') { p.brazos[0].rotation.x = 1.25 + Math.sin(f * 14) * 0.12; p.brazos[1].rotation.x = 1.25 + Math.sin(f * 14 + 1.7) * 0.12; p.cab.rotation.y = Math.sin(f * 0.6) * 0.08; p.cab.rotation.x = 0.08; }
     else if (est === 'bloqueado') { p.brazos[0].rotation.x = 2.6 + Math.sin(f * 5) * 0.3; p.brazos[1].rotation.x = 0.3; p.cab.rotation.y = Math.sin(f * 3) * 0.35; p.cab.rotation.x = 0; o.aro.material.opacity = 0.45 + Math.abs(Math.sin(f * 3)) * 0.5; }
@@ -614,7 +820,7 @@ renderer.setAnimationLoop(() => {
     o.pantMat.emissiveIntensity = 1.1 + Math.sin(f * 3) * 0.12;
     if (o.item.userData.trofeo) o.item.userData.trofeo.rotation.y = t * 0.6;
   }
-  pasoJefe(dt, t);
+  pasoJefe(dt, t); colocarGente(t);
   barista.g.position.x = X(36.5) + Math.sin(t * 0.35) * 2.2; barista.torso.scale.y = 1 + Math.sin(t * 2) * 0.02;
   const s = Math.sin(t * 0.7); barista.piernas[0].rotation.x = Math.cos(t * 0.35) * Math.sin(t * 8) * 0.35; barista.piernas[1].rotation.x = -barista.piernas[0].rotation.x;
   controls.update(); renderer.render(scene, camera);
@@ -625,7 +831,20 @@ renderer.setAnimationLoop(() => {
     const o = AG3[id]; o.per.cab.getWorldPosition(tmp); tmp.y += 0.6; tmp.project(camera);
     const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
     o.el.style.display = vis ? '' : 'none';
-    if (vis) o.el.style.transform = `translate(${((tmp.x * 0.5 + 0.5) * innerWidth).toFixed(1)}px,${((-tmp.y * 0.5 + 0.5) * innerHeight).toFixed(1)}px) translate(-50%,-100%)`;
+    const sx = (tmp.x * 0.5 + 0.5) * innerWidth, sy = (-tmp.y * 0.5 + 0.5) * innerHeight;
+    if (vis) {
+      const w = o.el.offsetWidth, h = o.el.offsetHeight, m = 4, top0 = headerH + h + 4;
+      const cx = Math.min(Math.max(sx, w / 2 + m), innerWidth - w / 2 - m), cy = Math.min(Math.max(sy, top0), innerHeight - footerH - 4);
+      o.el.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) translate(-50%,-100%)`;
+      o.el.style.setProperty('--cola', (sx - cx).toFixed(1) + 'px');
+    }
+    const pg = porId(id), txt = pg ? lineaDe(pg) : '';
+    if (txt && vis) {
+      if (o.dlg.textContent !== txt) o.dlg.textContent = txt;
+      o.dlg.style.display = ''; const w = o.dlg.offsetWidth, h = o.dlg.offsetHeight;
+      const cx = Math.min(Math.max(sx, w / 2 + 4), innerWidth - w / 2 - 4), cy = Math.max(sy - o.el.offsetHeight - 10, headerH + h + 4);
+      o.dlg.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) translate(-50%,-100%)`;
+    } else o.dlg.style.display = 'none';
     o.el.classList.toggle('lejos', dCam > 40 && id !== 'hermes' && !(typeof pendientes === 'object' && pendientes[id]));
     o.el.classList.toggle('marca', marcas.some(m => m.id === id));
   }
@@ -785,7 +1004,7 @@ function actualizar(id, estado, tarea, ts) {
   if (ts) a.ts = ts;
   resumen(); if (panelId === id) pintarInfo(); return true;
 }
-window.oficina = { actualizar, agentes: AGENTES, ordenar: id => ordenarHermes(id), camera, controls };
+window.oficina = { actualizar, agentes: AGENTES, ordenar: id => ordenarHermes(id), camera, controls, visitar: forzarVisita, gente, modoLuz: m => { while (modoLuz !== m) btnLuz.click(); } };
 window.openAgentPanel = openAgentPanel;
 
 /* ---------------- Aviso de agente bloqueado ---------------- */
@@ -986,7 +1205,7 @@ async function cargarRespuestas(rapido) {
 }
 
 /* ---------------- Arranque ---------------- */
-const POLL3D = 20000;
+const POLL3D = 10000;   // igual que POLL_MS del 2D
 tic(); resumen(); aplicarLuz(); cargarEstadoExterno(); cargarRespuestas();
 setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL3D); setInterval(cargarRespuestas, POLL3D);
 setInterval(() => { revisarBloqueados(); pintarGlobos(); }, 1000);
