@@ -417,18 +417,19 @@ function itemMesa(tipo, g) {
    Jerarquía (huesos = THREE.Group): cad(cadera) > torso > cuello > cab ; torso > hombro > brazo > codo > mano ;
    cad > pierna > rodilla > pie. Cada hueso lleva UNA malla con sus piezas fusionadas (colores por vértice) -> pocas draw calls.
    Interfaz igual que antes: { g, cad, torso, cab, brazos[2], piernas[2] } (+ codos, rodillas, mano). */
-const MAT_AV = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.62, metalness: 0.02 });
-const MAT_AV_BRILLO = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.25, metalness: 0.1 });
+const MAT_AV = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.68, metalness: 0.02, flatShading: true });   // low-poly facetado
+const MAT_AV_BRILLO = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.3, metalness: 0.1, flatShading: true });
 const SEG = matchMedia('(max-width:700px)').matches ? 0.75 : 1;           // menos polígonos en celular
 const sg = (n) => Math.max(5, Math.round(n * SEG));
-const G_ESF = new THREE.SphereGeometry(1, sg(16), sg(12));
-const G_ESF_LO = new THREE.SphereGeometry(1, sg(10), sg(8));
-const G_CAP = new THREE.CapsuleGeometry(1, 1, sg(4), sg(12));
-const G_CIL = new THREE.CylinderGeometry(1, 1, 1, sg(14));
-const G_CONO = new THREE.ConeGeometry(1, 1, sg(10));
+// pocos segmentos a propósito: caras planas visibles (estilo "low-poly")
+const G_ESF = new THREE.SphereGeometry(1, 9, 7);
+const G_ESF_LO = new THREE.SphereGeometry(1, 6, 4);
+const G_CAP = new THREE.CapsuleGeometry(1, 1, 2, 7);
+const G_CIL = new THREE.CylinderGeometry(1, 1, 1, 7);
+const G_CONO = new THREE.ConeGeometry(1, 1, 6);
 const G_CAJA = new THREE.BoxGeometry(1, 1, 1);
 const G_TORO = new THREE.TorusGeometry(1, 0.18, 6, sg(16), Math.PI);
-const G_MEDIA = new THREE.SphereGeometry(1, sg(16), sg(10), 0, Math.PI * 2, 0, Math.PI * 0.55);   // casquete (pelo)
+const G_MEDIA = new THREE.SphereGeometry(1, 9, 5, 0, Math.PI * 2, 0, Math.PI * 0.55);   // casquete (pelo)
 class Hueso {
   constructor(padre, x = 0, y = 0, z = 0) { this.g = new THREE.Group(); this.g.position.set(x, y, z); (padre.g || padre).add(this.g); this.p = []; this.b = []; }
   // pieza: geometría base, color, posición, escala, rotación
@@ -473,6 +474,8 @@ function persona(L) {
     torso.add(G_CONO, '#e5484d', [0, 0.23, -0.12], [0.025, 0.16, 0.01], [Math.PI, 0, 0]);
     torso.add(G_CAJA, '#e5484d', [0, 0.32, -0.118], [0.03, 0.025, 0.012]);
     for (const y of [0.1, 0.16]) torso.add(G_ESF_LO, '#1d1a22', [0.04, y, -0.112], [0.008, 0.008, 0.006]);
+    torso.add(G_CIL, ropa, [0, -0.02, 0], [0.168, 0.12, 0.118]);                    // faldón del saco
+    torso.add(G_CAJA, oscurecer(ropa, 0.8), [0, -0.02, -0.117], [0.008, 0.12, 0.004]);   // abertura del saco
     torso.add(G_CAJA, '#ffffff', [-0.09, 0.26, -0.11], [0.03, 0.015, 0.006], [0, 0, 0.1]);     // pañuelo
   } else {
     torso.add(G_TORO, aclarar(tc, 0.35), [0, 0.355, -0.03], [0.07, 0.07, 0.07], [Math.PI / 2 + 0.25, 0, Math.PI]);   // cuello de camisa
@@ -489,25 +492,24 @@ function persona(L) {
   torso.cerrar();
   // cuello + cabeza
   const cuello = new Hueso(torso, 0, 0.39, 0); cuello.add(G_CIL, piel, [0, 0.03, 0], [0.045, 0.08, 0.045]); cuello.cerrar();
-  const cab = new Hueso(cuello, 0, 0.18, -0.005);
+  const cab = new Hueso(cuello, 0, 0.19, -0.005); cab.g.scale.setScalar(1.13);   // cabeza algo grande (estilizado)
   cab.add(G_ESF, piel, [0, 0, 0], [0.105, 0.125, 0.112]);                          // cráneo
   cab.add(G_ESF, piel, [0, -0.06, -0.025], [0.085, 0.07, 0.085]);                  // mandíbula / mentón
   for (const s of [-1, 1]) {
     cab.add(G_ESF_LO, oscurecer(piel, 0.93), [s * 0.103, -0.005, 0.005], [0.018, 0.03, 0.02]);            // orejas
-    cab.add(G_ESF_LO, '#ffffff', [s * 0.04, 0.01, -0.093], [0.022, 0.016, 0.012]);                       // ojo
-    cab.add(G_ESF_LO, '#3b2a20', [s * 0.04, 0.009, -0.103], [0.011, 0.012, 0.005], null, true);          // iris
-    cab.add(G_ESF_LO, '#ffffff', [s * 0.04 + 0.004, 0.014, -0.107], [0.003, 0.003, 0.002], null, true);   // brillo
-    cab.add(G_CAJA, oscurecer(pelo, 0.85), [s * 0.04, 0.045, -0.1], [0.036, 0.009, 0.01], [0, 0, s * -0.12]);   // ceja
-    cab.add(G_ESF_LO, '#f19a9a', [s * 0.065, -0.035, -0.088], [0.018, 0.01, 0.006]);                     // mejilla
+    cab.add(G_ESF_LO, '#241a16', [s * 0.038, 0.008, -0.1], [0.013, 0.017, 0.008], null, true);           // ojo (óvalo oscuro)
+    cab.add(G_CAJA, '#ffffff', [s * 0.038 + 0.004, 0.014, -0.108], [0.004, 0.004, 0.002]);               // brillo
+    cab.add(G_CAJA, oscurecer(pelo, 0.8), [s * 0.04, 0.042, -0.106], [0.034, 0.008, 0.008], [0, 0, s * -0.1]);   // ceja
+    cab.add(G_ESF_LO, '#eaa59c', [s * 0.062, -0.03, -0.092], [0.014, 0.008, 0.004]);                     // mejilla
   }
   cab.add(G_ESF_LO, oscurecer(piel, 0.9), [0, -0.022, -0.112], [0.014, 0.022, 0.014]);                 // nariz
-  cab.add(G_CAP, '#b0504a', [0, -0.07, -0.098], [0.006, 0.022, 0.006], [0, 0, Math.PI / 2]);              // boca (sonrisa)
-  cab.add(G_ESF_LO, '#b0504a', [0.024, -0.066, -0.097], [0.006, 0.006, 0.005]); cab.add(G_ESF_LO, '#b0504a', [-0.024, -0.066, -0.097], [0.006, 0.006, 0.005]);
+  cab.add(G_CAJA, '#8e3d3a', [0, -0.066, -0.104], [0.032, 0.007, 0.008]);                                // boca (sonrisa suave)
+  for (const s of [-1, 1]) cab.add(G_CAJA, '#8e3d3a', [s * 0.019, -0.062, -0.102], [0.01, 0.006, 0.008], [0, 0, s * 0.5]);
   // pelo con volumen
   const P = L.pelo;
-  if (P !== 'calvo') cab.add(G_MEDIA, pelo, [0, 0.015, 0.008], [0.118, 0.135, 0.124]);
-  if (P === 'corto' || P === 'rizado' || P === 'pinchos') { cab.add(G_ESF, pelo, [0, 0.07, -0.06], [0.1, 0.05, 0.06], [0.3, 0, 0]); cab.add(G_ESF, pelo, [0, 0.0, 0.05], [0.108, 0.1, 0.075]); }
-  if (P === 'corto') { cab.add(G_ESF, pelo, [-0.03, 0.105, -0.05], [0.07, 0.03, 0.05], [0.2, 0, 0.3]); for (const s of [-1, 1]) cab.add(G_CAJA, pelo, [s * 0.1, 0.0, 0.0], [0.02, 0.06, 0.05]); }
+  if (P !== 'calvo') cab.add(G_MEDIA, pelo, [0, 0.025, 0.012], [0.118, 0.135, 0.124], [-0.3, 0, 0]);   // inclinado atrás: frente despejada
+  if (P === 'corto' || P === 'rizado' || P === 'pinchos') { cab.add(G_ESF, pelo, [0, 0.092, -0.055], [0.1, 0.045, 0.06], [0.3, 0, 0]); cab.add(G_ESF, pelo, [0, 0.0, 0.05], [0.108, 0.1, 0.075]); }
+  if (P === 'corto') { cab.add(G_ESF, pelo, [-0.03, 0.12, -0.045], [0.07, 0.03, 0.05], [0.2, 0, 0.3]); for (const s of [-1, 1]) cab.add(G_CAJA, pelo, [s * 0.1, 0.0, 0.0], [0.02, 0.06, 0.05]); }
   if (P === 'pinchos') for (let i = 0; i < 7; i++) { const a = (i / 6 - 0.5) * 2.2; cab.add(G_CONO, pelo, [Math.sin(a) * 0.08, 0.13 + Math.cos(a) * 0.01, -0.02 + (i % 2) * 0.04], [0.035, 0.08, 0.035], [-0.3, 0, -a * 0.5]); }
   if (P === 'rizado') for (let i = 0; i < 14; i++) { const a = i * 2.4, r = 0.1; cab.add(G_ESF_LO, pelo, [Math.cos(a) * r * 0.9, 0.08 + (i % 3) * 0.025, Math.sin(a) * r * 0.9], [0.04, 0.04, 0.04]); }
   if (P === 'largo') { cab.add(G_CAP, pelo, [0, -0.07, 0.06], [0.11, 0.1, 0.065]); for (const s of [-1, 1]) cab.add(G_CAP, pelo, [s * 0.098, -0.07, -0.01], [0.03, 0.1, 0.06]); cab.add(G_ESF, pelo, [0.02, 0.075, -0.075], [0.09, 0.04, 0.05], [0.4, 0, -0.25]); }
@@ -555,6 +557,19 @@ function persona(L) {
   }
   return { g, cad: cad.g, torso: torso.g, cab: cab.g, brazos, codos, manos, piernas, rodillas, humano: true };
 }
+/* Manos en los bolsillos al estar de pie quieto (piernas rectas y brazos casi colgando). Suavizado para no parpadear al caminar. */
+function bolsillos(per) {
+  let quieto = true;
+  for (let i = 0; i < 2; i++) { const b = per.brazos[i].rotation.x; if (Math.abs(per.piernas[i].rotation.x) > 0.06 || b < -0.05 || b > 0.4) quieto = false; }
+  per.bol = (per.bol || 0) + ((quieto ? 1 : 0) - (per.bol || 0)) * (quieto ? 0.06 : 0.35);
+  const w = per.bol;
+  for (let i = 0; i < 2; i++) {
+    const s = i ? 1 : -1, b = per.brazos[i], c = per.codos[i];
+    if (w > 0.01) b.rotation.x = b.rotation.x * (1 - w) + 0.04 * w;
+    b.rotation.z = s * 0.2 * w;
+    c.rotation.z = -s * 0.42 * w; c.rotation.x = c.rotation.x * (1 - w) - 0.12 * w;
+  }
+}
 /* Postura derivada: rodillas y codos siguen a caderas y hombros (sentado, caminando, tecleando). */
 function postura(per, t) {
   for (let i = 0; i < 2; i++) {
@@ -563,6 +578,7 @@ function postura(per, t) {
     const b = per.brazos[i].rotation.x;
     per.codos[i].rotation.x = b > 0.9 && b < 2 ? 0.2 : b >= 2 ? 0.3 : 0.15 + Math.max(0, b) * 0.4;
   }
+  if (per.humano) bolsillos(per);
 }
 
 function sillaOficina(col) {
@@ -1234,6 +1250,7 @@ function actualizar(id, estado, tarea, ts) {
 }
 window.oficina = { actualizar, agentes: AGENTES, ordenar: id => ordenarHermes(id), camera, controls, visitar: forzarVisita, gente, confeti: lanzarConfeti, volarA, ordenarHermes, modoLuz: m => { while (modoLuz !== m) btnLuz.click(); } };
 window.oficina.ordenar = id => ordenarHermes(id);
+window.oficina.AG3 = AG3; window.oficina.prueba = { persona, postura, LOOK, scene };   // solo para pruebas (no altera la oficina)
 window.openAgentPanel = openAgentPanel;
 
 /* ---------------- Aviso de agente bloqueado ---------------- */
