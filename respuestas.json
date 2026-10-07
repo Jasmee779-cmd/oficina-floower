@@ -130,5 +130,11 @@
   "de": "HERMES",
   "texto": "Voy bien, James. Ya tengo en prueba el zoom para acercar y mover la oficina, el aviso «Trabajando en ello…» y las respuestas más rápidas. Estoy sacando las capturas en PC y celular; te las paso para tu OK antes de publicar.",
   "ts": "2026-10-07T04:04:55-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Trabajando en ello… (oficina de extremo a extremo)",
+  "ts": "2026-10-07T04:05:25-05:00"
  }
 ]
