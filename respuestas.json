@@ -64,5 +64,11 @@
   "de": "HERMES",
   "texto": "James, el recaudo del 06/10 todavía no está registrado. Le pido ahora a ALI 2 que lo saque de Aliclik (solo ENTREGADO) y te paso el monto apenas lo tenga.",
   "ts": "2026-10-07T03:52:40-05:00"
+ },
+ {
+  "id": "ali2",
+  "de": "HERMES",
+  "texto": "ALI 2 no pudo entrar a Aliclik (el login borra los campos solo). Le paso el recaudo del 06/10 a ALI, uno solo a la vez. Te aviso el monto apenas lo tenga.",
+  "ts": "2026-10-07T03:56:11-05:00"
  }
 ]
