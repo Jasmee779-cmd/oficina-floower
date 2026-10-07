@@ -94,5 +94,11 @@
   "de": "HERMES",
   "texto": "Dale, James. Te aviso apenas ALI me pase el recaudo del 06/10. Y desde hoy queda que todos los días, a las 10 pm, se saca el recaudo del día (solo ENTREGADO) y te lo paso.",
   "ts": "2026-10-07T03:57:55-05:00"
+ },
+ {
+  "id": "ali2",
+  "de": "HERMES",
+  "texto": "Dale, James. ALI 2 ya salió de Aliclik y ALI está sacando el recaudo del 06/10 (solo ENTREGADO). Apenas termine te aviso el monto.",
+  "ts": "2026-10-07T03:58:08-05:00"
  }
 ]
