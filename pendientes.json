@@ -1,0 +1,15 @@
+{
+ "pendientes": [
+  {
+   "id": "shalom",
+   "texto": "Pedido sin cobertura: decidir envío Shalom",
+   "ts": "2026-10-08T07:50:49-05:00"
+  },
+  {
+   "id": "multiple",
+   "texto": "Pedido múltiple: confirmar estado",
+   "ts": "2026-10-08T07:50:49-05:00"
+  }
+ ],
+ "ts": "2026-10-08T07:50:49-05:00"
+}
