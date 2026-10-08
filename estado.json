@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-07T19:48:24-05:00"
+  "estado": "trabajando",
+  "tarea": "Pedidos del día 07/10",
+  "ts": "2026-10-07T21:01:00-05:00"
  },
  {
   "id": "cierre",
