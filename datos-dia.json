@@ -1,1 +1,8 @@
-{"fecha": "2026-10-07", "recaudo": 0, "masivos": 0, "pedidos": 0, "moneda": "PEN", "ts": "2026-10-07T00:49:58-05:00"}
+{
+ "fecha": "2026-10-07",
+ "recaudo": 0,
+ "masivos": 16,
+ "pedidos": 0,
+ "moneda": "PEN",
+ "ts": "2026-10-07T19:53:52-05:00"
+}
