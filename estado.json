@@ -1,9 +1,9 @@
 [
  {
   "id": "hermes",
-  "estado": "trabajando",
-  "tarea": "subiendo el techo de la oficina",
-  "ts": "2026-10-08T12:41:56-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-08T12:48:37-05:00"
  },
  {
   "id": "ali",
