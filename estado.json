@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "animando reels con Grok Imagine",
-  "ts": "2026-10-08T12:14:39-05:00"
+  "estado": "bloqueado",
+  "tarea": "esperando decisión de plan de video IA",
+  "ts": "2026-10-08T12:19:08-05:00"
  },
  {
   "id": "contable",
