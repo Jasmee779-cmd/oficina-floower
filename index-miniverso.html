@@ -291,7 +291,7 @@ const hemi = new THREE.HemisphereLight('#ffe9c7', '#3a2c40', 1.0); scene.add(hem
 const sol = new THREE.DirectionalLight('#ffd49a', 1.6);
 sol.position.set(14, 26, 16); sol.castShadow = true;
 sol.shadow.mapSize.set(2048, 2048); sol.shadow.radius = 3; sol.shadow.bias = -0.0006; sol.shadow.normalBias = 0.02;
-Object.assign(sol.shadow.camera, { left: -30, right: 30, top: 26, bottom: -26, near: 1, far: 90 });   // cubre todo el piso cerrado (techo incluido)
+Object.assign(sol.shadow.camera, { left: -36, right: 36, top: 36, bottom: -36, near: 20, far: 180 });   // cubre todo el piso cerrado (techo incluido)
 scene.add(sol); scene.add(sol.target);
 
 const matCache = {};
@@ -830,8 +830,8 @@ function vistaCam(v, ver) {
     const [c, r] = CUARTOS[v]; tgt.set(X(c), 3.1, Z(r) - 2.5); pos.set(X(c), ver ? 7.0 : 6.5, Z(r) + (ver ? 12.5 : 10.5));
   }
   else if (v === 'cafeteria') { if (ver) { tgt.set(12.5, 2.0, 11); pos.set(12, 6.4, 0.6); } else { tgt.set(13, 2.4, 10.5); pos.set(2.2, 5.8, 0.4); } }
-  else if (ver) { tgt.set(-4, 0.8, -5); pos.set(10, 7.4, 15.6); }                    // celular: desde la sala de espera, en diagonal hacia el norte y el mar
-  else { tgt.set(-2.5, 2.2, -3.5); pos.set(5.5, 6.6, 15.5); }                          // PC: desde la sala de espera, mirando al norte y al mar
+  else if (ver) { tgt.set(-4, 0.8, -5); pos.set(12, 13, 22.3); }                    // celular: desde la sala de espera, en diagonal hacia el norte y el mar
+  else { tgt.set(-1, 1.5, -5); pos.set(0, 12.5, 22.3); }                          // PC: desde la sala de espera, mirando al norte y al mar
   return { tgt, pos };
 }
 function vistaInicial() {
@@ -2572,8 +2572,8 @@ const MAT_REFLEJO = new THREE.MeshBasicMaterial({ map: texHalo, blending: THREE.
 /* ---------- 2) 🏙️ EXTERIOR: la oficina está en un rascacielos ---------- */
 const SUELO_Y = -150, PER = 50, COSTA_X = -265;
 // 🏢 envolvente del piso: la oficina es un piso alto CERRADO (techo, columnas y muro cortina de vidrio)
-// franja perimetral junto al vidrio: 2 al oeste/este, 3.2 al sur (sala de espera), 0.7 al norte (detrás del muro de las pantallas)
-const EDIF = { x0: -23, x1: 23, z0: -13.7, z1: 16.2, H: 9 };
+// franja perimetral junto al vidrio: 2 al oeste/este, 10 al sur (sala de espera de doble altura), 0.7 al norte (detrás del muro de las pantallas)
+const EDIF = { x0: -23, x1: 23, z0: -13.7, z1: 23, H: 20 };   // techo de atrio (20 m) y sala de espera profunda al sur: la cámara General sube sin salir del edificio
 EDIF.cx = (EDIF.x0 + EDIF.x1) / 2; EDIF.cz = (EDIF.z0 + EDIF.z1) / 2; EDIF.w = EDIF.x1 - EDIF.x0; EDIF.d = EDIF.z1 - EDIF.z0;
 box(EDIF.w + 0.4, 0.34, EDIF.d + 0.4, '#cfcac2', EDIF.cx, -0.175, EDIF.cz, scene, false).receiveShadow = false;   // losa
 { // piso perimetral (piedra pulida) alrededor de la oficina
@@ -2598,7 +2598,7 @@ for (const [nom, largo, x, z, ry] of [['sur', EDIF.w, EDIF.cx, EDIF.z1, 0], ['no
   const v = new THREE.Mesh(pg, MAT_VIDRIO.clone()); v.position.y = ALTO_VENT / 2; v.renderOrder = 3; gr.add(v);
   const n = Math.round(largo / 2.3), gs = [];
   for (let i = 0; i <= n; i++) { const g = new THREE.BoxGeometry(0.06, ALTO_VENT, 0.09); g.translate(-largo / 2 + i * largo / n, ALTO_VENT / 2, 0); gs.push(g); }   // perfiles finos
-  for (const [y, hh] of [[ALTO_VENT - 0.05, 0.12], [0.05, 0.1], [3.2, 0.04]]) { const g = new THREE.BoxGeometry(largo, hh, 0.1); g.translate(0, y, 0); gs.push(g); }
+  for (const [y, hh] of [[ALTO_VENT - 0.07, 0.16], [0.05, 0.1], [3.2, 0.04], [11.2, 0.05]]) { const g = new THREE.BoxGeometry(largo, hh, 0.1); g.translate(0, y, 0); gs.push(g); }
   const p = new THREE.Mesh(mergeGeometries(gs), MAT_PERFIL); gr.add(p);
   LADOS.push({ nom, gr, v, p, k: 1 });
 }
@@ -2771,8 +2771,8 @@ const impresora = { activo: false, prox: 15 + rndV() * 25, t0: 0, pila: 0 };
 const TEX_RAYO = lienzo(64, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(255,236,190,.9)'); gr.addColorStop(1, 'rgba(255,236,190,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h); const gx = g.createLinearGradient(0, 0, w, 0); gx.addColorStop(0, 'rgba(0,0,0,1)'); gx.addColorStop(0.3, 'rgba(0,0,0,0)'); gx.addColorStop(0.7, 'rgba(0,0,0,0)'); gx.addColorStop(1, 'rgba(0,0,0,1)'); g.globalCompositeOperation = 'destination-out'; g.fillStyle = gx; g.fillRect(0, 0, w, h); }, true);
 TEX_RAYO.wrapS = TEX_RAYO.wrapT = THREE.ClampToEdgeWrapping;
 const RAYOS = { franjas: [] };
-for (const x of [-18.5, -9.5, 0.5, 9.5, 18.5]) RAYOS.franjas.push({ lado: 'sur', o: new THREE.Vector3(x, 7.6, EDIF.z1 - 0.05), t: new THREE.Vector3(1, 0, 0) });
-for (const z of [-8.5, -2.5, 4.5, 10.5]) { RAYOS.franjas.push({ lado: 'este', o: new THREE.Vector3(EDIF.x1 - 0.05, 7.6, z), t: new THREE.Vector3(0, 0, 1) }); RAYOS.franjas.push({ lado: 'oeste', o: new THREE.Vector3(EDIF.x0 + 0.05, 7.6, z), t: new THREE.Vector3(0, 0, 1) }); }
+for (const x of [-18.5, -9.5, 0.5, 9.5, 18.5]) RAYOS.franjas.push({ lado: 'sur', o: new THREE.Vector3(x, EDIF.H * 0.8, EDIF.z1 - 0.05), t: new THREE.Vector3(1, 0, 0) });
+for (const z of [-8.5, -2.5, 4.5, 10.5, 17.5]) { RAYOS.franjas.push({ lado: 'este', o: new THREE.Vector3(EDIF.x1 - 0.05, EDIF.H * 0.8, z), t: new THREE.Vector3(0, 0, 1) }); RAYOS.franjas.push({ lado: 'oeste', o: new THREE.Vector3(EDIF.x0 + 0.05, EDIF.H * 0.8, z), t: new THREE.Vector3(0, 0, 1) }); }
 { const n = RAYOS.franjas.length, g = new THREE.BufferGeometry(), idx = [];
   g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 12), 3)); const uv = new Float32Array(n * 8);
   for (let i = 0; i < n; i++) { uv.set([0, 1, 1, 1, 1, 0, 0, 0], i * 8); idx.push(i * 4, i * 4 + 1, i * 4 + 2, i * 4, i * 4 + 2, i * 4 + 3); }
@@ -2782,7 +2782,7 @@ for (const z of [-8.5, -2.5, 4.5, 10.5]) { RAYOS.franjas.push({ lado: 'este', o:
 function ponerRayos(sd, fuerza) {                                          // sd: dirección hacia el sol (normalizada)
   const pos = RAYOS.mesh.geometry.attributes.position, k = { sur: Math.max(0, sd.z) * 1.1, este: Math.max(0, sd.x * 1.6), oeste: Math.max(0, -sd.x * 1.6) };
   RAYOS.franjas.forEach((F, i) => {
-    const on = fuerza * Math.min(1, k[F.lado]) > 0.02 && sd.y > 0.08, w = 1.5, L = Math.min(F.o.y / sd.y, 15), e = F.o.clone().addScaledVector(sd, -L);
+    const on = fuerza * Math.min(1, k[F.lado]) > 0.02 && sd.y > 0.08, w = 2.0, L = Math.min(F.o.y / sd.y, 32), e = F.o.clone().addScaledVector(sd, -L);
     const a = F.o.clone().addScaledVector(F.t, -w / 2), b = F.o.clone().addScaledVector(F.t, w / 2), c = e.clone().addScaledVector(F.t, w / 2), d = e.clone().addScaledVector(F.t, -w / 2);
     for (const [j, v] of [a, b, c, d].entries()) { if (!on) v.set(0, -999, 0); pos.setXYZ(i * 4 + j, v.x, v.y, v.z); }
   });
@@ -2842,12 +2842,12 @@ const techo = new THREE.Mesh(techoGeo, MAT_TECHO); scene.add(techo);
 // borde del techo (viga perimetral) y columnas
 const COLUMNAS = [];
 for (const x of [-22.55, -13.5, -4.5, 4.5, 13.5, 22.55]) { COLUMNAS.push([x, EDIF.z1 - 0.45], [x, EDIF.z0 + 0.4]); }
-for (const z of [-4.5, 5.5]) { COLUMNAS.push([EDIF.x0 + 0.45, z], [EDIF.x1 - 0.45, z]); }
+for (const z of [-4.5, 5.5, 14.5]) { COLUMNAS.push([EDIF.x0 + 0.45, z], [EDIF.x1 - 0.45, z]); }
 const COLS_IM = [EDIF.H, 1.45].map(h => { const im = new THREE.InstancedMesh(GBOX, new THREE.MeshStandardMaterial({ color: '#dcd7cf', roughness: 0.8 }), COLUMNAS.length), m4 = new THREE.Matrix4();
-  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.7, h, 0.7).setPosition(x, h / 2, z); im.setMatrixAt(i, m4); });
+  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.9, h, 0.9).setPosition(x, h / 2, z); im.setMatrixAt(i, m4); });
   im.castShadow = h > 2; im.receiveShadow = true; scene.add(im); return im; });
 { const sc = new THREE.InstancedMesh(GBOX, new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }), COLUMNAS.length), m4 = new THREE.Matrix4();   // sombra de columnas siempre
-  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.7, EDIF.H, 0.7).setPosition(x, EDIF.H / 2, z); sc.setMatrixAt(i, m4); }); sc.castShadow = true; scene.add(sc); COLS_IM[0].castShadow = false; }
+  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.9, EDIF.H, 0.9).setPosition(x, EDIF.H / 2, z); sc.setMatrixAt(i, m4); }); sc.castShadow = true; scene.add(sc); COLS_IM[0].castShadow = false; }
 // sala de espera junto al vidrio sur (sofás mirando la vista) + plantas en la franja perimetral
 piezasV.length = 0;
 function sofaV(x, z, ry, col) {
@@ -2857,16 +2857,17 @@ function sofaV(x, z, ry, col) {
   for (const sx of [-1, 1]) { [a, b] = P(sx * 0.95, 0); pz(GV.b, varTono(col, -0.06), a, 0.36, b, 0.14, 0.42, 0.8, ry); }
   for (const sx of [-0.5, 0.5]) { [a, b] = P(sx, 0.02); pz(GV.b, varTono(col, 0.06), a, 0.37, b, 0.92, 0.08, 0.66, ry); }
 }
-sofaV(-9, 14.1, 0, '#3a5a78'); sofaV(9, 14.1, 0, '#3a5a78'); sofaV(-12.2, 15.0, -Math.PI / 2, '#c97b5a'); sofaV(12.2, 15.0, Math.PI / 2, '#c97b5a');
-for (const x of [-9, 9]) { pz(GV.c, '#7a5230', x, 0.34, 15.15, 0.55, 0.05, 0.55); pz(GV.c, '#3a3f4a', x, 0.17, 15.15, 0.06, 0.34, 0.06); pz(GV.c, '#ffffff', x + 0.12, 0.42, 15.1, 0.05, 0.1, 0.05); pz(GV.b, '#e5484d', x - 0.15, 0.38, 15.2, 0.25, 0.03, 0.18); }
-for (const [x, z, k] of [[-18, 15.5, 0], [-0.1, 15.55, 2], [18, 15.5, 0], [EDIF.x0 + 0.55, -9, 2], [EDIF.x0 + 0.55, 10, 0], [EDIF.x1 - 0.55, -9, 0], [EDIF.x1 - 0.55, 10, 2], [EDIF.x0 + 0.55, 0.5, 1], [EDIF.x1 - 0.55, 0.5, 1]]) plantaV(x, z, k);
+const DZ = EDIF.z1 - 16.2;   // la sala de espera sigue pegada al vidrio sur
+sofaV(-9, 14.1 + DZ, 0, '#3a5a78'); sofaV(9, 14.1 + DZ, 0, '#3a5a78'); sofaV(-12.2, 15.0 + DZ, -Math.PI / 2, '#c97b5a'); sofaV(12.2, 15.0 + DZ, Math.PI / 2, '#c97b5a');
+for (const x of [-9, 9]) { pz(GV.c, '#7a5230', x, 0.34, 15.15 + DZ, 0.55, 0.05, 0.55); pz(GV.c, '#3a3f4a', x, 0.17, 15.15 + DZ, 0.06, 0.34, 0.06); pz(GV.c, '#ffffff', x + 0.12, 0.42, 15.1 + DZ, 0.05, 0.1, 0.05); pz(GV.b, '#e5484d', x - 0.15, 0.38, 15.2 + DZ, 0.25, 0.03, 0.18); }
+for (const [x, z, k] of [[-18, 15.5 + DZ, 0], [-0.1, 15.55 + DZ, 2], [18, 15.5 + DZ, 0], [EDIF.x0 + 0.55, 18.5, 2], [EDIF.x1 - 0.55, 18.5, 0], [EDIF.x0 + 0.55, -9, 2], [EDIF.x0 + 0.55, 10, 0], [EDIF.x1 - 0.55, -9, 0], [EDIF.x1 - 0.55, 10, 2], [EDIF.x0 + 0.55, 0.5, 1], [EDIF.x1 - 0.55, 0.5, 1]]) plantaV(x, z, k);
 mallaVida(piezasV, MAT_VIDA);
 // persianas enrollables (algunas bajadas a medias; el lado del mar queda libre)
 { const tx = lienzo(64, 256, (g, w, h) => { g.fillStyle = '#f1ebe0'; g.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 8) { g.fillStyle = 'rgba(120,105,85,.22)'; g.fillRect(0, y, w, 1.5); } g.fillStyle = '#9b8e7c'; g.fillRect(0, h - 10, w, 10); });
   tx.wrapS = tx.wrapT = THREE.ClampToEdgeWrapping; const gs = [];
-  const pers = (x, z, ancho, baja, rotada) => { const g = new THREE.PlaneGeometry(ancho, baja); if (rotada) g.rotateY(Math.PI / 2); g.translate(x, EDIF.H - 0.12 - baja / 2, z); gs.push(g); };
+  const pers = (x, z, ancho, baja, rotada) => { baja *= EDIF.H / 9; const g = new THREE.PlaneGeometry(ancho, baja); if (rotada) g.rotateY(Math.PI / 2); g.translate(x, EDIF.H - 0.12 - baja / 2, z); gs.push(g); };
   pers(EDIF.x1 - 0.18, -9.0, 8.0, 3.0, true); pers(EDIF.x1 - 0.18, 0.5, 8.4, 1.6, true); pers(EDIF.x1 - 0.18, 10.0, 8.0, 2.4, true);
-  pers(-18.0, EDIF.z1 - 0.18, 8.0, 2.0, false); pers(18.0, EDIF.z1 - 0.18, 8.0, 3.2, false);
+  pers(-18.0, EDIF.z1 - 0.18, 8.0, 2.0, false); pers(18.0, EDIF.z1 - 0.18, 8.0, 3.2, false); pers(EDIF.x1 - 0.18, 19.0, 7.0, 1.4, true);
   const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshStandardMaterial({ map: tx, side: THREE.DoubleSide, roughness: 0.9, transparent: true, opacity: 0.93 }));
   m.castShadow = true; scene.add(m); }
 // garúa en el vidrio (solo con llovizna)
@@ -2978,6 +2979,7 @@ function vidaLuz(L, nub) {
   scene.fog.color.copy(fc); scene.fog.near = llov ? 90 : nub > 0.4 ? 130 : 220; scene.fog.far = llov ? 330 : nub > 0.4 ? 800 : 1700;
   MAT_NUBE.color.set('#ffffff').lerp(new THREE.Color('#4a5068'), n); MAT_NUBE.opacity = llov ? 0.95 : nub > 0.4 ? 0.82 : 0.55;
   for (const l of LADOS) l.v.material.color.set('#d6ecff').lerp(new THREE.Color('#8fa6c8'), n);
+  sol.position.multiplyScalar(3);                                   // misma dirección, más lejos: el techo a 20 m entra en el mapa de sombras
   const base = dia * (1 - nub * 0.85) * (n < 0.5 ? 1 : 0);
   ponerRayos(sol.position.clone().normalize(), base);
   interiorLuz(L, nub);
