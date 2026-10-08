@@ -12,6 +12,8 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:7px 12px;background:linear-gradient(rgba(29,26,34,.92),rgba(29,26,34,.7));pointer-events:none}
 header>*{pointer-events:auto}
 a.pie-btn{text-decoration:none}
+#sonido .on{display:none} #sonido[aria-pressed="true"] .on{display:inline} #sonido[aria-pressed="true"] .off{display:none}
+#sonido[aria-pressed="true"]{border-color:var(--verde);background:#26362c} #sonido[hidden]{display:none}
 #vistas{position:fixed;left:8px;z-index:5;display:flex;gap:5px;overflow-x:auto;max-width:calc(100vw - 16px);padding-bottom:2px;scrollbar-width:none}
 #vistas::-webkit-scrollbar{display:none}
 #vistas .pie-btn{background:rgba(47,41,54,.88);font-size:11.5px;padding:3px 9px}
@@ -110,6 +112,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
   <div class="btns">
     <button type="button" class="pie-btn" id="avTg" aria-expanded="false" title="Avisos de fin de proceso">🔔 Avisos <span class="badge" id="avBadge" hidden>0</span></button>
     <button type="button" class="pie-btn" id="btnLuz" title="Iluminación: automática (hora de Lima) / día / noche">🕒 Auto</button>
+    <button type="button" class="pie-btn" id="sonido" aria-pressed="false" title="Activar sonido ambiente" aria-label="Activar sonido ambiente"><span class="off">🔇</span><span class="on">🔊</span> Sonido</button>
     <a class="pie-btn" id="ver2d" href="index-2d.html" title="Ver la oficina clásica en 2D">Ver 2D</a>
   </div>
 </header>
@@ -413,37 +416,50 @@ function itemMesa(tipo, g) {
   else if (tipo === 'banderin') { cil(0.01, 0.01, 0.3, '#333', 0, 0.15, 0, g); box(0.16, 0.1, 0.01, c, 0.08, 0.25, 0, g); }
   else box(0.2, tipo === 'cajas' ? 0.18 : 0.06, 0.15, c, 0, tipo === 'cajas' ? 0.09 : 0.03, 0, g);
 }
-/* ---- Avatares humanos estilizados (procedurales, con esqueleto propio) ----
-   Jerarquía (huesos = THREE.Group): cad(cadera) > torso > cuello > cab ; torso > hombro > brazo > codo > mano ;
-   cad > pierna > rodilla > pie. Cada hueso lleva UNA malla con sus piezas fusionadas (colores por vértice) -> pocas draw calls.
-   Interfaz igual que antes: { g, cad, torso, cab, brazos[2], piernas[2] } (+ codos, rodillas, mano). */
-const MAT_AV = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.68, metalness: 0.02, flatShading: true });   // low-poly facetado
-const MAT_AV_BRILLO = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.3, metalness: 0.1, flatShading: true });
-const SEG = matchMedia('(max-width:700px)').matches ? 0.75 : 1;           // menos polígonos en celular
-const sg = (n) => Math.max(5, Math.round(n * SEG));
-// pocos segmentos a propósito: caras planas visibles (estilo "low-poly")
-const G_ESF = new THREE.SphereGeometry(1, 9, 7);
+/* ---- Avatares humanos low-poly (procedurales, con esqueleto propio) — estilo "1. Actual low-poly" ----
+   Jerarquía (huesos = THREE.Group): cad(cadera) > torso > cuello > cab ; torso > brazo > codo > mano ; cad > pierna > rodilla.
+   Cada hueso lleva UNA malla con sus piezas fusionadas (colores por vértice, caras planas) -> pocas draw calls.
+   Interfaz: { g, cad, torso, cab, brazos[2], codos[2], manos[2], piernas[2], rodillas[2], humano }. */
+// Material facetado con "luz de estudio": parte del color propio se suma como emisivo -> sombras suaves, sin zonas negras.
+function matLowPoly(rough, metal) {
+  const m = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: rough, metalness: metal, flatShading: true });
+  m.onBeforeCompile = (sh) => { sh.fragmentShader = sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n  totalEmissiveRadiance += vColor.rgb * 0.16;'); };
+  m.customProgramCacheKey = () => 'lowpoly-' + rough + '-' + metal;
+  return m;
+}
+const MAT_AV = matLowPoly(0.8, 0.02), MAT_AV_BRILLO = matLowPoly(0.35, 0.15);
+// pocos segmentos a propósito: facetas visibles
+const G_ESF = new THREE.SphereGeometry(1, 8, 6);
 const G_ESF_LO = new THREE.SphereGeometry(1, 6, 4);
+const G_ICO = new THREE.IcosahedronGeometry(1, 1);          // cabeza / volúmenes redondos facetados
+const G_ICO0 = new THREE.IcosahedronGeometry(1, 0);         // mechones de pelo
 const G_CAP = new THREE.CapsuleGeometry(1, 1, 2, 7);
-const G_CIL = new THREE.CylinderGeometry(1, 1, 1, 7);
+const G_CIL = new THREE.CylinderGeometry(1, 1, 1, 8);
 const G_CONO = new THREE.ConeGeometry(1, 1, 6);
 const G_CAJA = new THREE.BoxGeometry(1, 1, 1);
-const G_TORO = new THREE.TorusGeometry(1, 0.18, 6, sg(16), Math.PI);
-const G_MEDIA = new THREE.SphereGeometry(1, 9, 5, 0, Math.PI * 2, 0, Math.PI * 0.55);   // casquete (pelo)
+const G_TORO = new THREE.TorusGeometry(1, 0.18, 4, 10, Math.PI);
+const G_MEDIA = new THREE.SphereGeometry(1, 9, 5, 0, Math.PI * 2, 0, Math.PI * 0.55);   // casquete (gorras, cascos)
+const G_COPA = new THREE.SphereGeometry(1, 9, 4, 0, Math.PI * 2, 0, Math.PI * 0.4);    // copa del pelo (deja libre la frente)
+const troncoCono = (rArriba, rAbajo) => new THREE.CylinderGeometry(rArriba, rAbajo, 1, 8).rotateY(Math.PI / 8);   // cara plana al frente   // tronco de cono (miembros, torso)
+const G_TORSO = troncoCono(1, 0.8), G_FALDON = troncoCono(0.93, 1), G_MUSLO = troncoCono(1, 0.84), G_PANT = troncoCono(1, 0.92), G_BRAZO = troncoCono(1, 0.86);
+const G_CUNA = (() => { const s = new THREE.Shape(); s.moveTo(-0.5, 0.5); s.lineTo(0.5, 0.5); s.lineTo(0, -0.5); s.closePath(); const g = new THREE.ShapeGeometry(s).rotateY(Math.PI); g.deleteAttribute('uv'); return g; })();   // triángulo plano mirando al frente (V de camisa, corbata)
+let semilla = 1; const azarAv = () => ((semilla = (semilla * 16807) % 2147483647) / 2147483647);
 class Hueso {
   constructor(padre, x = 0, y = 0, z = 0) { this.g = new THREE.Group(); this.g.position.set(x, y, z); (padre.g || padre).add(this.g); this.p = []; this.b = []; }
-  // pieza: geometría base, color, posición, escala, rotación
   add(geo, col, pos, esc, rot, brillo) {
     const g = geo.clone(), m = new THREE.Matrix4().compose(new THREE.Vector3(...pos), new THREE.Quaternion().setFromEuler(new THREE.Euler(...(rot || [0, 0, 0]))), new THREE.Vector3(...esc));
-    g.applyMatrix4(m); const c = new THREE.Color(col), n = g.attributes.position.count, cs = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) { cs[i * 3] = c.r; cs[i * 3 + 1] = c.g; cs[i * 3 + 2] = c.b; }
-    g.setAttribute('color', new THREE.BufferAttribute(cs, 3)); if (g.index) g.toNonIndexed && null;
+    g.applyMatrix4(m); g.userData = { col: new THREE.Color(col) };   // objeto nuevo: clone() comparte userData
     (brillo ? this.b : this.p).push(g); return this;
   }
   cerrar(sombra = true) {
     for (const [lista, mat] of [[this.p, MAT_AV], [this.b, MAT_AV_BRILLO]]) {
       if (!lista.length) continue;
-      const mg = mergeGeometries(lista.map(g => { const k = g.index ? g.toNonIndexed() : g; for (const a of Object.keys(k.attributes)) if (!['position', 'normal', 'color'].includes(a)) k.deleteAttribute(a); return k; }), false);
+      const mg = mergeGeometries(lista.map(g0 => {
+        const k = g0.index ? g0.toNonIndexed() : g0, n = k.attributes.position.count, cs = new Float32Array(n * 3), c = g0.userData.col;
+        for (const a of Object.keys(k.attributes)) if (!['position', 'normal'].includes(a)) k.deleteAttribute(a);
+        for (let t = 0; t < n; t += 3) { const f = 0.95 + azarAv() * 0.1; for (let v = t; v < t + 3; v++) { cs[v * 3] = c.r * f; cs[v * 3 + 1] = c.g * f; cs[v * 3 + 2] = c.b * f; } }   // leve variación por faceta
+        k.setAttribute('color', new THREE.BufferAttribute(cs, 3)); return k;
+      }), false);
       const m = new THREE.Mesh(mg, mat); m.castShadow = sombra; m.receiveShadow = false; this.g.add(m);
     }
     this.p = this.b = null; return this;
@@ -452,69 +468,75 @@ class Hueso {
 const oscurecer = (c, f = 0.75) => '#' + new THREE.Color(c).multiplyScalar(f).getHexString();
 const aclarar = (c, f = 0.25) => '#' + new THREE.Color(c).lerp(new THREE.Color('#ffffff'), f).getHexString();
 function persona(L) {
-  const ex = L.extras || [], piel = L.s, pelo = L.h, ropa = L.c, pant = L.p, zap = '#2a2024';
+  const ex = L.extras || [], piel = L.s, pelo = L.h, ropa = L.c, zap = '#1c1619';
   const traje = ex.includes('jefe'), mono = ex.includes('overol'), camisa = traje ? '#f4f6fa' : ropa;
+  const pant = traje ? oscurecer(ropa, 0.88) : L.p;
   const g = new THREE.Group(), cad = new Hueso(g, 0, 0.75, 0);
-  // pelvis + cinturón
-  cad.add(G_CAP, pant, [0, 0.02, 0], [0.135, 0.05, 0.1], [0, 0, Math.PI / 2]);
-  cad.add(G_CIL, mono ? ropa : '#2b2230', [0, 0.075, 0], [0.15, 0.03, 0.105]);
-  if (!mono) cad.add(G_CAJA, '#c9a24a', [0, 0.075, -0.104], [0.035, 0.022, 0.01], null, true);
+  // pelvis (tapada por la ropa) + cinturón con hebilla
+  cad.add(G_PANT, pant, [0, 0.0, 0], [0.135, 0.16, 0.098]);
+  if (!traje) cad.add(G_CIL, mono ? ropa : '#211c22', [0, 0.07, 0], [0.139, 0.032, 0.1]);
+  if (!mono && !traje) cad.add(G_CAJA, '#cdb276', [0, 0.07, -0.1], [0.032, 0.024, 0.01], null, true);
   cad.cerrar();
-  // torso
-  const torso = new Hueso(cad, 0, 0.08, 0);
-  const tc = traje ? ropa : camisa;
-  torso.add(G_CAP, tc, [0, 0.2, 0], [0.155, 0.13, 0.11]);                         // tronco
-  torso.add(G_ESF, tc, [0, 0.33, 0], [0.2, 0.075, 0.12]);                         // hombros
-  if (traje) {                                                                     // saco con solapas, camisa y corbata
-    torso.add(G_CAJA, '#f4f6fa', [0, 0.27, -0.105], [0.08, 0.15, 0.02]);
-    torso.add(G_CAJA, ropa, [-0.055, 0.25, -0.112], [0.05, 0.2, 0.012], [0, 0, -0.35]);
-    torso.add(G_CAJA, ropa, [0.055, 0.25, -0.112], [0.05, 0.2, 0.012], [0, 0, 0.35]);
-    torso.add(G_CAJA, oscurecer(ropa, 0.7), [-0.055, 0.25, -0.118], [0.012, 0.19, 0.004], [0, 0, -0.35]);
-    torso.add(G_CAJA, oscurecer(ropa, 0.7), [0.055, 0.25, -0.118], [0.012, 0.19, 0.004], [0, 0, 0.35]);
-    torso.add(G_CONO, '#e5484d', [0, 0.23, -0.12], [0.025, 0.16, 0.01], [Math.PI, 0, 0]);
-    torso.add(G_CAJA, '#e5484d', [0, 0.32, -0.118], [0.03, 0.025, 0.012]);
-    for (const y of [0.1, 0.16]) torso.add(G_ESF_LO, '#1d1a22', [0.04, y, -0.112], [0.008, 0.008, 0.006]);
-    torso.add(G_CIL, ropa, [0, -0.02, 0], [0.168, 0.12, 0.118]);                    // faldón del saco
-    torso.add(G_CAJA, oscurecer(ropa, 0.8), [0, -0.02, -0.117], [0.008, 0.12, 0.004]);   // abertura del saco
-    torso.add(G_CAJA, '#ffffff', [-0.09, 0.26, -0.11], [0.03, 0.015, 0.006], [0, 0, 0.1]);     // pañuelo
+  // torso: tronco de cono (pecho ancho, cintura estrecha), hombros caídos
+  const torso = new Hueso(cad, 0, 0.08, 0), tc = traje ? ropa : camisa;
+  torso.add(G_TORSO, tc, [0, 0.19, 0], [0.165, 0.3, 0.108]);
+  torso.add(G_ICO, tc, [0, 0.315, 0], [0.17, 0.055, 0.1]);                                  // línea de hombros suave
+  if (traje) {                                                                             // saco: V de camisa, corbata, solapas, faldón abierto
+    torso.add(G_CUNA, '#f4f6fa', [0, 0.27, -0.104], [0.1, 0.16, 1]);
+    torso.add(G_CAJA, '#c8242c', [0, 0.255, -0.107], [0.026, 0.13, 0.004]); torso.add(G_CUNA, '#c8242c', [0, 0.18, -0.107], [0.026, 0.026, 1]);
+    torso.add(G_CAJA, '#a81d25', [0, 0.33, -0.108], [0.03, 0.022, 0.008]);                 // nudo
+    for (const s of [-1, 1]) {
+      torso.add(G_CAJA, oscurecer(ropa, 0.8), [s * 0.05, 0.265, -0.106], [0.026, 0.17, 0.006], [0, 0, s * 0.3]);   // solapa
+    }
+    torso.add(G_FALDON, ropa, [0, -0.05, 0], [0.143, 0.2, 0.097]);                         // faldón (tapa la cadera)
+    torso.add(G_CAJA, '#211c22', [0, -0.012, -0.096], [0.034, 0.028, 0.006]);                // cinturón visible en la abertura
+    torso.add(G_CAJA, '#cdb276', [0, -0.012, -0.1], [0.018, 0.016, 0.004], null, true);
+    torso.add(G_CUNA, '#f4f6fa', [0, 0.04, -0.093], [0.034, 0.05, 1], [0, 0, Math.PI]);   // camisa en la abertura
+    torso.add(G_ESF_LO, '#141018', [0.0, 0.08, -0.1], [0.007, 0.007, 0.005]);          // botón
+    torso.add(G_CAJA, '#ffffff', [-0.095, 0.24, -0.1], [0.028, 0.012, 0.006], [0, 0, 0.1]); // pañuelo
   } else {
-    torso.add(G_TORO, aclarar(tc, 0.35), [0, 0.355, -0.03], [0.07, 0.07, 0.07], [Math.PI / 2 + 0.25, 0, Math.PI]);   // cuello de camisa
-    for (const y of [0.13, 0.2, 0.27]) torso.add(G_ESF_LO, oscurecer(tc, 0.6), [0, y, -0.112], [0.007, 0.007, 0.005]);
-    torso.add(G_CAJA, oscurecer(tc, 0.85), [-0.07, 0.25, -0.108], [0.05, 0.045, 0.008]);         // bolsillo
+    for (const s of [-1, 1]) torso.add(G_CUNA, aclarar(tc, 0.3), [s * 0.028, 0.335, -0.1], [0.05, 0.04, 1], [0, 0, s * 0.45]);   // cuello de camisa
+    torso.add(G_FALDON, tc, [0, 0.0, 0], [0.142, 0.1, 0.103]);                              // ruedo de la camisa sobre el pantalón
+    for (const y of [0.11, 0.19, 0.27]) torso.add(G_ESF_LO, oscurecer(tc, 0.6), [0, y, -0.105], [0.007, 0.007, 0.005]);
+    torso.add(G_CAJA, oscurecer(tc, 0.85), [-0.07, 0.25, -0.1], [0.045, 0.04, 0.008]);     // bolsillo
   }
-  if (ex.includes('corbata')) { torso.add(G_CONO, '#1d1a1f', [0, 0.22, -0.118], [0.022, 0.15, 0.01], [Math.PI, 0, 0]); torso.add(G_CAJA, '#1d1a1f', [0, 0.31, -0.116], [0.028, 0.022, 0.01]); }
-  if (ex.includes('chaleco')) { torso.add(G_CAP, '#f2c14e', [0, 0.19, 0], [0.162, 0.1, 0.117]); for (const y of [0.12, 0.2]) torso.add(G_CIL, '#dfe6ee', [0, y, 0], [0.165, 0.014, 0.12]); }
-  if (ex.includes('tirantes')) for (const s of [-1, 1]) { torso.add(G_CAJA, '#3a3f4a', [s * 0.06, 0.2, -0.108], [0.018, 0.3, 0.01]); torso.add(G_CAJA, '#3a3f4a', [s * 0.06, 0.2, 0.108], [0.018, 0.3, 0.01]); }
-  if (ex.includes('collar')) for (let i = 0; i < 9; i++) { const a = -0.9 + i * 0.225; torso.add(G_ESF_LO, '#f4f1ea', [Math.sin(a) * 0.075, 0.32 - Math.cos(a) * 0.04, -0.09 - Math.cos(a) * 0.025], [0.011, 0.011, 0.011], null, true); }
-  if (ex.includes('bufanda')) { torso.add(G_CIL, '#e5484d', [0, 0.37, 0], [0.085, 0.045, 0.085]); torso.add(G_CAJA, '#e5484d', [0.04, 0.27, -0.1], [0.04, 0.16, 0.02], [0, 0, 0.12]); torso.add(G_CAJA, '#f4f1ea', [0.045, 0.2, -0.105], [0.04, 0.012, 0.022], [0, 0, 0.12]); }
-  if (ex.includes('delantal')) { torso.add(G_CAJA, '#f4efe6', [0, 0.14, -0.115], [0.2, 0.26, 0.012]); torso.add(G_CAJA, '#f4efe6', [0, -0.02, -0.11], [0.22, 0.18, 0.012]); torso.add(G_CAJA, oscurecer('#f4efe6', 0.8), [0, 0.06, -0.122], [0.08, 0.05, 0.004]); }
-  if (mono) { torso.add(G_CAJA, aclarar(ropa, 0.3), [0, 0.24, -0.112], [0.07, 0.05, 0.006]); torso.add(G_CAJA, '#1d2a3c', [0, 0.24, -0.116], [0.04, 0.012, 0.004]); }
+  if (ex.includes('corbata')) { torso.add(G_CAJA, '#1d1a1f', [0, 0.245, -0.106], [0.024, 0.13, 0.004]); torso.add(G_CUNA, '#1d1a1f', [0, 0.17, -0.106], [0.024, 0.024, 1]); torso.add(G_CAJA, '#1d1a1f', [0, 0.325, -0.108], [0.028, 0.022, 0.01]); }
+  if (ex.includes('chaleco')) { torso.add(G_TORSO, '#f2c14e', [0, 0.17, 0], [0.172, 0.26, 0.115]); for (const y of [0.1, 0.18]) torso.add(G_CIL, '#dfe6ee', [0, y, 0], [0.163, 0.016, 0.115]); }
+  if (ex.includes('tirantes')) for (const s of [-1, 1]) { torso.add(G_CAJA, '#3a3f4a', [s * 0.06, 0.18, -0.104], [0.018, 0.3, 0.01], [0, 0, -s * 0.06]); torso.add(G_CAJA, '#3a3f4a', [s * 0.06, 0.18, 0.104], [0.018, 0.3, 0.01]); }
+  if (ex.includes('collar')) for (let i = 0; i < 9; i++) { const a = -0.9 + i * 0.225; torso.add(G_ESF_LO, '#f4f1ea', [Math.sin(a) * 0.075, 0.32 - Math.cos(a) * 0.04, -0.085 - Math.cos(a) * 0.022], [0.011, 0.011, 0.011], null, true); }
+  if (ex.includes('bufanda')) { torso.add(G_CIL, '#e5484d', [0, 0.36, 0], [0.085, 0.05, 0.085]); torso.add(G_CAJA, '#e5484d', [0.04, 0.26, -0.098], [0.04, 0.16, 0.02], [0, 0, 0.12]); torso.add(G_CAJA, '#f4f1ea', [0.045, 0.19, -0.103], [0.04, 0.012, 0.022], [0, 0, 0.12]); }
+  if (ex.includes('delantal')) { torso.add(G_CAJA, '#f4efe6', [0, 0.14, -0.106], [0.19, 0.26, 0.012]); torso.add(G_CAJA, '#f4efe6', [0, -0.03, -0.106], [0.22, 0.17, 0.012]); torso.add(G_CAJA, oscurecer('#f4efe6', 0.8), [0, 0.05, -0.114], [0.08, 0.05, 0.004]); }
+  if (mono) { torso.add(G_CAJA, aclarar(ropa, 0.3), [0, 0.24, -0.105], [0.07, 0.05, 0.006]); torso.add(G_CAJA, '#1d2a3c', [0, 0.24, -0.109], [0.04, 0.012, 0.004]); }
   torso.cerrar();
-  // cuello + cabeza
-  const cuello = new Hueso(torso, 0, 0.39, 0); cuello.add(G_CIL, piel, [0, 0.03, 0], [0.045, 0.08, 0.045]); cuello.cerrar();
-  const cab = new Hueso(cuello, 0, 0.19, -0.005); cab.g.scale.setScalar(1.13);   // cabeza algo grande (estilizado)
-  cab.add(G_ESF, piel, [0, 0, 0], [0.105, 0.125, 0.112]);                          // cráneo
-  cab.add(G_ESF, piel, [0, -0.06, -0.025], [0.085, 0.07, 0.085]);                  // mandíbula / mentón
+  // cuello + cabeza (la cabeza va un 30 % más grande: proporción estilizada del modelo de referencia)
+  const cuello = new Hueso(torso, 0, 0.36, 0); cuello.add(G_CIL, piel, [0, 0.03, 0], [0.05, 0.07, 0.05]); cuello.cerrar();
+  const cab = new Hueso(cuello, 0, 0.165, -0.005); cab.g.scale.setScalar(1.3);
+  cab.add(G_ICO, piel, [0, 0.005, 0], [0.104, 0.122, 0.11]);                               // cráneo
+  cab.add(G_ICO, piel, [0, -0.055, -0.022], [0.083, 0.07, 0.083]);                          // mandíbula y mentón
   for (const s of [-1, 1]) {
-    cab.add(G_ESF_LO, oscurecer(piel, 0.93), [s * 0.103, -0.005, 0.005], [0.018, 0.03, 0.02]);            // orejas
-    cab.add(G_ESF_LO, '#241a16', [s * 0.038, 0.008, -0.1], [0.013, 0.017, 0.008], null, true);           // ojo (óvalo oscuro)
-    cab.add(G_CAJA, '#ffffff', [s * 0.038 + 0.004, 0.014, -0.108], [0.004, 0.004, 0.002]);               // brillo
-    cab.add(G_CAJA, oscurecer(pelo, 0.8), [s * 0.04, 0.042, -0.106], [0.034, 0.008, 0.008], [0, 0, s * -0.1]);   // ceja
-    cab.add(G_ESF_LO, '#eaa59c', [s * 0.062, -0.03, -0.092], [0.014, 0.008, 0.004]);                     // mejilla
+    cab.add(G_ICO0, oscurecer(piel, 0.92), [s * 0.104, -0.005, 0.008], [0.018, 0.03, 0.018]);                   // orejas
+    cab.add(G_ESF_LO, '#ffffff', [s * 0.037, 0.004, -0.106], [0.019, 0.021, 0.008]);                             // ojo (blanco)
+    cab.add(G_ESF_LO, '#3a2618', [s * 0.036, 0.002, -0.112], [0.012, 0.016, 0.006], null, true);                // iris café
+    cab.add(G_CAJA, '#ffffff', [s * 0.036 + 0.004, 0.008, -0.118], [0.004, 0.004, 0.002]);                    // brillo
+    cab.add(G_CAJA, oscurecer(pelo, 0.75), [s * 0.038, 0.036, -0.105], [0.036, 0.009, 0.01], [0, 0, s * -0.12]);   // ceja
+    cab.add(G_ESF_LO, '#eaa59c', [s * 0.06, -0.032, -0.09], [0.014, 0.008, 0.004]);                           // mejilla
   }
-  cab.add(G_ESF_LO, oscurecer(piel, 0.9), [0, -0.022, -0.112], [0.014, 0.022, 0.014]);                 // nariz
-  cab.add(G_CAJA, '#8e3d3a', [0, -0.066, -0.104], [0.032, 0.007, 0.008]);                                // boca (sonrisa suave)
-  for (const s of [-1, 1]) cab.add(G_CAJA, '#8e3d3a', [s * 0.019, -0.062, -0.102], [0.01, 0.006, 0.008], [0, 0, s * 0.5]);
-  // pelo con volumen
-  const P = L.pelo;
-  if (P !== 'calvo') cab.add(G_MEDIA, pelo, [0, 0.025, 0.012], [0.118, 0.135, 0.124], [-0.3, 0, 0]);   // inclinado atrás: frente despejada
-  if (P === 'corto' || P === 'rizado' || P === 'pinchos') { cab.add(G_ESF, pelo, [0, 0.092, -0.055], [0.1, 0.045, 0.06], [0.3, 0, 0]); cab.add(G_ESF, pelo, [0, 0.0, 0.05], [0.108, 0.1, 0.075]); }
-  if (P === 'corto') { cab.add(G_ESF, pelo, [-0.03, 0.12, -0.045], [0.07, 0.03, 0.05], [0.2, 0, 0.3]); for (const s of [-1, 1]) cab.add(G_CAJA, pelo, [s * 0.1, 0.0, 0.0], [0.02, 0.06, 0.05]); }
-  if (P === 'pinchos') for (let i = 0; i < 7; i++) { const a = (i / 6 - 0.5) * 2.2; cab.add(G_CONO, pelo, [Math.sin(a) * 0.08, 0.13 + Math.cos(a) * 0.01, -0.02 + (i % 2) * 0.04], [0.035, 0.08, 0.035], [-0.3, 0, -a * 0.5]); }
-  if (P === 'rizado') for (let i = 0; i < 14; i++) { const a = i * 2.4, r = 0.1; cab.add(G_ESF_LO, pelo, [Math.cos(a) * r * 0.9, 0.08 + (i % 3) * 0.025, Math.sin(a) * r * 0.9], [0.04, 0.04, 0.04]); }
-  if (P === 'largo') { cab.add(G_CAP, pelo, [0, -0.07, 0.06], [0.11, 0.1, 0.065]); for (const s of [-1, 1]) cab.add(G_CAP, pelo, [s * 0.098, -0.07, -0.01], [0.03, 0.1, 0.06]); cab.add(G_ESF, pelo, [0.02, 0.075, -0.075], [0.09, 0.04, 0.05], [0.4, 0, -0.25]); }
-  if (P === 'cola') { cab.add(G_ESF, pelo, [0, 0.0, 0.05], [0.108, 0.1, 0.075]); cab.add(G_ESF, pelo, [0, 0.07, -0.07], [0.095, 0.04, 0.05], [0.4, 0, 0]); cab.add(G_CAP, pelo, [0, -0.06, 0.15], [0.035, 0.08, 0.035], [0.5, 0, 0]); cab.add(G_ESF_LO, '#ef7fa6', [0, 0.04, 0.125], [0.03, 0.03, 0.03]); }
-  if (P === 'mono') { cab.add(G_ESF, pelo, [0, 0.0, 0.05], [0.108, 0.1, 0.075]); cab.add(G_ESF, pelo, [0, 0.16, 0.03], [0.055, 0.05, 0.055]); cab.add(G_ESF, pelo, [-0.02, 0.07, -0.075], [0.09, 0.035, 0.045], [0.4, 0, 0.3]); }
+  cab.add(G_ICO0, oscurecer(piel, 0.9), [0, -0.022, -0.11], [0.013, 0.02, 0.014]);                           // nariz
+  cab.add(G_CAJA, '#9a4642', [0, -0.065, -0.103], [0.03, 0.006, 0.008]);                                     // boca (sonrisa)
+  for (const s of [-1, 1]) cab.add(G_CAJA, '#9a4642', [s * 0.018, -0.061, -0.101], [0.01, 0.006, 0.008], [0, 0, s * 0.5]);
+  // pelo: casquete + mechones facetados con volumen
+  const P = L.pelo, mech = (x, y, z, r, sx = 1, sy = 0.8, sz = 1, rz = 0) => cab.add(G_ICO0, pelo, [x, y, z], [r * sx, r * sy, r * sz], [azarAv() * 0.6, azarAv() * 3, rz]);
+  if (P !== 'calvo') cab.add(G_COPA, pelo, [0, 0.02, 0.006], [0.118, 0.13, 0.12]);
+  if (P !== 'calvo' && P !== 'pinchos') { cab.add(G_ICO, pelo, [0, 0.0, 0.05], [0.108, 0.105, 0.078]); for (const s of [-1, 1]) cab.add(G_CAJA, pelo, [s * 0.1, 0.02, 0.015], [0.022, 0.07, 0.06]); }
+  if (P === 'corto') {                       // copete con volumen hacia arriba y raya al costado (como la referencia)
+    mech(-0.045, 0.115, -0.06, 0.06, 1.2, 0.75, 1); mech(0.02, 0.13, -0.055, 0.065, 1.2, 0.8, 1); mech(0.07, 0.11, -0.04, 0.05, 1, 0.8, 1);
+    mech(-0.08, 0.085, -0.035, 0.045); mech(0, 0.14, 0.0, 0.07, 1.3, 0.7, 1.2); mech(-0.05, 0.12, 0.04, 0.06); mech(0.055, 0.12, 0.035, 0.06);
+  }
+  if (P === 'pinchos') { cab.add(G_ICO, pelo, [0, 0.03, 0.03], [0.11, 0.1, 0.1]); for (let i = 0; i < 7; i++) { const a = (i / 6 - 0.5) * 2.2; cab.add(G_CONO, pelo, [Math.sin(a) * 0.08, 0.13 + Math.cos(a) * 0.01, -0.02 + (i % 2) * 0.04], [0.035, 0.08, 0.035], [-0.3, 0, -a * 0.5]); } }
+  if (P === 'rizado') for (let i = 0; i < 16; i++) { const a = i * 2.4, r = 0.095 + (i % 2) * 0.01; mech(Math.cos(a) * r, 0.07 + (i % 3) * 0.025, Math.sin(a) * r * 0.9 + 0.01, 0.042, 1, 1, 1); }
+  if (P === 'largo') { cab.add(G_PANT, pelo, [0, -0.08, 0.055], [0.11, 0.2, 0.065]); for (const s of [-1, 1]) cab.add(G_PANT, pelo, [s * 0.098, -0.07, -0.005], [0.03, 0.2, 0.055]); mech(0.03, 0.095, -0.075, 0.06, 1.4, 0.6, 0.9, -0.3); mech(-0.04, 0.1, -0.06, 0.05, 1.2, 0.7, 1); }
+  if (P === 'cola') { mech(0.02, 0.1, -0.07, 0.055, 1.4, 0.6, 0.9); cab.add(G_CAP, pelo, [0, -0.06, 0.15], [0.035, 0.08, 0.035], [0.5, 0, 0]); cab.add(G_ESF_LO, '#ef7fa6', [0, 0.04, 0.125], [0.03, 0.03, 0.03]); }
+  if (P === 'mono') { cab.add(G_ICO, pelo, [0, 0.16, 0.03], [0.055, 0.05, 0.055]); mech(-0.02, 0.1, -0.07, 0.055, 1.4, 0.6, 0.9, 0.3); }
   // accesorios de cabeza
   if (ex.includes('casco')) { cab.add(G_MEDIA, '#f2c14e', [0, 0.04, 0], [0.13, 0.13, 0.135], null, true); cab.add(G_CIL, '#f2c14e', [0, 0.045, -0.02], [0.15, 0.01, 0.16], null, true); cab.add(G_CAJA, '#d9a52e', [0, 0.15, 0], [0.02, 0.03, 0.2]); }
   if (ex.includes('gorra')) { cab.add(G_MEDIA, '#25a35a', [0, 0.04, 0], [0.122, 0.12, 0.127]); cab.add(G_CIL, '#25a35a', [0, 0.05, -0.13], [0.08, 0.008, 0.07]); cab.add(G_ESF_LO, '#ffffff', [0, 0.11, -0.09], [0.025, 0.02, 0.01]); }
@@ -527,47 +549,48 @@ function persona(L) {
   if (ex.includes('gorro')) { cab.add(G_CIL, '#f4efe6', [0, 0.12, 0], [0.11, 0.05, 0.11]); cab.add(G_ESF, '#f4efe6', [0, 0.18, 0], [0.13, 0.06, 0.13]); }
   if (mono) { cab.add(G_MEDIA, ropa, [0, 0.045, 0], [0.12, 0.11, 0.126]); cab.add(G_CIL, ropa, [0, 0.05, -0.12], [0.07, 0.008, 0.06]); cab.add(G_CAJA, '#1d2a3c', [0, 0.1, -0.112], [0.05, 0.02, 0.005]); }
   cab.cerrar();
-  // brazos (hombro -> codo -> mano). A rotación 0 cuelgan hacia abajo; rotation.x > 0 los lleva hacia adelante.
+  // brazos (hombro -> codo -> mano). A rotación 0 cuelgan; rotation.x > 0 los lleva hacia adelante.
   const brazos = [], codos = [], manos = [];
-  const manga = traje ? ropa : (mono ? ropa : tc);
+  const manga = traje || mono ? ropa : tc, antebrazoTela = traje || mono || ex.includes('chaleco') || ex.includes('delantal') || ex.includes('tirantes');
   for (const s of [-1, 1]) {
-    const b = new Hueso(torso, s * 0.19, 0.33, 0);
-    b.add(G_ESF, manga, [0, 0, 0], [0.058, 0.058, 0.058]);
-    b.add(G_CAP, manga, [0, -0.12, 0], [0.045, 0.14, 0.045]); b.cerrar();
+    const b = new Hueso(torso, s * 0.172, 0.3, 0);
+    b.add(G_ICO, manga, [0, -0.025, 0], [0.05, 0.055, 0.055]);
+    b.add(G_BRAZO, manga, [0, -0.13, 0], [0.05, 0.26, 0.05]); b.cerrar();
     const c = new Hueso(b, 0, -0.26, 0);
-    c.add(G_CAP, ex.includes('chaleco') || traje || mono || ex.includes('delantal') ? manga : (ex.includes('tirantes') ? manga : piel), [0, -0.1, 0], [0.038, 0.11, 0.038]);
-    if (traje) c.add(G_CIL, '#f4f6fa', [0, -0.2, 0], [0.035, 0.02, 0.035]);
-    c.add(G_ESF, piel, [0, -0.25, -0.005], [0.035, 0.045, 0.024]);                          // mano
-    c.add(G_CAP, piel, [s * -0.025, -0.235, -0.018], [0.01, 0.018, 0.01], [0.3, 0, s * 0.5]);  // pulgar
-    if (s === -1 && (traje || ex.includes('tirantes'))) c.add(G_CIL, '#c9a24a', [0, -0.19, 0], [0.038, 0.015, 0.038], null, true);   // reloj
+    c.add(G_BRAZO, antebrazoTela ? manga : piel, [0, -0.1, 0], [0.043, 0.2, 0.043]);
+    if (traje) c.add(G_CIL, '#f4f6fa', [0, -0.205, 0], [0.036, 0.02, 0.036]);              // puño de camisa
+    c.add(G_ICO, piel, [0, -0.25, -0.004], [0.034, 0.046, 0.024]);                           // mano
+    c.add(G_ICO0, piel, [s * -0.026, -0.232, -0.016], [0.011, 0.02, 0.011], [0.3, 0, s * 0.5]);   // pulgar
+    if (s === -1 && (traje || ex.includes('tirantes'))) c.add(G_CIL, '#c9a24a', [0, -0.19, 0], [0.04, 0.015, 0.04], null, true);   // reloj
     c.cerrar();
     const mano = new THREE.Group(); mano.position.set(0, -0.27, -0.02); c.g.add(mano);
     b.g.rotation.x = 0.1; c.g.rotation.x = 0.15; brazos.push(b.g); codos.push(c.g); manos.push(mano);
   }
-  // piernas (cadera -> rodilla -> pie)
+  // piernas (cadera -> rodilla); pantalón recto y zapatos redondeados
   const piernas = [], rodillas = [];
   for (const s of [-1, 1]) {
-    const p = new Hueso(cad, s * 0.075, 0, 0);
-    p.add(G_CAP, pant, [0, -0.17, 0], [0.065, 0.2, 0.068]); p.cerrar();
+    const p = new Hueso(cad, s * 0.068, 0, 0);
+    p.add(G_MUSLO, pant, [0, -0.18, 0], [0.08, 0.38, 0.082]); p.cerrar();
     const r = new Hueso(p, 0, -0.36, 0);
-    r.add(G_CAP, pant, [0, -0.16, 0], [0.052, 0.19, 0.055]);
-    r.add(G_CAP, zap, [0, -0.335, -0.04], [0.045, 0.07, 0.04], [Math.PI / 2, 0, 0], true);   // zapato
-    r.add(G_CAJA, '#141014', [0, -0.37, -0.04], [0.09, 0.012, 0.19]); r.cerrar();
+    r.add(G_PANT, pant, [0, -0.165, 0], [0.069, 0.34, 0.071]);
+    r.add(G_ICO, zap, [0, -0.345, -0.035], [0.052, 0.04, 0.1], null, true);                // zapato
+    r.add(G_CAJA, '#0e0b0d', [0, -0.375, -0.035], [0.1, 0.018, 0.2]); r.cerrar();          // suela
     piernas.push(p.g); rodillas.push(r.g);
   }
   return { g, cad: cad.g, torso: torso.g, cab: cab.g, brazos, codos, manos, piernas, rodillas, humano: true };
 }
 /* Manos en los bolsillos al estar de pie quieto (piernas rectas y brazos casi colgando). Suavizado para no parpadear al caminar. */
-function bolsillos(per) {
+function bolsillos(per, t) {
   let quieto = true;
   for (let i = 0; i < 2; i++) { const b = per.brazos[i].rotation.x; if (Math.abs(per.piernas[i].rotation.x) > 0.06 || b < -0.05 || b > 0.4) quieto = false; }
-  per.bol = (per.bol || 0) + ((quieto ? 1 : 0) - (per.bol || 0)) * (quieto ? 0.06 : 0.35);
+  const dt = Math.min(0.1, Math.max(0, t - (per._t ?? t))); per._t = t;                 // independiente de los fps
+  per.bol = (per.bol || 0) + ((quieto ? 1 : 0) - (per.bol || 0)) * (1 - Math.exp(-dt * (quieto ? 3 : 18)));
   const w = per.bol;
   for (let i = 0; i < 2; i++) {
     const s = i ? 1 : -1, b = per.brazos[i], c = per.codos[i];
     if (w > 0.01) b.rotation.x = b.rotation.x * (1 - w) + 0.04 * w;
-    b.rotation.z = s * 0.2 * w;
-    c.rotation.z = -s * 0.42 * w; c.rotation.x = c.rotation.x * (1 - w) - 0.12 * w;
+    b.rotation.z = s * 0.28 * w;
+    c.rotation.z = -s * 0.78 * w; c.rotation.x = c.rotation.x * (1 - w) - 0.1 * w;
   }
 }
 /* Postura derivada: rodillas y codos siguen a caderas y hombros (sentado, caminando, tecleando). */
@@ -578,7 +601,7 @@ function postura(per, t) {
     const b = per.brazos[i].rotation.x;
     per.codos[i].rotation.x = b > 0.9 && b < 2 ? 0.2 : b >= 2 ? 0.3 : 0.15 + Math.max(0, b) * 0.4;
   }
-  if (per.humano) bolsillos(per);
+  if (per.humano) bolsillos(per, t);
 }
 
 function sillaOficina(col) {
@@ -1449,6 +1472,157 @@ async function cargarRespuestas(rapido) {
     respuestas = d; respCargadas = true; revisarPendientes(); if (panelId) pintarMensajes();
   } catch (e) { /* sin respuestas.json: no se muestra nada */ }
 }
+/* Volumen de los efectos según la distancia entre el sonido (px del plano 2D) y el punto que mira la cámara */
+function volPos(x, y) { const d = Math.hypot(pxX(x) - controls.target.x, pxZ(y) - controls.target.z), lejos = camera.position.distanceTo(controls.target) > 18 ? 0.75 : 1; return Math.max(0.2, Math.min(1, 1.2 - d / 16)) * lejos; }   // nunca mudo del todo
+/* ---------------- Sonido ambiente de oficina (WebAudio, sintetizado; silenciado por defecto) ---------------- */
+const LS_SONIDO = 'oficina-sonido', VOL_AMB = 0.2, btnSon = document.getElementById('sonido');
+const sonido = { ctx: null, on: false, master: null, timer: null, click: null };
+function ruidoEnBucle(c, seg, marron) {      // buffer de ruido que empalma sin chasquido
+  const len = Math.floor(c.sampleRate * seg), N = Math.floor(c.sampleRate * 0.25), x = new Float32Array(len + N);
+  let last = 0, max = 0;
+  for (let i = 0; i < len + N; i++) { const w = Math.random() * 2 - 1; x[i] = marron ? (last = (last + 0.02 * w) / 1.02) : w; max = Math.max(max, Math.abs(x[i])); }
+  const buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (i < N ? x[i] * (i / N) + x[len + i] * (1 - i / N) : x[i]) / (max || 1) * 0.9;
+  return buf;
+}
+function iniciarAudio() {
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+  const c = sonido.ctx = new AC(), master = sonido.master = c.createGain();
+  master.gain.value = 0; master.connect(c.destination);
+  // 1) rumor de fondo (ruido marrón, grave)
+  const s1 = c.createBufferSource(); s1.buffer = ruidoEnBucle(c, 6, true); s1.loop = true;
+  const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 420;
+  const g1 = c.createGain(); g1.gain.value = 0.32; s1.connect(lp).connect(g1).connect(master); s1.start();
+  // 2) murmullo de voces lejanas (ruido en banda de voz, con vaivén lento)
+  const s2 = c.createBufferSource(); s2.buffer = ruidoEnBucle(c, 5, false); s2.loop = true;
+  const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 520; bp.Q.value = 1.4;
+  const g2 = c.createGain(); g2.gain.value = 0.05;
+  for (const [f, a] of [[0.21, 0.025], [0.37, 0.018]]) { const o = c.createOscillator(), og = c.createGain(); o.frequency.value = f; og.gain.value = a; o.connect(og).connect(g2.gain); o.start(); }
+  s2.connect(bp).connect(g2).connect(master); s2.start();
+  // 3) "tecla": clic corto de ruido
+  const n = Math.floor(c.sampleRate * 0.035); sonido.click = c.createBuffer(1, n, c.sampleRate);
+  const d = sonido.click.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (n * 0.12));
+  return true;
+}
+function tecla(when, vol) {
+  const c = sonido.ctx, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+  s.buffer = sonido.click; s.playbackRate.value = 0.75 + Math.random() * 0.5;
+  f.type = 'bandpass'; f.frequency.value = 1700 + Math.random() * 1600; f.Q.value = 1.1; g.gain.value = vol;
+  s.connect(f).connect(g).connect(sonido.master); s.start(when);
+}
+function programarTeclas() {               // ráfagas de tecleo; más seguidas si hay agentes trabajando
+  if (!sonido.on || !sonido.ctx) return;
+  const c = sonido.ctx, trab = AGENTES.filter(a => a.estado === 'trabajando').length;
+  let w = c.currentTime + 0.05; const n = 3 + Math.floor(Math.random() * 9);
+  for (let i = 0; i < n; i++) { tecla(w, 0.25 + Math.random() * 0.2); w += 0.07 + Math.random() * 0.15; }
+  const pausa = trab ? 0.5 + Math.random() * 1.6 : 1.8 + Math.random() * 4;
+  sonido.timer = setTimeout(programarTeclas, (w - c.currentTime + pausa) * 1000);
+}
+function pintarBocina(on) {
+  const t = on ? 'Silenciar sonido ambiente' : 'Activar sonido ambiente';
+  btnSon.setAttribute('aria-pressed', on ? 'true' : 'false'); btnSon.title = t; btnSon.setAttribute('aria-label', t);
+}
+function ponerSonido(on) {
+  pintarBocina(on); sonido.on = on; clearTimeout(sonido.timer);
+  if (on) {
+    if (!sonido.ctx && !iniciarAudio()) { pintarBocina(false); sonido.on = false; return; }
+    const c = sonido.ctx, g = sonido.master.gain; if (c.state !== 'running') c.resume();
+    g.cancelScheduledValues(c.currentTime); g.setValueAtTime(g.value, c.currentTime); g.linearRampToValueAtTime(VOL_AMB, c.currentTime + 1.5);
+    programarTeclas();
+  } else if (sonido.ctx) {
+    const c = sonido.ctx, g = sonido.master.gain;
+    g.cancelScheduledValues(c.currentTime); g.setValueAtTime(g.value, c.currentTime); g.linearRampToValueAtTime(0, c.currentTime + 0.4);
+    setTimeout(() => { if (!sonido.on) c.suspend(); }, 500);
+  }
+}
+btnSon.addEventListener('click', () => {
+  const on = btnSon.getAttribute('aria-pressed') !== 'true';
+  lsSet(LS_SONIDO, on ? '1' : '0'); ponerSonido(on);
+});
+document.addEventListener('visibilitychange', () => {   // pausa en pestañas ocultas
+  if (!sonido.ctx || !sonido.on) return;
+  if (document.hidden) { clearTimeout(sonido.timer); sonido.ctx.suspend(); } else { sonido.ctx.resume(); programarTeclas(); }
+});
+if (!(window.AudioContext || window.webkitAudioContext)) btnSon.hidden = true;
+else if (lsGet(LS_SONIDO) === '1') {        // recordado: arranca con el primer toque (el navegador no deja autoplay)
+  pintarBocina(true);
+  const arrancar = e => {
+    if (e.target && e.target.closest && e.target.closest('#sonido')) return;
+    removeEventListener('pointerdown', arrancar, true); removeEventListener('keydown', arrancar, true);
+    if (btnSon.getAttribute('aria-pressed') === 'true' && !sonido.on) ponerSonido(true);
+  };
+  addEventListener('pointerdown', arrancar, true); addEventListener('keydown', arrancar, true);
+}
+
+/* ---------------- Efectos de sonido (EFECTOS_SONIDO) — WebAudio procedural, sin archivos ----------------
+   Usan el mismo botón 🔊 y la misma mezcla que el sonido ambiente: solo suenan con el sonido activado por el usuario.
+   ding = respuesta nueva en respuestas.json · campanita = aviso / fin de proceso · pasos (máx. ~4/s) · taza y cafetera del barista. */
+const efecto = (() => {
+  const ult = {}, ok = () => sonido.on && sonido.ctx && sonido.ctx.state === 'running' && !document.hidden;
+  const libre = (k, ms) => { const n = performance.now(); if (ult[k] && n - ult[k] < ms) return false; ult[k] = n; return true; };
+  let ruidoB = null;
+  const ruido = c => { if (!ruidoB) { const n = Math.floor(c.sampleRate * 1.6); ruidoB = c.createBuffer(1, n, c.sampleRate); const d = ruidoB.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1; } return ruidoB; };
+  function tono(f, t0, dur, vol, tipo) {
+    const c = sonido.ctx, o = c.createOscillator(), g = c.createGain(); o.type = tipo || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(sonido.master); o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  function ding() {                       // respuesta nueva: "ding" limpio de dos parciales
+    if (!ok() || !libre('ding', 1200)) return; const t = sonido.ctx.currentTime + 0.02;
+    tono(1046.5, t, 1.1, 0.55); tono(2093, t, 0.6, 0.12); tono(1568, t + 0.12, 0.9, 0.3);
+  }
+  function campana() {                    // aviso / fin de proceso: campanita (parciales inarmónicos de campana)
+    if (!ok() || !libre('campana', 2500)) return; const t = sonido.ctx.currentTime + 0.02;
+    for (const [i, f] of [[0, 1318.5], [1, 1760]]) { const t0 = t + i * 0.18; tono(f, t0, 1.6, 0.32); tono(f * 2.76, t0, 0.5, 0.06); tono(f * 5.4, t0, 0.18, 0.03); }
+  }
+  function paso(vol) {                    // pasito suave: golpe de ruido muy grave y corto
+    if (!ok() || vol < 0.05 || !libre('paso', 220)) return;
+    const c = sonido.ctx, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(), t = c.currentTime + 0.01;
+    s.buffer = ruido(c); f.type = 'lowpass'; f.frequency.value = 260 + Math.random() * 120;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.9 * vol, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+    s.connect(f).connect(g).connect(sonido.master); s.start(t, Math.random() * 1.4, 0.12);
+  }
+  function taza(vol = 1) {                // taza sobre el plato: dos "clinks" agudos
+    if (!ok() || vol < 0.05 || !libre('taza', 1500)) return; const t = sonido.ctx.currentTime + 0.02;
+    tono(2637, t, 0.22, 0.16 * vol); tono(3951, t, 0.12, 0.06 * vol); tono(2489, t + 0.13, 0.18, 0.1 * vol); tono(3729, t + 0.13, 0.1, 0.04 * vol);
+  }
+  function cafetera(vol = 1) {            // cafetera: vapor (ruido agudo filtrado) + burbujeo grave
+    if (!ok() || vol < 0.05 || !libre('cafetera', 5000)) return;
+    const c = sonido.ctx, t = c.currentTime + 0.02;
+    const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = ruido(c);
+    bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = 0.7;
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.22 * vol, t + 0.25); g.gain.linearRampToValueAtTime(0.16 * vol, t + 1.2); g.gain.linearRampToValueAtTime(0.0001, t + 1.6);
+    s.connect(bp).connect(g).connect(sonido.master); s.start(t, 0, 1.6);
+    const s2 = c.createBufferSource(), lp = c.createBiquadFilter(), g2 = c.createGain(), lfo = c.createOscillator(), lg = c.createGain(); s2.buffer = ruido(c);
+    lp.type = 'lowpass'; lp.frequency.value = 320; g2.gain.value = 0; lfo.frequency.value = 9; lg.gain.value = 0.35 * vol;
+    lfo.connect(lg).connect(g2.gain); s2.connect(lp).connect(g2).connect(sonido.master);
+    s2.start(t + 0.2, 0, 1.3); lfo.start(t + 0.2); lfo.stop(t + 1.5);
+  }
+  // Vigilantes: respuestas.json, avisos (eventos.json) y confeti (fin de proceso masivo)
+  let rN = null, rT = '', avN = 0, confN = null, baLleva = false, baFase = '';
+  setInterval(() => {
+    if (respCargadas) { const n = respuestas.length, m = maxTs(respuestas); if (rN !== null && (m > rT || n > rN)) ding(); rN = n; rT = m; }
+    if (sinLeer > avN) campana(); avN = sinLeer;
+    const cf = (window.oficina && window.oficina.confetis) || 0; if (confN !== null && cf > confN) campana(); confN = cf;
+  }, 1000);
+  // Pasos de los agentes y barista (cada 100 ms). Volumen por distancia si la página define volPos(x, y).
+  const vol = (x, y) => (typeof volPos === 'function' ? volPos(x, y) : 0.55);
+  setInterval(() => {
+    if (!ok()) return;
+    for (const p of [...gente, barista]) {
+      if (p.modo !== 'caminando') { p._paso = null; continue; }
+      const k = Math.floor((p.dist || 0) / 10);                  // un paso cada ~10 px recorridos (como la animación)
+      if (p._paso != null && k !== p._paso) paso(vol(p.x, p.y) * 0.6);
+      p._paso = k;
+    }
+    const b = barista;
+    if (b.lleva && !baLleva) cafetera(vol(b.x, b.y));              // preparó el café en la barra
+    if (b.fase === 'sirve' && baFase !== 'sirve') taza(vol(b.x, b.y));   // deja la taza en la mesa
+    baLleva = b.lleva; baFase = b.fase;
+  }, 100);
+  return { ding, campana, paso, taza, cafetera };
+})();
+
 
 /* ---------------- Arranque ---------------- */
 const POLL3D = 10000;   // igual que POLL_MS del 2D

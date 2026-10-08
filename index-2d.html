@@ -2487,6 +2487,75 @@ else if (lsGet(LS_SONIDO) === '1') {        // recordado: arranca con el primer 
   addEventListener('pointerdown', arrancar, true); addEventListener('keydown', arrancar, true);
 }
 
+/* ---------------- Efectos de sonido (EFECTOS_SONIDO) — WebAudio procedural, sin archivos ----------------
+   Usan el mismo botón 🔊 y la misma mezcla que el sonido ambiente: solo suenan con el sonido activado por el usuario.
+   ding = respuesta nueva en respuestas.json · campanita = aviso / fin de proceso · pasos (máx. ~4/s) · taza y cafetera del barista. */
+const efecto = (() => {
+  const ult = {}, ok = () => sonido.on && sonido.ctx && sonido.ctx.state === 'running' && !document.hidden;
+  const libre = (k, ms) => { const n = performance.now(); if (ult[k] && n - ult[k] < ms) return false; ult[k] = n; return true; };
+  let ruidoB = null;
+  const ruido = c => { if (!ruidoB) { const n = Math.floor(c.sampleRate * 1.6); ruidoB = c.createBuffer(1, n, c.sampleRate); const d = ruidoB.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1; } return ruidoB; };
+  function tono(f, t0, dur, vol, tipo) {
+    const c = sonido.ctx, o = c.createOscillator(), g = c.createGain(); o.type = tipo || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(sonido.master); o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  function ding() {                       // respuesta nueva: "ding" limpio de dos parciales
+    if (!ok() || !libre('ding', 1200)) return; const t = sonido.ctx.currentTime + 0.02;
+    tono(1046.5, t, 1.1, 0.55); tono(2093, t, 0.6, 0.12); tono(1568, t + 0.12, 0.9, 0.3);
+  }
+  function campana() {                    // aviso / fin de proceso: campanita (parciales inarmónicos de campana)
+    if (!ok() || !libre('campana', 2500)) return; const t = sonido.ctx.currentTime + 0.02;
+    for (const [i, f] of [[0, 1318.5], [1, 1760]]) { const t0 = t + i * 0.18; tono(f, t0, 1.6, 0.32); tono(f * 2.76, t0, 0.5, 0.06); tono(f * 5.4, t0, 0.18, 0.03); }
+  }
+  function paso(vol) {                    // pasito suave: golpe de ruido muy grave y corto
+    if (!ok() || vol < 0.05 || !libre('paso', 220)) return;
+    const c = sonido.ctx, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(), t = c.currentTime + 0.01;
+    s.buffer = ruido(c); f.type = 'lowpass'; f.frequency.value = 260 + Math.random() * 120;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.9 * vol, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+    s.connect(f).connect(g).connect(sonido.master); s.start(t, Math.random() * 1.4, 0.12);
+  }
+  function taza(vol = 1) {                // taza sobre el plato: dos "clinks" agudos
+    if (!ok() || vol < 0.05 || !libre('taza', 1500)) return; const t = sonido.ctx.currentTime + 0.02;
+    tono(2637, t, 0.22, 0.16 * vol); tono(3951, t, 0.12, 0.06 * vol); tono(2489, t + 0.13, 0.18, 0.1 * vol); tono(3729, t + 0.13, 0.1, 0.04 * vol);
+  }
+  function cafetera(vol = 1) {            // cafetera: vapor (ruido agudo filtrado) + burbujeo grave
+    if (!ok() || vol < 0.05 || !libre('cafetera', 5000)) return;
+    const c = sonido.ctx, t = c.currentTime + 0.02;
+    const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = ruido(c);
+    bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = 0.7;
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.22 * vol, t + 0.25); g.gain.linearRampToValueAtTime(0.16 * vol, t + 1.2); g.gain.linearRampToValueAtTime(0.0001, t + 1.6);
+    s.connect(bp).connect(g).connect(sonido.master); s.start(t, 0, 1.6);
+    const s2 = c.createBufferSource(), lp = c.createBiquadFilter(), g2 = c.createGain(), lfo = c.createOscillator(), lg = c.createGain(); s2.buffer = ruido(c);
+    lp.type = 'lowpass'; lp.frequency.value = 320; g2.gain.value = 0; lfo.frequency.value = 9; lg.gain.value = 0.35 * vol;
+    lfo.connect(lg).connect(g2.gain); s2.connect(lp).connect(g2).connect(sonido.master);
+    s2.start(t + 0.2, 0, 1.3); lfo.start(t + 0.2); lfo.stop(t + 1.5);
+  }
+  // Vigilantes: respuestas.json, avisos (eventos.json) y confeti (fin de proceso masivo)
+  let rN = null, rT = '', avN = 0, confN = null, baLleva = false, baFase = '';
+  setInterval(() => {
+    if (respCargadas) { const n = respuestas.length, m = maxTs(respuestas); if (rN !== null && (m > rT || n > rN)) ding(); rN = n; rT = m; }
+    if (sinLeer > avN) campana(); avN = sinLeer;
+    const cf = (window.oficina && window.oficina.confetis) || 0; if (confN !== null && cf > confN) campana(); confN = cf;
+  }, 1000);
+  // Pasos de los agentes y barista (cada 100 ms). Volumen por distancia si la página define volPos(x, y).
+  const vol = (x, y) => (typeof volPos === 'function' ? volPos(x, y) : 0.55);
+  setInterval(() => {
+    if (!ok()) return;
+    for (const p of [...gente, barista]) {
+      if (p.modo !== 'caminando') { p._paso = null; continue; }
+      const k = Math.floor((p.dist || 0) / 10);                  // un paso cada ~10 px recorridos (como la animación)
+      if (p._paso != null && k !== p._paso) paso(vol(p.x, p.y) * 0.6);
+      p._paso = k;
+    }
+    const b = barista;
+    if (b.lleva && !baLleva) cafetera(vol(b.x, b.y));              // preparó el café en la barra
+    if (b.fase === 'sirve' && baFase !== 'sirve') taza(vol(b.x, b.y));   // deja la taza en la mesa
+    baLleva = b.lleva; baFase = b.fase;
+  }, 100);
+  return { ding, campana, paso, taza, cafetera };
+})();
+
 /* ---------------- ⏳ Orden pendiente + sondeo rápido ----------------
    Tras enviar una orden (enviarOrden -> ordenarHermes) se marca «pendiente»: burbuja de HERMES «Trabajando en ello…»
    en el chat y globo en la escena, hasta que llega una respuesta nueva de ese agente en respuestas.json (o 10 min).
