@@ -280,5 +280,11 @@
   "de": "HERMES",
   "texto": "Publicado: techo a 20 m con vista desde arriba y ventanales completos.",
   "ts": "2026-10-08T13:25:05-05:00"
+ },
+ {
+  "id": "cierre",
+  "de": "HERMES",
+  "texto": "Falcon #37988: sin guía en nuestros registros; avisado a James para corregir destino Shalom.",
+  "ts": "2026-10-08T16:02:41-05:00"
  }
 ]
