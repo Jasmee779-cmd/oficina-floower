@@ -190,5 +190,11 @@
   "de": "HERMES",
   "texto": "Masivos para el 08/10: 16 de 16 subidos sin errores, S/ 1,873.",
   "ts": "2026-10-07T19:53:54-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos del día 07/10 cerrados: 34 revisados, 14 entrega exitosa, 2 cancelados, 6 reprogramados, 12 sin tocar (8 no contestan, 3 múltiples, 1 sin pedido en Aliclik).",
+  "ts": "2026-10-07T21:11:30-05:00"
  }
 ]
