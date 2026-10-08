@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "Cierre pedidos 06/10 terminado",
-  "ts": "2026-10-06T21:24:54-05:00"
+  "estado": "trabajando",
+  "tarea": "Plantilla masivos 08/10",
+  "ts": "2026-10-07T19:46:55-05:00"
  },
  {
   "id": "cierre",
