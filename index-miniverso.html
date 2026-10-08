@@ -834,9 +834,13 @@ const CUARTOS = {                                  // centro en baldosas [c, r]
 let vuelo = null;
 function volarA(v) {
   if (typeof enfocado !== 'undefined' && enfocado) { enfocado = null; sigue = null; btnVolver.hidden = true; panel.classList.remove('enfoque'); }
+  capaG.style.visibility = '';
   controls.minDistance = 6;
   const ver = innerWidth < innerHeight, tgt = new THREE.Vector3(), pos = new THREE.Vector3();
   if (v === 'general' || !CUARTOS[v]) { if (ver) { tgt.set(0, 0, 0); pos.set(42, 60, 0.5); } else { tgt.set(0, 0, 0.5); pos.set(0, 30, 27); } }
+  else if (CUARTOS[v][1] < 11) {                               // cuartos del norte: encuadre que incluye ENTERA la pantalla grande de su pared
+    const [c, r] = CUARTOS[v]; tgt.set(X(c), 1.6, Z(r) - 0.5); pos.copy(tgt).add(ver ? new THREE.Vector3(0, 14, 13) : new THREE.Vector3(0, 11, 13));
+  }
   else { const [c, r] = CUARTOS[v]; tgt.set(X(c), 0.3, Z(r)); pos.copy(tgt).add(ver ? new THREE.Vector3(0, 15, 9.5) : (v === 'cafeteria' ? new THREE.Vector3(0, 13, 11) : new THREE.Vector3(0, 10, 10.5))); }
   vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1: pos, t1: tgt };
   for (const b of document.querySelectorAll('#vistas .pie-btn')) b.classList.toggle('on', b.dataset.v === v);
@@ -867,8 +871,9 @@ canvas.addEventListener('pointerup', e => {
   const d = Math.max(a.mov, Math.hypot(e.clientX - a.x, e.clientY - a.y));
   if (d > (e.pointerType === 'mouse' ? 6 : 12) || performance.now() - a.t > 650) return;   // arrastre o pulsación larga: no cuenta
   pt.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(pt, camera);
-  const hh = ray.intersectObjects(hits, false);
+  const hh = ray.intersectObjects(hits, false), pp = hh.length ? null : pantallaTocada(ray);
   if (hh.length) enfocarAgente(hh[0].object.userData.id);
+  else if (pp && enfocado !== 'pantalla:' + pp.nombre) enfocarPantalla(pp);   // 🖥️ tocar una pantalla: la cámara se acerca de frente
   else if (enfocado) volverGeneral();                     // tocar fuera: vuelve a la vista general
 });
 function enfocarAgente(id) {                              // la cámara se acerca suave al agente y se abre su chat
@@ -892,7 +897,7 @@ btnVolver.addEventListener('click', volverGeneral);
 canvas.addEventListener('pointermove', e => {
   if (e.pointerType !== 'mouse' || abajo) return;
   pt.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(pt, camera);
-  canvas.style.cursor = ray.intersectObjects(hits, false).length ? 'pointer' : 'grab';
+  canvas.style.cursor = ray.intersectObjects(hits, false).length || pantallaTocada(ray) ? 'pointer' : 'grab';
 });
 
 /* ---- Movimiento y visitas (lógica portada de index.html) ---- */
@@ -1567,24 +1572,34 @@ async function cargarDatosDia() {
    1) Tablero del día (sala de HERMES): recaudo ACUMULADO DE LA SEMANA (lun–dom, Lima) + meta semanal con barra;
       masivos y pedidos del día — historico.json + datos-dia.json.
    2) Gráfico de la semana (Finanzas): recaudo de los últimos 7 días — historico.json + hoy de datos-dia.json. */
-function pantallaPared(cx, ancho, alto, w, h) {                 // marco sobre el muro norte (cara sur, z = Z(2))
-  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-  const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4;
-  const y = ALTO_MURO + 0.1 + alto / 2;
-  box(ancho + 0.16, alto + 0.16, 0.1, '#1a1720', cx, y, Z(2) + 0.02, scene, false);                     // marco
-  for (const s of [-1, 1]) box(0.08, 0.3, 0.12, '#2a2530', cx + s * ancho * 0.35, ALTO_MURO + 0.05, Z(2) + 0.02, scene, false);   // soportes
-  const m = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto), new THREE.MeshBasicMaterial({ map: tx, toneMapped: false }));   // sin iluminación: legible de día y de noche
-  m.position.set(cx, y, Z(2) + 0.08); scene.add(m);
-  return { cv, g: cv.getContext('2d'), tx, mesh: m, firma: '' };
+/* Resolución del canvas: se pinta SIEMPRE en coordenadas lógicas (1024×512) y el canvas real es ×CALIDAD_PANT.
+   PC: ×2 (2048×1024, nítido de cerca) · celular / poca memoria: ×1.25 (1280×640, ~4 MB por pantalla con mipmaps). */
+const CALIDAD_PANT = (matchMedia('(pointer: coarse)').matches || Math.min(innerWidth, innerHeight) <= 700 || (navigator.deviceMemory || 8) <= 4) ? 1.25 : 2;
+const INCL_PANT = 0.2;                                           // inclinación hacia atrás (rad): se leen mejor desde arriba
+const PANTALLAS_3D = [];                                         // para tocar una pantalla y acercar la cámara de frente
+function canvasPantalla(wl, hl) {
+  const cv = document.createElement('canvas'); cv.width = Math.round(wl * CALIDAD_PANT); cv.height = Math.round(hl * CALIDAD_PANT);
+  const g = cv.getContext('2d'); g.setTransform(CALIDAD_PANT, 0, 0, CALIDAD_PANT, 0, 0);   // se dibuja en coordenadas lógicas
+  const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  return { cv, g, tx, w: wl, h: hl };
 }
-const TABLERO = pantallaPared(X(28), 3.7, 1.85, 1024, 512);
-const SEMANA = pantallaPared(X(37.6), 4.0, 2.0, 1024, 512);
+function pantallaPared(cx, ancho, alto, w, h, nombre) {          // marco SOBRE el muro norte (cara sur, z = Z(2)), inclinado hacia atrás
+  const P = canvasPantalla(w, h), grupo = new THREE.Group();
+  grupo.position.set(cx, ALTO_MURO + 0.06, Z(2) + 0.06); grupo.rotation.x = -INCL_PANT; scene.add(grupo);
+  box(ancho + 0.2, alto + 0.2, 0.1, '#1a1720', 0, alto / 2 + 0.12, 0, grupo, false);                         // marco
+  for (const s of [-1, 1]) box(0.1, 0.34, 0.14, '#2a2530', s * ancho * 0.36, 0.06, -0.04, grupo, false);     // soportes
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto), new THREE.MeshBasicMaterial({ map: P.tx, toneMapped: false }));   // sin iluminación: legible de día y de noche
+  m.position.set(0, alto / 2 + 0.12, 0.06); grupo.add(m);
+  const o = { ...P, mesh: m, grupo, ancho, alto, nombre, firma: '' }; PANTALLAS_3D.push(o); return o;
+}
+const TABLERO = pantallaPared(X(28), 7.2, 3.6, 1024, 512, 'tablero');      // sala de HERMES (10 de ancho)   · antes 3.7 → ×1.95
+const SEMANA = pantallaPared(X(38), 7.0, 3.5, 1024, 512, 'semana');        // Finanzas (8 de ancho)          · antes 4.0 → ×1.75
 function rRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 function fondoPantalla(g, w, h, titulo) {
   const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#232a44'); gr.addColorStop(1, '#141826');
   g.fillStyle = gr; g.fillRect(0, 0, w, h);
   g.fillStyle = '#f07aa0'; g.fillRect(0, 0, w, 8);
-  g.fillStyle = '#f3ece4'; g.font = '800 40px system-ui,"Segoe UI",sans-serif'; g.textBaseline = 'alphabetic'; g.textAlign = 'left'; g.fillText(titulo, 32, 66);
+  g.fillStyle = '#f3ece4'; g.font = '800 48px system-ui,"Segoe UI",sans-serif'; g.textBaseline = 'alphabetic'; g.textAlign = 'left'; g.fillText(titulo, 30, 66, w * 0.62);
 }
 const fmtEntero = v => new Intl.NumberFormat('es-PE').format(v);
 const fmtCorto = (v, mon) => (mon && mon !== 'PEN' ? mon + ' ' : 'S/ ') + new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 }).format(v);
@@ -1636,46 +1651,49 @@ function pintarTablero() {
   const lograda = metaSemanalLograda(), fiesta = celebrando();
   const firma = JSON.stringify([r, R, M, r && r.ts ? verTs(r.ts) : '', lograda, fiesta]);
   if (firma === TABLERO.firma) return false;                   // sin cambios: no se repinta ni se sube la textura
-  TABLERO.firma = firma; const { g, cv } = TABLERO, w = cv.width, h = cv.height;
+  TABLERO.firma = firma; const { g, w, h } = TABLERO;
   fondoPantalla(g, w, h, '📊 Tablero del día');
-  g.textAlign = 'right'; g.font = '700 26px system-ui,sans-serif'; g.fillStyle = '#b9aca0';
-  g.fillText(cap(new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', weekday: 'long', day: 'numeric', month: 'short' }).format(new Date())), w - 32, 62);
-  if (!r && !R.hay) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 44px system-ui,sans-serif'; g.fillText('Sin datos del día', w / 2, h / 2 + 20); TABLERO.tx.needsUpdate = true; return true; }
-  const mon = R.mon, tw = [500, 216, 216], gap = 20; let x = 32;
-  // 💰 recaudo acumulado de la semana (título + rango, monto grande, "hoy: S/ X" en chico)
-  rRect(g, x, 96, tw[0], 200, 18); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill(); g.fillStyle = '#3bb273'; g.fillRect(x, 96, 8, 200);
-  g.textAlign = 'left'; g.fillStyle = '#b9aca0'; g.font = '700 26px system-ui,sans-serif'; g.fillText('💰 Recaudo de la semana', x + 26, 132);
-  const anchoT = g.measureText('💰 Recaudo de la semana').width; g.fillStyle = '#ffb3cb'; g.font = '800 24px system-ui,sans-serif'; g.fillText(R.rango, x + 26 + anchoT + 14, 132);
-  g.fillStyle = '#ffffff'; g.font = '800 58px system-ui,sans-serif'; g.fillText(R.hay ? fmtSoles(R.total, mon) : '—', x + 26, 198, tw[0] - 40);
-  g.fillStyle = '#b9aca0'; g.font = '700 22px system-ui,sans-serif'; g.fillText('hoy: ' + (R.hoy == null ? '—' : fmtSoles(R.hoy, mon)), x + 26, 236);
-  { const C = comparaSemana(R); let cx = x + 26;                  // ▲ verde / ▼ rojo contra la semana pasada
-    if (C.flecha) { g.fillStyle = C.col; g.font = '800 24px system-ui,sans-serif'; g.fillText(C.flecha, cx, 274); cx += g.measureText(C.flecha).width + 8; }
-    g.fillStyle = C.flecha ? C.col : '#8f8698'; g.font = (C.flecha ? '800' : '600 italic') + ' 22px system-ui,sans-serif'; g.fillText(C.txt, cx, 274, x + tw[0] - 16 - cx); }
+  g.textAlign = 'right'; g.font = '700 30px system-ui,sans-serif'; g.fillStyle = '#c9bdb0';
+  g.fillText(cap(new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', weekday: 'long', day: 'numeric', month: 'short' }).format(new Date())), w - 32, 62, 330);
+  if (!r && !R.hay) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 56px system-ui,sans-serif'; g.fillText('Sin datos del día', w / 2, h / 2 + 24); TABLERO.tx.needsUpdate = true; return true; }
+  const mon = R.mon, tw = [560, 184, 184], gap = 16, y0 = 90, th = 228; let x = 32;
+  // 💰 recaudo acumulado de la semana (título + rango, monto grande, "hoy: S/ X")
+  rRect(g, x, y0, tw[0], th, 18); g.fillStyle = 'rgba(255,255,255,.07)'; g.fill(); g.fillStyle = '#3bb273'; g.fillRect(x, y0, 9, th);
+  { let fs = 32; const tit = '💰 Recaudo de la semana';
+    for (; fs > 24; fs -= 2) { g.font = `700 ${fs}px system-ui,sans-serif`; const a = g.measureText(tit).width; g.font = `800 ${fs}px system-ui,sans-serif`; if (a + 14 + g.measureText(R.rango).width <= tw[0] - 46) break; }
+    g.textAlign = 'left'; g.fillStyle = '#d2c6b9'; g.font = `700 ${fs}px system-ui,sans-serif`; g.fillText(tit, x + 26, y0 + 44);
+    const a = g.measureText(tit).width; g.fillStyle = '#ffb3cb'; g.font = `800 ${fs}px system-ui,sans-serif`; g.fillText(R.rango, x + 26 + a + 14, y0 + 44); }
+  g.fillStyle = '#ffffff'; g.font = '800 80px system-ui,sans-serif'; g.fillText(R.hay ? fmtSoles(R.total, mon) : '—', x + 26, y0 + 128, tw[0] - 44);
+  g.fillStyle = '#d2c6b9'; g.font = '700 34px system-ui,sans-serif'; g.fillText('hoy: ' + (R.hoy == null ? '—' : fmtSoles(R.hoy, mon)), x + 26, y0 + 172, tw[0] - 44);
+  { const C = comparaSemana(R); let cx = x + 26; const txt = C.txt.replace(' vs. sem. pasada (', ' vs. sem. ant. (');   // ▲ verde / ▼ rojo contra la semana pasada
+    if (C.flecha) { g.fillStyle = C.col; g.font = '800 30px system-ui,sans-serif'; g.fillText(C.flecha, cx, y0 + 212); cx += g.measureText(C.flecha).width + 8; }
+    g.fillStyle = C.flecha ? C.col : '#a39bb0'; g.font = (C.flecha ? '800' : '600 italic') + ' 28px system-ui,sans-serif'; g.fillText(txt, cx, y0 + 212, x + tw[0] - 18 - cx); }
   x += tw[0] + gap;
   // 📦 masivos y 🛒 pedidos: siguen siendo del día
   [['📦 Masivos', r && r.masivos != null ? fmtEntero(r.masivos) : '—', '#4a9be8'], ['🛒 Pedidos', r && r.pedidos != null ? fmtEntero(r.pedidos) : '—', '#f2c14e']].forEach(([et, val, col], i) => {
-    rRect(g, x, 96, tw[i + 1], 200, 18); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill(); g.fillStyle = col; g.fillRect(x, 96, 8, 200);
-    g.textAlign = 'left'; g.fillStyle = '#b9aca0'; g.font = '700 26px system-ui,sans-serif'; g.fillText(et, x + 26, 134);
-    g.fillStyle = '#ffffff'; g.font = '800 76px system-ui,sans-serif'; g.fillText(val, x + 26, 224, tw[i + 1] - 40);
-    g.fillStyle = '#8f8698'; g.font = '700 22px system-ui,sans-serif'; g.fillText('hoy', x + 26, 270);
+    rRect(g, x, y0, tw[i + 1], th, 18); g.fillStyle = 'rgba(255,255,255,.07)'; g.fill(); g.fillStyle = col; g.fillRect(x, y0, 9, th);
+    g.textAlign = 'left'; g.fillStyle = '#d2c6b9'; g.font = '700 30px system-ui,sans-serif'; g.fillText(et, x + 24, y0 + 44, tw[i + 1] - 34);
+    g.fillStyle = '#ffffff'; g.font = '800 104px system-ui,sans-serif'; g.fillText(val, x + 24, y0 + 158, tw[i + 1] - 36);
+    g.fillStyle = '#a39bb0'; g.font = '700 30px system-ui,sans-serif'; g.fillText('hoy', x + 24, y0 + 208);
     x += tw[i + 1] + gap;
   });
   // 🎯 meta semanal + barra de avance
+  const yM = 366, yB = 384;
   if (lograda) {                                               // 🎉 meta semanal lograda (o forzada con ?celebrar=1)
-    g.textAlign = 'left'; g.fillStyle = '#7be3a4'; g.font = '800 36px system-ui,sans-serif'; g.fillText('¡Meta semanal lograda! 🎉', 32, 348);
-    g.textAlign = 'right'; g.fillStyle = '#b9aca0'; g.font = '700 24px system-ui,sans-serif'; g.fillText('meta ' + fmtCorto(M.meta, mon) + ' · ' + fmtPct(M.pct), w - 32, 346);
+    g.textAlign = 'left'; g.fillStyle = '#7be3a4'; g.font = '800 42px system-ui,sans-serif'; g.fillText('¡Meta semanal lograda! 🎉', 32, yM + 2, 640);
+    g.textAlign = 'right'; g.fillStyle = '#d2c6b9'; g.font = '700 30px system-ui,sans-serif'; g.fillText(fmtCorto(M.meta, mon) + ' · ' + fmtPct(M.pct), w - 32, yM, 300);
   } else {
-    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = '800 30px system-ui,sans-serif'; g.fillText('🎯 Meta semanal ' + fmtSoles(M.meta, mon), 32, 346);
-    g.textAlign = 'right'; g.fillStyle = M.pct >= 100 ? '#7be3a4' : '#ffd9e6'; g.font = '800 34px system-ui,sans-serif'; g.fillText(fmtPct(M.pct), w - 32, 346);
+    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = '800 38px system-ui,sans-serif'; g.fillText('🎯 Meta semanal ' + fmtSoles(M.meta, mon), 32, yM, 760);
+    g.textAlign = 'right'; g.fillStyle = M.pct >= 100 ? '#7be3a4' : '#ffd9e6'; g.font = '800 46px system-ui,sans-serif'; g.fillText(fmtPct(M.pct), w - 32, yM + 4);
   }
-  rRect(g, 32, 366, w - 64, 44, 22); g.fillStyle = 'rgba(255,255,255,.1)'; g.fill();
+  rRect(g, 32, yB, w - 64, 48, 24); g.fillStyle = 'rgba(255,255,255,.12)'; g.fill();
   const anchoBarra = lograda ? 100 : M.ancho;
-  if (anchoBarra > 0) { rRect(g, 32, 366, Math.max(44, (w - 64) * anchoBarra / 100), 44, 22); const gb = g.createLinearGradient(32, 0, w - 32, 0); gb.addColorStop(0, lograda ? '#3bb273' : '#f07aa0'); gb.addColorStop(1, lograda || M.pct >= 100 ? '#7be3a4' : '#ffb36b'); g.fillStyle = gb; g.fill(); }
-  if (lograda) { g.strokeStyle = '#7be3a4'; g.lineWidth = fiesta ? 10 : 6; g.strokeRect(3, 3, w - 6, h - 6); }
-  g.textAlign = 'left'; g.font = '600 22px system-ui,sans-serif'; g.fillStyle = '#8f8698';
-  const pie = [(M.ejemplo ? 'meta de ejemplo: ' : 'meta diaria ') + fmtCorto(M.diaria, mon) + ' × 6 (lun–sáb)', r && r.ejemplo ? 'datos de ejemplo' : '', r && r.viejo ? 'último dato del ' + r.viejo : '', R.sinHist ? 'sin histórico' : '', r && r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join('  ·  ');
-  g.fillText(pie, 32, 462, w - 220);
-  g.textAlign = 'right'; g.fillStyle = '#3bb273'; g.fillText('● en vivo', w - 32, 462);
+  if (anchoBarra > 0) { rRect(g, 32, yB, Math.max(48, (w - 64) * anchoBarra / 100), 48, 24); const gb = g.createLinearGradient(32, 0, w - 32, 0); gb.addColorStop(0, lograda ? '#3bb273' : '#f07aa0'); gb.addColorStop(1, lograda || M.pct >= 100 ? '#7be3a4' : '#ffb36b'); g.fillStyle = gb; g.fill(); }
+  if (lograda) { g.strokeStyle = '#7be3a4'; g.lineWidth = fiesta ? 12 : 7; g.strokeRect(4, 4, w - 8, h - 8); }
+  g.textAlign = 'left'; g.font = '700 27px system-ui,sans-serif'; g.fillStyle = '#a39bb0';
+  const pie = [(M.ejemplo ? 'meta de ejemplo ' : 'meta diaria ') + fmtCorto(M.diaria, mon) + ' × 6', r && r.ejemplo ? 'datos de ejemplo' : '', r && r.viejo ? 'dato del ' + r.viejo : '', R.sinHist ? 'sin histórico' : '', r && r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join(' · ');
+  g.fillText(pie, 32, 482, w - 230);
+  g.textAlign = 'right'; g.fillStyle = '#3bb273'; g.font = '800 27px system-ui,sans-serif'; g.fillText('● en vivo', w - 32, 482);
   TABLERO.tx.needsUpdate = true; return true;
 }
 function diasSemana() {                                        // últimos 7 días (hoy incluido), hora de Lima
@@ -1692,21 +1710,22 @@ function diasSemana() {                                        // últimos 7 dí
 function pintarSemana() {
   const dias = diasSemana(), mon = (historico && historico.moneda) || (datosDia && datosDia.moneda) || 'PEN';
   const firma = JSON.stringify([dias, mon]); if (firma === SEMANA.firma) return false;
-  SEMANA.firma = firma; const { g, cv } = SEMANA, w = cv.width, h = cv.height;
-  fondoPantalla(g, w, h, '📈 Recaudo · últimos 7 días');
+  SEMANA.firma = firma; const { g, w, h } = SEMANA;
+  fondoPantalla(g, w, h, '📈 Recaudo · 7 días');
   const vals = dias.map(x => x.v).filter(v => v != null), max = Math.max(1, ...vals), tot = vals.reduce((a, b) => a + b, 0);
-  g.textAlign = 'right'; g.font = '700 26px system-ui,sans-serif'; g.fillStyle = '#b9aca0'; g.fillText('Total: ' + fmtCorto(tot, mon), w - 32, 62);
-  const x0 = 50, x1 = w - 30, y0 = 420, yTop = 140, bw = (x1 - x0) / 7;
-  g.strokeStyle = 'rgba(255,255,255,.15)'; g.lineWidth = 2; g.beginPath(); g.moveTo(x0, y0 + 1); g.lineTo(x1, y0 + 1); g.stroke();
+  g.textAlign = 'right'; g.font = '800 34px system-ui,sans-serif'; g.fillStyle = '#d2c6b9'; g.fillText('Total ' + fmtCorto(tot, mon), w - 32, 64, 360);
+  const x0 = 36, x1 = w - 24, y0 = 424, yTop = 150, bw = (x1 - x0) / 7;
+  g.strokeStyle = 'rgba(255,255,255,.18)'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, y0 + 1); g.lineTo(x1, y0 + 1); g.stroke();
   dias.forEach((d, i) => {
-    const cx = x0 + bw * i + bw / 2, ancho = bw * 0.62, alto = d.v == null ? 0 : Math.max(6, (y0 - yTop) * d.v / max);
+    const cx = x0 + bw * i + bw / 2, ancho = bw * 0.66, alto = d.v == null ? 0 : Math.max(8, (y0 - yTop) * d.v / max);
     if (d.v != null) {
-      rRect(g, cx - ancho / 2, y0 - alto, ancho, alto, 10);
+      rRect(g, cx - ancho / 2, y0 - alto, ancho, alto, 12);
       const gb = g.createLinearGradient(0, y0 - alto, 0, y0); gb.addColorStop(0, d.hoy ? '#ff9cc0' : '#7fd6cf'); gb.addColorStop(1, d.hoy ? '#d9567f' : '#2f8f9c'); g.fillStyle = gb; g.fill();
-    } else { g.setLineDash([8, 8]); g.strokeStyle = 'rgba(255,255,255,.25)'; g.strokeRect(cx - ancho / 2, y0 - 40, ancho, 40); g.setLineDash([]); }
-    g.textAlign = 'center'; g.fillStyle = '#ffffff'; g.font = '800 25px system-ui,sans-serif';
-    g.fillText(d.v == null ? '—' : fmtCorto(d.v, mon), cx, (d.v == null ? y0 - 40 : y0 - alto) - 12, bw - 6);
-    g.fillStyle = d.hoy ? '#ffd9e6' : '#b9aca0'; g.font = (d.hoy ? '800' : '700') + ' 26px system-ui,sans-serif'; g.fillText(d.hoy ? 'hoy' : d.et, cx, y0 + 40);
+    } else { g.setLineDash([10, 10]); g.strokeStyle = 'rgba(255,255,255,.28)'; g.lineWidth = 3; g.strokeRect(cx - ancho / 2, y0 - 44, ancho, 44); g.setLineDash([]); }
+    g.textAlign = 'center'; g.fillStyle = '#ffffff'; g.font = '800 32px system-ui,sans-serif';
+    const etq = d.v == null ? '—' : (d.v >= 10000 ? (Math.round(d.v / 100) / 10).toLocaleString('es-PE') + ' mil' : new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 }).format(d.v));
+    g.fillText(etq, cx, (d.v == null ? y0 - 44 : y0 - alto) - 14, bw - 4);
+    g.fillStyle = d.hoy ? '#ffd9e6' : '#d2c6b9'; g.font = '800 32px system-ui,sans-serif'; g.fillText(d.hoy ? 'hoy' : d.et, cx, y0 + 46, bw - 4);
   });
   SEMANA.tx.needsUpdate = true; return true;
 }
@@ -2017,7 +2036,7 @@ const textosHechos = () => [                                     // fines de pro
 ].filter(x => x.texto && x.ts);
 
 /* ---------- 1) 📅 Agenda del día (pared de VENTAS) ---------- */
-const AGENDA = pantallaPared(X(16.5), 3.8, 1.9, 1024, 512);
+const AGENDA = pantallaPared(X(16.5), 7.4, 3.7, 1024, 512, 'agenda');   // VENTAS (11 de ancho) · antes 3.8 → ×1.95
 const PROCESOS = [
   { ic: '📦', t: 'Masivos', h: 19, m: 40, hora: '7:40 pm', dias: [0, 1, 2, 3, 4, 5], dtxt: 'dom–vie', re: /masivo/i, ok: /subid|listo|\bok\b|termin|cargad/i },
   { ic: '🛒', t: 'Pedidos del día', h: 21, m: 0, hora: '9:00 pm', dias: [1, 2, 3, 4, 5, 6], dtxt: 'lun–sáb', re: /pedido/i, ok: /cerrad|listo|termin|del d[ií]a|enviad|cread|registrad/i },
@@ -2036,18 +2055,18 @@ function estadoAgenda() {
 function pintarAgenda() {
   const E = estadoAgenda(), firma = JSON.stringify(E.map(e => [e.toca, e.hecho, e.paso]));
   if (firma === AGENDA.firma) return false; AGENDA.firma = firma;
-  const { g, cv } = AGENDA, w = cv.width, h = cv.height;
+  const { g, w, h } = AGENDA;
   fondoPantalla(g, w, h, '📅 Agenda del día');
-  g.textAlign = 'right'; g.font = '700 24px system-ui,sans-serif'; g.fillStyle = '#b9aca0'; g.fillText('hora de Lima', w - 32, 62);
+  g.textAlign = 'right'; g.font = '700 28px system-ui,sans-serif'; g.fillStyle = '#c9bdb0'; g.fillText('hora de Lima', w - 32, 62);
   E.forEach((e, i) => {
-    const y = 104 + i * 96; rRect(g, 24, y, w - 48, 84, 16); g.fillStyle = e.hecho ? 'rgba(59,178,115,.16)' : 'rgba(255,255,255,.06)'; g.fill();
-    g.textAlign = 'left'; g.fillStyle = '#ffffff'; g.font = '800 34px system-ui,sans-serif'; g.fillText(e.ic + ' ' + e.t, 44, y + 40);
-    g.fillStyle = '#b9aca0'; g.font = '700 22px system-ui,sans-serif'; g.fillText(e.dtxt, 44, y + 70);
-    g.fillStyle = '#ffd9e6'; g.font = '800 34px system-ui,sans-serif'; g.fillText(e.hora, 420, y + 52);
+    const y = 88 + i * 104; rRect(g, 20, y, w - 40, 94, 18); g.fillStyle = e.hecho ? 'rgba(59,178,115,.2)' : 'rgba(255,255,255,.07)'; g.fill();
+    g.textAlign = 'left'; g.fillStyle = '#ffffff'; g.font = '800 40px system-ui,sans-serif'; g.fillText(e.ic + ' ' + e.t, 38, y + 46, 380);
+    g.fillStyle = '#c9bdb0'; g.font = '700 27px system-ui,sans-serif'; g.fillText(e.dtxt, 40, y + 82);
+    g.fillStyle = '#ffd9e6'; g.font = '800 42px system-ui,sans-serif'; g.fillText(e.hora, 436, y + 62, 200);
     g.textAlign = 'right';
-    if (e.hecho) { g.fillStyle = '#7be3a4'; g.font = '800 34px system-ui,sans-serif'; g.fillText('✅ listo ' + e.hecho, w - 44, y + 52, 370); }
-    else if (!e.toca) { g.fillStyle = '#8f8698'; g.font = '700 28px system-ui,sans-serif'; g.fillText('— no toca hoy', w - 44, y + 52); }
-    else { g.fillStyle = e.paso ? '#ffb36b' : '#f3ece4'; g.font = '800 32px system-ui,sans-serif'; g.fillText('⏳ ' + (e.paso ? 'pendiente (atrasado)' : 'pendiente'), w - 44, y + 52, 370); }
+    if (e.hecho) { g.fillStyle = '#7be3a4'; g.font = '800 40px system-ui,sans-serif'; g.fillText('✅ listo ' + e.hecho, w - 38, y + 62, 330); }
+    else if (!e.toca) { g.fillStyle = '#a39bb0'; g.font = '700 34px system-ui,sans-serif'; g.fillText('— no toca hoy', w - 38, y + 60, 330); }
+    else { g.fillStyle = e.paso ? '#ffb36b' : '#f3ece4'; g.font = '800 40px system-ui,sans-serif'; g.fillText(e.paso ? '⏳ atrasado' : '⏳ pendiente', w - 38, y + 62, 330); }
   });
   AGENDA.tx.needsUpdate = true; return true;
 }
@@ -2176,16 +2195,16 @@ setInterval(cargarClima, 30 * 60 * 1000);
 
 /* ---------- 5) 📌 Pizarra de pendientes de James (pendientes.json) ---------- */
 let pendJames = null, nPend = 0;
-const PIZ = (() => {
-  const g0 = new THREE.Group(); g0.position.set(X(31.6), 0, Z(4.4)); g0.rotation.y = -0.55; scene.add(g0);
-  for (const s of [-1, 1]) { const p = box(0.05, 1.95, 0.05, '#6e4726', s * 0.78, 0.97, 0.05, g0); p.rotation.z = s * -0.05; }
-  box(0.05, 1.9, 0.05, '#6e4726', 0, 0.95, -0.35, g0).rotation.x = 0.18;
-  box(1.74, 1.18, 0.05, '#c9c9d0', 0, 1.36, 0.08, g0);           // marco de aluminio
-  box(1.6, 0.04, 0.12, '#c9c9d0', 0, 0.76, 0.12, g0, false);      // repisa de plumones
-  box(0.14, 0.03, 0.03, '#e5484d', -0.3, 0.8, 0.14, g0, false); box(0.14, 0.03, 0.03, '#4a9be8', -0.1, 0.8, 0.14, g0, false);
-  const cv = document.createElement('canvas'); cv.width = 768; cv.height = 512; const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4;
-  const m = new THREE.Mesh(new THREE.PlaneGeometry(1.64, 1.1), new THREE.MeshBasicMaterial({ map: tx, toneMapped: false })); m.position.set(0, 1.36, 0.115); g0.add(m);
-  return { cv, g: cv.getContext('2d'), tx, firma: '', grupo: g0 };
+const PIZ = (() => {                                              // pizarra blanca con ruedas: 2.8 × 1.87 (antes 1.64 × 1.1 → ×1.7)
+  const g0 = new THREE.Group(); g0.position.set(X(31.25), 0, Z(5.0)); g0.rotation.y = -0.42; scene.add(g0);
+  const BW = 2.8, BH = 1.87, CY = 1.72;                            // ancho, alto y centro del tablero
+  for (const s of [-1, 1]) { box(0.07, CY + BH / 2 + 0.08, 0.07, '#8a8f99', s * (BW / 2 + 0.06), (CY + BH / 2 + 0.08) / 2, 0.02, g0); box(0.12, 0.05, 0.7, '#5d626b', s * (BW / 2 + 0.06), 0.05, 0.02, g0, false); }   // patas + bases
+  box(BW + 0.12, BH + 0.12, 0.06, '#c9c9d0', 0, CY, 0.06, g0);     // marco de aluminio
+  box(BW - 0.2, 0.05, 0.14, '#c9c9d0', 0, CY - BH / 2 - 0.05, 0.12, g0, false);   // repisa de plumones
+  box(0.2, 0.04, 0.04, '#e5484d', -0.5, CY - BH / 2 - 0.01, 0.15, g0, false); box(0.2, 0.04, 0.04, '#4a9be8', -0.2, CY - BH / 2 - 0.01, 0.15, g0, false);
+  const P = canvasPantalla(768, 512);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(BW, BH), new THREE.MeshBasicMaterial({ map: P.tx, toneMapped: false })); m.position.set(0, CY, 0.1); g0.add(m);
+  const o = { ...P, mesh: m, grupo: g0, ancho: BW, alto: BH, nombre: 'pizarra', firma: '' }; PANTALLAS_3D.push(o); return o;
 })();
 async function cargarPendJames() {
   if (location.protocol === 'file:') return;
@@ -2194,22 +2213,22 @@ async function cargarPendJames() {
 function listaPend() { const l = pendJames && Array.isArray(pendJames.pendientes) ? pendJames.pendientes : []; return l.filter(x => x && x.texto).map(x => ({ id: String(x.id || ''), texto: recorta(x.texto, 70), ts: x.ts })); }
 function pintarPizarra() {
   const L = listaPend(), firma = JSON.stringify([L, pendJames === null]); if (firma === PIZ.firma) return false; PIZ.firma = firma;
-  const { g, cv } = PIZ, w = cv.width, h = cv.height;
+  const { g, w, h } = PIZ, MANO = '"Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif';
   g.fillStyle = '#fbfbf7'; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(0,0,0,.035)'; for (let i = 0; i < 6; i++) g.fillRect(0, 40 + i * 83, w, 2);
-  g.fillStyle = '#c0392b'; g.font = '800 46px "Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif'; g.textAlign = 'left'; g.fillText('📌 Pendientes de James', 30, 66);
-  g.strokeStyle = '#c0392b'; g.lineWidth = 4; g.beginPath(); g.moveTo(30, 82); g.lineTo(560, 78); g.stroke();
-  g.font = '700 32px "Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif';
-  if (pendJames === null) { g.fillStyle = '#7a7a7a'; g.fillText('Cargando…', 30, 160); }
-  else if (!L.length) { g.fillStyle = '#2e7d4f'; g.fillText('Nada pendiente ✨', 30, 170); }
+  g.fillStyle = '#c0392b'; g.font = `800 54px ${MANO}`; g.textAlign = 'left'; g.fillText('📌 Pendientes de James', 26, 70, w - 50);
+  g.strokeStyle = '#c0392b'; g.lineWidth = 5; g.beginPath(); g.moveTo(26, 90); g.lineTo(w - 40, 85); g.stroke();
+  const fsP = L.length <= 2 ? 46 : 40; g.font = `700 ${fsP}px ${MANO}`;
+  if (pendJames === null) { g.fillStyle = '#7a7a7a'; g.fillText('Cargando…', 26, 170); }
+  else if (!L.length) { g.fillStyle = '#2e7d4f'; g.font = `700 48px ${MANO}`; g.fillText('Nada pendiente ✨', 26, 190); }
   else {
-    let y = 140; const max = 5;
+    let y = 160; const max = 4, alto = fsP + 9;
     L.slice(0, max).forEach((x, i) => {
-      g.fillStyle = ['#1f4fa3', '#1d1d1d', '#2e7d4f', '#1f4fa3', '#1d1d1d'][i % 5];
+      g.fillStyle = ['#1f4fa3', '#1d1d1d', '#2e7d4f', '#8e2d6b'][i % 4];
       const palabras = ('□ ' + x.texto).split(' '); let linea = '', lineas = [];
-      for (const p of palabras) { const prueba = linea ? linea + ' ' + p : p; if (g.measureText(prueba).width > w - 70 && linea) { lineas.push(linea); linea = '    ' + p; } else linea = prueba; }
-      lineas.push(linea); for (const l of lineas.slice(0, 2)) { if (y > h - 30) return; g.fillText(l, 30, y); y += 40; } y += 14;
+      for (const p of palabras) { const prueba = linea ? linea + ' ' + p : p; if (g.measureText(prueba).width > w - 56 && linea) { lineas.push(linea); linea = '    ' + p; } else linea = prueba; }
+      lineas.push(linea); for (const l of lineas.slice(0, 2)) { if (y > h - 24) return; g.fillText(l, 26, y, w - 44); y += alto; } y += 12;
     });
-    if (L.length > max) { g.fillStyle = '#7a7a7a'; g.fillText('+ ' + (L.length - max) + ' más', 30, Math.min(y, h - 20)); }
+    if (L.length > max) { g.fillStyle = '#7a7a7a'; g.font = `700 34px ${MANO}`; g.fillText('+ ' + (L.length - max) + ' más', 26, Math.min(y + 4, h - 16)); }
   }
   PIZ.tx.needsUpdate = true; return true;
 }
@@ -2274,13 +2293,12 @@ document.addEventListener('visibilitychange', () => { if (!musica.ctx || !musica
 /* ---------- 7) 📺 Modo TV ---------- */
 const btnTv = document.getElementById('btnTv');
 const TOMAS = [['general'], ['marketing'], ['ventas'], ['hermes'], ['finanzas'], ['cafeteria'],
-  { n: 'tablero', t: [7, 2.35, -11], p: [7, 3.2, -3.6] }, { n: 'agenda', t: [-4.5, 2.4, -11], p: [-4.5, 3.2, -3.4] },
-  { n: 'pizarra', t: [X(31.6), 1.35, Z(4.4)], p: [X(31.6) - 2.4, 2.9, Z(4.4) + 3.6] }, { n: 'distritos', t: [-16, 2.4, -11], p: [-16, 3.2, -3.4] }];
+  { pant: 'tablero' }, { pant: 'agenda' }, { pant: 'semana' }, { pant: 'pizarra' }, { pant: 'distritos' }];
 const tv = { on: false, i: 0, timer: null };
 function tomaTV() {
   const s = TOMAS[tv.i % TOMAS.length]; tv.i++;
   if (Array.isArray(s)) volarA(s[0]);
-  else { const t1 = new THREE.Vector3(...s.t), p1 = new THREE.Vector3(...s.p); controls.minDistance = 2.5; vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1, t1 }; }
+  else { const P = PANTALLAS_3D.find(x => x.nombre === s.pant); if (P) enfocarPantalla(P, true); }
   if (vuelo) vuelo.ms = 2400;                                  // transición suave
 }
 function ponerTV(on) {
@@ -2319,7 +2337,7 @@ if (btnVoz) {
 }
 
 /* ---------- 9) 🗺️ Entregas por distrito (distritos.json, solo distrito + número) ---------- */
-const DISTR = pantallaPared(X(5), 3.6, 1.8, 1024, 512);
+const DISTR = pantallaPared(X(5), 7.0, 3.5, 1024, 512, 'distritos');   // MARKETING (10 de ancho) · antes 3.6 → ×1.95
 let distritos = null;
 async function cargarDistritos() {
   if (location.protocol === 'file:') return;
@@ -2328,20 +2346,20 @@ async function cargarDistritos() {
 function listaDistritos() { const l = distritos && Array.isArray(distritos.distritos) ? distritos.distritos : []; return l.map(x => ({ d: recorta(x && x.distrito, 24), n: numDia(x && x.cantidad) })).filter(x => x.d && x.n != null && x.n >= 0).sort((a, b) => b.n - a.n); }
 function pintarDistritos() {
   const L = listaDistritos(), firma = JSON.stringify([L, distritos && distritos.fecha]); if (firma === DISTR.firma) return false; DISTR.firma = firma;
-  const { g, cv } = DISTR, w = cv.width, h = cv.height;
+  const { g, w, h } = DISTR;
   fondoPantalla(g, w, h, '🗺️ Entregas por distrito');
   const tot = L.reduce((a, x) => a + x.n, 0);
-  g.textAlign = 'right'; g.font = '700 24px system-ui,sans-serif'; g.fillStyle = '#b9aca0';
-  g.fillText(L.length ? 'Total: ' + fmtEntero(tot) + (distritos.fecha ? ' · ' + String(distritos.fecha).slice(8, 10) + '/' + String(distritos.fecha).slice(5, 7) : '') : '', w - 32, 62);
-  if (!L.length) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 46px system-ui,sans-serif'; g.fillText('sin datos aún', w / 2, h / 2 + 30); DISTR.tx.needsUpdate = true; return true; }
-  const max = Math.max(1, ...L.map(x => x.n)), filas = L.slice(0, 7), disp = h - 104 - (L.length > 7 ? 46 : 14), alto = Math.min(52, disp / filas.length - 6);
+  g.textAlign = 'right'; g.font = '800 32px system-ui,sans-serif'; g.fillStyle = '#d2c6b9';
+  g.fillText(L.length ? 'Total ' + fmtEntero(tot) + (distritos.fecha ? ' · ' + String(distritos.fecha).slice(8, 10) + '/' + String(distritos.fecha).slice(5, 7) : '') : '', w - 32, 64, 330);
+  if (!L.length) { g.textAlign = 'center'; g.fillStyle = '#c9bdb0'; g.font = '800 64px system-ui,sans-serif'; g.fillText('sin datos aún', w / 2, h / 2 + 40); DISTR.tx.needsUpdate = true; return true; }
+  const N = 6, max = Math.max(1, ...L.map(x => x.n)), filas = L.slice(0, N), disp = h - 96 - (L.length > N ? 44 : 12), alto = Math.min(64, disp / filas.length - 6), fs = Math.min(40, alto * 0.72);
   filas.forEach((x, i) => {
-    const y = 104 + i * (alto + 6), anchoMax = w - 330 - 120;
-    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = `700 ${Math.min(30, alto * 0.6)}px system-ui,sans-serif`; g.fillText(x.d, 36, y + alto * 0.68, 280);
-    rRect(g, 330, y + 6, Math.max(14, anchoMax * x.n / max), alto - 12, 8); const gb = g.createLinearGradient(330, 0, 330 + anchoMax, 0); gb.addColorStop(0, '#f07aa0'); gb.addColorStop(1, '#ffb36b'); g.fillStyle = gb; g.fill();
-    g.fillStyle = '#ffffff'; g.font = `800 ${Math.min(30, alto * 0.6)}px system-ui,sans-serif`; g.fillText(fmtEntero(x.n), 330 + Math.max(14, anchoMax * x.n / max) + 12, y + alto * 0.68);
+    const y = 96 + i * (alto + 6), x0 = 350, anchoMax = w - x0 - 110, bw = Math.max(16, anchoMax * x.n / max);
+    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = `800 ${fs}px system-ui,sans-serif`; g.fillText(x.d, 32, y + alto * 0.7, x0 - 46);
+    rRect(g, x0, y + 6, bw, alto - 12, 10); const gb = g.createLinearGradient(x0, 0, x0 + anchoMax, 0); gb.addColorStop(0, '#f07aa0'); gb.addColorStop(1, '#ffb36b'); g.fillStyle = gb; g.fill();
+    g.fillStyle = '#ffffff'; g.font = `800 ${fs}px system-ui,sans-serif`; g.fillText(fmtEntero(x.n), x0 + bw + 14, y + alto * 0.7);
   });
-  if (L.length > filas.length) { g.textAlign = 'left'; g.fillStyle = '#8f8698'; g.font = '600 22px system-ui,sans-serif'; const m = L.length - filas.length; g.fillText('+ ' + m + (m === 1 ? ' distrito más' : ' distritos más'), 36, h - 18); }
+  if (L.length > filas.length) { g.textAlign = 'left'; g.fillStyle = '#a39bb0'; g.font = '700 27px system-ui,sans-serif'; const m = L.length - filas.length; g.fillText('+ ' + m + (m === 1 ? ' distrito más' : ' distritos más'), 32, h - 16); }
   DISTR.tx.needsUpdate = true; return true;
 }
 
@@ -2405,6 +2423,28 @@ async function cicloExtras() {
   revisarCambios(); pintarAgenda(); pintarPizarra(); pintarDistritos(); pintarTareas();
 }
 
+/* ---------- 11) 🖥️ Tocar una pantalla / la pizarra: la cámara se acerca de frente (como al tocar un agente) ---------- */
+function encuadrePantalla(P) {
+  P.mesh.updateWorldMatrix(true, false);
+  const C = P.mesh.getWorldPosition(new THREE.Vector3()), N = new THREE.Vector3(0, 0, 1).transformDirection(P.mesh.matrixWorld);
+  const ver = innerWidth < innerHeight || innerWidth <= 700, t = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+  const d = Math.max(P.alto / 2 * (ver ? 1.3 : 1.42) / t, P.ancho / 2 * (ver ? 1.04 : 1.1) / (t * camera.aspect));   // cabe entero, con aire para la barra de arriba y la de abajo
+  return { tgt: C, pos: C.clone().addScaledVector(N, d), d };
+}
+function enfocarPantalla(P, deTV) {
+  const { tgt, pos, d } = encuadrePantalla(P);
+  if (!deTV) { if (tv.on) ponerTV(false); if (!panel.hidden) cerrarPanel(); for (const b of document.querySelectorAll('#vistas .pie-btn')) b.classList.remove('on'); btnVolver.hidden = false; }
+  enfocado = 'pantalla:' + P.nombre; sigue = null;               // tocar fuera o «Vista general» vuelve atrás
+  controls.minDistance = Math.min(2.5, d * 0.5);
+  vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1: pos, t1: tgt.clone() };
+  capaG.style.visibility = 'hidden';                             // sin etiquetas de agentes encima del texto
+}
+function pantallaTocada(ray) {
+  const h = ray.intersectObjects(PANTALLAS_3D.map(p => p.mesh), false)[0];
+  return h ? PANTALLAS_3D.find(p => p.mesh === h.object) : null;
+}
+controls.addEventListener('start', () => { capaG.style.visibility = ''; });
+
 
 /* ---------------- Arranque ---------------- */
 const POLL3D = 10000;   // igual que POLL_MS del 2D
@@ -2419,7 +2459,7 @@ document.getElementById('cargando').remove();
 new MutationObserver(() => { if (panel.hidden) panel.classList.remove('enfoque'); }).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
 // 📱 Atajo (PWA): service worker mínimo; nunca guarda los JSON de estado (ver sw.js)
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) addEventListener('load', () => navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => { }));
-window.oficina.celebrar = celebrarMeta; window.oficina.enfocar = enfocarAgente; window.oficina.general = volverGeneral; window.oficina.pantallas = { TABLERO, SEMANA, AGENDA, DISTR, PIZ };
+window.oficina.celebrar = celebrarMeta; window.oficina.enfocar = enfocarAgente; window.oficina.general = volverGeneral; window.oficina.pantallas = { TABLERO, SEMANA, AGENDA, DISTR, PIZ }; window.oficina.verPantalla = n => { const P = PANTALLAS_3D.find(p => p.nombre === n); if (P) enfocarPantalla(P); return !!P; }; window.oficina.calidadPant = CALIDAD_PANT;
 window.oficina.reunion = id => pedirReunion(id, 'prueba'); window.oficina.reunionEstado = () => ({ fase: reunion.fase, modo: reunion.modo, id: reunion.id, jefe: jefe.fase }); window.oficina.renderer = renderer; window.oficina.tvEstado = () => tv.on; window.oficina.musicaEstado = () => ({ on: musica.on, ctx: musica.ctx && musica.ctx.state }); window.oficina.tv = ponerTV; window.oficina.textoVoz = textoResumenVoz; window.oficina.trisDeco = () => trisDeco; window.oficina.clima = clima;
 </script>
 </body></html>
