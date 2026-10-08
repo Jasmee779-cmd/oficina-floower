@@ -196,5 +196,11 @@
   "de": "HERMES",
   "texto": "Pedidos del día 07/10 cerrados: 34 revisados, 14 entrega exitosa, 2 cancelados, 6 reprogramados, 12 sin tocar (8 no contestan, 3 múltiples, 1 sin pedido en Aliclik).",
   "ts": "2026-10-07T21:11:30-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo de hoy 07/10: S/ 1,989 en 16 pedidos entregados (esperado S/ 2,425 en 20).",
+  "ts": "2026-10-07T22:08:19-05:00"
  }
 ]
