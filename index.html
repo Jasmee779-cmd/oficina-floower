@@ -140,7 +140,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
   </div>
 </header>
 <nav id="vistas" aria-label="Vistas de cámara">
-  <button type="button" class="pie-btn" data-v="general">🏢 General</button><button type="button" class="pie-btn" data-v="marketing">🎨 Marketing</button><button type="button" class="pie-btn" data-v="ventas">💬 Ventas</button><button type="button" class="pie-btn" data-v="hermes">👔 HERMES</button><button type="button" class="pie-btn" data-v="finanzas">💰 Finanzas</button><button type="button" class="pie-btn" data-v="cafeteria">☕ Cafetería</button>
+  <button type="button" class="pie-btn" data-v="general">🏢 General</button><button type="button" class="pie-btn" data-v="plano">🗺️ Plano</button><button type="button" class="pie-btn" data-v="marketing">🎨 Marketing</button><button type="button" class="pie-btn" data-v="ventas">💬 Ventas</button><button type="button" class="pie-btn" data-v="hermes">👔 HERMES</button><button type="button" class="pie-btn" data-v="finanzas">💰 Finanzas</button><button type="button" class="pie-btn" data-v="cafeteria">☕ Cafetería</button>
 </nav>
 <div id="alerta" role="alert" hidden></div>
 <button type="button" class="pie-btn" id="volver" hidden title="Volver a la vista general (o toca fuera)">🏢 Vista general</button>
@@ -291,7 +291,7 @@ const hemi = new THREE.HemisphereLight('#ffe9c7', '#3a2c40', 1.0); scene.add(hem
 const sol = new THREE.DirectionalLight('#ffd49a', 1.6);
 sol.position.set(14, 26, 16); sol.castShadow = true;
 sol.shadow.mapSize.set(2048, 2048); sol.shadow.radius = 3; sol.shadow.bias = -0.0006; sol.shadow.normalBias = 0.02;
-Object.assign(sol.shadow.camera, { left: -26, right: 26, top: 20, bottom: -20, near: 1, far: 80 });
+Object.assign(sol.shadow.camera, { left: -30, right: 30, top: 26, bottom: -26, near: 1, far: 90 });   // cubre todo el piso cerrado (techo incluido)
 scene.add(sol); scene.add(sol.target);
 
 const matCache = {};
@@ -819,31 +819,37 @@ function aplicarLuz() {
 }
 
 /* ---- Cámara / tamaño ---- */
+const CUARTOS = {                                  // centro en baldosas [c, r]
+  marketing: [5, 6.5], ventas: [16.5, 6.5], hermes: [28, 6.5], finanzas: [38, 6.5], cafeteria: [33, 21] };
+/* Vistas: la oficina es un piso alto cerrado. «General» se mira desde ADENTRO (sala de espera junto al vidrio sur, con el horizonte
+   de fondo); «Plano» es la maqueta de siempre vista desde arriba (el techo se corta solo cuando la cámara sale por arriba). */
+function vistaCam(v, ver) {
+  const tgt = new THREE.Vector3(), pos = new THREE.Vector3();
+  if (v === 'plano') { if (ver) { tgt.set(0, 0, 0); pos.set(42, 60, 0.5); } else { tgt.set(0, 0, 0.5); pos.set(0, 30, 27); } }
+  else if (CUARTOS[v] && CUARTOS[v][1] < 11) {                 // cuartos del norte: desde el pasillo, con su pantalla y el ventanal norte de fondo
+    const [c, r] = CUARTOS[v]; tgt.set(X(c), 3.1, Z(r) - 2.5); pos.set(X(c), ver ? 7.0 : 6.5, Z(r) + (ver ? 12.5 : 10.5));
+  }
+  else if (v === 'cafeteria') { if (ver) { tgt.set(12.5, 2.0, 11); pos.set(12, 6.4, 0.6); } else { tgt.set(13, 2.4, 10.5); pos.set(2.2, 5.8, 0.4); } }
+  else if (ver) { tgt.set(-4, 0.8, -5); pos.set(10, 7.4, 15.6); }                    // celular: desde la sala de espera, en diagonal hacia el norte y el mar
+  else { tgt.set(-2.5, 2.2, -3.5); pos.set(5.5, 6.6, 15.5); }                          // PC: desde la sala de espera, mirando al norte y al mar
+  return { tgt, pos };
+}
 function vistaInicial() {
-  const vertical = innerWidth < innerHeight;
-  controls.target.set(0, 0, 0.5);
-  if (vertical) { controls.target.set(0, 0, 0); camera.position.set(42, 60, 0.5); }              // celular: el lado largo en vertical
-  else camera.position.set(0, 30, 27);
-  controls.update();
+  const { tgt, pos } = vistaCam('general', innerWidth < innerHeight);
+  controls.target.copy(tgt); camera.position.copy(pos); controls.update();
 }
 function ajustar() {
   const w = innerWidth, h = innerHeight;
-  renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w < h ? 50 : 42; camera.updateProjectionMatrix();
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w < h ? 60 : 50; camera.updateProjectionMatrix();   // más ancho: adentro se ve más
 }
 addEventListener('resize', ajustar); ajustar(); vistaInicial();
-const CUARTOS = {                                  // centro en baldosas [c, r]
-  marketing: [5, 6.5], ventas: [16.5, 6.5], hermes: [28, 6.5], finanzas: [38, 6.5], cafeteria: [33, 21] };
 let vuelo = null;
 function volarA(v) {
   if (typeof enfocado !== 'undefined' && enfocado) { enfocado = null; sigue = null; btnVolver.hidden = true; panel.classList.remove('enfoque'); }
   capaG.style.visibility = '';
   controls.minDistance = 6;
-  const ver = innerWidth < innerHeight, tgt = new THREE.Vector3(), pos = new THREE.Vector3();
-  if (v === 'general' || !CUARTOS[v]) { if (ver) { tgt.set(0, 0, 0); pos.set(42, 60, 0.5); } else { tgt.set(0, 0, 0.5); pos.set(0, 30, 27); } }
-  else if (CUARTOS[v][1] < 11) {                               // cuartos del norte: encuadre que incluye ENTERA la pantalla grande de su pared
-    const [c, r] = CUARTOS[v]; tgt.set(X(c), 1.6, Z(r) - 0.5); pos.copy(tgt).add(ver ? new THREE.Vector3(0, 14, 13) : new THREE.Vector3(0, 11, 13));
-  }
-  else { const [c, r] = CUARTOS[v]; tgt.set(X(c), 0.3, Z(r)); pos.copy(tgt).add(ver ? new THREE.Vector3(0, 15, 9.5) : (v === 'cafeteria' ? new THREE.Vector3(0, 13, 11) : new THREE.Vector3(0, 10, 10.5))); }
+  const ver = innerWidth < innerHeight; if (v !== 'plano' && !CUARTOS[v]) v = 'general';
+  const { tgt, pos } = vistaCam(v, ver);
   vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1: pos, t1: tgt };
   for (const b of document.querySelectorAll('#vistas .pie-btn')) b.classList.toggle('on', b.dataset.v === v);
 }
@@ -1297,8 +1303,7 @@ renderer.setAnimationLoop(() => {
   for (const id in AG3) { const o = AG3[id]; if (o.micro && o.micro.tipo) { const pg = porId(id); if (pg && pg.modo === 'sentado' && !(id === 'hermes' && jefe.fase !== 'sentado')) microDespues(o); else microFin(o); } }
   if (fiesta) { for (const id in AG3) { const o = AG3[id]; if (o.micro && o.micro.tipo) microFin(o); poseCelebracion(o.per, t, o.fase + id.length, o.per.g.parent === o.esc); } poseCelebracion(baristaM, t, 2.2, false); }
   else if (celebraHasta && T >= celebraHasta) { celebraHasta = 0; pintarTablero(); }
-  vidaFrame(dt, t);
-  seguirEnfocado(); pasoVuelo(); pasoConfeti(dt); controls.update(); renderer.render(scene, camera);
+  seguirEnfocado(); pasoVuelo(); pasoConfeti(dt); controls.update(); vidaFrame(dt, t); renderer.render(scene, camera);
   // globos
   const ahora = performance.now() / 1000; marcas = marcas.filter(m => ahora < m.hasta);
   const dCam = camera.position.distanceTo(controls.target);
@@ -2295,7 +2300,7 @@ document.addEventListener('visibilitychange', () => { if (!musica.ctx || !musica
 
 /* ---------- 7) 📺 Modo TV ---------- */
 const btnTv = document.getElementById('btnTv');
-const TOMAS = [['general'], ['marketing'], ['ventas'], ['hermes'], ['finanzas'], ['cafeteria'],
+const TOMAS = [['general'], ['plano'], ['marketing'], ['ventas'], ['hermes'], ['finanzas'], ['cafeteria'],
   { pant: 'tablero' }, { pant: 'agenda' }, { pant: 'semana' }, { pant: 'pizarra' }, { pant: 'distritos' }];
 const tv = { on: false, i: 0, timer: null };
 function tomaTV() {
@@ -2566,23 +2571,34 @@ const MAT_REFLEJO = new THREE.MeshBasicMaterial({ map: texHalo, blending: THREE.
 
 /* ---------- 2) 🏙️ EXTERIOR: la oficina está en un rascacielos ---------- */
 const SUELO_Y = -150, PER = 50, COSTA_X = -265;
-// losa del piso (borde del edificio)
-box(43.4, 0.34, 27.4, '#cfcac2', 0, -0.175, 0, scene, false).receiveShadow = false;
-// ventanales de piso a techo en los 4 bordes; el lado que da a la cámara se oculta (corte tipo maqueta)
-const ALTO_VENT = 3.4;
-const TEX_VIDRIO = lienzo(256, 256, (g, w, h) => {
-  const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, 'rgba(255,255,255,.55)'); gr.addColorStop(0.45, 'rgba(255,255,255,.08)'); gr.addColorStop(0.55, 'rgba(255,255,255,.3)'); gr.addColorStop(1, 'rgba(255,255,255,.04)');
-  g.fillStyle = gr; g.fillRect(0, 0, w, h);
+// 🏢 envolvente del piso: la oficina es un piso alto CERRADO (techo, columnas y muro cortina de vidrio)
+// franja perimetral junto al vidrio: 2 al oeste/este, 3.2 al sur (sala de espera), 0.7 al norte (detrás del muro de las pantallas)
+const EDIF = { x0: -23, x1: 23, z0: -13.7, z1: 16.2, H: 9 };
+EDIF.cx = (EDIF.x0 + EDIF.x1) / 2; EDIF.cz = (EDIF.z0 + EDIF.z1) / 2; EDIF.w = EDIF.x1 - EDIF.x0; EDIF.d = EDIF.z1 - EDIF.z0;
+box(EDIF.w + 0.4, 0.34, EDIF.d + 0.4, '#cfcac2', EDIF.cx, -0.175, EDIF.cz, scene, false).receiveShadow = false;   // losa
+{ // piso perimetral (piedra pulida) alrededor de la oficina
+  const rs = [[EDIF.x0, 13, EDIF.x1, EDIF.z1], [EDIF.x0, EDIF.z0, -21, 13], [21, EDIF.z0, EDIF.x1, 13], [-21, EDIF.z0, 21, -13]];
+  const gs = rs.map(([x0, z0, x1, z1]) => { const g = new THREE.PlaneGeometry(x1 - x0, z1 - z0); g.rotateX(-Math.PI / 2); g.translate((x0 + x1) / 2, 0.004, (z0 + z1) / 2);
+    const p = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / 2, -p.getZ(i) / 2); return g; });
+  const m = new THREE.Mesh(mergeGeometries(gs), MAT_PISOS.pas); m.receiveShadow = true; scene.add(m);
+  box(EDIF.w, 0.2, EDIF.d, '#bdb6aa', EDIF.cx, -0.1, EDIF.cz, scene, false);   // base bajo la franja (sin huecos)
+}
+const ALTO_VENT = EDIF.H;
+const TEX_VIDRIO = lienzo(256, 256, (g, w, h) => {                       // reflejo sutil: dos franjas diagonales
+  g.clearRect(0, 0, w, h); const gr = g.createLinearGradient(0, 0, w, h);
+  gr.addColorStop(0, 'rgba(255,255,255,.0)'); gr.addColorStop(0.3, 'rgba(255,255,255,.22)'); gr.addColorStop(0.38, 'rgba(255,255,255,.04)'); gr.addColorStop(0.62, 'rgba(255,255,255,.0)'); gr.addColorStop(0.7, 'rgba(255,255,255,.14)'); gr.addColorStop(0.76, 'rgba(255,255,255,.0)');
+  g.fillStyle = 'rgba(255,255,255,.05)'; g.fillRect(0, 0, w, h); g.fillStyle = gr; g.fillRect(0, 0, w, h);
 });
-const MAT_VIDRIO = new THREE.MeshBasicMaterial({ color: '#cfe8ff', map: TEX_VIDRIO, transparent: true, opacity: 0.16, depthWrite: false, side: THREE.DoubleSide });
-const MAT_PERFIL = new THREE.MeshStandardMaterial({ color: '#59616c', roughness: 0.5, metalness: 0.3 });
+const MAT_VIDRIO = new THREE.MeshBasicMaterial({ color: '#d6ecff', map: TEX_VIDRIO, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide, fog: false });
+const MAT_PERFIL = new THREE.MeshStandardMaterial({ color: '#4b525c', roughness: 0.45, metalness: 0.4 });
 const LADOS = [];
-for (const [nom, largo, x, z, ry] of [['sur', 42.1, 0, 13.05, 0], ['norte', 42.1, 0, -13.05, 0], ['oeste', 26.1, -21.05, 0, Math.PI / 2], ['este', 26.1, 21.05, 0, Math.PI / 2]]) {
+for (const [nom, largo, x, z, ry] of [['sur', EDIF.w, EDIF.cx, EDIF.z1, 0], ['norte', EDIF.w, EDIF.cx, EDIF.z0, 0], ['oeste', EDIF.d, EDIF.x0, EDIF.cz, Math.PI / 2], ['este', EDIF.d, EDIF.x1, EDIF.cz, Math.PI / 2]]) {
   const gr = new THREE.Group(); gr.position.set(x, 0, z); gr.rotation.y = ry; scene.add(gr);
-  const v = new THREE.Mesh(new THREE.PlaneGeometry(largo, ALTO_VENT), MAT_VIDRIO.clone()); v.position.y = ALTO_VENT / 2; v.renderOrder = 3; gr.add(v);
-  const n = Math.round(largo / 2.1), gs = [];
-  for (let i = 0; i <= n; i++) { const g = new THREE.BoxGeometry(0.07, ALTO_VENT, 0.08); g.translate(-largo / 2 + i * largo / n, ALTO_VENT / 2, 0); gs.push(g); }
-  for (const [y, hh] of [[ALTO_VENT, 0.16], [0.06, 0.12]]) { const g = new THREE.BoxGeometry(largo, hh, 0.12); g.translate(0, y, 0); gs.push(g); }
+  const pg = new THREE.PlaneGeometry(largo, ALTO_VENT); { const uv = pg.attributes.uv; for (let k = 0; k < uv.count; k++) uv.setXY(k, uv.getX(k) * largo / 9, uv.getY(k)); }
+  const v = new THREE.Mesh(pg, MAT_VIDRIO.clone()); v.position.y = ALTO_VENT / 2; v.renderOrder = 3; gr.add(v);
+  const n = Math.round(largo / 2.3), gs = [];
+  for (let i = 0; i <= n; i++) { const g = new THREE.BoxGeometry(0.06, ALTO_VENT, 0.09); g.translate(-largo / 2 + i * largo / n, ALTO_VENT / 2, 0); gs.push(g); }   // perfiles finos
+  for (const [y, hh] of [[ALTO_VENT - 0.05, 0.12], [0.05, 0.1], [3.2, 0.04]]) { const g = new THREE.BoxGeometry(largo, hh, 0.1); g.translate(0, y, 0); gs.push(g); }
   const p = new THREE.Mesh(mergeGeometries(gs), MAT_PERFIL); gr.add(p);
   LADOS.push({ nom, gr, v, p, k: 1 });
 }
@@ -2616,18 +2632,18 @@ function conVentanas(mat, celX = 2.4, celY = 3.6) {
 const MAT_CIUDAD = conVentanas(new THREE.MeshLambertMaterial({ color: '#ffffff' }));
 const AVIONES = [];                                                    // luces rojas de balizaje en los más altos
 {
-  const R = VIDA_MOVIL ? 290 : 470, lotes = [], pal = ['#c9c4bb', '#b8bec6', '#d7cfc2', '#9aa6b2', '#c2b6a3', '#a9b4bf', '#dad6cf', '#8f9aa6', '#b5a99a', '#7f8c99'];
-  lotes.push([0, SUELO_Y + 74.9, 0, 43.0, 149.8, 27.0, '#7c90a6']);   // nuestro rascacielos (fachada bajo la oficina)
+  const R = VIDA_MOVIL ? 540 : 640, lotes = [], pal = ['#c9c4bb', '#b8bec6', '#d7cfc2', '#9aa6b2', '#c2b6a3', '#a9b4bf', '#dad6cf', '#8f9aa6', '#b5a99a', '#7f8c99'];
+  lotes.push([EDIF.cx, SUELO_Y + 74.9, EDIF.cz, EDIF.w + 0.4, 149.8, EDIF.d + 0.4, '#7c90a6']);   // nuestro rascacielos (fachada bajo la oficina)
   const N = Math.ceil(R / PER);
   for (let bx = -N; bx <= N; bx++) for (let bz = -N; bz <= N; bz++) {
     const cx = bx * PER, cz = bz * PER, d = Math.hypot(cx, cz);
-    if (d > R || (!bx && !bz) || cx - 22 < COSTA_X || rndV() < (VIDA_MOVIL ? 0.25 : 0.1)) continue;   // mar, parques
+    if (d > R || (!bx && !bz) || cx - 22 < COSTA_X || rndV() < (VIDA_MOVIL ? 0.35 + Math.max(0, (d - 200) / 700) : 0.1 + Math.max(0, (d - 380) / 500))) continue;   // mar, parques
     const tipo = rndV(), sub = tipo < 0.3 ? [[0, 0, 38, 38]] : tipo < 0.62 ? [[-10, 0, 17, 36], [10, 0, 17, 36]] : [[-10, -10, 17, 17], [10, -10, 17, 17], [-10, 10, 17, 17], [10, 10, 17, 17]];
     for (const [ox, oz, sx, sz] of sub) {
       if (VIDA_MOVIL && rndV() < 0.3) continue;
-      let h = 14 + Math.pow(rndV(), 1.7) * 125;
-      if (d > 130 && rndV() < 0.12) h = 150 + rndV() * 70;            // algunos más altos que el nuestro, lejos
-      if (d < 95) h = Math.min(h, 112);                                // los cercanos, más bajos (no tapan la oficina)
+      let h = d < 130 ? 12 + Math.pow(rndV(), 2.0) * 92                // las cercanas, bajas: desde el piso 40 se ven desde arriba
+        : 30 + Math.pow(rndV(), 1.3) * 118;                            // más lejos, torres que llegan casi a nuestra altura (skyline en el horizonte)
+      if (d > 170 && rndV() < 0.05) h = 152 + rndV() * 50;            // pocas torres más altas que la nuestra
       const w = sx * (0.7 + rndV() * 0.28), dd = sz * (0.7 + rndV() * 0.28), col = pal[Math.floor(rndV() * pal.length)];
       lotes.push([cx + ox, SUELO_Y + h / 2, cz + oz, w, h, dd, col]);
       if (rndV() < 0.3) { const h2 = 6 + rndV() * 18; lotes.push([cx + ox, SUELO_Y + h + h2 / 2, cz + oz, w * 0.6, h2, dd * 0.6, col]); if (SUELO_Y + h + h2 > -60) AVIONES.push([cx + ox, SUELO_Y + h + h2 + 1.5, cz + oz]); }
@@ -2754,17 +2770,23 @@ const impresora = { activo: false, prox: 15 + rndV() * 25, t0: 0, pila: 0 };
 // ☀️ rayos de luz por los ventanales (de día; este en la mañana, oeste en la tarde) + manchas de sol en el piso
 const TEX_RAYO = lienzo(64, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(255,236,190,.9)'); gr.addColorStop(1, 'rgba(255,236,190,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h); const gx = g.createLinearGradient(0, 0, w, 0); gx.addColorStop(0, 'rgba(0,0,0,1)'); gx.addColorStop(0.3, 'rgba(0,0,0,0)'); gx.addColorStop(0.7, 'rgba(0,0,0,0)'); gx.addColorStop(1, 'rgba(0,0,0,1)'); g.globalCompositeOperation = 'destination-out'; g.fillStyle = gx; g.fillRect(0, 0, w, h); }, true);
 TEX_RAYO.wrapS = TEX_RAYO.wrapT = THREE.ClampToEdgeWrapping;
-const RAYOS = {};
-for (const [lado, sx] of [['este', 1], ['oeste', -1]]) {
-  const gs = [];
-  for (const z of [-9.2, -6.2, 5.2, 8.6]) {
-    const L = 5.2, x0 = sx * 21, x1 = sx * (21 - L), y0 = 3.3, w = 1.5, g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute([x0, y0, z - w / 2, x0, y0, z + w / 2, x1, 0.02, z + w / 2, x1, 0.02, z - w / 2], 3));
-    g.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2)); g.setIndex([0, 1, 2, 0, 2, 3]); g.computeVertexNormals(); gs.push(g);
-    const f = new THREE.PlaneGeometry(L + 0.6, w * 1.2); f.rotateX(-Math.PI / 2); f.translate(sx * (21 - L / 2 - 0.2), 0.014, z); const uv = f.attributes.uv; for (let k = 0; k < uv.count; k++) uv.setXY(k, uv.getY(k), (sx > 0 ? 1 - uv.getX(k) : uv.getX(k)) * 0.7 + 0.3); gs.push(f);
-  }
-  const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshBasicMaterial({ map: TEX_RAYO, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0, side: THREE.DoubleSide, fog: false }));
-  m.renderOrder = 4; scene.add(m); RAYOS[lado] = m;
+const RAYOS = { franjas: [] };
+for (const x of [-18.5, -9.5, 0.5, 9.5, 18.5]) RAYOS.franjas.push({ lado: 'sur', o: new THREE.Vector3(x, 7.6, EDIF.z1 - 0.05), t: new THREE.Vector3(1, 0, 0) });
+for (const z of [-8.5, -2.5, 4.5, 10.5]) { RAYOS.franjas.push({ lado: 'este', o: new THREE.Vector3(EDIF.x1 - 0.05, 7.6, z), t: new THREE.Vector3(0, 0, 1) }); RAYOS.franjas.push({ lado: 'oeste', o: new THREE.Vector3(EDIF.x0 + 0.05, 7.6, z), t: new THREE.Vector3(0, 0, 1) }); }
+{ const n = RAYOS.franjas.length, g = new THREE.BufferGeometry(), idx = [];
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 12), 3)); const uv = new Float32Array(n * 8);
+  for (let i = 0; i < n; i++) { uv.set([0, 1, 1, 1, 1, 0, 0, 0], i * 8); idx.push(i * 4, i * 4 + 1, i * 4 + 2, i * 4, i * 4 + 2, i * 4 + 3); }
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); g.setIndex(idx);
+  const mat = new THREE.MeshBasicMaterial({ map: TEX_RAYO, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.3, side: THREE.DoubleSide, fog: false, vertexColors: false });
+  RAYOS.mesh = new THREE.Mesh(g, mat); RAYOS.mesh.frustumCulled = false; RAYOS.mesh.renderOrder = 4; scene.add(RAYOS.mesh); }
+function ponerRayos(sd, fuerza) {                                          // sd: dirección hacia el sol (normalizada)
+  const pos = RAYOS.mesh.geometry.attributes.position, k = { sur: Math.max(0, sd.z) * 1.1, este: Math.max(0, sd.x * 1.6), oeste: Math.max(0, -sd.x * 1.6) };
+  RAYOS.franjas.forEach((F, i) => {
+    const on = fuerza * Math.min(1, k[F.lado]) > 0.02 && sd.y > 0.08, w = 1.5, L = Math.min(F.o.y / sd.y, 15), e = F.o.clone().addScaledVector(sd, -L);
+    const a = F.o.clone().addScaledVector(F.t, -w / 2), b = F.o.clone().addScaledVector(F.t, w / 2), c = e.clone().addScaledVector(F.t, w / 2), d = e.clone().addScaledVector(F.t, -w / 2);
+    for (const [j, v] of [a, b, c, d].entries()) { if (!on) v.set(0, -999, 0); pos.setXYZ(i * 4 + j, v.x, v.y, v.z); }
+  });
+  pos.needsUpdate = true; RAYOS.mesh.material.opacity = 0.34 * fuerza; RAYOS.mesh.visible = fuerza > 0.02;
 }
 // partículas (vapor y polvo): un solo shader, tamaño en mundo
 function matParticulas(rgb, tam, aditivo, alfa) {
@@ -2783,7 +2805,7 @@ const VAPOR_POR = 5, FUENTES = [                                        // tazas
   ...Object.keys(AG3).map(id => ({ taza: id })),
 ];
 const vapor = nubePuntos(FUENTES.length * VAPOR_POR, matParticulas([0.97, 0.97, 0.99], 0.16, false, 0.6));
-const N_POLVO = VIDA_MOVIL ? 50 : 140, POLVO = Array.from({ length: N_POLVO }, () => ({ x: (rndV() * 2 - 1) * 20.5, y: 0.4 + rndV() * 2.6, z: (rndV() * 2 - 1) * 12.5, f: rndV() * 9 }));
+const N_POLVO = VIDA_MOVIL ? 50 : 140, POLVO = Array.from({ length: N_POLVO }, () => ({ x: (rndV() * 2 - 1) * 21.5, y: 0.4 + rndV() * 4.5, z: -12.5 + rndV() * 27.5, f: rndV() * 9 }));
 const polvo = nubePuntos(N_POLVO, matParticulas([1.0, 0.94, 0.8], 0.04, true, 0.4));
 // 🧹 persona de limpieza / 📦 mensajero que pasan de vez en cuando por el pasillo (sin entrar a las salas)
 const PASANTES = [
@@ -2802,6 +2824,142 @@ const PASANTES = [
 });
 const pasillo = { prox: 18 + rndV() * 20, i: 0 };
 
+/* ---------- 4) 🏢 INTERIOR: techo, columnas, sala de espera junto al vidrio, persianas y cielo de verdad ---------- */
+let VIDRIO_OP = 0.55;
+// techo con placas acústicas y paneles de luz (se oculta solo si la cámara sale por arriba o por fuera: corte de maqueta)
+const TEX_TECHO = lienzo(512, 512, (g, w, h) => {
+  g.fillStyle = '#ece8e1'; g.fillRect(0, 0, w, h); const t = w / 8;
+  for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) { g.fillStyle = varTono('#ece8e1', (rndV() - 0.5) * 0.025); g.fillRect(i * t + 1, j * t + 1, t - 2, t - 2); for (let k = 0; k < 14; k++) { g.fillStyle = 'rgba(150,140,128,.25)'; g.fillRect(i * t + rndV() * t, j * t + rndV() * t, 1.5, 1.5); } }
+  g.fillStyle = '#b9b2a6'; for (let i = 0; i <= 8; i++) { g.fillRect(i * t - 1, 0, 2, h); g.fillRect(0, i * t - 1, w, 2); }
+  g.fillStyle = '#f7f3ea'; g.fillRect(w / 4, h / 2 - t / 2, w / 2, t); g.strokeStyle = '#a49b8d'; g.lineWidth = 3; g.strokeRect(w / 4, h / 2 - t / 2, w / 2, t);
+});
+const TEX_TECHO_LUZ = lienzo(512, 512, (g, w, h) => { const t = w / 8; g.fillStyle = '#6e6a63'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.fillRect(w / 4 + 3, h / 2 - t / 2 + 3, w / 2 - 6, t - 6); });
+const MAT_TECHO = new THREE.MeshStandardMaterial({ map: TEX_TECHO, emissiveMap: TEX_TECHO_LUZ, emissive: '#fff0d4', emissiveIntensity: 0.6, roughness: 0.95 });
+const techoGeo = (() => { const g = new THREE.PlaneGeometry(EDIF.w, EDIF.d); g.rotateX(Math.PI / 2); g.translate(EDIF.cx, EDIF.H, EDIF.cz);
+  const p = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / 4.8, p.getZ(i) / 4.8); return g; })();
+const techo = new THREE.Mesh(techoGeo, MAT_TECHO); scene.add(techo);
+{ const sombra = new THREE.Mesh(techoGeo, new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false, side: THREE.DoubleSide })); sombra.castShadow = true; scene.add(sombra); }   // el techo da sombra siempre: el sol entra solo por el vidrio
+// borde del techo (viga perimetral) y columnas
+const COLUMNAS = [];
+for (const x of [-22.55, -13.5, -4.5, 4.5, 13.5, 22.55]) { COLUMNAS.push([x, EDIF.z1 - 0.45], [x, EDIF.z0 + 0.4]); }
+for (const z of [-4.5, 5.5]) { COLUMNAS.push([EDIF.x0 + 0.45, z], [EDIF.x1 - 0.45, z]); }
+const COLS_IM = [EDIF.H, 1.45].map(h => { const im = new THREE.InstancedMesh(GBOX, new THREE.MeshStandardMaterial({ color: '#dcd7cf', roughness: 0.8 }), COLUMNAS.length), m4 = new THREE.Matrix4();
+  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.7, h, 0.7).setPosition(x, h / 2, z); im.setMatrixAt(i, m4); });
+  im.castShadow = h > 2; im.receiveShadow = true; scene.add(im); return im; });
+{ const sc = new THREE.InstancedMesh(GBOX, new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }), COLUMNAS.length), m4 = new THREE.Matrix4();   // sombra de columnas siempre
+  COLUMNAS.forEach(([x, z], i) => { m4.makeScale(0.7, EDIF.H, 0.7).setPosition(x, EDIF.H / 2, z); sc.setMatrixAt(i, m4); }); sc.castShadow = true; scene.add(sc); COLS_IM[0].castShadow = false; }
+// sala de espera junto al vidrio sur (sofás mirando la vista) + plantas en la franja perimetral
+piezasV.length = 0;
+function sofaV(x, z, ry, col) {
+  const c = Math.cos(ry), s = Math.sin(ry), P = (lx, lz) => [x + lx * c + lz * s, z - lx * s + lz * c];
+  let [a, b] = P(0, 0); pz(GV.b, col, a, 0.22, b, 2.0, 0.24, 0.8, ry);
+  [a, b] = P(0, -0.33); pz(GV.b, varTono(col, -0.06), a, 0.5, b, 2.0, 0.55, 0.16, ry);
+  for (const sx of [-1, 1]) { [a, b] = P(sx * 0.95, 0); pz(GV.b, varTono(col, -0.06), a, 0.36, b, 0.14, 0.42, 0.8, ry); }
+  for (const sx of [-0.5, 0.5]) { [a, b] = P(sx, 0.02); pz(GV.b, varTono(col, 0.06), a, 0.37, b, 0.92, 0.08, 0.66, ry); }
+}
+sofaV(-9, 14.1, 0, '#3a5a78'); sofaV(9, 14.1, 0, '#3a5a78'); sofaV(-12.2, 15.0, -Math.PI / 2, '#c97b5a'); sofaV(12.2, 15.0, Math.PI / 2, '#c97b5a');
+for (const x of [-9, 9]) { pz(GV.c, '#7a5230', x, 0.34, 15.15, 0.55, 0.05, 0.55); pz(GV.c, '#3a3f4a', x, 0.17, 15.15, 0.06, 0.34, 0.06); pz(GV.c, '#ffffff', x + 0.12, 0.42, 15.1, 0.05, 0.1, 0.05); pz(GV.b, '#e5484d', x - 0.15, 0.38, 15.2, 0.25, 0.03, 0.18); }
+for (const [x, z, k] of [[-18, 15.5, 0], [-0.1, 15.55, 2], [18, 15.5, 0], [EDIF.x0 + 0.55, -9, 2], [EDIF.x0 + 0.55, 10, 0], [EDIF.x1 - 0.55, -9, 0], [EDIF.x1 - 0.55, 10, 2], [EDIF.x0 + 0.55, 0.5, 1], [EDIF.x1 - 0.55, 0.5, 1]]) plantaV(x, z, k);
+mallaVida(piezasV, MAT_VIDA);
+// persianas enrollables (algunas bajadas a medias; el lado del mar queda libre)
+{ const tx = lienzo(64, 256, (g, w, h) => { g.fillStyle = '#f1ebe0'; g.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 8) { g.fillStyle = 'rgba(120,105,85,.22)'; g.fillRect(0, y, w, 1.5); } g.fillStyle = '#9b8e7c'; g.fillRect(0, h - 10, w, 10); });
+  tx.wrapS = tx.wrapT = THREE.ClampToEdgeWrapping; const gs = [];
+  const pers = (x, z, ancho, baja, rotada) => { const g = new THREE.PlaneGeometry(ancho, baja); if (rotada) g.rotateY(Math.PI / 2); g.translate(x, EDIF.H - 0.12 - baja / 2, z); gs.push(g); };
+  pers(EDIF.x1 - 0.18, -9.0, 8.0, 3.0, true); pers(EDIF.x1 - 0.18, 0.5, 8.4, 1.6, true); pers(EDIF.x1 - 0.18, 10.0, 8.0, 2.4, true);
+  pers(-18.0, EDIF.z1 - 0.18, 8.0, 2.0, false); pers(18.0, EDIF.z1 - 0.18, 8.0, 3.2, false);
+  const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshStandardMaterial({ map: tx, side: THREE.DoubleSide, roughness: 0.9, transparent: true, opacity: 0.93 }));
+  m.castShadow = true; scene.add(m); }
+// garúa en el vidrio (solo con llovizna)
+const texLluviaV = texLluvia.clone(); texLluviaV.needsUpdate = true; texLluviaV.repeat.set(1, 1);
+const lluviaVidrio = (() => { const gs = [];
+  for (const [largo, x, z, ry] of [[EDIF.w, EDIF.cx, EDIF.z1 + 0.03, 0], [EDIF.w, EDIF.cx, EDIF.z0 - 0.03, 0], [EDIF.d, EDIF.x0 - 0.03, EDIF.cz, Math.PI / 2], [EDIF.d, EDIF.x1 + 0.03, EDIF.cz, Math.PI / 2]]) {
+    const g = new THREE.PlaneGeometry(largo, EDIF.H); const uv = g.attributes.uv; for (let k = 0; k < uv.count; k++) uv.setXY(k, uv.getX(k) * largo / 3, uv.getY(k) * EDIF.H / 3);
+    g.rotateY(ry); g.translate(x, EDIF.H / 2, z); gs.push(g); }
+  const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshBasicMaterial({ map: texLluviaV, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide, fog: false }));
+  m.renderOrder = 3; m.visible = false; scene.add(m); return m; })();
+// luz de techo (sin sombras) para que el interior no quede oscuro bajo el techo
+const luzTecho = new THREE.DirectionalLight('#fff1dc', 0.6); luzTecho.position.set(3, 20, 6); scene.add(luzTecho);
+// cielo de verdad: domo con degradado, sol, luna y estrellas (se ve por los ventanales)
+const uCielo = { uA: { value: new THREE.Color() }, uB: { value: new THREE.Color() }, uF: { value: new THREE.Color() }, uSol: { value: new THREE.Vector3(0, 1, 0) }, uSolK: { value: 1 }, uNoche: { value: 0 }, uNub: { value: 0 } };
+const domo = new THREE.Mesh(new THREE.SphereGeometry(1500, 32, 16), new THREE.ShaderMaterial({
+  uniforms: uCielo, side: THREE.BackSide, depthWrite: false, fog: false,
+  vertexShader: 'varying vec3 vDir;\nvoid main(){ vDir = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `uniform vec3 uA, uB, uF, uSol; uniform float uSolK, uNoche, uNub; varying vec3 vDir;
+void main(){
+  vec3 d = normalize(vDir); float e = d.y;
+  vec3 c = mix(uB, uA * 0.88, smoothstep(0.0, 0.42, e)) + vec3(0.05) * (1.0 - smoothstep(0.0, 0.07, e));
+  c = mix(uF, c, smoothstep(-0.03, 0.09, e));
+  float s = max(dot(d, uSol), 0.0);
+  c += vec3(1.0, 0.86, 0.62) * (smoothstep(0.9992, 0.9996, s) * 2.5 + pow(s, 14.0) * 0.28) * uSolK;
+  vec3 q = floor(d * 240.0); float h = fract(sin(dot(q, vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+  c += vec3(step(0.9972, h)) * uNoche * (1.0 - uNub) * smoothstep(0.03, 0.25, e) * 0.85;
+  float m = max(dot(d, normalize(vec3(-0.45, 0.34, -0.82))), 0.0);
+  c += vec3(1.0, 0.96, 0.86) * (smoothstep(0.99955, 0.9997, m) * 1.2 + pow(m, 80.0) * 0.12) * uNoche * (1.0 - uNub * 0.7);
+  gl_FragColor = vec4(c, 1.0);
+  #include <colorspace_fragment>
+}`,
+}));
+domo.frustumCulled = false; domo.renderOrder = -10; scene.add(domo);
+// nubes altas en el cielo (planos lejanos que miran al centro; giran muy lento)
+const N_NUBALTA = VIDA_MOVIL ? 9 : 16;
+const MAT_NUBALTA = new THREE.MeshBasicMaterial({ map: TEX_NUBE, transparent: true, depthWrite: false, fog: false, opacity: 0.4 });
+const nubAlta = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 0.45), MAT_NUBALTA, N_NUBALTA);
+{ const o = new THREE.Object3D(); for (let i = 0; i < N_NUBALTA; i++) { const a = rndV() * Math.PI * 2, r = 780 + rndV() * 380; o.position.set(Math.cos(a) * r, 25 + rndV() * 190, Math.sin(a) * r); o.lookAt(0, o.position.y * 0.6, 0); const k = 230 + rndV() * 260; o.scale.set(k, k, 1); o.updateMatrix(); nubAlta.setMatrixAt(i, o.matrix); } }
+nubAlta.frustumCulled = false; nubAlta.renderOrder = -9; scene.add(nubAlta);
+// skyline lejano (un cilindro con siluetas de edificios; se corta hacia el mar) para que el horizonte siempre tenga ciudad
+const skyline = (() => {
+  const W = 2048, Hh = 256, cols = [], dibujar = (noche) => lienzo(W, Hh, (g) => {
+    g.clearRect(0, 0, W, Hh); let x = 0, k = 0;
+    while (x < W) { const u = x / W, w = 10 + (cols[k] ? cols[k].w : 0); if (!cols[k]) cols[k] = { w: 6 + rndV() * 22, h: 0.25 + Math.pow(rndV(), 1.6) * 0.62, t: rndV() };
+      const c = cols[k], ww = c.w + 4, hh = (u > 0.62 && u < 0.88) ? 0 : c.h * Hh * (u > 0.58 && u < 0.92 ? 0.35 : 1);
+      if (hh > 0) { g.fillStyle = noche ? '#141a28' : (c.t > 0.5 ? '#9aa4b0' : '#aab2bb'); g.fillRect(x, Hh - hh, ww, hh);
+        for (let yy = Hh - hh + 4; yy < Hh - 3; yy += 5) for (let xx = x + 2; xx < x + ww - 2; xx += 4) {
+          if (noche) { if (rndV() < 0.3) { g.fillStyle = rndV() < 0.75 ? 'rgba(255,214,140,.95)' : 'rgba(200,225,255,.85)'; g.fillRect(xx, yy, 2, 2); } }
+          else if (rndV() < 0.5) { g.fillStyle = 'rgba(70,85,105,.35)'; g.fillRect(xx, yy, 2, 2); } } }
+      x += ww; k++; }
+  });
+  const tDia = dibujar(false); let tNoche = null;
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(900, 900, 180, 72, 1, true), new THREE.MeshBasicMaterial({ map: tDia, transparent: true, alphaTest: 0.02, side: THREE.DoubleSide, depthWrite: false }));
+  tDia.wrapS = THREE.RepeatWrapping; tDia.wrapT = THREE.ClampToEdgeWrapping; m.position.y = SUELO_Y + 90; m.renderOrder = -8; m.frustumCulled = false; scene.add(m);
+  return { m, dia: tDia, noche: () => tNoche || (tNoche = dibujar(true), tNoche.wrapT = THREE.ClampToEdgeWrapping, tNoche) };
+})();
+// cables de las lámparas colgantes de la cafetería hasta el techo (solo cuando el techo se ve)
+// y cada lámpara completa (cable, pantalla, foco y halo) se oculta si queda entre la cámara y la escena (cámara al sur de ella, adentro: vista General)
+const MAT_CABLE = new THREE.MeshStandardMaterial({ color: '#333', roughness: 0.6 });
+const COLG = COLGANTES.map(c => {
+  const x = X(c) + 1, z = Z(21) + 0.5, gs = [];
+  const g = new THREE.CylinderGeometry(0.01, 0.01, EDIF.H - 2.9, 4); g.translate(x, (EDIF.H + 2.9) / 2, z); gs.push(g);
+  const r = new THREE.CylinderGeometry(0.12, 0.12, 0.05, 12); r.translate(x, EDIF.H - 0.03, z); gs.push(r);
+  const cable = new THREE.Mesh(mergeGeometries(gs), MAT_CABLE); scene.add(cable);
+  const partes = scene.children.filter(o => o !== cable && Math.abs(o.position.x - x) < 1e-3 && Math.abs(o.position.z - z) < 1e-3 && o.position.y > 1.4 && o.position.y < 3);
+  return { z, cable, partes, vis: true };
+});
+function interiorLuz(L, nub) {
+  const n = L.noche, dia = 1 - n;
+  MAT_TECHO.emissiveIntensity = 0.75 + n * 0.35; MAT_TECHO.color.set('#ffffff').lerp(new THREE.Color('#d8cbb8'), n * 0.5);
+  luzTecho.intensity = 0.55 + n * 0.4; luzTecho.color.set('#fff4e8').lerp(new THREE.Color('#ffd49e'), n);
+  hemi.intensity += 0.15 + n * 0.1;
+  VIDRIO_OP = 0.55 + n * 0.4;
+  uCielo.uA.value.copy(cA); uCielo.uB.value.copy(cB); uCielo.uF.value.copy(scene.fog.color);
+  uCielo.uSol.value.copy(sol.position).normalize(); uCielo.uSolK.value = n < 0.5 ? dia * (1 - nub * 0.9) : 0; uCielo.uNoche.value = n; uCielo.uNub.value = nub;
+  scene.background = null;                                         // el domo reemplaza al fondo plano
+  MAT_NUBALTA.opacity = 0.22 + nub * 0.7; MAT_NUBALTA.color.set('#ffffff').lerp(new THREE.Color('#e3e6ec'), nub).lerp(new THREE.Color('#3c4256'), n);
+  lluviaVidrio.visible = climaTipo === 'llovizna';
+  const tm = n > 0.5 ? skyline.noche() : skyline.dia; if (skyline.m.material.map !== tm) { skyline.m.material.map = tm; skyline.m.material.needsUpdate = true; }
+  skyline.m.material.color.set('#ffffff').lerp(new THREE.Color('#c8ccd2'), nub * 0.6);
+}
+function interiorFrame(dt, t) {
+  const cp = camera.position, dentro = cp.x > EDIF.x0 - 0.05 && cp.x < EDIF.x1 + 0.05 && cp.z > EDIF.z0 - 0.05 && cp.z < EDIF.z1 + 0.05;
+  techo.visible = dentro && cp.y < EDIF.H - 0.08;                  // desde afuera o desde arriba (vista Plano) el techo se corta
+  for (const L of COLG) { const tapa = techo.visible && cp.z > L.z + 1.5;   // adentro y al sur de la lámpara: taparía la vista
+    L.cable.visible = techo.visible && !tapa; if (L.vis === tapa) { L.vis = !tapa; for (const o of L.partes) o.visible = !tapa; } }
+  COLS_IM[0].visible = techo.visible; COLS_IM[1].visible = !techo.visible;   // en la maqueta las columnas se cortan a la altura de los muros
+  domo.position.copy(cp); skyline.m.position.x = cp.x; skyline.m.position.z = cp.z;
+  nubAlta.rotation.y += dt * 0.0025;
+  if (lluviaVidrio.visible) texLluviaV.offset.y += dt * 0.12;
+}
+window.oficina && (window.oficina.EDIF = EDIF);
+
 scene.fog = new THREE.Fog(new THREE.Color('#c9d6e2'), 110, 1100);
 VIDA_LISTA = true;
 
@@ -2817,12 +2975,12 @@ function vidaLuz(L, nub) {
   // niebla: cubre la ciudad (más con garúa); el interior queda fuera de su alcance
   const fc = cB.clone().lerp(new THREE.Color('#b9c0c8'), nub * 0.5 * dia);
   if (!scene.fog) scene.fog = new THREE.Fog(fc, 110, 1100);
-  scene.fog.color.copy(fc); scene.fog.near = 110; scene.fog.far = llov ? 270 : nub > 0.4 ? 520 : 1100;
+  scene.fog.color.copy(fc); scene.fog.near = llov ? 90 : nub > 0.4 ? 130 : 220; scene.fog.far = llov ? 330 : nub > 0.4 ? 800 : 1700;
   MAT_NUBE.color.set('#ffffff').lerp(new THREE.Color('#4a5068'), n); MAT_NUBE.opacity = llov ? 0.95 : nub > 0.4 ? 0.82 : 0.55;
-  for (const l of LADOS) l.v.material.color.set('#cfe8ff').lerp(new THREE.Color('#5d7aa8'), n);
-  const sx = sol.position.x, base = dia * (1 - nub * 0.85) * (n < 0.5 ? 1 : 0);
-  RAYOS.este.material.opacity = base * Math.min(1, Math.max(0.12, 0.22 + sx / 16)) * 0.42;
-  RAYOS.oeste.material.opacity = base * Math.min(1, Math.max(0.12, 0.22 - sx / 16)) * 0.42;
+  for (const l of LADOS) l.v.material.color.set('#d6ecff').lerp(new THREE.Color('#8fa6c8'), n);
+  const base = dia * (1 - nub * 0.85) * (n < 0.5 ? 1 : 0);
+  ponerRayos(sol.position.clone().normalize(), base);
+  interiorLuz(L, nub);
   polvo.material.uniforms.uAlfa.value = 0.18 + base * 0.5;
   MAT_REFLEJO.opacity = 0.12 + n * 0.3;
   MAT_BALIZA.size = n > 0.5 ? 3.2 : 2.2;
@@ -2835,9 +2993,10 @@ function vidaFrame(dt, t) {
   const cp = camera.position;
   // ventanales: el lado que da a la cámara se oculta (como una maqueta abierta)
   for (const l of LADOS) {
-    const dentro = l.nom === 'sur' ? 13 - cp.z : l.nom === 'norte' ? cp.z + 13 : l.nom === 'oeste' ? cp.x + 21 : 21 - cp.x;
-    const k = Math.min(1, Math.max(0, (dentro - 0.5) / 3)); l.gr.visible = k > 0.02; l.v.material.opacity = 0.16 * k; l.p.visible = k > 0.6;
+    const dentro = l.nom === 'sur' ? EDIF.z1 - cp.z : l.nom === 'norte' ? cp.z - EDIF.z0 : l.nom === 'oeste' ? cp.x - EDIF.x0 : EDIF.x1 - cp.x;
+    const k = Math.min(1, Math.max(0, (dentro + 0.2) / 2.5)); l.gr.visible = k > 0.02; l.v.material.opacity = VIDRIO_OP * k; l.p.visible = k > 0.6;
   }
+  interiorFrame(dt, t);
   const esc = renderer.domElement.height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
   vapor.material.uniforms.uEsc.value = polvo.material.uniforms.uEsc.value = esc;
   // nubes
