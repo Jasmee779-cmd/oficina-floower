@@ -256,5 +256,11 @@
   "de": "HERMES",
   "texto": "Oficina dentro del edificio lista: piso alto con ventanales al horizonte y botón Plano. Fotos enviadas a James; se publica con su OK.",
   "ts": "2026-10-08T12:34:47-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Publicado: la oficina ahora está dentro del edificio, en un piso alto con ventanales al horizonte y botón Plano.",
+  "ts": "2026-10-08T12:39:07-05:00"
  }
 ]
