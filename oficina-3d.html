@@ -20,6 +20,15 @@ header>*{pointer-events:auto}
 a.pie-btn{text-decoration:none}
 #sonido .on{display:none} #sonido[aria-pressed="true"] .on{display:inline} #sonido[aria-pressed="true"] .off{display:none}
 #sonido[aria-pressed="true"]{border-color:var(--verde);background:#26362c} #sonido[hidden]{display:none}
+#musica[aria-pressed="true"],#btnTv[aria-pressed="true"],#btnVoz[aria-pressed="true"]{border-color:var(--verde);background:#26362c}
+.pie-btn.ico{padding:3px 8px} #clima{font-size:12.5px;font-weight:700;color:var(--soft);white-space:nowrap} #btnVoz[hidden]{display:none}
+@media (max-width:700px){ .btns{flex-wrap:wrap;justify-content:flex-end;gap:5px} .pie-btn .txt{display:none} }
+#panel .tareas{margin:6px 0 0;background:#1f1b25;border:1px solid var(--line);border-radius:9px;padding:4px 9px;font-size:12px}
+#panel .tareas summary{cursor:pointer;font-weight:800;color:#ffd9e6;font-size:12.5px;list-style-position:inside}
+#panel .tareas ol{margin:4px 0 2px;padding:0;list-style:none;counter-reset:t} #panel .tareas li{counter-increment:t;display:flex;gap:8px;align-items:baseline;margin:3px 0;line-height:1.3}
+#panel .tareas li:before{content:counter(t) '.';color:var(--soft);font-weight:800;min-width:14px} #panel .tareas li span{flex:1}
+#panel .tareas time{color:#9fe0b9;white-space:nowrap;font-size:11px;font-weight:700} #panel .tareas .sin{color:var(--soft);padding:4px 0}
+@media (max-width:700px),(orientation:portrait){#panel.enfoque .tareas li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 #vistas{position:fixed;left:8px;z-index:5;display:flex;gap:5px;overflow-x:auto;max-width:calc(100vw - 16px);padding-bottom:2px;scrollbar-width:none}
 #vistas::-webkit-scrollbar{display:none}
 #vistas .pie-btn{background:rgba(47,41,54,.88);font-size:11.5px;padding:3px 9px}
@@ -38,6 +47,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 .chip{display:inline-flex;align-items:baseline;gap:5px;background:#1f1b25;border:1px solid var(--line);border-radius:14px;padding:2px 9px;white-space:nowrap}
 .chip em{font-style:normal;color:var(--soft);font-weight:600;font-size:11.5px} .chip b{font-variant-numeric:tabular-nums;color:#fff}
 .chip.meta{align-items:center}
+.chip .rango{color:#ffb3cb;font-weight:700;margin-left:2px} .chip .hoy{color:var(--soft);font-size:10.5px;font-weight:600}
 .prog{display:inline-block;width:72px;height:9px;background:#1d1a22;border:1px solid #4a4150;border-radius:2px;overflow:hidden;vertical-align:middle}
 .prog i{display:block;height:100%;background:#f2c14e} .prog.ok i{background:#3bb273} .chip .pct{font-size:12px}
 .dia .ej{background:#6b4a1e;color:#ffd9a0;border-radius:10px;padding:1px 7px;font-size:10.5px;font-weight:800;text-transform:uppercase}
@@ -117,12 +127,15 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 <div id="globos"></div>
 <header>
   <h1>🌸 Oficina <span>FLOOWER.PE</span> · 3D</h1>
-  <div><span id="reloj">--:--:--</span> <span id="fecha"></span></div>
+  <div><span id="reloj">--:--:--</span> <span id="clima" title="Clima en Lima"></span> <span id="fecha"></span></div>
   <div id="resumen"></div>
   <div class="btns">
-    <button type="button" class="pie-btn" id="avTg" aria-expanded="false" title="Avisos de fin de proceso">🔔 Avisos <span class="badge" id="avBadge" hidden>0</span></button>
-    <button type="button" class="pie-btn" id="btnLuz" title="Iluminación: automática (hora de Lima) / día / noche">🕒 Auto</button>
-    <button type="button" class="pie-btn" id="sonido" aria-pressed="false" title="Activar sonido ambiente" aria-label="Activar sonido ambiente"><span class="off">🔇</span><span class="on">🔊</span> Sonido</button>
+    <button type="button" class="pie-btn" id="avTg" aria-expanded="false" title="Avisos de fin de proceso">🔔<span class="txt"> Avisos</span> <span class="badge" id="avBadge" hidden>0</span></button>
+    <button type="button" class="pie-btn" id="btnLuz" title="Iluminación: automática (hora de Lima) / día / noche">🕒<span class="txt"> Auto</span></button>
+    <button type="button" class="pie-btn" id="sonido" aria-pressed="false" title="Activar sonido ambiente" aria-label="Activar sonido ambiente"><span class="off">🔇</span><span class="on">🔊</span><span class="txt"> Sonido</span></button>
+    <button type="button" class="pie-btn ico" id="musica" aria-pressed="false" title="Música de fondo suave (lo-fi)" aria-label="Música de fondo">🎵</button>
+    <button type="button" class="pie-btn ico" id="btnTv" aria-pressed="false" title="Modo TV: la cámara recorre los cuartos sola (toca para detener)" aria-label="Modo TV">📺</button>
+    <button type="button" class="pie-btn ico" id="btnVoz" aria-pressed="false" title="Resumen por voz (solo totales)" aria-label="Resumen por voz">🗣️</button>
     <a class="pie-btn" id="ver2d" href="index-2d.html" title="Ver la oficina clásica en 2D">Ver 2D</a>
   </div>
 </header>
@@ -354,9 +367,16 @@ const texCiudad = textura(256, 112, (g, w, h) => {      // vista nocturna: edifi
   while (x < w) { const bw = 22 + az() * 30, bh = 30 + az() * 60; g.fillStyle = '#151a33'; g.fillRect(x, h - bh, bw, bh);
     for (let yy = h - bh + 6; yy < h - 4; yy += 9) for (let xx = x + 4; xx < x + bw - 4; xx += 7) if (az() > 0.45) { g.fillStyle = az() > 0.2 ? '#ffd27a' : '#bfe3ff'; g.fillRect(xx, yy, 3, 4); }
     x += bw + 2; } });
+const texLluvia = textura(128, 128, (g, w, h) => { g.strokeStyle = 'rgba(220,235,255,.55)'; g.lineWidth = 1.4; let k = 3; const az = () => (k = (k * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 46; i++) { const x = az() * w, y = az() * h, l = 8 + az() * 12; g.beginPath(); g.moveTo(x, y); g.lineTo(x - 2, y + l); g.stroke(); }
+  g.fillStyle = 'rgba(230,240,255,.5)'; for (let i = 0; i < 18; i++) { g.beginPath(); g.arc(az() * w, az() * h, 1.2 + az() * 1.5, 0, 7); g.fill(); } });
+texLluvia.wrapS = texLluvia.wrapT = THREE.RepeatWrapping; texLluvia.repeat.set(2, 1);
+const LLUVIA_MAT = new THREE.MeshBasicMaterial({ map: texLluvia, transparent: true, depthWrite: false, opacity: 0.9 });
+const capasLluvia = [];
 for (const [c, r, w] of [[29.8, 2, 1.6], [24.2, 16, 1.6], [38.5, 16, 1.6]]) {
   const f = box(w + 0.16, 0.86, 0.06, '#7a5230', X(c), 0.85, Z(r) + 0.02, scene, false);
   const v = new THREE.Mesh(new THREE.PlaneGeometry(w, 0.7), cieloMat); v.position.set(X(c), 0.85, Z(r) + 0.06); scene.add(v);
+  const ll = new THREE.Mesh(new THREE.PlaneGeometry(w, 0.7), LLUVIA_MAT); ll.position.set(X(c), 0.85, Z(r) + 0.065); ll.visible = false; scene.add(ll); capasLluvia.push(ll);   // llovizna en el vidrio
 }
 
 /* ---- Utilería ---- */
@@ -726,6 +746,11 @@ function ordenarHermes(id) {                    // camino más corto con ruta() 
 function pasoJefe(dt, t) {
   const h = AG3.hermes; if (!h || jefe.fase === 'sentado') return;
   const g = h.per.g;
+  if (jefe.fase === 'reunion') {                                // 🤝 de pie en su sala, conversando
+    for (const p of h.per.piernas) p.rotation.x = 0; h.per.cad.position.y = 0.75;
+    const habla = lineaReunion(porId('hermes')); h.per.brazos[0].rotation.x = habla ? 0.9 + Math.sin(t * 6) * 0.35 : 0.1; h.per.brazos[1].rotation.x = 0.1;
+    return;
+  }
   if (jefe.fase === 'orden') {
     jefe.t -= dt; h.per.brazos[0].rotation.x = 1.2 + Math.sin(t * 6) * 0.2;
     const o = AG3[jefe.obj]; if (o) o.per.g.position.y = Math.abs(Math.sin(t * 8)) * 0.06;
@@ -738,7 +763,8 @@ function pasoJefe(dt, t) {
   const s = Math.sin(t * 10); h.per.piernas[0].rotation.x = s * 0.5; h.per.piernas[1].rotation.x = -s * 0.5;
   h.per.brazos[0].rotation.x = -s * 0.4; h.per.brazos[1].rotation.x = s * 0.4; h.per.cad.position.y = 0.75 + Math.abs(s) * 0.03;
   if (jefe.i >= jefe.ruta.length) {
-    if (jefe.fase === 'ida') { jefe.fase = 'orden'; jefe.t = 2.6; const o = AG3[jefe.obj]; if (o) { o.esc.getWorldPosition(jefe.mundo); const sp = o.esc.localToWorld(o.asiento.clone()); g.rotation.y = Math.atan2(-(sp.x - g.position.x), -(sp.z - g.position.z)); } for (const p of h.per.piernas) p.rotation.x = 0; }
+    if (jefe.fase === 'ida' && jefe.reunion) { jefe.fase = 'reunion'; for (const p of h.per.piernas) p.rotation.x = 0; llegoHermesReunion(g); }
+    else if (jefe.fase === 'ida') { jefe.fase = 'orden'; jefe.t = 2.6; const o = AG3[jefe.obj]; if (o) { o.esc.getWorldPosition(jefe.mundo); const sp = o.esc.localToWorld(o.asiento.clone()); g.rotation.y = Math.atan2(-(sp.x - g.position.x), -(sp.z - g.position.z)); } for (const p of h.per.piernas) p.rotation.x = 0; }
     else {
       scene.remove(g); h.esc.add(g); g.position.copy(h.asiento); g.rotation.y = 0; h.per.cad.position.y = 0.5;
       for (const p of h.per.piernas) p.rotation.x = Math.PI / 2; jefe.fase = 'sentado'; jefe.obj = null;
@@ -750,9 +776,9 @@ function pasoJefe(dt, t) {
 /* ---- Día / noche (mismo CICLO que 2D, hora de Lima) ---- */
 let modoLuz = 'auto';
 const btnLuz = document.getElementById('btnLuz');
-btnLuz.addEventListener('click', () => { modoLuz = { auto: 'dia', dia: 'noche', noche: 'auto' }[modoLuz]; btnLuz.textContent = { auto: '🕒 Auto', dia: '☀️ Día', noche: '🌙 Noche' }[modoLuz]; aplicarLuz(); });
+btnLuz.addEventListener('click', () => { modoLuz = { auto: 'dia', dia: 'noche', noche: 'auto' }[modoLuz]; btnLuz.innerHTML = { auto: '🕒<span class="txt"> Auto</span>', dia: '☀️<span class="txt"> Día</span>', noche: '🌙<span class="txt"> Noche</span>' }[modoLuz]; aplicarLuz(); });
 const cA = new THREE.Color(), cB = new THREE.Color();
-let nocheAhora = 0;
+let nocheAhora = 0, climaTipo = 'nublado';           // climaTipo lo actualiza el clima real de Lima (Open-Meteo)
 const cvCielo = document.createElement('canvas'); cvCielo.width = 512; cvCielo.height = 256;   // ancho real: las estrellas no se estiran
 const texCielo = new THREE.CanvasTexture(cvCielo); texCielo.colorSpace = THREE.SRGBColorSpace;
 function aplicarLuz() {
@@ -762,9 +788,17 @@ function aplicarLuz() {
   const u = Math.min(1, Math.max(0, (L.hf - 6) / 12.4)), ang = u * Math.PI, deDia = L.noche < 0.6;
   if (deDia) sol.position.set(Math.cos(ang) * 22, 12 + Math.sin(ang) * 16, 16); else sol.position.set(-10, 26, 12);
   // cielo degradado (arriba cieloA, abajo cieloB) con estrellas de noche
+  const nub = { sol: 0, nublado: 0.55, llovizna: 0.78 }[climaTipo] ?? 0.55;           // nublado/llovizna: cielo más gris y sol más suave
+  const gris = c => { const y = 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2]; return c.map(v => v + (y * 0.95 - v) * nub); };
+  L.cieloA = gris(L.cieloA); L.cieloB = gris(L.cieloB);
   { const g = cvCielo.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 256), a = L.cieloA.map(Math.round), b = L.cieloB.map(Math.round);
     gr.addColorStop(0, `rgb(${a})`); gr.addColorStop(1, `rgb(${b})`); g.fillStyle = gr; g.fillRect(0, 0, 512, 256);
-    if (L.noche > 0.5) { g.fillStyle = `rgba(255,255,240,${Math.min(1, (L.noche - 0.5) * 1.6)})`; for (let i = 0; i < 70; i++) { const hx = Math.sin(i * 12.9898) * 43758.5453, hy = Math.sin(i * 78.233 + 1.7) * 24634.6345, x = (hx - Math.floor(hx)) * 512, y = (hy - Math.floor(hy)) * 150, r = i % 5 ? 0.7 : 1.1; g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill(); } }
+    if (nub > 0) {                                             // nubes pintadas en el cielo (claras de día, oscuras de noche)
+      const n = Math.round(6 + nub * 22), cl = L.noche > 0.5 ? [70, 74, 92] : [236, 238, 242].map(v => v - nub * 40);
+      for (let i = 0; i < n; i++) { const hx = Math.sin(i * 91.7) * 4375.5, hy = Math.sin(i * 17.3 + 3) * 2463.1, x = (hx - Math.floor(hx)) * 560 - 24, y = (hy - Math.floor(hy)) * (60 + nub * 120), rw = 38 + (i % 4) * 16;
+        g.fillStyle = `rgba(${cl.map(Math.round)},${0.35 + nub * 0.4})`; g.beginPath(); g.ellipse(x, y, rw, rw * 0.32, 0, 0, 7); g.ellipse(x + rw * 0.5, y - rw * 0.12, rw * 0.6, rw * 0.3, 0, 0, 7); g.fill(); } }
+    if (climaTipo === 'llovizna') { g.strokeStyle = L.noche > 0.5 ? 'rgba(170,180,210,.25)' : 'rgba(255,255,255,.28)'; g.lineWidth = 1; for (let i = 0; i < 90; i++) { const hx = Math.sin(i * 33.1) * 9631.7, x = (hx - Math.floor(hx)) * 512, y = (i * 37) % 256; g.beginPath(); g.moveTo(x, y); g.lineTo(x - 3, y + 12); g.stroke(); } }
+    if (L.noche > 0.5 && nub < 0.7) { g.fillStyle = `rgba(255,255,240,${Math.min(1, (L.noche - 0.5) * 1.6) * (1 - nub)})`; for (let i = 0; i < 70; i++) { const hx = Math.sin(i * 12.9898) * 43758.5453, hy = Math.sin(i * 78.233 + 1.7) * 24634.6345, x = (hx - Math.floor(hx)) * 512, y = (hy - Math.floor(hy)) * 150, r = i % 5 ? 0.7 : 1.1; g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill(); } }
     texCielo.needsUpdate = true; }
   // ventanas: de noche se ve la ciudad con ventanas encendidas
   const conCiudad = L.noche > 0.5;
@@ -775,8 +809,9 @@ function aplicarLuz() {
   cB.setRGB(L.cieloB[0] / 255, L.cieloB[1] / 255, L.cieloB[2] / 255, THREE.SRGBColorSpace);
   scene.background = texCielo;
   if (conCiudad) cieloMat.color.setRGB(1, 1, 1); else cieloMat.color.copy(cB);
-  sol.intensity = 0.75 + (1 - n) * 1.05; sol.color.setRGB(1, 0.9, 0.75).multiply(mult);
-  hemi.intensity = 1.0 + (1 - n) * 0.2; hemi.color.set('#ffe9c7').lerp(new THREE.Color('#ffd49a'), n * 0.5); renderer.toneMappingExposure = 1;
+  sol.intensity = (0.75 + (1 - n) * 1.05) * (1 - nub * 0.42);
+  for (const ll of capasLluvia) ll.visible = climaTipo === 'llovizna'; sol.color.setRGB(1, 0.9, 0.75).multiply(mult);
+  hemi.intensity = 1.0 + (1 - n) * 0.2 + nub * 0.15; hemi.color.set('#ffe9c7').lerp(new THREE.Color('#ffd49a'), n * 0.5); renderer.toneMappingExposure = 1;
   for (const m of luzMats) m.emissiveIntensity = 0.15 + n * 2.2;
   neonMat.emissiveIntensity = 0.5 + n * 1.0;
 }
@@ -1080,6 +1115,7 @@ function colocarGente(t) {
 }
 // Globos de diálogo (mismas frases que 2D)
 function lineaDe(p) {
+  const lr = lineaReunion(p); if (lr) return lr;
   if (visita.fase !== 'charla') return '';
   const i = Math.floor((T - visita.t0) / DUR_LINEA); if (i < 0 || i >= visita.lineas.length) return '';
   const quien = i % 2 === 0 ? visita.v : visita.o; return quien === p ? visita.lineas[i] : '';
@@ -1122,6 +1158,83 @@ function pasoConfeti(dt) {
   });
   confeti.instanceMatrix.needsUpdate = true;
 }
+/* ---- 🎉 Celebración de la meta semanal ----
+   Cuando el recaudo acumulado de la semana (lun–dom, Lima) llega a la meta semanal REAL (meta diaria × 6):
+   los agentes saltan o aplauden, sale confeti, el tablero muestra «¡Meta semanal lograda! 🎉» y, con 🔊, una fanfarria suave.
+   Una sola vez por semana y por equipo (localStorage 'oficina-celebracion-semana' = lunes de la semana).
+   ?celebrar=1 la fuerza para capturas/pruebas (no guarda nada). Con meta de ejemplo no se celebra. */
+const LS_CELEB = 'oficina-celebracion-semana';
+const CELEBRAR_FORZADA = new URLSearchParams(location.search).get('celebrar') === '1';
+let celebraHasta = 0, celebraT0 = 0;
+const celebrando = () => T < celebraHasta;
+function metaSemanalLograda() {
+  if (CELEBRAR_FORZADA) return true;
+  const R = recaudoSemana(), M = avanceMetaSemana(R);
+  return R.hay && !R.sinHist && !M.ejemplo && M.pct >= 100;
+}
+function celebrarMeta() {
+  const R = recaudoSemana();
+  celebraT0 = T; celebraHasta = T + 8;
+  lanzarConfeti('🎉 ¡Meta semanal lograda! Recaudo de la semana ' + fmtSoles(R.total, R.mon));
+  sonarFanfarria(); pintarTablero();
+  window.oficina && (window.oficina.celebraciones = (window.oficina.celebraciones || 0) + 1);
+}
+function revisarMetaSemanal() {
+  if (CELEBRAR_FORZADA || !metaSemanalLograda()) return false;
+  const k = recaudoSemana().lunISO; let ya = null; try { ya = localStorage.getItem(LS_CELEB); } catch (e) { }
+  if (ya === k) return false;
+  try { localStorage.setItem(LS_CELEB, k); } catch (e) { }
+  celebrarMeta(); return true;
+}
+function sonarFanfarria() {                                 // arpegio Do–Mi–Sol–Do y acorde final, suave (solo con 🔊 encendido)
+  if (typeof sonido !== 'object' || !sonido.on || !sonido.ctx || sonido.ctx.state !== 'running') return;
+  const c = sonido.ctx, t = c.currentTime + 0.03;
+  const nota = (f, d, dur, vol, tipo) => { const o = c.createOscillator(), g = c.createGain(); o.type = tipo; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t + d); g.gain.exponentialRampToValueAtTime(vol, t + d + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + d + dur);
+    o.connect(g).connect(sonido.master); o.start(t + d); o.stop(t + d + dur + 0.05); };
+  [[523.25, 0], [659.25, 0.14], [783.99, 0.28], [1046.5, 0.42]].forEach(([f, d]) => nota(f, d, 0.32, 0.16, 'triangle'));
+  [523.25, 659.25, 783.99].forEach(f => nota(f, 0.62, 1.3, 0.09, 'sine')); nota(1046.5, 0.62, 1.3, 0.05, 'triangle');
+}
+const GUARDA = new Map();                                   // valores antes de la pose de celebración (se restauran al empezar el cuadro siguiente)
+function restaurarCelebracion() { for (const [per, v] of GUARDA) { per.cad.position.y = v.cad; per.g.position.z = v.z; per.g.position.x = v.x; per.piernas[0].rotation.x = v.p0; per.piernas[1].rotation.x = v.p1; } GUARDA.clear(); }
+function poseCelebracion(per, t, fase, sentado) {            // todos se paran en su lugar y aplauden
+  const k = Math.min(1, (t - celebraT0) / 0.5) * Math.min(1, (celebraHasta - t) / 0.6);
+  GUARDA.set(per, { cad: per.cad.position.y, z: per.g.position.z, x: per.g.position.x, p0: per.piernas[0].rotation.x, p1: per.piernas[1].rotation.x });
+  if (sentado) { per.g.position.x += (Math.sin(fase * 13) > 0 ? 0.62 : -0.62) * k; per.g.position.z += 0.12 * k; per.cad.position.y += (0.75 - per.cad.position.y) * k; }   // se levanta y queda de pie junto a su silla
+  per.cad.position.y += Math.abs(Math.sin(t * 7 + fase)) * 0.06 * k;   // saltitos de alegría
+  for (let i = 0; i < 2; i++) {
+    const s = i ? 1 : -1, b = per.brazos[i], c = per.codos[i], pal = 0.5 + 0.5 * Math.sin(t * 15 + fase);
+    per.piernas[i].rotation.x *= 1 - k; per.rodillas[i].rotation.x *= 1 - k;
+    b.rotation.x += (2.2 - b.rotation.x) * k; b.rotation.z = -s * (0.12 + 0.24 * pal) * k; c.rotation.x = 0.6 * k; c.rotation.z = 0;
+  }
+}
+/* ---- Realismo: "trabajando"/"bloqueado" = en su escritorio. Micro-movimientos al trabajar ---- */
+function forzarPuesto() {                                    // si cambia a trabajando/bloqueado lejos de su sitio, vuelve directo y se sienta
+  for (const p of gente) {
+    if (p.id === 'hermes' || p.a.estado === 'libre' || p.modo === 'sentado') continue;
+    if (p === visita.v || (reunion.id === p.id && reunion.modo === 'sala')) continue;   // la visita / reunión ya lo regresa
+    const d = p.ruta[p.ruta.length - 1]; if (p.modo === 'caminando' && d && d[0] === p.P.x && d[1] === p.P.y) continue;   // ya va a su puesto
+    p.cafe = null; volverAlPuesto(p, T, () => { p.cafe = null; p.prox = T + 10 + Math.random() * 10; });
+  }
+}
+const MICROS = { mirar: 3.2, estirar: 2.8, sorbo: 2.6, girar: 3.4 };
+function microAntes(o, p, t) {                               // elige y aplica la parte "antes de postura" (hombros)
+  const m = o.micro || (o.micro = { tipo: '', t0: 0, dur: 0, prox: t + 3 + Math.random() * 12, k: 0, lado: 1 });
+  if (!m.tipo && t > m.prox) { const l = Object.keys(MICROS); m.tipo = l[Math.floor(Math.random() * l.length)]; m.t0 = t; m.dur = MICROS[m.tipo]; m.lado = Math.random() < 0.5 ? -1 : 1; }
+  if (!m.tipo) { m.k = 0; return; }
+  const u = (t - m.t0) / m.dur; if (u >= 1) { microFin(o); return; }
+  const k = m.k = Math.min(1, Math.sin(Math.PI * u) * 1.7);
+  if (m.tipo === 'estirar') for (const b of p.brazos) b.rotation.x += (2.9 - b.rotation.x) * k;
+  else if (m.tipo === 'sorbo') p.brazos[1].rotation.x += (0.55 - p.brazos[1].rotation.x) * k;
+  else if (m.tipo === 'mirar') { for (const b of p.brazos) b.rotation.x += (1.05 - b.rotation.x) * k; p.cab.rotation.x = 0.08 - 0.16 * k; p.cab.rotation.y = 0.18 * m.lado * k; }
+  else if (m.tipo === 'girar') p.g.rotation.y = 0.32 * m.lado * k;
+}
+function microDespues(o) {                                   // después de postura: codos, brazos abiertos, taza en la mano
+  const m = o.micro, p = o.per; if (!m || !m.tipo) return; const k = m.k;
+  if (m.tipo === 'estirar') { for (let i = 0; i < 2; i++) { p.brazos[i].rotation.z = (i ? 1 : -1) * 0.35 * k; p.codos[i].rotation.x = 0.1; } p.cab.rotation.x = -0.25 * k; }
+  else if (m.tipo === 'sorbo') { p.codos[1].rotation.x = 2.1 * k + 0.2 * (1 - k); p.brazos[1].rotation.z = -0.25 * k; o.tazaMano.visible = k > 0.25; p.cab.rotation.x = 0.12 * k; }
+}
+function microFin(o) { const m = o.micro; if (!m) return; m.tipo = ''; m.k = 0; m.prox = T + 7 + Math.random() * 14; o.per.g.rotation.y = 0; if (o.tazaMano) o.tazaMano.visible = false; }
 const LS_CONF = 'oficina-confeti-vistos';
 function confetiVistos() { try { const v = JSON.parse(localStorage.getItem(LS_CONF) || 'null'); return Array.isArray(v) ? v : null; } catch (e) { return null; } }
 function marcarConfeti(k) { const v = confetiVistos() || []; v.push(k); try { localStorage.setItem(LS_CONF, JSON.stringify(v.slice(-60))); } catch (e) { } }
@@ -1134,6 +1247,7 @@ function revisarConfeti() {                       // una sola vez por evento (se
     const M = avanceMeta(r), k = 'meta|' + (datosDia && datosDia.fecha || fmtHoyISO.format(new Date()));
     if (M.pct >= 100 && !M.ejemplo && !v.includes(k)) { marcarConfeti(k); lanzarConfeti('🎉 ¡Meta del día cumplida! Recaudo entregado ' + fmtSoles(r.recaudo, r.mon)); return; }
   }
+  if (revisarMetaSemanal()) return;                 // 🎉 celebración de la meta semanal (una vez por semana)
   const nuevo = masivos.find(m => !v.includes(m.k));
   if (nuevo) { marcarConfeti(nuevo.k); lanzarConfeti('🎉 ' + nuevo.e.texto); }
 }
@@ -1144,21 +1258,26 @@ let headerH = 50, footerH = 40;
 function medirBordes() { headerH = document.querySelector('header').offsetHeight; footerH = document.querySelector('footer').offsetHeight; const v = document.getElementById('vistas'); v.style.top = (headerH + 4) + 'px'; headerH += v.offsetHeight + 6; document.body.style.setProperty('--hdr', headerH + 'px'); }
 addEventListener('resize', medirBordes); setTimeout(medirBordes, 0); setInterval(medirBordes, 2000);
 let marcas = [];
+for (const id in AG3) { const tz = cil(0.032, 0.028, 0.07, '#ffffff', 0, -0.02, -0.03, AG3[id].per.manos[1], 6); tz.castShadow = false; tz.visible = false; AG3[id].tazaMano = tz; }   // taza para el sorbo
 renderer.setAnimationLoop(() => {
   const dt = Math.min(reloj.getDelta(), 0.1), t = reloj.elapsedTime; T = t;
-  actualizarGente3D(t, dt);
+  restaurarCelebracion();
+  const fiesta = celebrando();
+  if (!fiesta) { actualizarGente3D(t, dt); forzarPuesto(); }   // en la celebración todos se quedan en su lugar
   for (const id in AG3) {
     const o = AG3[id], p = o.per, est = o.a.estado, f = t + o.fase;
     if (id === 'hermes' && jefe.fase !== 'sentado') continue;
     const pg = porId(id); if (pg && pg.modo !== 'sentado') continue;
     p.torso.scale.y = 1 + Math.sin(f * 2) * 0.02;
-    if (est === 'trabajando') { p.brazos[0].rotation.x = 1.25 + Math.sin(f * 14) * 0.12; p.brazos[1].rotation.x = 1.25 + Math.sin(f * 14 + 1.7) * 0.12; p.cab.rotation.y = Math.sin(f * 0.6) * 0.08; p.cab.rotation.x = 0.08; }
+    if (est !== 'trabajando' && o.micro && o.micro.tipo) microFin(o);
+    if (est === 'trabajando') { p.brazos[0].rotation.x = 1.25 + Math.sin(f * 14) * 0.12; p.brazos[1].rotation.x = 1.25 + Math.sin(f * 14 + 1.7) * 0.12; p.cab.rotation.y = Math.sin(f * 0.6) * 0.08; p.cab.rotation.x = 0.08; if (id !== 'hermes' || jefe.fase === 'sentado') microAntes(o, p, t); }
     else if (est === 'bloqueado') { p.brazos[0].rotation.x = 2.6 + Math.sin(f * 5) * 0.3; p.brazos[1].rotation.x = 0.3; p.cab.rotation.y = Math.sin(f * 3) * 0.35; p.cab.rotation.x = 0; o.aro.material.opacity = 0.45 + Math.abs(Math.sin(f * 3)) * 0.5; }
     else { p.brazos[0].rotation.x = 0.3; p.brazos[1].rotation.x = 0.3; p.cab.rotation.y = Math.sin(f * 0.5) * 0.4; p.cab.rotation.x = -0.05; }
     o.pantMat.emissiveIntensity = (1.1 + Math.sin(f * 3) * 0.12) * (1 + nocheAhora * 0.9);
     if (o.item.userData.trofeo) o.item.userData.trofeo.rotation.y = t * 0.6;
   }
-  pasoJefe(dt, t); colocarGente(t);
+  if (!fiesta) pasoJefe(dt, t); actualizarReunion(); colocarGente(t);
+  if (capasLluvia[0].visible) texLluvia.offset.y += dt * 0.35;
   for (const id in AG3) { const o = AG3[id]; if (!o.ico.visible) continue;      // alerta roja
     const k = 0.5 + 0.5 * Math.sin(t * 7); o.tapa.material.emissive.setRGB(0.9 * k, 0.05 * k, 0.08 * k); o.pisoR.material.opacity = 0.18 + 0.4 * k;
     o.per.cab.getWorldPosition(o.ico.position); o.ico.position.y += 0.62 + Math.sin(t * 4) * 0.05; }
@@ -1168,6 +1287,9 @@ renderer.setAnimationLoop(() => {
     m.brazos[0].rotation.x = b.lleva ? 1.3 : b.fase === 'sirve' ? 1.0 + Math.sin(t * 5) * 0.2 : -k * 0.45 + 0.1; tazaB.visible = b.lleva;
     for (const p of gente) { const o = AG3[p.id]; if (o) o.tazaMesa.visible = !!(p.servido && T < p.servido); } }
   for (const id in AG3) postura(AG3[id].per, t); postura(baristaM, t);
+  for (const id in AG3) { const o = AG3[id]; if (o.micro && o.micro.tipo) { const pg = porId(id); if (pg && pg.modo === 'sentado' && !(id === 'hermes' && jefe.fase !== 'sentado')) microDespues(o); else microFin(o); } }
+  if (fiesta) { for (const id in AG3) { const o = AG3[id]; if (o.micro && o.micro.tipo) microFin(o); poseCelebracion(o.per, t, o.fase + id.length, o.per.g.parent === o.esc); } poseCelebracion(baristaM, t, 2.2, false); }
+  else if (celebraHasta && T >= celebraHasta) { celebraHasta = 0; pintarTablero(); }
   seguirEnfocado(); pasoVuelo(); pasoConfeti(dt); controls.update(); renderer.render(scene, camera);
   // globos
   const ahora = performance.now() / 1000; marcas = marcas.filter(m => ahora < m.hasta);
@@ -1399,7 +1521,7 @@ alertaEl.addEventListener('click', e => {
 /* ---------------- Panel del día (datos-dia.json) ---------------- */
 const diaEl = document.getElementById('dia'), diaCuerpo = document.getElementById('diaCuerpo');
 const fmtHoyISO = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima', year: 'numeric', month: '2-digit', day: '2-digit' });
-let datosDia = null;
+let datosDia = null, historico = null, nHist = 0;   // historico.json: lo usan la barra inferior, el tablero y el gráfico
 const numDia = v => (typeof v === 'number' && isFinite(v)) ? v : (v != null && v !== '' && isFinite(+v) ? +v : null);
 function fmtSoles(v, mon) {
   try { return new Intl.NumberFormat('es-PE', { style: 'currency', currency: mon || 'PEN', minimumFractionDigits: 2 }).format(v); }
@@ -1425,10 +1547,11 @@ const fmtPct = p => (p >= 10 || p === 0 ? Math.round(p) : p.toFixed(1)) + '%';
 function pintarDia() {
   const r = resumenDia(), fmtN = v => v == null ? '—' : new Intl.NumberFormat('es-PE').format(v);
   if (!r) { diaCuerpo.innerHTML = '<span class="sin">📊 Sin datos del día</span>'; return; }
-  const act = r.ts ? verTs(r.ts) : '', M = avanceMeta(r);
-  diaCuerpo.innerHTML = `<span class="chip" title="Monto realmente cobrado/entregado hoy (no el esperado)"><em>💰 Recaudo entregado</em><b>${r.recaudo == null ? '—' : escHTML(fmtSoles(r.recaudo, r.mon))}</b></span>`
-    + `<span class="chip meta" title="Meta de recaudo del día${M.ejemplo ? ' (meta de ejemplo: aún no configurada)' : ''}"><em>🎯 Meta</em><b>${escHTML(fmtSoles(M.meta, r.mon))}</b><span class="prog${M.pct >= 100 ? ' ok' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(M.ancho)}"><i style="width:${M.ancho.toFixed(1)}%"></i></span><b class="pct">${fmtPct(M.pct)}${M.pct >= 100 ? ' 🎉' : ''}</b>${M.ejemplo ? '<span class="ej meta-ej">meta ejemplo</span>' : ''}</span>`
-    + `<span class="chip"><em>📦 Masivos</em><b>${fmtN(r.masivos)}</b></span><span class="chip"><em>🛒 Pedidos</em><b>${fmtN(r.pedidos)}</b></span>`
+  const act = r.ts ? verTs(r.ts) : '', R = recaudoSemana(), M = avanceMetaSemana(R);
+  const detalle = R.dias.map(([f, v]) => f.slice(8, 10) + '/' + f.slice(5, 7) + ': ' + fmtSoles(v, R.mon)).join(' + ') || 'sin días con datos';
+  diaCuerpo.innerHTML = `<span class="chip sem" title="Recaudo realmente entregado, acumulado de lunes a domingo (hora de Lima): ${escHTML(detalle)}${R.sinHist ? ' — histórico aún no cargado' : ''} · ${escHTML((c => (c.flecha ? c.flecha + ' ' : '') + c.txt)(comparaSemana(R)))}"><em>💰 Recaudo de la semana <span class="rango">${escHTML(R.rango)}</span></em><b>${R.hay ? escHTML(fmtSoles(R.total, R.mon)) : '—'}</b><small class="hoy">hoy: ${R.hoy == null ? '—' : escHTML(fmtSoles(R.hoy, R.mon))}</small></span>`
+    + `<span class="chip meta" title="Meta semanal = ${M.ejemplo ? 'meta de ejemplo' : 'meta diaria'} ${escHTML(fmtSoles(M.diaria, R.mon))} × 6 días (lunes a sábado)${M.ejemplo ? ' — aún no hay meta diaria configurada' : ''}"><em>🎯 Meta semanal</em><b>${escHTML(fmtSoles(M.meta, r.mon))}</b><span class="prog${M.pct >= 100 ? ' ok' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(M.ancho)}"><i style="width:${M.ancho.toFixed(1)}%"></i></span><b class="pct">${fmtPct(M.pct)}${M.pct >= 100 ? ' 🎉' : ''}</b>${M.ejemplo ? '<span class="ej meta-ej">meta ejemplo</span>' : ''}</span>`
+    + `<span class="chip" title="Masivos subidos hoy"><em>📦 Masivos hoy</em><b>${fmtN(r.masivos)}</b></span><span class="chip" title="Pedidos de hoy"><em>🛒 Pedidos hoy</em><b>${fmtN(r.pedidos)}</b></span>`
     + (r.ejemplo ? '<span class="ej" title="Datos de ejemplo (aún no reales)">ejemplo</span>' : '')
     + (r.viejo ? `<span class="viejo" title="Último dato disponible">del ${escHTML(r.viejo)}</span>` : '')
     + (act ? `<small class="act">act. ${escHTML(act)}</small>` : '');
@@ -1441,9 +1564,9 @@ async function cargarDatosDia() {
 }
 
 /* ---------------- 📺 Pantallas en la pared (texturas de canvas, se repintan solo si cambian los datos) ----------------
-   1) Tablero del día (sala de HERMES): recaudo, masivos, pedidos y meta con barra — de datos-dia.json.
+   1) Tablero del día (sala de HERMES): recaudo ACUMULADO DE LA SEMANA (lun–dom, Lima) + meta semanal con barra;
+      masivos y pedidos del día — historico.json + datos-dia.json.
    2) Gráfico de la semana (Finanzas): recaudo de los últimos 7 días — historico.json + hoy de datos-dia.json. */
-let historico = null, nHist = 0;
 function pantallaPared(cx, ancho, alto, w, h) {                 // marco sobre el muro norte (cara sur, z = Z(2))
   const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
   const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4;
@@ -1466,31 +1589,92 @@ function fondoPantalla(g, w, h, titulo) {
 const fmtEntero = v => new Intl.NumberFormat('es-PE').format(v);
 const fmtCorto = (v, mon) => (mon && mon !== 'PEN' ? mon + ' ' : 'S/ ') + new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 }).format(v);
 const fmtDiaCorto = new Intl.DateTimeFormat('es-PE', { timeZone: 'UTC', weekday: 'short', day: '2-digit' });
+/* ---- Recaudo de la semana (lunes a domingo, hora de Lima) ----
+   Suma el recaudo ENTREGADO de los días de esta semana que están en historico.json + el de hoy (datos-dia.json).
+   Si el día de datos-dia.json ya está en el histórico, manda datos-dia.json (más fresco) y NO se suma dos veces. */
+const fmtMesCorto = new Intl.DateTimeFormat('es-PE', { timeZone: 'UTC', month: 'short' });
+function semanaLima() {
+  const hoy = fmtHoyISO.format(new Date()), [y, m, d] = hoy.split('-').map(Number);
+  const dow = (new Date(Date.UTC(y, m - 1, d, 12)).getUTCDay() + 6) % 7;          // 0 = lunes … 6 = domingo
+  const lun = new Date(Date.UTC(y, m - 1, d - dow, 12)), dom = new Date(Date.UTC(y, m - 1, d - dow + 6, 12));
+  const dd = f => String(f.getUTCDate()).padStart(2, '0'), mes = f => fmtMesCorto.format(f).replace('.', '').toLowerCase();
+  const rango = lun.getUTCMonth() === dom.getUTCMonth() ? `${dd(lun)}–${dd(dom)} ${mes(dom)}` : `${dd(lun)} ${mes(lun)}–${dd(dom)} ${mes(dom)}`;
+  const iso = f => f.toISOString().slice(0, 10), hace7 = new Date(Date.UTC(y, m - 1, d - 7, 12)), lunP = new Date(Date.UTC(y, m - 1, d - dow - 7, 12));
+  const diaSem = new Intl.DateTimeFormat('es-PE', { timeZone: 'UTC', weekday: 'short' }).format(new Date(Date.UTC(y, m - 1, d, 12))).replace('.', '').toLowerCase();
+  return { hoy, lunISO: iso(lun), domISO: iso(dom), rango, lunPrevISO: iso(lunP), hoyPrevISO: iso(hace7), tramo: dow ? 'lun–' + diaSem : 'lun' };
+}
+function recaudoSemana() {                                       // { total, hoy, dias:[[iso, monto]], rango, mon, sinHist, ant:{total,…}|null, tramo }
+  const S = semanaLima(), dias = new Map(), enSemana = f => f >= S.lunISO && f <= S.hoy;
+  for (const x of (historico && Array.isArray(historico.dias)) ? historico.dias : []) {
+    const f = String(x && x.fecha || '').slice(0, 10), v = numDia(x && x.recaudo); if (enSemana(f) && v != null) dias.set(f, v);
+  }
+  if (datosDia && typeof datosDia === 'object') {
+    const f = String(datosDia.fecha || '').slice(0, 10) || S.hoy, v = numDia(datosDia.recaudo); if (enSemana(f) && v != null) dias.set(f, v);   // reemplaza, no duplica
+  }
+  const lista = [...dias].sort((a, b) => a[0] < b[0] ? -1 : 1);
+  // semana pasada, hasta el mismo día de la semana (si hoy es jueves: lun–jue de la semana anterior) — solo historico.json
+  const prev = ((historico && Array.isArray(historico.dias)) ? historico.dias : []).map(x => [String(x && x.fecha || '').slice(0, 10), numDia(x && x.recaudo)])
+    .filter(([f, v]) => f >= S.lunPrevISO && f <= S.hoyPrevISO && v != null);
+  const prevMap = new Map(prev), totalPrev = [...prevMap.values()].reduce((a, v) => a + v, 0);
+  return { total: lista.reduce((a, [, v]) => a + v, 0), hoy: dias.has(S.hoy) ? dias.get(S.hoy) : null, dias: lista, rango: S.rango, lunISO: S.lunISO,
+    mon: (datosDia && datosDia.moneda) || (historico && historico.moneda) || 'PEN', sinHist: !historico, hay: lista.length > 0,
+    ant: prevMap.size ? { total: totalPrev, dias: prevMap.size, desde: S.lunPrevISO, hasta: S.hoyPrevISO } : null, tramo: S.tramo };
+}
+function comparaSemana(R) {                                      // ▲/▼ contra la semana pasada (mismo tramo lun–hoy)
+  if (!R.ant) return { txt: 'sin datos de la semana pasada', col: '#8f8698', flecha: '' };
+  const dif = R.total - R.ant.total, sube = dif >= 0, pct = R.ant.total > 0 ? Math.abs(dif) / R.ant.total * 100 : null;
+  const monto = (sube ? '+' : '−') + fmtCorto(Math.abs(dif), R.mon);
+  return { flecha: sube ? '▲' : '▼', col: sube ? '#3bb273' : '#e5484d', txt: (pct == null ? '' : fmtPct(pct) + ' · ') + monto + ' vs. sem. pasada (' + R.tramo + ')' };
+}
+const DIAS_META_SEMANA = 6;                                       // lunes a sábado
+function avanceMetaSemana(R) {                                    // meta semanal = meta diaria × 6; si no hay meta diaria → ejemplo
+  const D = metaDia(), meta = D.meta * DIAS_META_SEMANA, pct = R && R.hay ? 100 * R.total / meta : 0;
+  return { meta, diaria: D.meta, ejemplo: D.ejemplo, pct, ancho: Math.max(0, Math.min(100, pct)) };
+}
 function pintarTablero() {
-  const r = resumenDia(), M = r ? avanceMeta(r) : null;
-  const firma = JSON.stringify([r, M, r && r.ts ? verTs(r.ts) : '']);
+  const r = resumenDia(), R = recaudoSemana(), M = avanceMetaSemana(R);
+  const lograda = metaSemanalLograda(), fiesta = celebrando();
+  const firma = JSON.stringify([r, R, M, r && r.ts ? verTs(r.ts) : '', lograda, fiesta]);
   if (firma === TABLERO.firma) return false;                   // sin cambios: no se repinta ni se sube la textura
   TABLERO.firma = firma; const { g, cv } = TABLERO, w = cv.width, h = cv.height;
   fondoPantalla(g, w, h, '📊 Tablero del día');
   g.textAlign = 'right'; g.font = '700 26px system-ui,sans-serif'; g.fillStyle = '#b9aca0';
   g.fillText(cap(new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', weekday: 'long', day: 'numeric', month: 'short' }).format(new Date())), w - 32, 62);
-  if (!r) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 44px system-ui,sans-serif'; g.fillText('Sin datos del día', w / 2, h / 2 + 20); TABLERO.tx.needsUpdate = true; return true; }
-  const tiles = [['💰 Recaudo entregado', r.recaudo == null ? '—' : fmtSoles(r.recaudo, r.mon), '#3bb273'], ['📦 Masivos', r.masivos == null ? '—' : fmtEntero(r.masivos), '#4a9be8'], ['🛒 Pedidos', r.pedidos == null ? '—' : fmtEntero(r.pedidos), '#f2c14e']];
-  const tw = [440, 240, 240], gap = 20; let x = 32;
-  tiles.forEach(([et, val, col], i) => {
-    rRect(g, x, 96, tw[i], 190, 18); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill(); g.fillStyle = col; g.fillRect(x, 96, 8, 190);
-    g.textAlign = 'left'; g.fillStyle = '#b9aca0'; g.font = '700 26px system-ui,sans-serif'; g.fillText(et, x + 26, 142);
-    g.fillStyle = '#ffffff'; g.font = `800 ${i ? 76 : 62}px system-ui,sans-serif`; g.fillText(val, x + 26, 238, tw[i] - 40);
-    x += tw[i] + gap;
+  if (!r && !R.hay) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 44px system-ui,sans-serif'; g.fillText('Sin datos del día', w / 2, h / 2 + 20); TABLERO.tx.needsUpdate = true; return true; }
+  const mon = R.mon, tw = [500, 216, 216], gap = 20; let x = 32;
+  // 💰 recaudo acumulado de la semana (título + rango, monto grande, "hoy: S/ X" en chico)
+  rRect(g, x, 96, tw[0], 200, 18); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill(); g.fillStyle = '#3bb273'; g.fillRect(x, 96, 8, 200);
+  g.textAlign = 'left'; g.fillStyle = '#b9aca0'; g.font = '700 26px system-ui,sans-serif'; g.fillText('💰 Recaudo de la semana', x + 26, 132);
+  const anchoT = g.measureText('💰 Recaudo de la semana').width; g.fillStyle = '#ffb3cb'; g.font = '800 24px system-ui,sans-serif'; g.fillText(R.rango, x + 26 + anchoT + 14, 132);
+  g.fillStyle = '#ffffff'; g.font = '800 58px system-ui,sans-serif'; g.fillText(R.hay ? fmtSoles(R.total, mon) : '—', x + 26, 198, tw[0] - 40);
+  g.fillStyle = '#b9aca0'; g.font = '700 22px system-ui,sans-serif'; g.fillText('hoy: ' + (R.hoy == null ? '—' : fmtSoles(R.hoy, mon)), x + 26, 236);
+  { const C = comparaSemana(R); let cx = x + 26;                  // ▲ verde / ▼ rojo contra la semana pasada
+    if (C.flecha) { g.fillStyle = C.col; g.font = '800 24px system-ui,sans-serif'; g.fillText(C.flecha, cx, 274); cx += g.measureText(C.flecha).width + 8; }
+    g.fillStyle = C.flecha ? C.col : '#8f8698'; g.font = (C.flecha ? '800' : '600 italic') + ' 22px system-ui,sans-serif'; g.fillText(C.txt, cx, 274, x + tw[0] - 16 - cx); }
+  x += tw[0] + gap;
+  // 📦 masivos y 🛒 pedidos: siguen siendo del día
+  [['📦 Masivos', r && r.masivos != null ? fmtEntero(r.masivos) : '—', '#4a9be8'], ['🛒 Pedidos', r && r.pedidos != null ? fmtEntero(r.pedidos) : '—', '#f2c14e']].forEach(([et, val, col], i) => {
+    rRect(g, x, 96, tw[i + 1], 200, 18); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill(); g.fillStyle = col; g.fillRect(x, 96, 8, 200);
+    g.textAlign = 'left'; g.fillStyle = '#b9aca0'; g.font = '700 26px system-ui,sans-serif'; g.fillText(et, x + 26, 134);
+    g.fillStyle = '#ffffff'; g.font = '800 76px system-ui,sans-serif'; g.fillText(val, x + 26, 224, tw[i + 1] - 40);
+    g.fillStyle = '#8f8698'; g.font = '700 22px system-ui,sans-serif'; g.fillText('hoy', x + 26, 270);
+    x += tw[i + 1] + gap;
   });
-  // meta + barra de avance
-  g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = '800 30px system-ui,sans-serif'; g.fillText('🎯 Meta ' + fmtSoles(M.meta, r.mon), 32, 340);
-  g.textAlign = 'right'; g.fillStyle = M.pct >= 100 ? '#7be3a4' : '#ffd9e6'; g.font = '800 34px system-ui,sans-serif'; g.fillText(fmtPct(M.pct) + (M.pct >= 100 ? ' 🎉' : ''), w - 32, 340);
-  rRect(g, 32, 362, w - 64, 46, 23); g.fillStyle = 'rgba(255,255,255,.1)'; g.fill();
-  if (M.ancho > 0) { rRect(g, 32, 362, Math.max(46, (w - 64) * M.ancho / 100), 46, 23); const gb = g.createLinearGradient(32, 0, w - 32, 0); gb.addColorStop(0, '#f07aa0'); gb.addColorStop(1, M.pct >= 100 ? '#3bb273' : '#ffb36b'); g.fillStyle = gb; g.fill(); }
-  g.textAlign = 'left'; g.font = '600 24px system-ui,sans-serif'; g.fillStyle = '#8f8698';
-  const pie = [M.ejemplo ? 'meta de ejemplo' : '', r.ejemplo ? 'datos de ejemplo' : '', r.viejo ? 'último dato del ' + r.viejo : '', r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join('  ·  ');
-  g.fillText(pie, 32, 462);
+  // 🎯 meta semanal + barra de avance
+  if (lograda) {                                               // 🎉 meta semanal lograda (o forzada con ?celebrar=1)
+    g.textAlign = 'left'; g.fillStyle = '#7be3a4'; g.font = '800 36px system-ui,sans-serif'; g.fillText('¡Meta semanal lograda! 🎉', 32, 348);
+    g.textAlign = 'right'; g.fillStyle = '#b9aca0'; g.font = '700 24px system-ui,sans-serif'; g.fillText('meta ' + fmtCorto(M.meta, mon) + ' · ' + fmtPct(M.pct), w - 32, 346);
+  } else {
+    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = '800 30px system-ui,sans-serif'; g.fillText('🎯 Meta semanal ' + fmtSoles(M.meta, mon), 32, 346);
+    g.textAlign = 'right'; g.fillStyle = M.pct >= 100 ? '#7be3a4' : '#ffd9e6'; g.font = '800 34px system-ui,sans-serif'; g.fillText(fmtPct(M.pct), w - 32, 346);
+  }
+  rRect(g, 32, 366, w - 64, 44, 22); g.fillStyle = 'rgba(255,255,255,.1)'; g.fill();
+  const anchoBarra = lograda ? 100 : M.ancho;
+  if (anchoBarra > 0) { rRect(g, 32, 366, Math.max(44, (w - 64) * anchoBarra / 100), 44, 22); const gb = g.createLinearGradient(32, 0, w - 32, 0); gb.addColorStop(0, lograda ? '#3bb273' : '#f07aa0'); gb.addColorStop(1, lograda || M.pct >= 100 ? '#7be3a4' : '#ffb36b'); g.fillStyle = gb; g.fill(); }
+  if (lograda) { g.strokeStyle = '#7be3a4'; g.lineWidth = fiesta ? 10 : 6; g.strokeRect(3, 3, w - 6, h - 6); }
+  g.textAlign = 'left'; g.font = '600 22px system-ui,sans-serif'; g.fillStyle = '#8f8698';
+  const pie = [(M.ejemplo ? 'meta de ejemplo: ' : 'meta diaria ') + fmtCorto(M.diaria, mon) + ' × 6 (lun–sáb)', r && r.ejemplo ? 'datos de ejemplo' : '', r && r.viejo ? 'último dato del ' + r.viejo : '', R.sinHist ? 'sin histórico' : '', r && r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join('  ·  ');
+  g.fillText(pie, 32, 462, w - 220);
   g.textAlign = 'right'; g.fillStyle = '#3bb273'; g.fillText('● en vivo', w - 32, 462);
   TABLERO.tx.needsUpdate = true; return true;
 }
@@ -1531,7 +1715,7 @@ async function cargarHistorico3D() {
   try { const r = await fetch('historico.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); if (j && typeof j === 'object') historico = j; } } catch (e) { }
 }
 async function cicloPantallas() {                              // mismo ciclo de lectura (cada POLL3D); histórico cada 6 ciclos (~60 s)
-  if (nHist++ % 6 === 0) await cargarHistorico3D();
+  if (nHist++ % 6 === 0) { const antes = JSON.stringify(historico); await cargarHistorico3D(); if (JSON.stringify(historico) !== antes) pintarDia(); }   // la barra inferior también suma la semana
   pintarTablero(); pintarSemana();
 }
 
@@ -1816,19 +2000,426 @@ const efecto = (() => {
 })();
 
 
+/* ================= Lote de mejoras (agenda, historial, reunión, clima, pizarra, música, TV, voz, distritos) =================
+   Todo se lee de los JSON públicos (sin datos de clientes). Ningún JSON se escribe desde la página. */
+const tsLima = ts => { const d = new Date(ts); return isNaN(d) ? null : d; };
+const diaLima = d => fmtHoyISO.format(d);
+const fmtHM = new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', hour: '2-digit', minute: '2-digit', hour12: false });
+function cuandoCorto(ts) {                                       // "hoy 21:17" · "ayer 19:53" · "06/10 21:24"
+  const d = tsLima(ts); if (!d) return ''; const f = diaLima(d), hoy = fmtHoyISO.format(new Date());
+  const ayer = fmtHoyISO.format(new Date(Date.now() - 864e5));
+  return (f === hoy ? 'hoy' : f === ayer ? 'ayer' : f.slice(8, 10) + '/' + f.slice(5, 7)) + ' ' + fmtHM.format(d);
+}
+const recorta = (t, n) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1) + '…' : t; };
+const textosHechos = () => [                                     // fines de proceso: eventos.json + respuestas.json (no las órdenes de JASMEE)
+  ...(Array.isArray(eventos) ? eventos : []).map(e => ({ id: e.agente, texto: e.texto, ts: e.ts, fuente: 'evento' })),
+  ...(Array.isArray(respuestas) ? respuestas : []).filter(r => r && !/jasmee/i.test(r.de || '')).map(r => ({ id: r.id, texto: r.texto, ts: r.ts, fuente: 'respuesta' })),
+].filter(x => x.texto && x.ts);
+
+/* ---------- 1) 📅 Agenda del día (pared de VENTAS) ---------- */
+const AGENDA = pantallaPared(X(16.5), 3.8, 1.9, 1024, 512);
+const PROCESOS = [
+  { ic: '📦', t: 'Masivos', h: 19, m: 40, hora: '7:40 pm', dias: [0, 1, 2, 3, 4, 5], dtxt: 'dom–vie', re: /masivo/i, ok: /subid|listo|\bok\b|termin|cargad/i },
+  { ic: '🛒', t: 'Pedidos del día', h: 21, m: 0, hora: '9:00 pm', dias: [1, 2, 3, 4, 5, 6], dtxt: 'lun–sáb', re: /pedido/i, ok: /cerrad|listo|termin|del d[ií]a|enviad|cread|registrad/i },
+  { ic: '💰', t: 'Recaudo', h: 21, m: 57, hora: '9:57 pm', dias: [0, 1, 2, 3, 4, 5, 6], dtxt: 'diario', re: /recaudo/i, ok: /./ },
+  { ic: '🔒', t: 'Cierre', h: 0, m: 49, hora: '12:49 am', dias: [0, 1, 2, 3, 4, 5, 6], dtxt: 'diario', re: /cierre/i, ok: /./ },
+];
+function estadoAgenda() {
+  const hoy = fmtHoyISO.format(new Date()), [y, m, d] = hoy.split('-').map(Number), dow = new Date(Date.UTC(y, m - 1, d, 12)).getUTCDay();
+  const ahora = horaLima.h * 60 + horaLima.m, hechos = textosHechos().filter(x => { const t = tsLima(x.ts); return t && diaLima(t) === hoy; });
+  return PROCESOS.map(p => {
+    const fin = hechos.filter(x => p.re.test(x.texto) && p.ok.test(x.texto)).sort((a, b) => String(b.ts).localeCompare(String(a.ts)))[0];
+    const toca = p.dias.includes(dow), paso = ahora >= p.h * 60 + p.m;
+    return { ...p, toca, hecho: fin ? fmtHM.format(tsLima(fin.ts)) : '', paso };
+  });
+}
+function pintarAgenda() {
+  const E = estadoAgenda(), firma = JSON.stringify(E.map(e => [e.toca, e.hecho, e.paso]));
+  if (firma === AGENDA.firma) return false; AGENDA.firma = firma;
+  const { g, cv } = AGENDA, w = cv.width, h = cv.height;
+  fondoPantalla(g, w, h, '📅 Agenda del día');
+  g.textAlign = 'right'; g.font = '700 24px system-ui,sans-serif'; g.fillStyle = '#b9aca0'; g.fillText('hora de Lima', w - 32, 62);
+  E.forEach((e, i) => {
+    const y = 104 + i * 96; rRect(g, 24, y, w - 48, 84, 16); g.fillStyle = e.hecho ? 'rgba(59,178,115,.16)' : 'rgba(255,255,255,.06)'; g.fill();
+    g.textAlign = 'left'; g.fillStyle = '#ffffff'; g.font = '800 34px system-ui,sans-serif'; g.fillText(e.ic + ' ' + e.t, 44, y + 40);
+    g.fillStyle = '#b9aca0'; g.font = '700 22px system-ui,sans-serif'; g.fillText(e.dtxt, 44, y + 70);
+    g.fillStyle = '#ffd9e6'; g.font = '800 34px system-ui,sans-serif'; g.fillText(e.hora, 420, y + 52);
+    g.textAlign = 'right';
+    if (e.hecho) { g.fillStyle = '#7be3a4'; g.font = '800 34px system-ui,sans-serif'; g.fillText('✅ listo ' + e.hecho, w - 44, y + 52, 370); }
+    else if (!e.toca) { g.fillStyle = '#8f8698'; g.font = '700 28px system-ui,sans-serif'; g.fillText('— no toca hoy', w - 44, y + 52); }
+    else { g.fillStyle = e.paso ? '#ffb36b' : '#f3ece4'; g.font = '800 32px system-ui,sans-serif'; g.fillText('⏳ ' + (e.paso ? 'pendiente (atrasado)' : 'pendiente'), w - 44, y + 52, 370); }
+  });
+  AGENDA.tx.needsUpdate = true; return true;
+}
+
+/* ---------- 2) 🕘 Historial por agente (junto al chat) ---------- */
+const LS_TAREAS = 'oficina-tareas-hist';
+let fotoEstado = null;
+function leerLS(k, def) { try { const v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
+function tareasTerminadas(id) {
+  const loc = (leerLS(LS_TAREAS, {})[id] || []).map(x => ({ texto: x.texto, ts: x.ts, fuente: 'estado' }));
+  const fin = textosHechos().filter(x => x.id === id && (x.fuente === 'evento' || /listo|termin|complet|hecho|subid|cerrad|enviad|archiv|✅|resuelt/i.test(x.texto)));
+  const vistos = new Set(), out = [];
+  for (const x of [...loc, ...fin].sort((a, b) => String(b.ts).localeCompare(String(a.ts)))) { const k = recorta(x.texto, 60).toLowerCase(); if (vistos.has(k)) continue; vistos.add(k); out.push(x); if (out.length >= 5) break; }
+  return out;
+}
+function pintarTareas() {
+  if (!panelId || panel.hidden) return; const caja = document.getElementById('panelCaja'); if (!caja) return;
+  let el = document.getElementById('pTareas');
+  if (!el) { const ref = document.getElementById('pMsgs'); if (!ref) return; el = document.createElement('details'); el.id = 'pTareas'; el.className = 'tareas'; el.open = innerWidth > 700 && innerHeight > 560; ref.before(el); }
+  const L = tareasTerminadas(panelId), html = `<summary>🕘 Últimas tareas terminadas${L.length ? ' (' + L.length + ')' : ''}</summary>` + (L.length
+    ? '<ol>' + L.map(x => `<li><span>${escHTML(recorta(x.texto, 90))}</span><time>${escHTML(cuandoCorto(x.ts))}</time></li>`).join('') + '</ol>'
+    : '<div class="sin">Aún no hay tareas terminadas registradas.</div>');
+  if (el.dataset.h !== html) { const ab = el.open; el.innerHTML = html; el.open = ab; el.dataset.h = html; }
+}
+new MutationObserver(() => pintarTareas()).observe(document.getElementById('panelCaja'), { childList: true });
+
+/* ---------- 3) 🤝 Reunión en la sala de HERMES ---------- */
+const reunion = { fase: 'nada', id: null, modo: null, t0: 0, lineas: [], cola: [], ultimaPorId: {}, lleg: 0, mirar: null };
+const REU_LINEAS = [
+  ['¿Tienes un minuto? Hay algo nuevo 📋', '¡Claro! Cuéntame'], ['Te dejé los detalles en el chat', 'Perfecto, me pongo ya 💪'],
+  ['Revisemos lo que sigue', '¡Dale! Lo veo ahora'], ['¿Cómo vas con eso?', 'Avanzando, ya casi 👍'],
+  ['Esto es prioridad hoy', 'Entendido, va primero ✅'], ['¡Buen trabajo con lo último!', '¡Gracias! Sigo con esto 🙌'],
+];
+function sitioLibreCerca(c, r) { for (const [dc, dr] of [[0, 0], [0, 1], [1, 0], [-1, 0], [0, -1], [1, 1], [-1, 1]]) if (pasa[r + dr] && pasa[r + dr][c + dc]) return [c + dc, r + dr]; return null; }
+function pedirReunion(id, motivo) {
+  if (!AG3[id] || id === 'hermes') return false;
+  const ult = reunion.ultimaPorId[id] || -1e9; if (T - ult < 90 && motivo !== 'prueba') return false;   // no repetir con el mismo agente en 90 s
+  if (reunion.fase !== 'nada') { encolar(id); return true; }
+  return iniciarReunion(id) || reunion.cola.includes(id);
+}
+function iniciarReunion(id) {                                    // libre → los dos van a la sala · trabajando/bloqueado → HERMES va a su escritorio
+  const p = porId(id), hp = porId('hermes'), o = AG3[id]; if (!p || !hp || !o) return false;
+  if (jefe.fase !== 'sentado' || p.modo === 'caminando' || p.enVisita || visita.v === p || visita.o === p || (barista.obj === p && barista.fase === 'sirve')) return encolar(id);
+  const enSala = p.a.estado === 'libre', [c0, r0] = baldosa(hp);
+  let destH, B = null;
+  if (enSala) { const A = sitioLibreCerca(26, 9); B = sitioLibreCerca(28, 9); if (!A || !B) return false; destH = A; }
+  else { if (p.modo !== 'sentado') return encolar(id); destH = sitioJunto(hp, p); if (!destH) return false; }
+  const rutaH = ruta(c0, r0, destH[0], destH[1]); if (!rutaH.length) return false;
+  reunion.fase = 'ida'; reunion.prog = null; reunion.progT = T; reunion.id = id; reunion.modo = enSala ? 'sala' : 'escritorio'; reunion.lleg = enSala ? 0 : 2; reunion.ultimaPorId[id] = T;
+  reunion.lineas = REU_LINEAS[Math.floor(Math.random() * REU_LINEAS.length)].concat(enSala ? ['Cualquier cosa me escribes', '¡Listo, vuelvo a mi puesto!'] : ['Te dejo trabajar 👍', '¡Gracias, HERMES!']);
+  reunion.mirar = enSala ? new THREE.Vector3(pxX(B[0] * TS + 8), 0, pxZ(B[1] * TS + 12)) : o.esc.localToWorld(o.asiento.clone());
+  const h = AG3.hermes; h.esc.remove(h.per.g); scene.add(h.per.g);                 // HERMES se levanta y camina (sistema del jefe)
+  jefe.ruta = [[hp.P.x, hp.P.y]].concat(rutaH.slice(1).map(([bc, br]) => [bc * TS + 8, br * TS + 12])).map(([x, y]) => new THREE.Vector3(pxX(x), 0, pxZ(y)));
+  jefe.i = 1; jefe.fase = 'ida'; jefe.obj = null; jefe.reunion = true; h.per.g.position.copy(jefe.ruta[0]);
+  if (enSala) { p.reservado = true; p.cafe = null; irA(p, B[0], B[1], null, () => { p.modo = 'parado'; p.dir = 'izq'; reunion.lleg |= 2; }); }
+  return true;
+}
+function encolar(id) { if (!reunion.cola.includes(id) && reunion.cola.length < 3) reunion.cola.push(id); return false; }
+function llegoHermesReunion(g) { reunion.lleg |= 1; const m = reunion.mirar; if (m) g.rotation.y = Math.atan2(-(m.x - g.position.x), -(m.z - g.position.z)); }
+function actualizarReunion() {
+  if (reunion.fase === 'nada') {                                  // reintenta lo encolado cuando HERMES está libre
+    if (reunion.cola.length && jefe.fase === 'sentado' && T > (reunion.reintento || 0)) { reunion.reintento = T + 3; const id = reunion.cola.shift(); reunion.nInt = (reunion.nInt || 0) + 1; if (!iniciarReunion(id) && reunion.nInt > 12) { reunion.cola = []; reunion.nInt = 0; } }
+    return;
+  }
+  const p = porId(reunion.id);
+  if (reunion.modo === 'sala' && p && p.a.estado !== 'libre') { terminarReunion(); return; }   // pasó a trabajar: vuelve directo a su puesto
+  if (reunion.fase === 'ida' && reunion.lleg === 3) { reunion.fase = 'charla'; reunion.t0 = T; reunion.nInt = 0; }
+  else if (reunion.fase === 'ida') {                                 // por si algo se trabó: sin avanzar 12 s (o 120 s en total) se cancela
+    const prog = jefe.i + (reunion.lleg & 2 ? 100 : 0) + (p && p.ruta ? -p.ruta.length * 0.01 : 0);
+    if (prog !== reunion.prog) { reunion.prog = prog; reunion.progT = T; }
+    if (T - reunion.progT > 12 || T - reunion.ultimaPorId[reunion.id] > 120) terminarReunion();
+  }
+  else if (reunion.fase === 'charla' && T - reunion.t0 > reunion.lineas.length * DUR_LINEA) terminarReunion();
+}
+function terminarReunion() {
+  const p = porId(reunion.id);
+  if (p && reunion.modo === 'sala') { p.ruta = p.ruta.slice(0, 1); volverAlPuesto(p, T, () => { p.reservado = false; p.prox = Math.max(p.prox, T + 8); }); }
+  if (jefe.reunion && (jefe.fase === 'reunion' || jefe.fase === 'ida')) { jefe.ruta = jefe.ruta.slice(0, jefe.i).reverse(); jefe.i = 1; jefe.fase = 'vuelta'; if (jefe.ruta.length < 2) jefe.i = jefe.ruta.length; }
+  jefe.reunion = false; reunion.fase = 'nada'; reunion.id = null; reunion.modo = null; reunion.reintento = T + 1.5;
+}
+function lineaReunion(p) {
+  if (reunion.fase !== 'charla') return ''; const i = Math.floor((T - reunion.t0) / DUR_LINEA); if (i < 0 || i >= reunion.lineas.length) return '';
+  return (i % 2 === 0 ? p.id === 'hermes' : p.id === reunion.id) ? reunion.lineas[i] : '';
+}
+let respVistas = null;
+function revisarCambios() {                                      // estado.json / respuestas.json → historial local + disparadores de reunión
+  const ahora = {}; for (const a of AGENTES) ahora[a.id] = { estado: a.estado, tarea: a.tarea || '', ts: a.ts || '' };
+  if (fotoEstado) {
+    const hist = leerLS(LS_TAREAS, {}); let cambio = false, hermesTrab = false; const cambiaron = [];
+    for (const id in ahora) {
+      const a = fotoEstado[id], b = ahora[id]; if (!a) continue;
+      if (a.tarea && a.tarea !== b.tarea) { (hist[id] = hist[id] || []).unshift({ texto: a.tarea, ts: b.ts || new Date().toISOString() }); hist[id] = hist[id].slice(0, 10); cambio = true; }
+      if (id === 'hermes' && a.estado !== 'trabajando' && b.estado === 'trabajando') hermesTrab = true;
+      if (id !== 'hermes' && b.tarea && a.tarea !== b.tarea) cambiaron.push(id);
+    }
+    if (cambio) try { localStorage.setItem(LS_TAREAS, JSON.stringify(hist)); } catch (e) { }
+    if (hermesTrab) reunion.hermesT = T; for (const id of cambiaron) (reunion.cambioT = reunion.cambioT || {})[id] = T;
+    if (reunion.hermesT != null) for (const id in (reunion.cambioT || {})) if (Math.abs(reunion.cambioT[id] - reunion.hermesT) < 60) { delete reunion.cambioT[id]; pedirReunion(id, 'tarea'); }
+  }
+  fotoEstado = ahora;
+  if (respCargadas) {
+    const lista = Array.isArray(respuestas) ? respuestas : [];
+    if (respVistas === null) respVistas = new Set(lista.map(r => r.id + '|' + r.ts));
+    else for (const r of lista) { const k = r.id + '|' + r.ts; if (respVistas.has(k)) continue; respVistas.add(k); if (r.id && r.id !== 'hermes' && !/jasmee/i.test(r.de || '')) pedirReunion(r.id, 'respuesta'); }
+  }
+}
+
+/* ---------- 4) 🌦️ Clima real de Lima (Open-Meteo, sin clave) ---------- */
+const CLIMA_FORZADO = (new URLSearchParams(location.search).get('clima') || '').toLowerCase();
+const clima = { tipo: 'nublado', temp: null, real: false };
+const climaEl = document.getElementById('clima');
+function tipoClima(code) { if (code == null) return 'nublado'; if (code <= 1) return 'sol'; if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return 'llovizna'; return 'nublado'; }
+async function cargarClima() {
+  if (['sol', 'nublado', 'llovizna'].includes(CLIMA_FORZADO)) { clima.tipo = CLIMA_FORZADO; clima.real = false; }
+  else try {
+    const ac = new AbortController(), to = setTimeout(() => ac.abort(), 8000);
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-12.05&longitude=-77.04&current=temperature_2m,weather_code,cloud_cover&timezone=America%2FLima', { cache: 'no-store', signal: ac.signal });
+    clearTimeout(to); const j = r.ok ? await r.json() : null, c = j && j.current;
+    if (!c) throw 0; clima.tipo = tipoClima(c.weather_code); clima.temp = typeof c.temperature_2m === 'number' ? Math.round(c.temperature_2m) : null; clima.real = true;
+  } catch (e) { clima.tipo = 'nublado'; clima.real = false; }      // si falla: nublado por defecto (lo típico en Lima)
+  climaTipo = clima.tipo;
+  if (climaEl) { climaEl.textContent = ({ sol: '☀️', nublado: '☁️', llovizna: '🌦️' })[clima.tipo] + (clima.temp != null ? ' ' + clima.temp + '°' : ''); climaEl.title = 'Clima en Lima: ' + clima.tipo + (clima.real ? ' (Open-Meteo)' : CLIMA_FORZADO ? ' (forzado)' : ' (por defecto)'); }
+  aplicarLuz();
+}
+setInterval(cargarClima, 30 * 60 * 1000);
+
+/* ---------- 5) 📌 Pizarra de pendientes de James (pendientes.json) ---------- */
+let pendJames = null, nPend = 0;
+const PIZ = (() => {
+  const g0 = new THREE.Group(); g0.position.set(X(31.6), 0, Z(4.4)); g0.rotation.y = -0.55; scene.add(g0);
+  for (const s of [-1, 1]) { const p = box(0.05, 1.95, 0.05, '#6e4726', s * 0.78, 0.97, 0.05, g0); p.rotation.z = s * -0.05; }
+  box(0.05, 1.9, 0.05, '#6e4726', 0, 0.95, -0.35, g0).rotation.x = 0.18;
+  box(1.74, 1.18, 0.05, '#c9c9d0', 0, 1.36, 0.08, g0);           // marco de aluminio
+  box(1.6, 0.04, 0.12, '#c9c9d0', 0, 0.76, 0.12, g0, false);      // repisa de plumones
+  box(0.14, 0.03, 0.03, '#e5484d', -0.3, 0.8, 0.14, g0, false); box(0.14, 0.03, 0.03, '#4a9be8', -0.1, 0.8, 0.14, g0, false);
+  const cv = document.createElement('canvas'); cv.width = 768; cv.height = 512; const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(1.64, 1.1), new THREE.MeshBasicMaterial({ map: tx, toneMapped: false })); m.position.set(0, 1.36, 0.115); g0.add(m);
+  return { cv, g: cv.getContext('2d'), tx, firma: '', grupo: g0 };
+})();
+async function cargarPendJames() {
+  if (location.protocol === 'file:') return;
+  try { const r = await fetch('pendientes.json?t=' + Date.now(), { cache: 'no-store' }); pendJames = r.ok ? await r.json() : (r.status === 404 ? { pendientes: [] } : pendJames); } catch (e) { }
+}
+function listaPend() { const l = pendJames && Array.isArray(pendJames.pendientes) ? pendJames.pendientes : []; return l.filter(x => x && x.texto).map(x => ({ id: String(x.id || ''), texto: recorta(x.texto, 70), ts: x.ts })); }
+function pintarPizarra() {
+  const L = listaPend(), firma = JSON.stringify([L, pendJames === null]); if (firma === PIZ.firma) return false; PIZ.firma = firma;
+  const { g, cv } = PIZ, w = cv.width, h = cv.height;
+  g.fillStyle = '#fbfbf7'; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(0,0,0,.035)'; for (let i = 0; i < 6; i++) g.fillRect(0, 40 + i * 83, w, 2);
+  g.fillStyle = '#c0392b'; g.font = '800 46px "Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif'; g.textAlign = 'left'; g.fillText('📌 Pendientes de James', 30, 66);
+  g.strokeStyle = '#c0392b'; g.lineWidth = 4; g.beginPath(); g.moveTo(30, 82); g.lineTo(560, 78); g.stroke();
+  g.font = '700 32px "Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif';
+  if (pendJames === null) { g.fillStyle = '#7a7a7a'; g.fillText('Cargando…', 30, 160); }
+  else if (!L.length) { g.fillStyle = '#2e7d4f'; g.fillText('Nada pendiente ✨', 30, 170); }
+  else {
+    let y = 140; const max = 5;
+    L.slice(0, max).forEach((x, i) => {
+      g.fillStyle = ['#1f4fa3', '#1d1d1d', '#2e7d4f', '#1f4fa3', '#1d1d1d'][i % 5];
+      const palabras = ('□ ' + x.texto).split(' '); let linea = '', lineas = [];
+      for (const p of palabras) { const prueba = linea ? linea + ' ' + p : p; if (g.measureText(prueba).width > w - 70 && linea) { lineas.push(linea); linea = '    ' + p; } else linea = prueba; }
+      lineas.push(linea); for (const l of lineas.slice(0, 2)) { if (y > h - 30) return; g.fillText(l, 30, y); y += 40; } y += 14;
+    });
+    if (L.length > max) { g.fillStyle = '#7a7a7a'; g.fillText('+ ' + (L.length - max) + ' más', 30, Math.min(y, h - 20)); }
+  }
+  PIZ.tx.needsUpdate = true; return true;
+}
+
+/* ---------- 6) 🎵 Música de fondo suave (lo-fi procedural, WebAudio) ---------- */
+const LS_MUSICA = 'oficina-musica', btnMus = document.getElementById('musica');
+const musica = { ctx: null, on: false, out: null, timer: null, paso: 0, t: 0, ruido: null };
+const NOTA = n => 440 * Math.pow(2, (n - 69) / 12);
+const ACORDES = [[62, 65, 69, 72, 76], [55, 59, 62, 65, 69], [60, 64, 67, 71, 74], [57, 60, 64, 67, 71]];   // Dm9 · G9 · Cmaj9 · Am9
+const PENTA = [69, 72, 74, 76, 79, 81];
+function iniciarMusica() {
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+  const c = musica.ctx = new AC(), lp = c.createBiquadFilter(), out = musica.out = c.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 2200; out.gain.value = 0; out.connect(lp).connect(c.destination);
+  const len = c.sampleRate * 2, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (Math.random() < 0.0009 ? 1 : 0.06);   // ruido + chasquidos de vinilo
+  musica.ruido = buf;
+  const vin = c.createBufferSource(), vg = c.createGain(); vin.buffer = buf; vin.loop = true; vg.gain.value = 0.05; vin.connect(vg).connect(out); vin.start();
+  return true;
+}
+function tono(f, t, dur, vol, tipo = 'sine', corte = 1400) {
+  const c = musica.ctx, o = c.createOscillator(), g = c.createGain(), lp = c.createBiquadFilter(); o.type = tipo; o.frequency.value = f; lp.type = 'lowpass'; lp.frequency.value = corte;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + Math.min(0.08, dur * 0.3)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(lp).connect(g).connect(musica.out); o.start(t); o.stop(t + dur + 0.05);
+}
+function golpe(t, tipo) {
+  const c = musica.ctx;
+  if (tipo === 'bombo') { const o = c.createOscillator(), g = c.createGain(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.18); g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32); o.connect(g).connect(musica.out); o.start(t); o.stop(t + 0.35); return; }
+  const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); s.buffer = musica.ruido;
+  f.type = tipo === 'caja' ? 'bandpass' : 'highpass'; f.frequency.value = tipo === 'caja' ? 1800 : 7000;
+  const v = tipo === 'caja' ? 0.35 : 0.1, dur = tipo === 'caja' ? 0.16 : 0.05;
+  g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); s.connect(f).connect(g).connect(musica.out); s.start(t, Math.random()); s.stop(t + dur + 0.02);
+}
+function programarMusica() {                                     // 70 bpm, corcheas con swing; un acorde por compás
+  const c = musica.ctx, corchea = 60 / 70 / 2;
+  while (musica.t < c.currentTime + 0.25) {
+    const t = musica.t, i = musica.paso % 8, compas = Math.floor(musica.paso / 8) % 4, A = ACORDES[compas], sw = i % 2 ? corchea * 0.16 : 0;
+    if (i === 0) { A.forEach((n, k) => tono(NOTA(n), t + k * 0.03, corchea * 8.2, 0.035, k % 2 ? 'triangle' : 'sine', 900)); tono(NOTA(A[0] - 24), t, corchea * 3.5, 0.16, 'sine', 300); }
+    if (i === 4) tono(NOTA(A[0] - 24), t, corchea * 3, 0.13, 'sine', 300);
+    if (i === 0 || i === 5) golpe(t, 'bombo');
+    if (i === 2 || i === 6) golpe(t + sw, 'caja');
+    golpe(t + sw, 'hihat');
+    if (Math.random() < 0.22) tono(NOTA(PENTA[Math.floor(Math.random() * PENTA.length)]), t + sw, corchea * 1.8, 0.03, 'triangle', 1800);
+    musica.paso++; musica.t += corchea;
+  }
+}
+function ponerMusica(on) {
+  if (on && !musica.ctx && !iniciarMusica()) return;
+  musica.on = on; if (btnMus) { btnMus.setAttribute('aria-pressed', String(on)); btnMus.title = on ? 'Apagar música de fondo' : 'Música de fondo suave (lo-fi)'; }
+  try { localStorage.setItem(LS_MUSICA, on ? '1' : '0'); } catch (e) { }
+  if (!musica.ctx) return; const c = musica.ctx, t = c.currentTime;
+  if (on) { c.resume(); musica.out.gain.cancelScheduledValues(t); musica.out.gain.setTargetAtTime(0.09, t, 0.6); musica.t = c.currentTime + 0.1;
+    clearInterval(musica.timer); musica.timer = setInterval(() => { if (c.state === 'running') programarMusica(); }, 60); }
+  else { musica.out.gain.cancelScheduledValues(t); musica.out.gain.setTargetAtTime(0, t, 0.25); clearInterval(musica.timer); musica.timer = null; setTimeout(() => { if (!musica.on) c.suspend(); }, 1200); }
+}
+if (btnMus) {
+  btnMus.addEventListener('click', () => ponerMusica(!musica.on));
+  if (leerLS(LS_MUSICA, 0) === 1) { btnMus.setAttribute('aria-pressed', 'true'); const arrancar = () => { removeEventListener('pointerdown', arrancar, true); if (btnMus.getAttribute('aria-pressed') === 'true' && !musica.on) ponerMusica(true); }; addEventListener('pointerdown', arrancar, true); }   // recordada: suena al primer toque (política de autoplay)
+}
+document.addEventListener('visibilitychange', () => { if (!musica.ctx || !musica.on) return; if (document.hidden) musica.ctx.suspend(); else { musica.ctx.resume(); musica.t = musica.ctx.currentTime + 0.1; } });
+
+/* ---------- 7) 📺 Modo TV ---------- */
+const btnTv = document.getElementById('btnTv');
+const TOMAS = [['general'], ['marketing'], ['ventas'], ['hermes'], ['finanzas'], ['cafeteria'],
+  { n: 'tablero', t: [7, 2.35, -11], p: [7, 3.2, -3.6] }, { n: 'agenda', t: [-4.5, 2.4, -11], p: [-4.5, 3.2, -3.4] },
+  { n: 'pizarra', t: [X(31.6), 1.35, Z(4.4)], p: [X(31.6) - 2.4, 2.9, Z(4.4) + 3.6] }, { n: 'distritos', t: [-16, 2.4, -11], p: [-16, 3.2, -3.4] }];
+const tv = { on: false, i: 0, timer: null };
+function tomaTV() {
+  const s = TOMAS[tv.i % TOMAS.length]; tv.i++;
+  if (Array.isArray(s)) volarA(s[0]);
+  else { const t1 = new THREE.Vector3(...s.t), p1 = new THREE.Vector3(...s.p); controls.minDistance = 2.5; vuelo = { t0: performance.now(), ms: 950, p0: camera.position.clone(), t0v: controls.target.clone(), p1, t1 }; }
+  if (vuelo) vuelo.ms = 2400;                                  // transición suave
+}
+function ponerTV(on) {
+  tv.on = on; if (btnTv) btnTv.setAttribute('aria-pressed', String(on)); clearInterval(tv.timer);
+  controls.autoRotate = on; controls.autoRotateSpeed = 0.35;
+  if (on) { if (!panel.hidden) cerrarPanel(); tv.i = 0; tomaTV(); tv.timer = setInterval(tomaTV, 12000); }
+  else controls.minDistance = 6;
+}
+if (btnTv) btnTv.addEventListener('click', e => { e.stopPropagation(); ponerTV(!tv.on); });
+for (const ev of ['pointerdown', 'wheel', 'keydown']) addEventListener(ev, e => { if (tv.on && !(btnTv && btnTv.contains(e.target))) ponerTV(false); }, { capture: true, passive: true });
+
+/* ---------- 8) 🗣️ Resumen por voz (speechSynthesis, solo totales) ---------- */
+const btnVoz = document.getElementById('btnVoz');
+function textoResumenVoz() {
+  const R = recaudoSemana(), r = resumenDia(), n = v => v == null ? 'sin dato' : String(Math.round(v));
+  const trab = AGENTES.filter(a => a.estado === 'trabajando').length, bloq = AGENTES.filter(a => a.estado === 'bloqueado').length, pend = listaPend().length;
+  return ['Resumen de la oficina FLOOWER.',
+    'Recaudo de la semana: ' + (R.hay ? n(R.total) + ' soles.' : 'sin datos.'),
+    'Hoy: ' + (R.hoy == null ? 'sin datos.' : n(R.hoy) + ' soles.'),
+    'Masivos de hoy: ' + n(r && r.masivos) + '.', 'Pedidos de hoy: ' + n(r && r.pedidos) + '.',
+    'Agentes trabajando: ' + trab + '.', 'Bloqueados: ' + (bloq ? bloq : 'ninguno') + '.',
+    'Pendientes por decidir: ' + (pend ? pend : 'ninguno') + '.'].join(' ');
+}
+function vozEs() { const v = speechSynthesis.getVoices(); return v.find(x => /^es[-_]PE/i.test(x.lang)) || v.find(x => /^es[-_](419|US|MX|CO|AR|CL)/i.test(x.lang)) || v.find(x => /^es/i.test(x.lang)) || null; }
+if (btnVoz) {
+  if (!('speechSynthesis' in window)) btnVoz.hidden = true;
+  else {
+    speechSynthesis.getVoices();
+    btnVoz.addEventListener('click', () => {
+      if (speechSynthesis.speaking) { speechSynthesis.cancel(); btnVoz.setAttribute('aria-pressed', 'false'); return; }
+      const u = new SpeechSynthesisUtterance(textoResumenVoz()), v = vozEs(); if (v) u.voice = v; u.lang = v ? v.lang : 'es-PE'; u.rate = 1; u.pitch = 1;
+      u.onend = u.onerror = () => btnVoz.setAttribute('aria-pressed', 'false'); btnVoz.setAttribute('aria-pressed', 'true');
+      window.oficina && (window.oficina.ultimaVoz = u.text); speechSynthesis.speak(u);
+    });
+  }
+}
+
+/* ---------- 9) 🗺️ Entregas por distrito (distritos.json, solo distrito + número) ---------- */
+const DISTR = pantallaPared(X(5), 3.6, 1.8, 1024, 512);
+let distritos = null;
+async function cargarDistritos() {
+  if (location.protocol === 'file:') return;
+  try { const r = await fetch('distritos.json?t=' + Date.now(), { cache: 'no-store' }); distritos = r.ok ? await r.json() : (r.status === 404 ? {} : distritos); } catch (e) { }
+}
+function listaDistritos() { const l = distritos && Array.isArray(distritos.distritos) ? distritos.distritos : []; return l.map(x => ({ d: recorta(x && x.distrito, 24), n: numDia(x && x.cantidad) })).filter(x => x.d && x.n != null && x.n >= 0).sort((a, b) => b.n - a.n); }
+function pintarDistritos() {
+  const L = listaDistritos(), firma = JSON.stringify([L, distritos && distritos.fecha]); if (firma === DISTR.firma) return false; DISTR.firma = firma;
+  const { g, cv } = DISTR, w = cv.width, h = cv.height;
+  fondoPantalla(g, w, h, '🗺️ Entregas por distrito');
+  const tot = L.reduce((a, x) => a + x.n, 0);
+  g.textAlign = 'right'; g.font = '700 24px system-ui,sans-serif'; g.fillStyle = '#b9aca0';
+  g.fillText(L.length ? 'Total: ' + fmtEntero(tot) + (distritos.fecha ? ' · ' + String(distritos.fecha).slice(8, 10) + '/' + String(distritos.fecha).slice(5, 7) : '') : '', w - 32, 62);
+  if (!L.length) { g.textAlign = 'center'; g.fillStyle = '#b9aca0'; g.font = '700 46px system-ui,sans-serif'; g.fillText('sin datos aún', w / 2, h / 2 + 30); DISTR.tx.needsUpdate = true; return true; }
+  const max = Math.max(1, ...L.map(x => x.n)), filas = L.slice(0, 7), disp = h - 104 - (L.length > 7 ? 46 : 14), alto = Math.min(52, disp / filas.length - 6);
+  filas.forEach((x, i) => {
+    const y = 104 + i * (alto + 6), anchoMax = w - 330 - 120;
+    g.textAlign = 'left'; g.fillStyle = '#f3ece4'; g.font = `700 ${Math.min(30, alto * 0.6)}px system-ui,sans-serif`; g.fillText(x.d, 36, y + alto * 0.68, 280);
+    rRect(g, 330, y + 6, Math.max(14, anchoMax * x.n / max), alto - 12, 8); const gb = g.createLinearGradient(330, 0, 330 + anchoMax, 0); gb.addColorStop(0, '#f07aa0'); gb.addColorStop(1, '#ffb36b'); g.fillStyle = gb; g.fill();
+    g.fillStyle = '#ffffff'; g.font = `800 ${Math.min(30, alto * 0.6)}px system-ui,sans-serif`; g.fillText(fmtEntero(x.n), 330 + Math.max(14, anchoMax * x.n / max) + 12, y + alto * 0.68);
+  });
+  if (L.length > filas.length) { g.textAlign = 'left'; g.fillStyle = '#8f8698'; g.font = '600 22px system-ui,sans-serif'; const m = L.length - filas.length; g.fillText('+ ' + m + (m === 1 ? ' distrito más' : ' distritos más'), 36, h - 18); }
+  DISTR.tx.needsUpdate = true; return true;
+}
+
+/* ---------- 10) 🖥️ Escritorios personalizados (low-poly, una malla por escritorio) ---------- */
+const MAT_DECO = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8, flatShading: true });
+let trisDeco = 0;
+function piezasAMalla(piezas) {                                  // [geom, color, [x,y,z], [rx,ry,rz], [sx,sy,sz]] → 1 malla con colores por vértice
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), col = new THREE.Color();
+  const gs = piezas.map(([geo, c, p, r = [0, 0, 0], s = [1, 1, 1]]) => {
+    const g = geo.clone(); m4.compose(new THREE.Vector3(...p), q.setFromEuler(e.set(...r)), new THREE.Vector3(...s)); g.applyMatrix4(m4);
+    col.set(c); const n = g.attributes.position.count, a = new Float32Array(n * 3); for (let i = 0; i < n; i++) { a[i * 3] = col.r; a[i * 3 + 1] = col.g; a[i * 3 + 2] = col.b; }
+    g.setAttribute('color', new THREE.BufferAttribute(a, 3)); g.deleteAttribute('uv'); return g;
+  });
+  const geo = mergeGeometries(gs); trisDeco += geo.index ? geo.index.count / 3 : geo.attributes.position.count / 3;
+  const m = new THREE.Mesh(geo, MAT_DECO); m.castShadow = false; m.receiveShadow = true; return m;
+}
+const GB = new THREE.BoxGeometry(1, 1, 1), GC = new THREE.CylinderGeometry(1, 1, 1, 8), GC6 = new THREE.CylinderGeometry(1, 1, 1, 6);
+const GT = new THREE.TorusGeometry(1, 0.13, 4, 12), GTm = new THREE.TorusGeometry(1, 0.14, 4, 8, Math.PI);
+const cajaEnvio = (x, y, z, s = 1, rot = 0) => [[GB, '#c79a5e', [x, y + 0.08 * s, z], [0, rot, 0], [0.22 * s, 0.16 * s, 0.17 * s]], [GB, '#8a6a3c', [x, y + 0.161 * s, z], [0, rot, 0], [0.05 * s, 0.004, 0.172 * s]], [GB, '#ffffff', [x + 0.06 * s * Math.cos(rot), y + 0.09 * s, z + 0.0851 * s], [0, rot, 0], [0.07 * s, 0.045 * s, 0.002]]];
+const taza = (x, y, z, c) => [[GC, c, [x, y + 0.055, z], [0, 0, 0], [0.045, 0.11, 0.045]], [GTm, c, [x + 0.05, y + 0.06, z], [0, 0, -Math.PI / 2], [0.028, 0.028, 0.028]], [GC6, '#4a2c1a', [x, y + 0.108, z], [0, 0, 0], [0.038, 0.004, 0.038]]];
+const DECO = {
+  marketing: () => [[GC, '#2a2530', [-0.62, 1.12, -0.22], [0, 0, 0], [0.012, 0.42, 0.012]], [GC, '#2a2530', [-0.62, 0.92, -0.22], [0, 0, 0], [0.07, 0.02, 0.07]],
+    [GC, '#111', [0.6, 0.96, 0.0], [Math.PI / 2, 0, 0], [0.03, 0.06, 0.03]], [GB, '#e5484d', [0.66, 1.01, -0.1], [0, 0, 0], [0.025, 0.012, 0.02]]],
+  contable: () => [[GB, '#e5484d', [-0.72, 1.04, -0.22], [0, 0, 0.06], [0.06, 0.26, 0.21]], [GB, '#4a9be8', [-0.65, 1.04, -0.22], [0, 0, 0.06], [0.06, 0.26, 0.21]], [GB, '#f2c14e', [-0.58, 1.03, -0.22], [0, 0, 0.12], [0.06, 0.24, 0.21]],
+    [GB, '#f2c14e', [-0.55, 0.925, 0.15], [0, 0.3, 0], [0.24, 0.02, 0.32]], [GB, '#ffffff', [-0.55, 0.937, 0.15], [0, 0.3, 0], [0.21, 0.006, 0.29]],
+    [GB, '#2a2530', [0.6, 0.945, -0.1], [0, 0, 0], [0.13, 0.008, 0.035]], [GB, '#5a8a5a', [0.6, 0.946, -0.06], [0, 0, 0], [0.14, 0.006, 0.05]]],
+  ali: () => [...cajaEnvio(-0.6, 0.91, -0.2), ...cajaEnvio(-0.6, 1.075, -0.2, 0.8, 0.3), ...cajaEnvio(-0.35, 0.91, 0.22, 0.7, -0.4)],
+  ali2: () => [...cajaEnvio(-0.6, 0.91, -0.18), ...cajaEnvio(-0.36, 0.91, -0.22, 0.8, 0.5)],
+  tienda: () => [[GB, '#f07aa0', [-0.62, 1.01, -0.2], [0, 0.2, 0], [0.18, 0.2, 0.08]], [GTm, '#d9567f', [-0.62, 1.11, -0.2], [0, 0.2, 0], [0.05, 0.05, 0.05]],
+    [GB, '#ffffff', [-0.42, 0.99, -0.12], [0, -0.3, 0], [0.15, 0.16, 0.07]], [GTm, '#b9aca0', [-0.42, 1.07, -0.12], [0, -0.3, 0], [0.04, 0.04, 0.04]],
+    [GC6, '#3f9b4f', [-0.45, 0.99, 0.2], [0, 0, 0.5], [0.006, 0.18, 0.006]], [GC6, '#e5484d', [-0.49, 1.07, 0.2], [0, 0, 0], [0.035, 0.03, 0.035]], [GC6, '#ffd54f', [-0.49, 1.088, 0.2], [0, 0, 0], [0.012, 0.012, 0.012]]],
+  cierre: () => [[GB, '#2a2530', [-0.62, 0.95, -0.15], [0, 0.2, 0], [0.2, 0.08, 0.16]], [GB, '#3a3442', [-0.62, 1.0, -0.15], [0, 0.2, 0], [0.2, 0.035, 0.05]],
+    [GB, '#8f8698', [-0.6, 0.995, -0.08], [0, 0.2, 0], [0.11, 0.004, 0.05]], [GC6, '#2a2530', [-0.48, 0.96, -0.1], [Math.PI / 2, 0, 0], [0.005, 0.15, 0.005]],
+    [GTm, '#1d1a22', [0.45, 0.93, 0.25], [-Math.PI / 2, 0, 0], [0.09, 0.09, 0.09]], [GC, '#e5484d', [0.36, 0.93, 0.25], [0, 0, Math.PI / 2], [0.035, 0.03, 0.035]], [GC, '#e5484d', [0.54, 0.93, 0.25], [0, 0, Math.PI / 2], [0.035, 0.03, 0.035]]],
+  recluta: () => [[GB, '#a77a4c', [-0.55, 0.92, 0.12], [0, 0.35, 0], [0.22, 0.012, 0.3]], [GB, '#ffffff', [-0.55, 0.928, 0.13], [0, 0.35, 0], [0.19, 0.004, 0.25]],
+    [GB, '#c9c9d0', [-0.6, 0.935, 0.0], [0, 0.35, 0], [0.09, 0.016, 0.03]], [GB, '#4a9be8', [-0.54, 0.931, 0.1], [0, 0.35, 0], [0.12, 0.002, 0.012]], [GB, '#4a9be8', [-0.53, 0.931, 0.15], [0, 0.35, 0], [0.12, 0.002, 0.012]]],
+  disksaver: () => [[GB, '#2a2a30', [-0.5, 0.93, 0.05], [0, 0.4, 0], [0.12, 0.035, 0.18]], [GB, '#4a9be8', [-0.46, 0.948, -0.02], [0, 0.4, 0], [0.012, 0.004, 0.012]],
+    [GC6, '#111', [-0.36, 0.92, 0.0], [0, 0, Math.PI / 2], [0.006, 0.2, 0.006]]],
+  hermes: () => [...taza(-0.85, 0.91, 0.15, '#ffffff')],
+};
+const MAT_ARO = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#fff4e0', emissiveIntensity: 0.6 }); luzMats.push(MAT_ARO);
+function decorarEscritorios() {
+  for (const id in AG3) {
+    const o = AG3[id], f = DECO[id]; if (!f) continue;
+    o.esc.add(piezasAMalla(f()));
+    if (id === 'marketing') { const aro = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.02, 4, 16), MAT_ARO); aro.position.set(-0.62, 1.42, -0.22); o.esc.add(aro); trisDeco += 128; }
+    if (id === 'hermes') {                                        // placa con su nombre, hacia los visitantes
+      const tx = textura(256, 64, (g, w, h) => { g.fillStyle = '#2a1d10'; g.fillRect(0, 0, w, h); g.strokeStyle = '#f2c14e'; g.lineWidth = 6; g.strokeRect(4, 4, w - 8, h - 8); g.fillStyle = '#f2c14e'; g.font = '800 36px system-ui,sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('HERMES', w / 2, h / 2 + 2); });
+      const base = box(0.5, 0.1, 0.08, '#2a1d10', 0.45, 0.96, -0.38, o.esc, false); base.rotation.x = 0.35;
+      const placa = new THREE.Mesh(new THREE.PlaneGeometry(0.48, 0.12), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.5 })); placa.position.set(0.45, 0.965, -0.425); placa.rotation.set(0.35, Math.PI, 0); o.esc.add(placa); trisDeco += 14;
+    }
+  }
+}
+decorarEscritorios();
+
+/* ---------- ciclo común (mismo POLL3D) ---------- */
+let nExtras = 0;
+async function cicloExtras() {
+  const n = nExtras++;
+  if (n % 3 === 0) await Promise.all([cargarPendJames(), cargarDistritos()]);     // ~30 s
+  revisarCambios(); pintarAgenda(); pintarPizarra(); pintarDistritos(); pintarTareas();
+}
+
+
 /* ---------------- Arranque ---------------- */
 const POLL3D = 10000;   // igual que POLL_MS del 2D
-tic(); resumen(); aplicarLuz(); cargarEstadoExterno(); cargarRespuestas();
+tic(); resumen(); aplicarLuz(); cargarClima(); cargarEstadoExterno(); cargarRespuestas();
 setInterval(tic, 1000); setInterval(cargarEstadoExterno, POLL3D); setInterval(cargarRespuestas, POLL3D);
 setInterval(() => { revisarBloqueados(); pintarGlobos(); }, 1000);
 setInterval(revisarPendientes, 15000);
 for (const id in pendientes) if (pendientes[id] && pendientes[id].desde) activarRapido(pendientes[id].desde);
-async function cicloDatos() { await Promise.all([cargarDatosDia(), cargarEventos()]); revisarConfeti(); await cicloPantallas(); }
-cicloDatos(); setInterval(cicloDatos, POLL3D);
+async function cicloDatos() { await Promise.all([cargarDatosDia(), cargarEventos()]); await cicloPantallas(); revisarConfeti(); await cicloExtras(); }   // histórico primero: la meta semanal lo necesita
+cicloDatos().then(() => { if (CELEBRAR_FORZADA) setTimeout(celebrarMeta, 1200); if (new URLSearchParams(location.search).get('tv') === '1') setTimeout(() => ponerTV(true), 1500); }); setInterval(cicloDatos, POLL3D);
 document.getElementById('cargando').remove();
 new MutationObserver(() => { if (panel.hidden) panel.classList.remove('enfoque'); }).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
 // 📱 Atajo (PWA): service worker mínimo; nunca guarda los JSON de estado (ver sw.js)
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) addEventListener('load', () => navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => { }));
-window.oficina.enfocar = enfocarAgente; window.oficina.general = volverGeneral; window.oficina.pantallas = { TABLERO, SEMANA };
+window.oficina.celebrar = celebrarMeta; window.oficina.enfocar = enfocarAgente; window.oficina.general = volverGeneral; window.oficina.pantallas = { TABLERO, SEMANA, AGENDA, DISTR, PIZ };
+window.oficina.reunion = id => pedirReunion(id, 'prueba'); window.oficina.reunionEstado = () => ({ fase: reunion.fase, modo: reunion.modo, id: reunion.id, jefe: jefe.fase }); window.oficina.renderer = renderer; window.oficina.tvEstado = () => tv.on; window.oficina.musicaEstado = () => ({ on: musica.on, ctx: musica.ctx && musica.ctx.state }); window.oficina.tv = ponerTV; window.oficina.textoVoz = textoResumenVoz; window.oficina.trisDeco = () => trisDeco; window.oficina.clima = clima;
 </script>
 </body></html>
