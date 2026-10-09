@@ -1923,7 +1923,16 @@ async function sondeoRapido() {
   nRapido++; await cargarRespuestas(true);
   if (nRapido % 3 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
 }
+let apiRespUlt = 0;                           // raw.githubusercontent (~5 min) y Pages (~10 min) ignoran ?t= y sirven copia vieja: la API es la única fresca
 async function leerArchivo(f, rapido) {      // texto del archivo: raw de GitHub / API (si rapido) o la copia de Pages
+  if (rapido && f === 'respuestas.json' && Date.now() > apiPausa && Date.now() - apiRespUlt >= 15000) {
+    apiRespUlt = Date.now();
+    try {
+      const r = await fetch(REPO_API + f + '?ref=' + REPO_RAMA + '&t=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/vnd.github.raw' } });
+      if (r.ok) { ultimoApi = Date.now(); return { txt: await r.text(), api: true }; }
+      apiPausa = Date.now() + (r.status === 403 || r.status === 429 ? 15 * 60 * 1000 : 60 * 1000);
+    } catch (e) { apiPausa = Date.now() + 60 * 1000; }
+  }
   if (rapido) {
     try {
       const r = await fetch(REPO_RAW + f + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1963,7 +1972,7 @@ async function cargarRespuestas(rapido) {
   try {
     const res = await leerArchivo('respuestas.json', rapido === true); if (!res) return;
     const d = JSON.parse(res.txt); if (!Array.isArray(d)) return;
-    if (!res.api && apiReciente() && maxTs(d) < maxTs(respuestas)) return;   // copia de Pages más vieja que la de la API
+    if (maxTs(d) < maxTs(respuestas)) return;   // copia en caché (Pages/raw) más vieja que la que ya tenemos: no retroceder
     respuestas = d; respCargadas = true; revisarPendientes(); if (panelId) pintarMensajes();
   } catch (e) { /* sin respuestas.json: no se muestra nada */ }
 }
