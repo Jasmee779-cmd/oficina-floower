@@ -1459,7 +1459,7 @@ function pintarInfo() {
 function pintarMensajes() {
   const caja = $p('pMsgs'); if (!caja || !panelId) return;
   const mios = leerChat(panelId).map(m => ({ ...m, mio: true }));
-  const otros = respuestas.filter(r => r && r.id === panelId && r.texto).map(r => ({ de: r.de || 'HERMES', texto: r.texto, ts: r.ts }));
+  const otros = respuestas.filter(r => r && r.id === panelId && r.texto && !/^\s*(⏳\s*)?trabajando en ello/i.test(String(r.texto))).map(r => ({ de: r.de || 'HERMES', texto: r.texto, ts: r.ts }));
   const todos = mios.concat(otros).sort((x, y) => (new Date(x.ts) - new Date(y.ts)) || 0);
   const pend = !!pendientes[panelId], firma = panelId + (pend ? '⏳' : '') + JSON.stringify(todos); if (firma === ultimoPintado) return; ultimoPintado = firma;
   const abajo = caja.scrollHeight - caja.scrollTop - caja.clientHeight < 40;
