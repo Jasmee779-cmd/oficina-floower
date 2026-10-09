@@ -382,5 +382,11 @@
   "de": "HERMES",
   "texto": "Trabajando en ello…",
   "ts": "2026-10-09T01:05:04-05:00"
+ },
+ {
+  "id": "marketing",
+  "de": "HERMES",
+  "texto": "La oficina solo muestra texto, así que te mandé los 5 reels v2 (A–E, versión celular) por Slack #hermes-ops, en el hilo de tu orden. ¿Cuál publicamos primero?",
+  "ts": "2026-10-09T01:07:11-05:00"
  }
 ]
