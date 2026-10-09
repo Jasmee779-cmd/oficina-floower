@@ -1386,6 +1386,28 @@ const panel = document.getElementById('panel'), panelCaja = document.getElementB
    Enviar: descifra (con la clave de JASMEE) el webhook de Slack guardado en CIFRADO_WEBHOOK y publica
            la orden en Slack, donde la lee HERMES.
    Respuestas: HERMES las publica con add-respuesta.sh -> respuestas.json (se lee cada 20 s). */
+/* Señal directa oficina→HERMES: además de Slack, la orden se manda al webhook de una rutina de Grok Bot
+   (URL + key cifrados con la MISMA clave de la oficina: encrypt-directo.js -> cifrado-directo.js -> staging.sh).
+   Va en paralelo y sin bloquear: si falla (CORS, red, rutina pausada) Slack sigue igual; solo deja aviso en consola. */
+const CIFRADO_DIRECTO = { salt: "EcbVVhHrLsgLqT1byKKfNw==", iv: "J///ROZc9HHzvHmb", ct: "5x8P8jVxJOAi4757Acg0iQoh8yay5g9e7g1vYFn3Ccq+UDKvxhdLJqV9mGIW6I9YWEi1jWJOMVey5LGVIQQH6QtuhNeAc7MnuzPwKtNw5YaOVrMiCQTUc/lnAkz7SLOZnQV+RVARJXbQUA8GecoD73jqPMu/AF199RehdAyZtmXxuyEvTqzj8Qjcp7fUVLvPJnU=" }; // generado por encrypt-directo.js
+let directoCache = null;
+async function descifrarDirecto(clave) {
+  const C = (typeof CIFRADO_DIRECTO === 'object' && CIFRADO_DIRECTO) ? CIFRADO_DIRECTO : null;
+  if (!C || !C.salt || !C.iv || !C.ct || !(window.crypto && crypto.subtle)) return null;
+  if (directoCache && directoCache.clave === clave) return directoCache.cfg;
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(clave), 'PBKDF2', false, ['deriveKey']);
+  const llave = await crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: b64(C.salt), iterations: 600000 },
+    base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+  const cfg = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(C.iv) }, llave, b64(C.ct))));
+  if (!cfg || !/^https:\/\//.test(cfg.url) || !cfg.key) return null;
+  directoCache = { clave, cfg }; return cfg;
+}
+function senalDirecta(clave, cuerpo) {          // sin await: no retrasa ni cambia el envío a Slack
+  descifrarDirecto(clave).then(cfg => cfg && fetch(cfg.url, { method: 'POST', mode: 'cors', cache: 'no-store',
+      headers: { 'Authorization': 'Bearer ' + cfg.key, 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+    .then(r => { window.ultimaSenalDirecta = { ok: r.ok, status: r.status, ts: Date.now() }; console.info('[señal directa] HTTP ' + r.status); }))
+    .catch(e => { window.ultimaSenalDirecta = { ok: false, error: String(e && e.message || e), ts: Date.now() }; console.warn('[señal directa] no salió (Slack sí):', e && e.message); });
+}
 const LS_CLAVE = 'oficina-clave', lsChat = id => 'oficina-chat-' + id;
 let panelId = null, respuestas = [], webhookCache = null, ultimoPintado = '';
 const fmtTs = new Intl.DateTimeFormat('es-PE', { timeZone: 'America/Lima', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
@@ -1464,7 +1486,7 @@ function openAgentPanel(agentId) {
   $p('pEnviar').onclick = enviarOrden;
   $p('pTexto').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarOrden(); } });
   $p('pClave').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); enviarOrden(); } });
-  $p('pOlvidar').onclick = e => { e.preventDefault(); lsSet(LS_CLAVE, null); webhookCache = null; pintarClave(); aviso('Clave olvidada en este equipo.'); };
+  $p('pOlvidar').onclick = e => { e.preventDefault(); lsSet(LS_CLAVE, null); webhookCache = null; directoCache = null; pintarClave(); aviso('Clave olvidada en este equipo.'); };
   if (matchMedia('(pointer:fine)').matches) $p('pTexto').focus();
 }
 function cerrarPanel() { panel.hidden = true; panelId = null; }
@@ -1492,6 +1514,7 @@ async function enviarOrden() {
     if (!guardada && $p('pRecordar').checked) { lsSet(LS_CLAVE, clave); pintarClave(); }
     const msg = id === 'hermes' ? `[OFICINA] Para HERMES — de JASMEE: ${texto}`
                                 : `[OFICINA] ${a.nombre} (${id}) — orden de JASMEE: ${texto}`;
+    senalDirecta(clave, { fuente: 'oficina-floower', tipo: 'orden', id, agente: a.nombre, texto, mensaje: msg, ts: new Date().toISOString() });
     try {
       // Petición "simple" (form-urlencoded, sin preflight). Slack no manda cabeceras CORS, por eso
       // usamos mode:'no-cors': llega igual, pero el navegador no deja leer la respuesta.
@@ -1865,11 +1888,13 @@ async function cargarEventos() {
 }
 
 /* ---------------- ⏳ Pendientes + sondeo rápido (API GitHub con fallback) ---------------- */
-const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 5000, RAPIDO_MAX = 3 * 60 * 1000;
+const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 5000, RAPIDO_MAX = 10 * 60 * 1000;
 const REPO_API = 'https://api.github.com/repos/Jasmee779-cmd/oficina-floower/contents/', REPO_RAMA = 'main';
+const REPO_RAW = 'https://raw.githubusercontent.com/Jasmee779-cmd/oficina-floower/' + REPO_RAMA + '/';   // fresco con ?t= (sin caché), sin límite 60/h
+const esTrabajando = t => /^\s*(⏳\s*)?trabajando en ello/i.test(String(t || ''));   // el «Trabajando en ello…» de HERMES no cierra la orden
 let pendientes = (() => { try { const v = JSON.parse(lsGet(LS_PEND) || '{}'); return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } })();
 let respCargadas = false, rapidoHasta = 0, rapidoTimer = null, nRapido = 0, apiPausa = 0, ultimoApi = 0;
-const firmaResp = id => { let u = null; for (const r of respuestas) if (r && r.id === id && r.texto && (!u || String(r.ts) >= String(u.ts))) u = r; return u ? String(u.ts) + '|' + u.texto : ''; };
+const firmaResp = id => { let u = null; for (const r of respuestas) if (r && r.id === id && r.texto && !esTrabajando(r.texto) && (!u || String(r.ts) >= String(u.ts))) u = r; return u ? String(u.ts) + '|' + u.texto : ''; };
 const maxTs = arr => arr.reduce((m, r) => (r && r.ts && String(r.ts) > m ? String(r.ts) : m), '');
 function guardarPend() { lsSet(LS_PEND, Object.keys(pendientes).length ? JSON.stringify(pendientes) : null); }
 function marcarPendiente(id) {
@@ -1898,7 +1923,13 @@ async function sondeoRapido() {
   nRapido++; await cargarRespuestas(true);
   if (nRapido % 3 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
 }
-async function leerArchivo(f, rapido) {      // texto del archivo: API de GitHub (si rapido) o la copia de Pages
+async function leerArchivo(f, rapido) {      // texto del archivo: raw de GitHub / API (si rapido) o la copia de Pages
+  if (rapido) {
+    try {
+      const r = await fetch(REPO_RAW + f + '?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) { ultimoApi = Date.now(); return { txt: await r.text(), api: true }; }
+    } catch (e) { /* sigue con la API */ }
+  }
   if (rapido && Date.now() > apiPausa) {
     try {
       const r = await fetch(REPO_API + f + '?ref=' + REPO_RAMA + '&t=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/vnd.github.raw' } });
