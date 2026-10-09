@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Aplicando etapas en el CRM",
-  "ts": "2026-10-08T20:57:15-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-08T20:59:45-05:00"
  },
  {
   "id": "marketing",
