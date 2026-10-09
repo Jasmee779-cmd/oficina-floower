@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Plantilla masivos 09/10",
-  "ts": "2026-10-08T21:55:22-05:00"
+  "estado": "bloqueado",
+  "tarea": "Flower sin acceso a Ruta Contraentrega",
+  "ts": "2026-10-08T21:56:20-05:00"
  },
  {
   "id": "cierre",
