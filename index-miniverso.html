@@ -48,6 +48,9 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 .chip em{font-style:normal;color:var(--soft);font-weight:600;font-size:11.5px} .chip b{font-variant-numeric:tabular-nums;color:#fff}
 .chip.meta{align-items:center}
 .chip .rango{color:#ffb3cb;font-weight:700;margin-left:2px} .chip .hoy{color:var(--soft);font-size:10.5px;font-weight:600}
+.chip.mas{border-color:#4a9be8} .chip.mas .monto{color:#9fd0ff;font-size:11px;font-weight:700} .chip .nuevo-b{background:#3bb273;color:#fff;border-radius:9px;padding:0 6px;font-size:10.5px;font-weight:800}
+.chip.mas.pulso{animation:pulsoMas 1.1s ease-in-out 6} @keyframes pulsoMas{0%,100%{box-shadow:0 0 0 0 rgba(74,155,232,0)}50%{box-shadow:0 0 0 5px rgba(74,155,232,.55);background:#22344a}}
+.toast.mas{border-color:#4a9be8} .toast.mas b{color:#9fd0ff}
 .prog{display:inline-block;width:72px;height:9px;background:#1d1a22;border:1px solid #4a4150;border-radius:2px;overflow:hidden;vertical-align:middle}
 .prog i{display:block;height:100%;background:#f2c14e} .prog.ok i{background:#3bb273} .chip .pct{font-size:12px}
 .dia .ej{background:#6b4a1e;color:#ffd9a0;border-radius:10px;padding:1px 7px;font-size:10.5px;font-weight:800;text-transform:uppercase}
@@ -1172,7 +1175,7 @@ function pasoConfeti(dt) {
   confeti.instanceMatrix.needsUpdate = true;
 }
 /* ---- 🎉 Celebración de la meta semanal ----
-   Cuando el recaudo acumulado de la semana (lun–dom, Lima) llega a la meta semanal REAL (meta diaria × 6):
+   Cuando el recaudo acumulado de la semana (lun–dom, Lima) llega a la meta semanal REAL (S/ 18,000 fija, META_SEMANAL_REAL en pantallas.js):
    los agentes saltan o aplauden, sale confeti, el tablero muestra «¡Meta semanal lograda! 🎉» y, con 🔊, una fanfarria suave.
    Una sola vez por semana y por equipo (localStorage 'oficina-celebracion-semana' = lunes de la semana).
    ?celebrar=1 la fuerza para capturas/pruebas (no guarda nada). Con meta de ejemplo no se celebra. */
@@ -1557,14 +1560,41 @@ function avanceMeta(r) {                   // { meta, ejemplo, pct (0..∞), anc
   return { ...M, pct, ancho: Math.max(0, Math.min(100, pct)) };
 }
 const fmtPct = p => (p >= 10 || p === 0 ? Math.round(p) : p.toFixed(1)) + '%';
+/* 📦 Masivos en vivo: cantidad subida hoy + monto S/ (campo opcional masivos_monto de datos-dia.json).
+   Cuando la cantidad SUBE entre dos lecturas (cada POLL3D), el chip late y sale un aviso. La primera carga no avisa. */
+function masivosDia() {
+  const r = resumenDia(); if (!r) return null;
+  const m = numDia(datosDia && datosDia.masivos_monto);
+  return { n: r.masivos, monto: m != null && m > 0 ? m : null, mon: r.mon, viejo: r.viejo, fecha: String(datosDia && datosDia.fecha || '').slice(0, 10) };
+}
+const masVivo = { prev: undefined, fecha: '', hasta: 0, suma: 0 };
+function revisarMasivosVivo() {
+  const M = masivosDia(); if (!M || M.n == null) return;
+  if (masVivo.prev === undefined || masVivo.fecha !== M.fecha) { masVivo.prev = M.n; masVivo.fecha = M.fecha; return; }   // primera lectura / día nuevo
+  if (M.n > masVivo.prev && !M.viejo) {
+    const d = M.n - masVivo.prev; masVivo.suma = (Date.now() < masVivo.hasta ? masVivo.suma : 0) + d; masVivo.hasta = Date.now() + 120000;
+    avisoMasivos(M, d); try { efecto.campana(); } catch (e) { }   // campanita (solo si el sonido está activado)
+  }
+  masVivo.prev = M.n;
+}
+function avisoMasivos(M, d) {
+  const t = document.createElement('div'); t.className = 'toast mas'; t.setAttribute('role', 'status');
+  t.innerHTML = `<span>📦</span><span><b>Masivos subidos · +${escHTML(String(d))}</b>Hoy van ${escHTML(new Intl.NumberFormat('es-PE').format(M.n))}${M.monto != null ? ' · ' + escHTML(fmtSoles(M.monto, M.mon)) : ''}</span><button type="button" class="x" aria-label="Cerrar aviso">×</button>`;
+  const quitar = () => { if (!t.isConnected) return; t.classList.add('sale'); setTimeout(() => t.remove(), 420); };
+  t.querySelector('.x').addEventListener('click', ev => { ev.stopPropagation(); quitar(); }); t.addEventListener('click', quitar);
+  const cont = document.getElementById('toasts'); cont.appendChild(t); while (cont.children.length > 3) cont.firstChild.remove();
+  setTimeout(quitar, 12000);
+}
 function pintarDia() {
+  revisarMasivosVivo();
   const r = resumenDia(), fmtN = v => v == null ? '—' : new Intl.NumberFormat('es-PE').format(v);
   if (!r) { diaCuerpo.innerHTML = '<span class="sin">📊 Sin datos del día</span>'; return; }
   const act = r.ts ? verTs(r.ts) : '', R = recaudoSemana(), M = avanceMetaSemana(R);
   const detalle = R.dias.map(([f, v]) => f.slice(8, 10) + '/' + f.slice(5, 7) + ': ' + fmtSoles(v, R.mon)).join(' + ') || 'sin días con datos';
   diaCuerpo.innerHTML = `<span class="chip sem" title="Recaudo realmente entregado, acumulado de lunes a domingo (hora de Lima): ${escHTML(detalle)}${R.sinHist ? ' — histórico aún no cargado' : ''} · ${escHTML((c => (c.flecha ? c.flecha + ' ' : '') + c.txt)(comparaSemana(R)))}"><em>💰 Recaudo de la semana <span class="rango">${escHTML(R.rango)}</span></em><b>${R.hay ? escHTML(fmtSoles(R.total, R.mon)) : '—'}</b><small class="hoy">hoy: ${R.hoy == null ? '—' : escHTML(fmtSoles(R.hoy, R.mon))}</small></span>`
-    + `<span class="chip meta" title="Meta semanal = ${M.ejemplo ? 'meta de ejemplo' : 'meta diaria'} ${escHTML(fmtSoles(M.diaria, R.mon))} × 6 días (lunes a sábado)${M.ejemplo ? ' — aún no hay meta diaria configurada' : ''}"><em>🎯 Meta semanal</em><b>${escHTML(fmtSoles(M.meta, r.mon))}</b><span class="prog${M.pct >= 100 ? ' ok' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(M.ancho)}"><i style="width:${M.ancho.toFixed(1)}%"></i></span><b class="pct">${fmtPct(M.pct)}${M.pct >= 100 ? ' 🎉' : ''}</b>${M.ejemplo ? '<span class="ej meta-ej">meta ejemplo</span>' : ''}</span>`
-    + `<span class="chip" title="Masivos subidos hoy"><em>📦 Masivos hoy</em><b>${fmtN(r.masivos)}</b></span><span class="chip" title="Pedidos de hoy"><em>🛒 Pedidos hoy</em><b>${fmtN(r.pedidos)}</b></span>`
+    + `<span class="chip meta" title="Meta semanal real ${escHTML(fmtSoles(M.meta, R.mon))} (lunes a sábado) · avance ${escHTML(fmtSoles(R.total, R.mon))}"><em>🎯 Meta semanal</em><b>${escHTML(fmtSoles(M.meta, r.mon))}</b><span class="prog${M.pct >= 100 ? ' ok' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(M.ancho)}"><i style="width:${M.ancho.toFixed(1)}%"></i></span><b class="pct">${fmtPct(M.pct)}${M.pct >= 100 ? ' 🎉' : ''}</b>${M.ejemplo ? '<span class="ej meta-ej">meta ejemplo</span>' : ''}</span>`
+    + (M2 => `<span class="chip mas${Date.now() < masVivo.hasta ? ' pulso' : ''}" title="Masivos subidos hoy${M2.monto != null ? ' · monto total ' + escHTML(fmtSoles(M2.monto, M2.mon)) : ''} (se actualiza en vivo)"><em>📦 Masivos hoy</em><b>${fmtN(M2.n)}</b>${M2.monto != null ? `<small class="monto">${escHTML(fmtSoles(M2.monto, M2.mon))}</small>` : ''}${Date.now() < masVivo.hasta ? `<span class="nuevo-b">+${escHTML(String(masVivo.suma))}</span>` : ''}</span>`)(masivosDia())
+    + `<span class="chip" title="Pedidos de hoy"><em>🛒 Pedidos hoy</em><b>${fmtN(r.pedidos)}</b></span>`
     + (r.ejemplo ? '<span class="ej" title="Datos de ejemplo (aún no reales)">ejemplo</span>' : '')
     + (r.viejo ? `<span class="viejo" title="Último dato disponible">del ${escHTML(r.viejo)}</span>` : '')
     + (act ? `<small class="act">act. ${escHTML(act)}</small>` : '');
@@ -1650,14 +1680,15 @@ function comparaSemana(R) {                                      // ▲/▼ cont
   return { flecha: sube ? '▲' : '▼', col: sube ? '#3bb273' : '#e5484d', txt: (pct == null ? '' : fmtPct(pct) + ' · ') + monto + ' vs. sem. pasada (' + R.tramo + ')' };
 }
 const DIAS_META_SEMANA = 6;                                       // lunes a sábado
-function avanceMetaSemana(R) {                                    // meta semanal = meta diaria × 6; si no hay meta diaria → ejemplo
-  const D = metaDia(), meta = D.meta * DIAS_META_SEMANA, pct = R && R.hay ? 100 * R.total / meta : 0;
-  return { meta, diaria: D.meta, ejemplo: D.ejemplo, pct, ancho: Math.max(0, Math.min(100, pct)) };
+const META_SEMANAL_REAL = 18000;                                  // meta semanal REAL confirmada por James (S/ 18,000), fija
+function avanceMetaSemana(R) {                                    // meta semanal fija S/ 18,000 (ya no es meta diaria × 6 ni ejemplo)
+  const meta = META_SEMANAL_REAL, pct = R && R.hay ? 100 * R.total / meta : 0;
+  return { meta, diaria: meta / DIAS_META_SEMANA, ejemplo: false, fija: true, pct, ancho: Math.max(0, Math.min(100, pct)) };
 }
 function pintarTablero() {
   const r = resumenDia(), R = recaudoSemana(), M = avanceMetaSemana(R);
   const lograda = metaSemanalLograda(), fiesta = celebrando();
-  const firma = JSON.stringify([r, R, M, r && r.ts ? verTs(r.ts) : '', lograda, fiesta]);
+  const MS = masivosDia(), firma = JSON.stringify([r, R, M, r && r.ts ? verTs(r.ts) : '', lograda, fiesta, MS && MS.monto]);
   if (firma === TABLERO.firma) return false;                   // sin cambios: no se repinta ni se sube la textura
   TABLERO.firma = firma; const { g, w, h } = TABLERO;
   fondoPantalla(g, w, h, '📊 Tablero del día');
@@ -1678,11 +1709,12 @@ function pintarTablero() {
     g.fillStyle = C.flecha ? C.col : '#a39bb0'; g.font = (C.flecha ? '800' : '600 italic') + ' 28px system-ui,sans-serif'; g.fillText(txt, cx, y0 + 212, x + tw[0] - 18 - cx); }
   x += tw[0] + gap;
   // 📦 masivos y 🛒 pedidos: siguen siendo del día
-  [['📦 Masivos', r && r.masivos != null ? fmtEntero(r.masivos) : '—', '#4a9be8'], ['🛒 Pedidos', r && r.pedidos != null ? fmtEntero(r.pedidos) : '—', '#f2c14e']].forEach(([et, val, col], i) => {
+  // 📦 masivos: debajo del número va el monto total (S/) si datos-dia.json trae masivos_monto; si no, 'hoy'
+  [['📦 Masivos', r && r.masivos != null ? fmtEntero(r.masivos) : '—', '#4a9be8', MS && MS.monto != null ? fmtCorto(MS.monto, mon) : 'hoy'], ['🛒 Pedidos', r && r.pedidos != null ? fmtEntero(r.pedidos) : '—', '#f2c14e', 'hoy']].forEach(([et, val, col, pieT], i) => {
     rRect(g, x, y0, tw[i + 1], th, 18); g.fillStyle = 'rgba(255,255,255,.07)'; g.fill(); g.fillStyle = col; g.fillRect(x, y0, 9, th);
     g.textAlign = 'left'; g.fillStyle = '#d2c6b9'; g.font = '700 30px system-ui,sans-serif'; g.fillText(et, x + 24, y0 + 44, tw[i + 1] - 34);
     g.fillStyle = '#ffffff'; g.font = '800 104px system-ui,sans-serif'; g.fillText(val, x + 24, y0 + 158, tw[i + 1] - 36);
-    g.fillStyle = '#a39bb0'; g.font = '700 30px system-ui,sans-serif'; g.fillText('hoy', x + 24, y0 + 208);
+    g.fillStyle = pieT === 'hoy' ? '#a39bb0' : '#9fd0ff'; g.font = '700 30px system-ui,sans-serif'; g.fillText(pieT, x + 24, y0 + 208, tw[i + 1] - 36);
     x += tw[i + 1] + gap;
   });
   // 🎯 meta semanal + barra de avance
@@ -1699,7 +1731,7 @@ function pintarTablero() {
   if (anchoBarra > 0) { rRect(g, 32, yB, Math.max(48, (w - 64) * anchoBarra / 100), 48, 24); const gb = g.createLinearGradient(32, 0, w - 32, 0); gb.addColorStop(0, lograda ? '#3bb273' : '#f07aa0'); gb.addColorStop(1, lograda || M.pct >= 100 ? '#7be3a4' : '#ffb36b'); g.fillStyle = gb; g.fill(); }
   if (lograda) { g.strokeStyle = '#7be3a4'; g.lineWidth = fiesta ? 12 : 7; g.strokeRect(4, 4, w - 8, h - 8); }
   g.textAlign = 'left'; g.font = '700 27px system-ui,sans-serif'; g.fillStyle = '#a39bb0';
-  const pie = [(M.ejemplo ? 'meta de ejemplo ' : 'meta diaria ') + fmtCorto(M.diaria, mon) + ' × 6', r && r.ejemplo ? 'datos de ejemplo' : '', r && r.viejo ? 'dato del ' + r.viejo : '', R.sinHist ? 'sin histórico' : '', r && r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join(' · ');
+  const pie = ['meta semanal real (lun–sáb)', r && r.ejemplo ? 'datos de ejemplo' : '', r && r.viejo ? 'dato del ' + r.viejo : '', R.sinHist ? 'sin histórico' : '', r && r.ts ? 'act. ' + verTs(r.ts) : ''].filter(Boolean).join(' · ');
   g.fillText(pie, 32, 482, w - 230);
   g.textAlign = 'right'; g.fillStyle = '#3bb273'; g.font = '800 27px system-ui,sans-serif'; g.fillText('● en vivo', w - 32, 482);
   TABLERO.tx.needsUpdate = true; return true;
@@ -2326,7 +2358,7 @@ function textoResumenVoz() {
   return ['Resumen de la oficina FLOOWER.',
     'Recaudo de la semana: ' + (R.hay ? n(R.total) + ' soles.' : 'sin datos.'),
     'Hoy: ' + (R.hoy == null ? 'sin datos.' : n(R.hoy) + ' soles.'),
-    'Masivos de hoy: ' + n(r && r.masivos) + '.', 'Pedidos de hoy: ' + n(r && r.pedidos) + '.',
+    'Masivos de hoy: ' + n(r && r.masivos) + ((M => M && M.monto != null ? ', por ' + n(M.monto) + ' soles' : '')(masivosDia())) + '.', 'Pedidos de hoy: ' + n(r && r.pedidos) + '.',
     'Agentes trabajando: ' + trab + '.', 'Bloqueados: ' + (bloq ? bloq : 'ninguno') + '.',
     'Pendientes por decidir: ' + (pend ? pend : 'ninguno') + '.'].join(' ');
 }
