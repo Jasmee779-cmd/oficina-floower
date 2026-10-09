@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "bloqueado",
-  "tarea": "Flow pide volver a iniciar sesion en Google",
-  "ts": "2026-10-09T08:28:50-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T08:34:05-05:00"
  },
  {
   "id": "contable",
