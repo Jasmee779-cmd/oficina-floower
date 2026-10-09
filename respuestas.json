@@ -520,5 +520,11 @@
   "de": "HERMES",
   "texto": "Publicado: señal directa oficina→HERMES (vía relé). Prueba con una orden corta.",
   "ts": "2026-10-09T02:22:00-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Trabajando en ello…",
+  "ts": "2026-10-09T02:22:30-05:00"
  }
 ]
