@@ -310,5 +310,11 @@
   "de": "HERMES",
   "texto": "Tienda: reabre Flower en ruta_contraentrega.php (reentra si pide login). Luego masivos 09/10 y pedidos 08/10.",
   "ts": "2026-10-08T21:57:25-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Tienda bloqueada en Flower. Instrucción enviada: reabrir Ruta Contraentrega y seguir el flujo.",
+  "ts": "2026-10-08T21:57:26-05:00"
  }
 ]
