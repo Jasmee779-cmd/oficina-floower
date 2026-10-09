@@ -15,7 +15,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Helvetica Neue",Arial,"DejaVu Sans",sans-serif}
 #c{position:fixed;inset:0;display:block;width:100vw;height:100vh;touch-action:none;outline:none}
-header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:7px 12px;background:linear-gradient(rgba(29,26,34,.92),rgba(29,26,34,.7));pointer-events:none}
+header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:8px 14px;background:rgba(24,21,29,.93);border-bottom:1px solid rgba(169,187,207,.18);box-shadow:0 2px 14px rgba(0,0,0,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
 header>*{pointer-events:auto}
 a.pie-btn{text-decoration:none}
 #sonido .on{display:none} #sonido[aria-pressed="true"] .on{display:inline} #sonido[aria-pressed="true"] .off{display:none}
@@ -33,7 +33,14 @@ a.pie-btn{text-decoration:none}
 #vistas::-webkit-scrollbar{display:none}
 #vistas .pie-btn{background:rgba(47,41,54,.88);font-size:11.5px;padding:3px 9px}
 #vistas .pie-btn.on{border-color:var(--rosa);color:#ffd9e6}
-header h1{margin:0;font-size:16px;letter-spacing:.5px;white-space:nowrap} header h1 span{color:var(--rosa)}
+/* Marca corporativa (logo superior) */
+header h1.marca{margin:0;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;font-family:"Segoe UI","Helvetica Neue",Inter,Arial,sans-serif;font-size:15px;line-height:1;font-weight:400;letter-spacing:0;padding-right:4px}
+.marca-flor{width:22px;height:22px;flex:none;filter:drop-shadow(0 1px 3px rgba(240,122,160,.35))}
+.marca-txt{display:inline-flex;align-items:center;gap:10px}
+.marca .m-of{color:#f4f5f7;font-weight:600;letter-spacing:.18em}
+.marca .m-sep{width:1px;height:16px;background:rgba(169,187,207,.35)}
+.marca .m-fl{color:#a9bbcf;font-weight:600;letter-spacing:.18em}
+.marca .m-3d{margin-left:2px;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:#c3ccd6;border:1px solid rgba(169,187,207,.45);border-radius:4px;padding:3px 5px 2px}
 #reloj{font-variant-numeric:tabular-nums;font-weight:800} #fecha{color:var(--soft);font-size:12px}
 #resumen{color:var(--soft);font-size:12.5px;font-weight:600}
 .btns{margin-left:auto;display:flex;gap:6px}
@@ -71,7 +78,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 .gl.lejos small{display:none}
 .gl.subido:after{border-top-color:transparent}
 .gl.subido:before{content:'';position:absolute;left:calc(50% + var(--cola,0px));top:100%;width:2px;height:8px;margin-left:-1px;background:currentColor;opacity:.35}
-@media (max-width:700px){ .gl small{display:none} .gl{font-size:11px;padding:2px 6px} header h1{font-size:14px} #fecha,#resumen{display:none} }
+@media (max-width:700px){ .gl small{display:none} .gl{font-size:11px;padding:2px 6px} header h1.marca{font-size:13px;gap:7px} .marca-flor{width:18px;height:18px} .marca-txt{gap:7px} .marca .m-of,.marca .m-fl{letter-spacing:.13em} .marca .m-sep{height:13px} #fecha,#resumen{display:none} }
 @keyframes latido{0%,100%{box-shadow:0 2px 8px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 4px rgba(229,72,77,.45)}}
 #alerta{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 8px;max-width:94vw;padding:7px 10px 7px 14px;background:#e5484d;color:#fff;font-weight:800;font-size:14px;border-radius:10px;border:2px solid #ff9a9d;box-shadow:0 8px 24px rgba(0,0,0,.45);animation:latido 1.2s ease-in-out infinite}
 #alerta[hidden]{display:none}
@@ -129,7 +136,7 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
 <canvas id="c" tabindex="0" aria-label="Oficina FLOOWER.PE en 3D: toca un agente para abrir su panel"></canvas>
 <div id="globos"></div>
 <header>
-  <h1>🌸 Oficina <span>FLOOWER.PE</span> · 3D</h1>
+  <h1 class="marca" aria-label="OFICINA FLOOWER 3D"><svg class="marca-flor" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><defs><linearGradient id="mfPet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb3cd"/><stop offset="1" stop-color="#f07aa0"/></linearGradient></defs><g fill="url(#mfPet)" stroke="#fbd3e2" stroke-width=".6" stroke-opacity=".7"><ellipse cx="16" cy="9.2" rx="4.6" ry="6.6" transform="rotate(0 16 16)"/><ellipse cx="16" cy="9.2" rx="4.6" ry="6.6" transform="rotate(72 16 16)"/><ellipse cx="16" cy="9.2" rx="4.6" ry="6.6" transform="rotate(144 16 16)"/><ellipse cx="16" cy="9.2" rx="4.6" ry="6.6" transform="rotate(216 16 16)"/><ellipse cx="16" cy="9.2" rx="4.6" ry="6.6" transform="rotate(288 16 16)"/></g><circle cx="16" cy="16" r="3.4" fill="#fff4f8"/><circle cx="16" cy="16" r="1.7" fill="#e0628e"/></svg><span class="marca-txt"><span class="m-of">OFICINA</span><span class="m-sep" aria-hidden="true"></span><span class="m-fl">FLOOWER</span></span><span class="m-3d">3D</span></h1>
   <div><span id="reloj">--:--:--</span> <span id="clima" title="Clima en Lima"></span> <span id="fecha"></span></div>
   <div id="resumen"></div>
   <div class="btns">
@@ -652,6 +659,27 @@ function postura(per, t) {
   if (per.humano) bolsillos(per, t);
 }
 
+/* 🖥️ Monitor activo: cuando el agente está "trabajando" su pantalla muestra código desplazándose + barra de progreso */
+const TEX_CODIGO = (() => { const cv = document.createElement('canvas'); cv.width = 256; cv.height = 512; const g = cv.getContext('2d');
+  g.fillStyle = '#0d2428'; g.fillRect(0, 0, 256, 512); const cols = ['#7fd6cf', '#f07aa0', '#e8e2d8', '#9fd0ff', '#f2c14e', '#5fae9f']; let sem = 7; const rnd = () => (sem = (sem * 9301 + 49297) % 233280) / 233280;
+  for (let y = 8, ind = 0; y < 506; y += 14) { if (rnd() < 0.12) { ind = 0; continue; } ind = Math.max(0, Math.min(4, ind + (rnd() < 0.3 ? 1 : rnd() < 0.25 ? -1 : 0))); let x = 12 + ind * 16;
+    const n = 1 + Math.floor(rnd() * 4); for (let k = 0; k < n && x < 236; k++) { const w = 14 + Math.floor(rnd() * 46); g.fillStyle = cols[Math.floor(rnd() * cols.length)]; g.globalAlpha = 0.85; g.fillRect(x, y, Math.min(w, 244 - x), 6); x += w + 7; } }
+  g.globalAlpha = 1; const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1, 0.42); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+function monitorActivo(w, h, x, y, z, padre) {                // capa encima de la pantalla; solo visible al trabajar
+  const g = new THREE.Group(); g.position.set(x, y, z + 0.004); g.visible = false; padre.add(g);
+  const tex = TEX_CODIGO.clone(); tex.offset.y = Math.random();
+  g.add(new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })));
+  const barMat = new THREE.MeshBasicMaterial({ color: '#f07aa0', toneMapped: false });
+  const fondoB = new THREE.Mesh(new THREE.PlaneGeometry(w * 0.9, h * 0.06), new THREE.MeshBasicMaterial({ color: '#163a3f', toneMapped: false })); fondoB.position.set(0, -h * 0.42, 0.001); g.add(fondoB);
+  const bar = new THREE.Mesh(new THREE.PlaneGeometry(w * 0.9, h * 0.06), barMat); bar.position.set(0, -h * 0.42, 0.002); g.add(bar);
+  const cur = new THREE.Mesh(new THREE.PlaneGeometry(w * 0.035, h * 0.08), new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false })); cur.position.set(w * 0.38, h * 0.36, 0.002); g.add(cur);
+  return { g, tex, bar, cur, w, ciclo: 4 + Math.random() * 3 };
+}
+function animarMonitor(m, t, fase) {
+  m.tex.offset.y = (m.tex.offset.y - 0.0035) % 1;            // el código sube como si se escribiera/compilara
+  const k = ((t + fase) % m.ciclo) / m.ciclo; m.bar.scale.x = Math.max(0.02, k); m.bar.position.x = -m.w * 0.45 * (1 - m.bar.scale.x);
+  m.cur.visible = Math.floor((t + fase) * 2.2) % 2 === 0;    // cursor parpadeando
+}
 function sillaOficina(col) {
   const s = new THREE.Group();
   box(0.66, 0.1, 0.62, col, 0, 0.45, 0, s); box(0.66, 0.72, 0.1, col, 0, 0.86, 0.3, s);
@@ -673,16 +701,16 @@ for (const a of AGENTES) {
   const tapa = box(dW, 0.1, 0.85, jefe ? '#7a4a2c' : '#a77a4c', 0, 0.86, 0, esc); tapa.material = tapa.material.clone();   // propio: parpadea en rojo si está bloqueado
   for (const [x, z] of [[-dW / 2 + 0.07, -0.35], [dW / 2 - 0.07, -0.35], [-dW / 2 + 0.07, 0.35], [dW / 2 - 0.07, 0.35]]) box(0.08, 0.82, 0.08, '#6e4726', x, 0.41, z, esc);
   if (jefe) box(dW - 0.2, 0.6, 0.05, '#6e4726', 0, 0.5, -0.4, esc);
-  let pantMat;
+  let pantMat, monAct;
   if (a.id === 'disksaver') {                                   // portátil
     box(0.5, 0.03, 0.35, '#c9c9d0', 0, 0.925, 0, esc); const tapa = box(0.5, 0.32, 0.03, '#c9c9d0', 0, 1.07, -0.17, esc);
     pantMat = new THREE.MeshStandardMaterial({ color: '#000', emissive: '#7fd6cf', emissiveIntensity: 1.2 });
-    const pm = new THREE.Mesh(new THREE.PlaneGeometry(0.44, 0.27), pantMat); pm.position.set(0, 1.07, -0.15); esc.add(pm);
+    const pm = new THREE.Mesh(new THREE.PlaneGeometry(0.44, 0.27), pantMat); pm.position.set(0, 1.07, -0.15); esc.add(pm); monAct = monitorActivo(0.44, 0.27, 0, 1.07, -0.15, esc);
   } else {
     box(0.22, 0.04, 0.18, '#222', 0, 0.93, -0.25, esc); box(0.05, 0.25, 0.05, '#222', 0, 1.05, -0.27, esc);
     box(0.85, 0.5, 0.05, '#1a1a22', 0, 1.38, -0.28, esc);
     pantMat = new THREE.MeshStandardMaterial({ color: '#000', emissive: '#7fd6cf', emissiveIntensity: 1.2 });
-    const pm = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 0.42), pantMat); pm.position.set(0, 1.38, -0.25); esc.add(pm);
+    const pm = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 0.42), pantMat); pm.position.set(0, 1.38, -0.25); esc.add(pm); monAct = monitorActivo(0.76, 0.42, 0, 1.38, -0.25, esc);
     box(0.6, 0.025, 0.2, '#333', 0, 0.92, 0.12, esc, false);
   }
   const it = new THREE.Group(); it.position.set(dW / 2 - 0.3, 0.91, -0.1); esc.add(it); itemMesa(P.item, it);
@@ -697,7 +725,7 @@ for (const a of AGENTES) {
   const pisoR = new THREE.Mesh(new THREE.PlaneGeometry(dW + 0.9, 2.5), new THREE.MeshBasicMaterial({ color: '#ff2a35', transparent: true, opacity: 0, depthWrite: false }));
   pisoR.rotation.x = -Math.PI / 2; pisoR.position.set(0, 0.025, 0.35); pisoR.visible = false; esc.add(pisoR);
   const ico = new THREE.Sprite(MAT_ALERTA); ico.scale.set(0.5, 0.5, 1); ico.visible = false; scene.add(ico);
-  AG3[a.id] = { a, esc, per, pantMat, aro, tapa, pisoR, ico, item: it, fase: Math.random() * 6, asiento: new THREE.Vector3(0, 0, 0.82) };
+  AG3[a.id] = { a, esc, per, pantMat, monAct, aro, tapa, pisoR, ico, item: it, fase: Math.random() * 6, asiento: new THREE.Vector3(0, 0, 0.82) };
 }
 // barista (decorativo)
 const baristaM = persona(LOOK.barista); baristaM.cad.position.y = 0.75; scene.add(baristaM.g);
@@ -1292,6 +1320,7 @@ renderer.setAnimationLoop(() => {
     o.pantMat.emissiveIntensity = (1.1 + Math.sin(f * 3) * 0.12) * (1 + nocheAhora * 0.9);
     if (o.item.userData.trofeo) o.item.userData.trofeo.rotation.y = t * 0.6;
   }
+  for (const id in AG3) { const o = AG3[id], m = o.monAct; if (!m) continue; m.g.visible = o.a.estado === 'trabajando'; if (m.g.visible) animarMonitor(m, t, o.fase); }   // 🖥️ monitor activo
   if (!fiesta) pasoJefe(dt, t); actualizarReunion(); colocarGente(t);
   if (capasLluvia[0].visible) texLluvia.offset.y += dt * 0.35;
   for (const id in AG3) { const o = AG3[id]; if (!o.ico.visible) continue;      // alerta roja
