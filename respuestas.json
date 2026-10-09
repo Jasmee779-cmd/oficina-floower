@@ -424,5 +424,11 @@
   "de": "HERMES",
   "texto": "Trabajando en ello…",
   "ts": "2026-10-09T01:10:27-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "James, en la pizarra hay 2 pendientes tuyos: 1) un pedido sin cobertura (Marcona, ya pagó adelanto): ¿lo enviamos por Shalom? 2) un pedido múltiple con una programación ENTREGADO y otra vieja CANCELADO: ¿lo paso a ENTREGA EXITOSA? Te dejé los detalles en Slack. Dime sí o no a cada uno y los saco de la pared.",
+  "ts": "2026-10-09T01:10:52-05:00"
  }
 ]
