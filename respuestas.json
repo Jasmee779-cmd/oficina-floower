@@ -292,5 +292,11 @@
   "de": "HERMES",
   "texto": "Arrancó pedidos del día 08/10 (9 PM). Masivos 7:40pm falló; si falta el lote, primero masivos luego este circuito.",
   "ts": "2026-10-08T21:54:35-05:00"
+ },
+ {
+  "id": "tienda",
+  "de": "HERMES",
+  "texto": "Tienda: primero plantilla masivos 09/10 (la rutina 7:40 falló), luego lista pedidos del día 08/10.",
+  "ts": "2026-10-08T21:55:11-05:00"
  }
 ]
