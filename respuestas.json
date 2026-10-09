@@ -406,5 +406,11 @@
   "de": "HERMES",
   "texto": "En mi pared hay 2 pendientes que esperan tu decisión: 1) Pedido 8819 (Marcona) no tiene cobertura contraentrega y ya pagó S/30 de adelanto. ¿Lo mandamos por Shalom? 2) Pedido 8789 está como MULTIPLE porque tiene dos programaciones: una ENTREGADA y una vieja CANCELADA. ¿Lo paso a ENTREGA EXITOSA? Dime sí o no a cada uno y lo hago.",
   "ts": "2026-10-09T01:09:09-05:00"
+ },
+ {
+  "id": "marketing",
+  "de": "HERMES",
+  "texto": "Tu «?» va con la pregunta de los pendientes de mi pared; la respuesta está justo arriba (8819 Shalom y 8789 MULTIPLE). Espero tu sí o no en cada uno.",
+  "ts": "2026-10-09T01:09:21-05:00"
  }
 ]
