@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Enviando aviso adelantos a 4 números",
-  "ts": "2026-10-09T14:03:37-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T14:06:18-05:00"
  },
  {
   "id": "marketing",
