@@ -273,6 +273,13 @@ const CIFRADO_WEBHOOK = { salt: "RkwgPxZ4GicfOlD0hkjP0g==", iv: "T/0NCFi37N/msOo
   #panel .llamar .ayuda{flex:1 1 200px;line-height:1.3}
   body.claro #panel .llamar{background:#f7f2ec}
 </style>
+<style id="css-llamar-pasos">
+  #panel .llamar button.btnLlamar{border:0;cursor:pointer;font-family:inherit;background:#3ecf8e;color:#08261a;border-radius:8px;padding:6px 14px;font-weight:800;font-size:14px;white-space:nowrap}
+  #panel .llamar ol.pasos{flex:1 1 100%;margin:4px 0 0;padding:8px 10px 8px 28px;background:#2a2431;border:1px solid #3ecf8e;border-radius:8px;color:var(--txt,#f3ece4);font-size:13px;line-height:1.5}
+  #panel .llamar ol.pasos.late{animation:pasosLate .6s ease 2}
+  @keyframes pasosLate{50%{box-shadow:0 0 0 3px #3ecf8e66}}
+  body.claro #panel .llamar ol.pasos{background:#fff;color:#2f2936}
+</style>
 </head>
 <body>
 <script>try { if (localStorage.getItem('oficina-tema') === 'claro') document.body.classList.add('claro'); } catch (e) {}</script>
@@ -1850,11 +1857,9 @@ function pintarMensajes() {
   if (abajo || !caja.dataset.listo) { caja.scrollTop = caja.scrollHeight; caja.dataset.listo = '1'; }
 }
 const HERMES_APP = { id: 'b4ba2f41-4f1a-4925-816c-00ca7a921d12', srv: '760787' };   // 📞 deep link a la app Grok Bot (chat de HERMES)
-const linkLlamar = id => 'grokbot://app/v1/agent?id=' + encodeURIComponent(id) + '&voice=1';
-function avisarSiNoAbrio() {        // si la página sigue al frente 1,8 s después, la app no tomó el enlace
-  let salio = false; const fue = () => { salio = true; };
-  window.addEventListener('blur', fue, { once: true }); document.addEventListener('visibilitychange', fue, { once: true });
-  setTimeout(() => { if (!salio && !document.hidden) aviso('¿No se abrió la app? Necesitas la app Grok Bot instalada (PC/Mac). Prueba el «enlace alterno» o abre el chat de HERMES en la app y pulsa el botón de llamada.', true); }, 1800);
+function mostrarPasosLlamar() {   // 📞 sin deep link (no funcionaba): siempre muestra los pasos en pantalla
+  const p = $p('pLlamarPasos'); if (!p) return; p.hidden = false; p.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  p.classList.remove('late'); void p.offsetWidth; p.classList.add('late');
 }
 function openAgentPanel(agentId) {
   const a = AGENTES.find(x => x.id === agentId); if (!a) return;
@@ -1863,7 +1868,7 @@ function openAgentPanel(agentId) {
     <h2 id="pNombre"></h2><div class="rol" id="pRol"></div>
     <div class="fila"><span class="et">Estado:</span> <b id="pEstado"></b> <small id="pTs"></small></div>
     <div class="fila"><span class="et">Tarea:</span> <span id="pTarea"></span></div>
-    ${agentId === 'hermes' ? `<div class="llamar" id="pLlamarZona"><a class="btnLlamar" id="pLlamar" href="${linkLlamar(HERMES_APP.id)}" title="Abrir la app Grok Bot en el chat de HERMES para llamarlo">📞 Llamar a HERMES</a><span class="ayuda">Abre la app Grok Bot en el chat de HERMES; ahí pulsa el botón de <b>llamada</b> 🎙️ del chat. · <a class="alt" id="pLlamarAlt" href="${linkLlamar(HERMES_APP.srv)}">enlace alterno</a></span></div>` : ''}
+    ${agentId === 'hermes' ? `<div class="llamar" id="pLlamarZona"><button type="button" class="btnLlamar" id="pLlamar" title="Ver cómo llamar a HERMES">📞 Llamar a HERMES</button><span class="ayuda">Pulsa para ver los pasos.</span><ol class="pasos" id="pLlamarPasos" hidden><li>Abre la app <b>Grok Bot</b> (PC/Mac o celular).</li><li>Entra al chat de <b>HERMES</b>.</li><li>Pulsa el botón de <b>llamada 🎙️</b> del chat y habla.</li></ol></div>` : ''}
     <div class="msgs" id="pMsgs" aria-live="polite"></div>
     <div class="envio">
       <textarea id="pTexto" rows="2" maxlength="2000" placeholder="${agentId === 'hermes' ? 'Escribe un mensaje para HERMES…' : 'Escribe una orden para ' + escHTML(corto(a.nombre)) + '…'}"></textarea>
@@ -1879,7 +1884,7 @@ function openAgentPanel(agentId) {
   pintarInfo(); pintarClave(); pintarMensajes();
   $p('cerrarPanel').onclick = cerrarPanel;
   $p('pEnviar').onclick = enviarOrden;
-  if ($p('pLlamar')) { $p('pLlamar').addEventListener('click', avisarSiNoAbrio); $p('pLlamarAlt').addEventListener('click', avisarSiNoAbrio); }
+  if ($p('pLlamar')) $p('pLlamar').addEventListener('click', mostrarPasosLlamar);
   $p('pTexto').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarOrden(); } });
   $p('pClave').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); enviarOrden(); } });
   $p('pOlvidar').onclick = e => { e.preventDefault(); lsSet(LS_CLAVE, null); webhookCache = null; directoCache = null; pintarClave(); aviso('Clave olvidada en este equipo.'); };
