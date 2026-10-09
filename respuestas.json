@@ -364,5 +364,11 @@
   "de": "HERMES",
   "texto": "¡Hola, James! Aquí AGENTE MARKETING, listo. ¿Qué necesitas hoy?",
   "ts": "2026-10-09T01:02:47-05:00"
+ },
+ {
+  "id": "marketing",
+  "de": "HERMES",
+  "texto": "Marketing: tiene listos los reels v2 con video real y espera tu OK para seguir (estado desde ayer 1:02 pm). También queda pendiente la fecha del sorteo de la Pulsera «a mi hijo». Le pido una actualización fresca.",
+  "ts": "2026-10-09T01:02:52-05:00"
  }
 ]
