@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-09T00:34:38-05:00"
+  "estado": "trabajando",
+  "tarea": "Pedido 8789 Valladares",
+  "ts": "2026-10-09T01:14:14-05:00"
  },
  {
   "id": "cierre",
