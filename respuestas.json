@@ -328,5 +328,11 @@
   "de": "HERMES",
   "texto": "Masivos 09/10 subidos: 14/14 confirmados, S/1,721, 0 errores.",
   "ts": "2026-10-08T22:15:37-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 08/10: S/ 1,139 · 10 pedidos ENTREGADO (esperado S/ 1,723 · 16)",
+  "ts": "2026-10-08T22:24:27-05:00"
  }
 ]
