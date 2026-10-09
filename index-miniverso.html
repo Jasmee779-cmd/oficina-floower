@@ -138,13 +138,6 @@ footer{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-con
   #panel .llamar .ayuda{flex:1 1 200px;line-height:1.3}
   body.claro #panel .llamar{background:#f7f2ec}
 </style>
-<style id="css-llamar-pasos">
-  #panel .llamar button.btnLlamar{border:0;cursor:pointer;font-family:inherit;background:#3ecf8e;color:#08261a;border-radius:8px;padding:6px 14px;font-weight:800;font-size:14px;white-space:nowrap}
-  #panel .llamar ol.pasos{flex:1 1 100%;margin:4px 0 0;padding:8px 10px 8px 28px;background:#2a2431;border:1px solid #3ecf8e;border-radius:8px;color:var(--txt,#f3ece4);font-size:13px;line-height:1.5}
-  #panel .llamar ol.pasos.late{animation:pasosLate .6s ease 2}
-  @keyframes pasosLate{50%{box-shadow:0 0 0 3px #3ecf8e66}}
-  body.claro #panel .llamar ol.pasos{background:#fff;color:#2f2936}
-</style>
 </head><body>
 <div id="cargando">Cargando oficina 3D…</div>
 <canvas id="c" tabindex="0" aria-label="Oficina FLOOWER.PE en 3D: toca un agente para abrir su panel"></canvas>
@@ -2352,25 +2345,34 @@ async function cargarPendJames() {
   if (location.protocol === 'file:') return;
   try { const r = await fetch('pendientes.json?t=' + Date.now(), { cache: 'no-store' }); pendJames = r.ok ? await r.json() : (r.status === 404 ? { pendientes: [] } : pendJames); } catch (e) { }
 }
-function listaPend() { const l = pendJames && Array.isArray(pendJames.pendientes) ? pendJames.pendientes : []; return l.filter(x => x && x.texto).map(x => ({ id: String(x.id || ''), texto: recorta(x.texto, 70), ts: x.ts })); }
+// ✅ resueltos se quedan marcados con check (hecho:true); si la pizarra se llena, se quedan los MÁS RECIENTES (James 09/10)
+const tsPend = x => Date.parse(x.hecho_ts || x.ts || '') || 0;
+function listaPendTodos() { const l = pendJames && Array.isArray(pendJames.pendientes) ? pendJames.pendientes : []; return l.filter(x => x && x.texto).map(x => ({ id: String(x.id || ''), texto: recorta(x.texto, 70), ts: x.ts, hecho: !!x.hecho, hecho_ts: x.hecho_ts })).sort((p, q) => tsPend(q) - tsPend(p)); }
+function listaPend() { return listaPendTodos().filter(x => !x.hecho); }
 function pintarPizarra() {
-  const L = listaPend(), firma = JSON.stringify([L, pendJames === null]); if (firma === PIZ.firma) return false; PIZ.firma = firma;
+  const L = listaPendTodos(), firma = JSON.stringify([L, pendJames === null]); if (firma === PIZ.firma) return false; PIZ.firma = firma;
   const { g, w, h } = PIZ, MANO = '"Comic Sans MS","Segoe Print","Chalkboard SE",system-ui,sans-serif';
   g.fillStyle = '#fbfbf7'; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(0,0,0,.035)'; for (let i = 0; i < 6; i++) g.fillRect(0, 40 + i * 83, w, 2);
   g.fillStyle = '#c0392b'; g.font = `800 54px ${MANO}`; g.textAlign = 'left'; g.fillText('📌 Pendientes de James', 26, 70, w - 50);
   g.strokeStyle = '#c0392b'; g.lineWidth = 5; g.beginPath(); g.moveTo(26, 90); g.lineTo(w - 40, 85); g.stroke();
-  const fsP = L.length <= 2 ? 46 : 40; g.font = `700 ${fsP}px ${MANO}`;
+  const fsP = L.length <= 2 ? 46 : L.length <= 3 ? 40 : 34; g.font = `700 ${fsP}px ${MANO}`;
   if (pendJames === null) { g.fillStyle = '#7a7a7a'; g.fillText('Cargando…', 26, 170); }
   else if (!L.length) { g.fillStyle = '#2e7d4f'; g.font = `700 48px ${MANO}`; g.fillText('Nada pendiente ✨', 26, 190); }
   else {
     let y = 160; const max = 4, alto = fsP + 9;
-    L.slice(0, max).forEach((x, i) => {
-      g.fillStyle = ['#1f4fa3', '#1d1d1d', '#2e7d4f', '#8e2d6b'][i % 4];
-      const palabras = ('□ ' + x.texto).split(' '); let linea = '', lineas = [];
+    L.slice(0, max).forEach((x, i) => {                             // L ya viene del más reciente al más antiguo
+      g.fillStyle = x.hecho ? '#7f9c88' : ['#1f4fa3', '#1d1d1d', '#2e7d4f', '#8e2d6b'][i % 4];
+      const palabras = ((x.hecho ? '✅ ' : '□ ') + x.texto).split(' '); let linea = '', lineas = [];
       for (const p of palabras) { const prueba = linea ? linea + ' ' + p : p; if (g.measureText(prueba).width > w - 56 && linea) { lineas.push(linea); linea = '    ' + p; } else linea = prueba; }
-      lineas.push(linea); for (const l of lineas.slice(0, 2)) { if (y > h - 24) return; g.fillText(l, 26, y, w - 44); y += alto; } y += 12;
+      lineas.push(linea);
+      for (const [k, l] of lineas.slice(0, 2).entries()) {
+        if (y > h - 24) return; g.fillText(l, 26, y, w - 44);
+        if (x.hecho) { const x0 = 26 + (k === 0 ? g.measureText('✅ ').width : g.measureText('    ').width), x1 = 26 + Math.min(g.measureText(l).width, w - 44);   // tachado
+          g.save(); g.strokeStyle = '#7f9c88'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, y - fsP * 0.32); g.lineTo(x1, y - fsP * 0.32); g.stroke(); g.restore(); }
+        y += alto;
+      } y += 12;
     });
-    if (L.length > max) { g.fillStyle = '#7a7a7a'; g.font = `700 34px ${MANO}`; g.fillText('+ ' + (L.length - max) + ' más', 26, Math.min(y + 4, h - 16)); }
+    if (L.length > max) { g.fillStyle = '#7a7a7a'; g.font = `700 34px ${MANO}`; g.fillText('+ ' + (L.length - max) + ' anteriores', 26, Math.min(y + 4, h - 16)); }
   }
   PIZ.tx.needsUpdate = true; return true;
 }
