@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "8789 ENTREGA EXITOSA",
-  "ts": "2026-10-09T03:24:45-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T03:26:50-05:00"
  },
  {
   "id": "cierre",
