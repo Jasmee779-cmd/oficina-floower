@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Conteo entrega 10/10",
-  "ts": "2026-10-09T00:30:56-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T00:32:59-05:00"
  },
  {
   "id": "cierre",
