@@ -316,5 +316,11 @@
   "de": "HERMES",
   "texto": "Tienda bloqueada en Flower. Instrucción enviada: reabrir Ruta Contraentrega y seguir el flujo.",
   "ts": "2026-10-08T21:57:26-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Plantilla masivos 09/10 lista (14 filas, S/1721). ALI 2 la está subiendo.",
+  "ts": "2026-10-08T22:10:45-05:00"
  }
 ]
