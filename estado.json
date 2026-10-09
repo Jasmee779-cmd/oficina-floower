@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Cierre Flower 08/10",
-  "ts": "2026-10-08T22:24:45-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-08T22:55:20-05:00"
  },
  {
   "id": "cierre",
