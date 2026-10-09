@@ -1888,9 +1888,11 @@ async function cargarEventos() {
 }
 
 /* ---------------- ⏳ Pendientes + sondeo rápido (API GitHub con fallback) ---------------- */
-const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 5000, RAPIDO_MAX = 10 * 60 * 1000;
+const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 3000, RAPIDO_MAX = 10 * 60 * 1000;
 const REPO_API = 'https://api.github.com/repos/Jasmee779-cmd/oficina-floower/contents/', REPO_RAMA = 'main';
 const REPO_RAW = 'https://raw.githubusercontent.com/Jasmee779-cmd/oficina-floower/' + REPO_RAMA + '/';   // fresco con ?t= (sin caché), sin límite 60/h
+const RELE_RESP = 'https://oficina-relay.jasmee779.workers.dev/respuestas';   // relé Cloudflare: respuestas.json al instante (HERMES lo empuja; CORS *, no-store)
+let releFallo = 0, releN = 0;
 const esTrabajando = t => /^\s*(⏳\s*)?trabajando en ello/i.test(String(t || ''));   // el «Trabajando en ello…» de HERMES no cierra la orden
 let pendientes = (() => { try { const v = JSON.parse(lsGet(LS_PEND) || '{}'); return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } })();
 let respCargadas = false, rapidoHasta = 0, rapidoTimer = null, nRapido = 0, apiPausa = 0, ultimoApi = 0;
@@ -1921,9 +1923,26 @@ function activarRapido(desde) {
 async function sondeoRapido() {
   if (Date.now() > rapidoHasta || !Object.keys(pendientes).length) { clearInterval(rapidoTimer); rapidoTimer = null; return; }
   nRapido++; await cargarRespuestas(true);
-  if (nRapido % 3 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
+  if (nRapido % 5 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
 }
-async function leerArchivo(f, rapido) {      // texto del archivo: raw de GitHub / API (si rapido) o la copia de Pages
+let apiRespUlt = 0;                           // raw.githubusercontent (~5 min) y Pages (~10 min) ignoran ?t= y sirven copia vieja: la API es la única fresca
+async function leerArchivo(f, rapido) {      // respuestas.json: relé → API GitHub → raw → Pages · resto: raw / API (si rapido) o Pages
+  if (f === 'respuestas.json' && Date.now() > releFallo && (rapido || ++releN % 6 !== 0)) {   // 1 de cada 6 lecturas normales va a GitHub (red de seguridad)
+    try {
+      const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 4000);
+      const r = await fetch(RELE_RESP + '?t=' + Date.now(), { cache: 'no-store', signal: ctl.signal }); clearTimeout(t);
+      if (r.ok) { ultimoApi = Date.now(); return { txt: await r.text(), api: true }; }
+      releFallo = Date.now() + 60 * 1000;
+    } catch (e) { releFallo = Date.now() + 60 * 1000; }   // relé caído: 1 min por GitHub y reintenta
+  }
+  if (rapido && f === 'respuestas.json' && Date.now() > apiPausa && Date.now() - apiRespUlt >= 15000) {
+    apiRespUlt = Date.now();
+    try {
+      const r = await fetch(REPO_API + f + '?ref=' + REPO_RAMA + '&t=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/vnd.github.raw' } });
+      if (r.ok) { ultimoApi = Date.now(); return { txt: await r.text(), api: true }; }
+      apiPausa = Date.now() + (r.status === 403 || r.status === 429 ? 15 * 60 * 1000 : 60 * 1000);
+    } catch (e) { apiPausa = Date.now() + 60 * 1000; }
+  }
   if (rapido) {
     try {
       const r = await fetch(REPO_RAW + f + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1963,7 +1982,7 @@ async function cargarRespuestas(rapido) {
   try {
     const res = await leerArchivo('respuestas.json', rapido === true); if (!res) return;
     const d = JSON.parse(res.txt); if (!Array.isArray(d)) return;
-    if (!res.api && apiReciente() && maxTs(d) < maxTs(respuestas)) return;   // copia de Pages más vieja que la de la API
+    if (maxTs(d) < maxTs(respuestas)) return;   // copia en caché (Pages/raw) más vieja que la que ya tenemos: no retroceder
     respuestas = d; respCargadas = true; revisarPendientes(); if (panelId) pintarMensajes();
   } catch (e) { /* sin respuestas.json: no se muestra nada */ }
 }
