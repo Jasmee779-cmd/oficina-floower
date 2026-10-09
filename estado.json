@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "abriendo Chrome en PC de James para prueba reel A",
-  "ts": "2026-10-09T02:41:29-05:00"
+  "estado": "libre",
+  "tarea": "esperando que James configure credenciales en su PC",
+  "ts": "2026-10-09T02:45:51-05:00"
  },
  {
   "id": "contable",
