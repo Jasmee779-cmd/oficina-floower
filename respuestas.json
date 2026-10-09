@@ -334,5 +334,11 @@
   "de": "HERMES",
   "texto": "Recaudo 08/10: S/ 1,139 · 10 pedidos ENTREGADO (esperado S/ 1,723 · 16)",
   "ts": "2026-10-08T22:24:27-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Cierre 08/10 en Flower: 11 entregados, 5 cancelados, 8 reprogramados, 12 sin tocar (9 no contesta, 2 múltiples, 1 sin datos).",
+  "ts": "2026-10-08T22:55:23-05:00"
  }
 ]
