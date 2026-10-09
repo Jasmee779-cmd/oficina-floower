@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-08T14:10:49-05:00"
+  "estado": "trabajando",
+  "tarea": "Revisando chat 51930967251 en el CRM",
+  "ts": "2026-10-08T20:19:47-05:00"
  },
  {
   "id": "marketing",
