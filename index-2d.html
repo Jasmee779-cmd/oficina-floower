@@ -2584,7 +2584,7 @@ const efecto = (() => {
    en el chat y globo en la escena, hasta que llega una respuesta nueva de ese agente en respuestas.json (o 10 min).
    Mientras haya pendiente (máx. 3 min) respuestas/estado se leen de la API de GitHub (sin caché de Pages) cada 5 s;
    la API sin token permite 60 peticiones/h por IP, por eso solo se usa en esa ventana. Si falla -> ruta relativa. */
-const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 3000, RAPIDO_MAX = 10 * 60 * 1000;
+const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 1000, RAPIDO_MAX = 10 * 60 * 1000;
 const REPO_API = 'https://api.github.com/repos/Jasmee779-cmd/oficina-floower/contents/', REPO_RAMA = 'main';
 const REPO_RAW = 'https://raw.githubusercontent.com/Jasmee779-cmd/oficina-floower/' + REPO_RAMA + '/';   // fresco con ?t= (sin caché), sin límite 60/h
 const RELE_RESP = 'https://oficina-relay.jasmee779.workers.dev/respuestas';   // relé Cloudflare: respuestas.json al instante (HERMES lo empuja; CORS *, no-store)
@@ -2616,10 +2616,12 @@ function activarRapido(desde) {
   rapidoHasta = Math.max(rapidoHasta, desde + RAPIDO_MAX);
   if (Date.now() < rapidoHasta && !rapidoTimer && location.protocol !== 'file:') { rapidoTimer = setInterval(sondeoRapido, RAPIDO_MS); setTimeout(sondeoRapido, 1200); }
 }
+let sondeoOcupado = false;
 async function sondeoRapido() {
   if (Date.now() > rapidoHasta || !Object.keys(pendientes).length) { clearInterval(rapidoTimer); rapidoTimer = null; return; }
-  nRapido++; await cargarRespuestas(true);
-  if (nRapido % 5 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
+  if (sondeoOcupado) return; sondeoOcupado = true;   // a 1 s no encimar lecturas lentas
+  try { nRapido++; await cargarRespuestas(true);
+  if (nRapido % 15 === 1) await cargarEstadoExterno(true); } finally { sondeoOcupado = false; }     // estado cada ~15 s (cuida el límite de la API)
 }
 let apiRespUlt = 0;                           // raw.githubusercontent (~5 min) y Pages (~10 min) ignoran ?t= y sirven copia vieja: la API es la única fresca
 async function leerArchivo(f, rapido) {      // respuestas.json: relé → API GitHub → raw → Pages · resto: raw / API (si rapido) o Pages
