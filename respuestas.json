@@ -772,5 +772,11 @@
   "de": "HERMES",
   "texto": "¡Descansa, James! 🌙 Yo me quedo pendiente de la oficina. Mañana a las 11:00 am te recuerdo el cierre Shalom del pedido 8819.",
   "ts": "2026-10-09T03:11:18-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Listo, James ✅ Ya está publicado en la pizarra de pendientes: cuando se resuelve uno ya no se borra, se queda marcado con ✅ y tachado. Y si la pizarra se llena, se quedan a la vista los 4 más recientes; los más antiguos pasan a «+ N anteriores». Recarga la oficina en un par de minutos para verlo.",
+  "ts": "2026-10-09T03:14:33-05:00"
  }
 ]
