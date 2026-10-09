@@ -266,6 +266,13 @@ const CIFRADO_WEBHOOK = { salt: "RkwgPxZ4GicfOlD0hkjP0g==", iv: "T/0NCFi37N/msOo
   body.claro .ev.nuevo{background:rgba(59,178,115,.14)}
   body.tv.vertical header{height:auto;min-height:86px;flex-wrap:wrap;padding:8px 12px} body.tv.vertical .marca h1{font-size:20px}
 </style>
+<style id="css-llamar">
+  #panel .llamar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:8px 0 2px;padding:7px 9px;background:#1f1b25;border:1px solid #4a4150;border-radius:10px;font-size:12px;color:var(--soft)}
+  #panel .llamar a.btnLlamar{background:#3ecf8e;color:#08261a;border-radius:8px;padding:6px 14px;font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+  #panel .llamar a.btnLlamar:hover{filter:brightness(1.08)} #panel .llamar .alt{color:#ffd9e6;font-size:11px}
+  #panel .llamar .ayuda{flex:1 1 200px;line-height:1.3}
+  body.claro #panel .llamar{background:#f7f2ec}
+</style>
 </head>
 <body>
 <script>try { if (localStorage.getItem('oficina-tema') === 'claro') document.body.classList.add('claro'); } catch (e) {}</script>
@@ -1842,6 +1849,13 @@ function pintarMensajes() {
     : '<div class="vacio">Aún no hay mensajes.<br>Escribe una orden abajo y pulsa «Enviar».</div>';
   if (abajo || !caja.dataset.listo) { caja.scrollTop = caja.scrollHeight; caja.dataset.listo = '1'; }
 }
+const HERMES_APP = { id: 'b4ba2f41-4f1a-4925-816c-00ca7a921d12', srv: '760787' };   // 📞 deep link a la app Grok Bot (chat de HERMES)
+const linkLlamar = id => 'grokbot://app/v1/agent?id=' + encodeURIComponent(id) + '&voice=1';
+function avisarSiNoAbrio() {        // si la página sigue al frente 1,8 s después, la app no tomó el enlace
+  let salio = false; const fue = () => { salio = true; };
+  window.addEventListener('blur', fue, { once: true }); document.addEventListener('visibilitychange', fue, { once: true });
+  setTimeout(() => { if (!salio && !document.hidden) aviso('¿No se abrió la app? Necesitas la app Grok Bot instalada (PC/Mac). Prueba el «enlace alterno» o abre el chat de HERMES en la app y pulsa el botón de llamada.', true); }, 1800);
+}
 function openAgentPanel(agentId) {
   const a = AGENTES.find(x => x.id === agentId); if (!a) return;
   panelId = agentId; ultimoPintado = '';
@@ -1849,6 +1863,7 @@ function openAgentPanel(agentId) {
     <h2 id="pNombre"></h2><div class="rol" id="pRol"></div>
     <div class="fila"><span class="et">Estado:</span> <b id="pEstado"></b> <small id="pTs"></small></div>
     <div class="fila"><span class="et">Tarea:</span> <span id="pTarea"></span></div>
+    ${agentId === 'hermes' ? `<div class="llamar" id="pLlamarZona"><a class="btnLlamar" id="pLlamar" href="${linkLlamar(HERMES_APP.id)}" title="Abrir la app Grok Bot en el chat de HERMES para llamarlo">📞 Llamar a HERMES</a><span class="ayuda">Abre la app Grok Bot en el chat de HERMES; ahí pulsa el botón de <b>llamada</b> 🎙️ del chat. · <a class="alt" id="pLlamarAlt" href="${linkLlamar(HERMES_APP.srv)}">enlace alterno</a></span></div>` : ''}
     <div class="msgs" id="pMsgs" aria-live="polite"></div>
     <div class="envio">
       <textarea id="pTexto" rows="2" maxlength="2000" placeholder="${agentId === 'hermes' ? 'Escribe un mensaje para HERMES…' : 'Escribe una orden para ' + escHTML(corto(a.nombre)) + '…'}"></textarea>
@@ -1864,6 +1879,7 @@ function openAgentPanel(agentId) {
   pintarInfo(); pintarClave(); pintarMensajes();
   $p('cerrarPanel').onclick = cerrarPanel;
   $p('pEnviar').onclick = enviarOrden;
+  if ($p('pLlamar')) { $p('pLlamar').addEventListener('click', avisarSiNoAbrio); $p('pLlamarAlt').addEventListener('click', avisarSiNoAbrio); }
   $p('pTexto').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarOrden(); } });
   $p('pClave').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); enviarOrden(); } });
   $p('pOlvidar').onclick = e => { e.preventDefault(); lsSet(LS_CLAVE, null); webhookCache = null; directoCache = null; pintarClave(); aviso('Clave olvidada en este equipo.'); };
