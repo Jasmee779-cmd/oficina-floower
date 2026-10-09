@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "clips Flow",
-  "ts": "2026-10-09T07:54:56-05:00"
+  "estado": "bloqueado",
+  "tarea": "Flow pide contraseña de Google",
+  "ts": "2026-10-09T07:55:15-05:00"
  },
  {
   "id": "contable",
