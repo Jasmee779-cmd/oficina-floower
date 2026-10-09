@@ -1865,11 +1865,13 @@ async function cargarEventos() {
 }
 
 /* ---------------- ⏳ Pendientes + sondeo rápido (API GitHub con fallback) ---------------- */
-const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 5000, RAPIDO_MAX = 3 * 60 * 1000;
+const LS_PEND = 'oficina-pendientes', PEND_MAX = 10 * 60 * 1000, RAPIDO_MS = 5000, RAPIDO_MAX = 10 * 60 * 1000;
 const REPO_API = 'https://api.github.com/repos/Jasmee779-cmd/oficina-floower/contents/', REPO_RAMA = 'main';
+const REPO_RAW = 'https://raw.githubusercontent.com/Jasmee779-cmd/oficina-floower/' + REPO_RAMA + '/';   // fresco con ?t= (sin caché), sin límite 60/h
+const esTrabajando = t => /^\s*(⏳\s*)?trabajando en ello/i.test(String(t || ''));   // el «Trabajando en ello…» de HERMES no cierra la orden
 let pendientes = (() => { try { const v = JSON.parse(lsGet(LS_PEND) || '{}'); return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } })();
 let respCargadas = false, rapidoHasta = 0, rapidoTimer = null, nRapido = 0, apiPausa = 0, ultimoApi = 0;
-const firmaResp = id => { let u = null; for (const r of respuestas) if (r && r.id === id && r.texto && (!u || String(r.ts) >= String(u.ts))) u = r; return u ? String(u.ts) + '|' + u.texto : ''; };
+const firmaResp = id => { let u = null; for (const r of respuestas) if (r && r.id === id && r.texto && !esTrabajando(r.texto) && (!u || String(r.ts) >= String(u.ts))) u = r; return u ? String(u.ts) + '|' + u.texto : ''; };
 const maxTs = arr => arr.reduce((m, r) => (r && r.ts && String(r.ts) > m ? String(r.ts) : m), '');
 function guardarPend() { lsSet(LS_PEND, Object.keys(pendientes).length ? JSON.stringify(pendientes) : null); }
 function marcarPendiente(id) {
@@ -1898,7 +1900,13 @@ async function sondeoRapido() {
   nRapido++; await cargarRespuestas(true);
   if (nRapido % 3 === 1) await cargarEstadoExterno(true);     // estado cada ~15 s (cuida el límite de la API)
 }
-async function leerArchivo(f, rapido) {      // texto del archivo: API de GitHub (si rapido) o la copia de Pages
+async function leerArchivo(f, rapido) {      // texto del archivo: raw de GitHub / API (si rapido) o la copia de Pages
+  if (rapido) {
+    try {
+      const r = await fetch(REPO_RAW + f + '?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) { ultimoApi = Date.now(); return { txt: await r.text(), api: true }; }
+    } catch (e) { /* sigue con la API */ }
+  }
   if (rapido && Date.now() > apiPausa) {
     try {
       const r = await fetch(REPO_API + f + '?ref=' + REPO_RAMA + '&t=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/vnd.github.raw' } });
