@@ -286,5 +286,11 @@
   "de": "HERMES",
   "texto": "Falcon #37988: sin guía en nuestros registros; avisado a James para corregir destino Shalom.",
   "ts": "2026-10-08T16:02:41-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Arrancó pedidos del día 08/10 (9 PM). Masivos 7:40pm falló; si falta el lote, primero masivos luego este circuito.",
+  "ts": "2026-10-08T21:54:35-05:00"
  }
 ]
