@@ -466,5 +466,11 @@
   "de": "HERMES",
   "texto": "Trabajando en ello…",
   "ts": "2026-10-09T01:21:32-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "El pedido 8819 de Marcona salió de Flower (Ruta Contraentrega, despacho 06/10, entrega 07/10). Entró en los masivos del 07/10, pero Aliclik no lo creó porque Marcona no tiene cobertura contraentrega. Por eso quedó en mi pared. ¿Lo mandamos por Shalom?",
+  "ts": "2026-10-09T01:23:26-05:00"
  }
 ]
