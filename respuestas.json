@@ -754,5 +754,11 @@
   "de": "HERMES",
   "texto": "Trabajando en ello…",
   "ts": "2026-10-09T03:02:51-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "El botón «📞 Llamar a HERMES» no hace la llamada: solo intenta abrir la app Grok Bot en mi chat, y solo funciona en la PC con la app instalada (en el celular no hace nada). Aun cuando abre, la llamada no arranca sola: tienes que pulsar el botón de llamada 🎙️ de mi chat en la app. Si no aparece nada, ese enlace no le está funcionando a tu app. Por ahora abre Grok Bot, entra a mi chat y pulsa 🎙️. Si quieres, cambio el botón para que muestre estos pasos en pantalla en vez de quedarse en blanco.",
+  "ts": "2026-10-09T03:03:21-05:00"
  }
 ]
