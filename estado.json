@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-09T00:32:59-05:00"
+  "estado": "trabajando",
+  "tarea": "Origen FE 10/10",
+  "ts": "2026-10-09T00:33:15-05:00"
  },
  {
   "id": "cierre",
