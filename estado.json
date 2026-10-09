@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-08T21:07:53-05:00"
+  "estado": "trabajando",
+  "tarea": "Revisando secciones nuevas del CRM",
+  "ts": "2026-10-08T21:23:16-05:00"
  },
  {
   "id": "marketing",
