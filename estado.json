@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Enviando clave Shalom a Rubén",
-  "ts": "2026-10-09T18:03:49-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T18:04:49-05:00"
  },
  {
   "id": "marketing",
