@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-09T20:36:39-05:00"
+  "estado": "trabajando",
+  "tarea": "Buscando 5 números",
+  "ts": "2026-10-09T20:39:39-05:00"
  },
  {
   "id": "marketing",
