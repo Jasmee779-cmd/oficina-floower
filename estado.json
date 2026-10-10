@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Buscando 18327246 16333487 30967251",
-  "ts": "2026-10-09T20:25:07-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T20:25:30-05:00"
  },
  {
   "id": "marketing",
