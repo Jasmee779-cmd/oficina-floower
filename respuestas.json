@@ -844,5 +844,11 @@
   "de": "HERMES",
   "texto": "Recaudo 09/10: entregado S/ 1,512 (14) de S/ 1,938 esperado (18).",
   "ts": "2026-10-09T20:33:04-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos del día 09/10: arrancó. Tienda baja Flower y ALI verifica en Aliclik. Te aviso al cerrar.",
+  "ts": "2026-10-09T21:02:46-05:00"
  }
 ]
