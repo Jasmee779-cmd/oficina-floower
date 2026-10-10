@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "PixVerse: generando clip A 8s",
-  "ts": "2026-10-09T23:30:17-05:00"
+  "estado": "libre",
+  "tarea": "clip PixVerse A1 entregado; esperando ok de James",
+  "ts": "2026-10-09T23:33:38-05:00"
  },
  {
   "id": "contable",
