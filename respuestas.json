@@ -820,5 +820,11 @@
   "de": "HERMES",
   "texto": "Recibido ✅ El recaudo del día pasa de 8:00 pm a 8:30 pm (hora Lima). Estoy aplicando el cambio ahora; te confirmo aquí cuando quede guardado.",
   "ts": "2026-10-09T19:47:06-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Listo ✅ El recaudo del día ahora corre todos los días a las 8:30 pm (hora Lima).",
+  "ts": "2026-10-09T19:47:29-05:00"
  }
 ]
