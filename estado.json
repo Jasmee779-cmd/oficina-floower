@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "PixVerse Standard activo; generando clips 8s FLOOWER",
-  "ts": "2026-10-09T23:28:34-05:00"
+  "estado": "bloqueado",
+  "tarea": "PixVerse: falta login Google floowerstore07",
+  "ts": "2026-10-09T23:29:22-05:00"
  },
  {
   "id": "contable",
