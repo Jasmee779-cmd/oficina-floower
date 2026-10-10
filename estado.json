@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "revisando refs nudo infinito; rehacer clip A",
-  "ts": "2026-10-09T23:34:02-05:00"
+  "estado": "libre",
+  "tarea": "clip A1-v2 nudo correcto entregado; esperando ok James",
+  "ts": "2026-10-09T23:41:09-05:00"
  },
  {
   "id": "contable",
