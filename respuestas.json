@@ -796,5 +796,11 @@
   "de": "HERMES",
   "texto": "El único pendiente abierto es el pedido 8819 (Marcona), que no tiene cobertura de contraentrega. Ya decidiste que va por Shalom; lo que falta es que le digas a la asesora que lo cierre por Shalom. Mañana sábado a las 11:00 am te lo recuerdo. El otro (pedido múltiple) ya quedó resuelto ✅.",
   "ts": "2026-10-09T15:03:02-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "La subida de masivos está configurada a las 7:40 pm (hora Lima), de domingo a viernes; los sábados no corre. Hoy ya se ejecutó a las 7:43 pm y terminó bien.",
+  "ts": "2026-10-09T19:45:10-05:00"
  }
 ]
