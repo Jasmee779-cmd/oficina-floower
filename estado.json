@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Enviando foto antena+deco a Donato",
-  "ts": "2026-10-09T19:30:52-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T19:32:22-05:00"
  },
  {
   "id": "marketing",
