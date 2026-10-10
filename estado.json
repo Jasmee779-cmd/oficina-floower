@@ -1,9 +1,9 @@
 [
  {
   "id": "hermes",
-  "estado": "trabajando",
-  "tarea": "Pedidos del día 09/10",
-  "ts": "2026-10-09T21:02:47-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-10T01:20:33-05:00"
  },
  {
   "id": "ali",
