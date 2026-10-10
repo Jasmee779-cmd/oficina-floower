@@ -1,17 +1,17 @@
 {
  "pendientes": [
   {
-   "id": "shalom",
-   "texto": "Pedido sin cobertura: decidir envío Shalom",
-   "ts": "2026-10-08T07:50:49-05:00"
-  },
-  {
    "id": "multiple",
    "texto": "Pedido múltiple: confirmar estado",
    "ts": "2026-10-08T07:50:49-05:00",
    "hecho": true,
    "hecho_ts": "2026-10-09T03:26:59-05:00"
+  },
+  {
+   "id": "shalom",
+   "texto": "Pedido 8819 Marcona: asesora cierre Shalom",
+   "ts": "2026-10-10T11:02:30-05:00"
   }
  ],
- "ts": "2026-10-09T03:26:59-05:00"
+ "ts": "2026-10-10T11:02:30-05:00"
 }
