@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-09T19:17:51-05:00"
+  "estado": "trabajando",
+  "tarea": "Pidiendo adelanto a Donato",
+  "ts": "2026-10-09T19:28:59-05:00"
  },
  {
   "id": "marketing",
