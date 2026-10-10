@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Cerrar 8836 y 8799",
-  "ts": "2026-10-09T21:29:53-05:00"
+  "estado": "bloqueado",
+  "tarea": "Falta Editar TUST 8838 y 8799",
+  "ts": "2026-10-09T21:33:35-05:00"
  },
  {
   "id": "cierre",
