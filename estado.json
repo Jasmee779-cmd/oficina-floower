@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-10T01:18:15-05:00"
+  "estado": "trabajando",
+  "tarea": "TUST 8838 y 8799",
+  "ts": "2026-10-10T01:19:09-05:00"
  },
  {
   "id": "cierre",
