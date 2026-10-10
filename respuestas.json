@@ -856,5 +856,11 @@
   "de": "HERMES",
   "texto": "Pedidos del día 09/10 cerrado: 13 EE, 3 CANC, 10 REPROG, 10 NO CONTESTA sin tocar. Sin bloqueos.",
   "ts": "2026-10-10T01:20:32-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recordatorio 11:00: dile a la asesora del 8819 (Marcona) que cierre por Shalom. Esperando tu OK.",
+  "ts": "2026-10-10T11:02:28-05:00"
  }
 ]
