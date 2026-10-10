@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "Esperando OK James Editar 8838 y 8799",
-  "ts": "2026-10-09T21:33:47-05:00"
+  "estado": "trabajando",
+  "tarea": "Revisar pantalla Flower",
+  "ts": "2026-10-10T01:12:41-05:00"
  },
  {
   "id": "cierre",
