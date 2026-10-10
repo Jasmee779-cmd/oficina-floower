@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "trabajando",
-  "tarea": "Probando selector Seleccione atención",
-  "ts": "2026-10-09T19:52:18-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-09T19:52:57-05:00"
  },
  {
   "id": "marketing",
