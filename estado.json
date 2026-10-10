@@ -25,9 +25,9 @@
  },
  {
   "id": "cierre",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-09T20:40:33-05:00"
+  "estado": "trabajando",
+  "tarea": "Listando Confirmados del CRM",
+  "ts": "2026-10-09T20:59:36-05:00"
  },
  {
   "id": "marketing",
