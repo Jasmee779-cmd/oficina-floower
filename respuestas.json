@@ -850,5 +850,11 @@
   "de": "HERMES",
   "texto": "Pedidos del día 09/10: arrancó. Tienda baja Flower y ALI verifica en Aliclik. Te aviso al cerrar.",
   "ts": "2026-10-09T21:02:46-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos del día 09/10 cerrado: 13 EE, 3 CANC, 10 REPROG, 10 NO CONTESTA sin tocar. Sin bloqueos.",
+  "ts": "2026-10-10T01:20:32-05:00"
  }
 ]
