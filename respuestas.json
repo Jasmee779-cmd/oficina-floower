@@ -832,5 +832,11 @@
   "de": "HERMES",
   "texto": "Masivos 10/10: 21/21 OK, S/ 2,642, 0 errores. Lima/Callao entrega 10/10.",
   "ts": "2026-10-09T19:52:29-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Listo ✅ El cuadro de ventas ya muestra los masivos de hoy: 21 pedidos por S/ 2,642 (21/21 subidos, 0 errores), y quedó el aviso en 🔔 Avisos. Recarga la oficina para verlo.",
+  "ts": "2026-10-09T19:52:54-05:00"
  }
 ]
