@@ -802,5 +802,11 @@
   "de": "HERMES",
   "texto": "La subida de masivos está configurada a las 7:40 pm (hora Lima), de domingo a viernes; los sábados no corre. Hoy ya se ejecutó a las 7:43 pm y terminó bien.",
   "ts": "2026-10-09T19:45:10-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Listo ✅ El reporte de la ganancia del día ahora sale todos los días a las 8:00 pm, después de subir los masivos.",
+  "ts": "2026-10-09T19:45:49-05:00"
  }
 ]
