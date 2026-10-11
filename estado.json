@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "Chrome cayó Ruta Contraentrega Error 9",
-  "ts": "2026-10-11T13:47:26-05:00"
+  "estado": "libre",
+  "tarea": "Esperando a James: enseñanza contraentrega (filtro 15 días)",
+  "ts": "2026-10-11T13:48:03-05:00"
  },
  {
   "id": "cierre",
