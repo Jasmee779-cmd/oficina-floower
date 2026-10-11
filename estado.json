@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "CSV CE: error distrito Yeferson",
-  "ts": "2026-10-11T14:10:11-05:00"
+  "estado": "trabajando",
+  "tarea": "Reimportar CSV distrito Ica",
+  "ts": "2026-10-11T14:15:52-05:00"
  },
  {
   "id": "cierre",
