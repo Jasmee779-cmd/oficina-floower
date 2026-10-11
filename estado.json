@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-11T12:55:01-05:00"
+  "estado": "trabajando",
+  "tarea": "Diagnosticar crash Ruta Contraentrega",
+  "ts": "2026-10-11T12:58:27-05:00"
  },
  {
   "id": "cierre",
