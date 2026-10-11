@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-11T12:36:50-05:00"
+  "estado": "trabajando",
+  "tarea": "Abrir agregar contraentrega",
+  "ts": "2026-10-11T12:38:22-05:00"
  },
  {
   "id": "cierre",
