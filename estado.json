@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-10T22:52:30-05:00"
+  "estado": "trabajando",
+  "tarea": "Enseñanza subir pedido",
+  "ts": "2026-10-11T11:10:32-05:00"
  },
  {
   "id": "cierre",
