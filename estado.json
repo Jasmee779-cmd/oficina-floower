@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Registrar 4 CE Flower",
-  "ts": "2026-10-11T14:07:11-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-11T14:08:36-05:00"
  },
  {
   "id": "cierre",
