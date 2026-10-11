@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Probar otra sección Flower",
-  "ts": "2026-10-11T12:54:46-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-11T12:55:01-05:00"
  },
  {
   "id": "cierre",
