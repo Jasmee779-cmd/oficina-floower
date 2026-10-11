@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "Chrome crash Ruta Contraentrega al agregar",
-  "ts": "2026-10-11T12:41:29-05:00"
+  "estado": "trabajando",
+  "tarea": "Reentrar Ruta Contraentrega",
+  "ts": "2026-10-11T12:43:59-05:00"
  },
  {
   "id": "cierre",
