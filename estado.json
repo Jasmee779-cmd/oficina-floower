@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Importar CSV 4 CE",
-  "ts": "2026-10-11T14:09:17-05:00"
+  "estado": "bloqueado",
+  "tarea": "CSV CE: error distrito Yeferson",
+  "ts": "2026-10-11T14:10:11-05:00"
  },
  {
   "id": "cierre",
