@@ -868,5 +868,11 @@
   "de": "HERMES",
   "texto": "Recaudo 10/10: entregado S/ 1,752 (16) de S/ 2,031 esperado (19).",
   "ts": "2026-10-10T21:06:45-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos del día 10/10: arrancó Tienda→Ali (Flower Excel + verificación Aliclik).",
+  "ts": "2026-10-10T21:10:23-05:00"
  }
 ]
