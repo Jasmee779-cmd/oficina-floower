@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "Esperando datos Celez + flujo Pedidos Rotulados",
-  "ts": "2026-10-11T16:26:24-05:00"
+  "estado": "trabajando",
+  "tarea": "Esperando enseñanza Pedidos Rotulados (Celez)",
+  "ts": "2026-10-11T16:27:15-05:00"
  },
  {
   "id": "cierre",
