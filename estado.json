@@ -9,7 +9,7 @@
   "id": "ali",
   "estado": "libre",
   "tarea": "",
-  "ts": "2026-10-10T15:38:05-05:00"
+  "ts": "2026-10-10T21:10:26-05:00"
  },
  {
   "id": "ali2",
@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-10T15:38:19-05:00"
+  "estado": "trabajando",
+  "tarea": "Cierre pedidos 10/10",
+  "ts": "2026-10-10T21:10:25-05:00"
  },
  {
   "id": "cierre",
