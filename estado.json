@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "bloqueado",
-  "tarea": "CSV CE: Yeferson sigue fallando distrito Ica",
-  "ts": "2026-10-11T14:17:40-05:00"
+  "estado": "trabajando",
+  "tarea": "Subir CSV 4 CE Flatlogic",
+  "ts": "2026-10-11T14:24:47-05:00"
  },
  {
   "id": "cierre",
