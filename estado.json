@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-11T14:26:37-05:00"
+  "estado": "trabajando",
+  "tarea": "Revisar duplicados 4 CE",
+  "ts": "2026-10-11T14:27:33-05:00"
  },
  {
   "id": "cierre",
