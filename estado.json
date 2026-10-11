@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "trabajando",
-  "tarea": "Juan Vallejos; Hector no encontrado",
-  "ts": "2026-10-11T17:57:54-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-11T18:11:53-05:00"
  },
  {
   "id": "cierre",
