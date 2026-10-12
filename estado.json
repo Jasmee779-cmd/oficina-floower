@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "bloqueado",
-  "tarea": "Dreamina no carga en Chrome (ERR_TIMED_OUT)",
-  "ts": "2026-10-12T08:12:45-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-12T08:15:16-05:00"
  },
  {
   "id": "contable",
