@@ -31,9 +31,9 @@
  },
  {
   "id": "marketing",
-  "estado": "trabajando",
-  "tarea": "prep rebuild flow v3",
-  "ts": "2026-10-12T07:51:45-05:00"
+  "estado": "libre",
+  "tarea": "prep rebuild flow listo",
+  "ts": "2026-10-12T07:53:20-05:00"
  },
  {
   "id": "contable",
