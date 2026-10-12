@@ -19,9 +19,9 @@
  },
  {
   "id": "tienda",
-  "estado": "libre",
-  "tarea": "",
-  "ts": "2026-10-11T18:38:35-05:00"
+  "estado": "trabajando",
+  "tarea": "Confirmar estado 5 pedidos",
+  "ts": "2026-10-11T19:39:22-05:00"
  },
  {
   "id": "cierre",
