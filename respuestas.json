@@ -910,5 +910,11 @@
   "de": "HERMES",
   "texto": "Recaudo 11/10: entregado S/ 0 (0) de S/ 0 esperado (0). Domingo sin pedidos. Masivos 12/10: 22/22 OK S/ 2,418.",
   "ts": "2026-10-11T20:49:43-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Reporte semanal 05–11/10: total S/ 9,968 (meta S/ 18,000). Mejor día mar 06/10 S/ 2,317; más flojo jue 08/10 S/ 1,139. Dom 11/10 en 0. Semana anterior sin dato.",
+  "ts": "2026-10-12T08:35:12-05:00"
  }
 ]
