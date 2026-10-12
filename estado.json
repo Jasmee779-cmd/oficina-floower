@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Verificar/subir masivos 12/10",
-  "ts": "2026-10-11T20:02:27-05:00"
+  "estado": "bloqueado",
+  "tarea": "Import masivos 12/10 no registro",
+  "ts": "2026-10-11T20:10:35-05:00"
  },
  {
   "id": "tienda",
