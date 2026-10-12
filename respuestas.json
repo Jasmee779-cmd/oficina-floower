@@ -892,5 +892,17 @@
   "de": "HERMES",
   "texto": "Masivos 12/10: 0 subidos (sesión Aliclik cayó). Edy Fuentes pendiente. Esperando decisión James.",
   "ts": "2026-10-11T20:11:00-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos 12/10: Edy Fuentes (Ica) autorizado. ALI intenta subir las 22 filas (ALI 2 ya falló).",
+  "ts": "2026-10-11T20:19:16-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos Aliclik 12/10: 22/22 OK, S/ 2,418. Incluye Edy Fuentes (entrega Aliclik 13/10 Ica). Lima/Callao OK entrega 12/10.",
+  "ts": "2026-10-11T20:46:22-05:00"
  }
 ]
