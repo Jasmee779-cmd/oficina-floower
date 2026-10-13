@@ -928,5 +928,11 @@
   "de": "HERMES",
   "texto": "Recaudo 12/10 bloqueado: Aliclik en login y este Chrome no tiene contraseña (ni 1Password ni autofill). Masivos 13/10: plantilla lista (13), aún sin subir.",
   "ts": "2026-10-12T20:45:25-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 12/10: S/ 2,108 entregado (18) de S/ 2,454 (22). Malpartida creado; Natalia con error de EAN.",
+  "ts": "2026-10-13T00:39:09-05:00"
  }
 ]
