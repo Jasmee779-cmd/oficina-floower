@@ -970,5 +970,11 @@
   "de": "HERMES",
   "texto": "Pedidos 15/10 cerrados: 15 EE, 2 CANC, 8 REPROG, 1 sin datos (9066).",
   "ts": "2026-10-15T21:55:57-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Sí: **ya subieron**. En Aliclik (Órdenes Masivas) el lote de **15/10 ~20:18** está **CONFIRMADO**. Plantilla mañana **16** pedidos, **S/ 2,000**.",
+  "ts": "2026-10-15T22:00:31-05:00"
  }
 ]
