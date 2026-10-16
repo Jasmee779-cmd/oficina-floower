@@ -952,5 +952,11 @@
   "de": "HERMES",
   "texto": "Recaudo 15/10: S/ 1,594 entregado (15) de S/ 1,921 (18).",
   "ts": "2026-10-15T20:38:21-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Arrancó pedidos del día 15/10 (flujo 9 pm).",
+  "ts": "2026-10-15T21:06:04-05:00"
  }
 ]
