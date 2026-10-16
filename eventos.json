@@ -29,6 +29,11 @@
    "ts": "2026-10-12T08:15:58-05:00",
    "agente": "ali",
    "texto": "Masivos 12/10 subidos: 22/22 OK, S/ 2,418 (registro tarde en oficina)"
+  },
+  {
+   "ts": "2026-10-15T22:00:40-05:00",
+   "agente": "ali2",
+   "texto": "Masivos 16/10 subidos: 16 CONFIRMADO, S/ 2,000 (registro tarde en oficina)"
   }
  ]
 }
