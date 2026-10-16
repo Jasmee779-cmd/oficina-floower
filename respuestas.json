@@ -964,5 +964,11 @@
   "de": "HERMES",
   "texto": "¡Hola James! 👋 Aquí estoy. Hoy ya corrieron masivos, recaudo y pedidos del día. ¿Qué necesitas?",
   "ts": "2026-10-15T21:55:38-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos 15/10 cerrados: 15 EE, 2 CANC, 8 REPROG, 1 sin datos (9066).",
+  "ts": "2026-10-15T21:55:57-05:00"
  }
 ]
