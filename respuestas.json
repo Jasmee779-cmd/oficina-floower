@@ -940,5 +940,11 @@
   "de": "HERMES",
   "texto": "Pedidos 12/10 cerrado: 17 EE, 2 CANC, 13 REPROG, 7 saltados.",
   "ts": "2026-10-13T00:44:12-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 15/10: bloqueado, Aliclik pide iniciar sesión. Falta que ALI 2 entre para sacar el reporte.",
+  "ts": "2026-10-15T20:36:13-05:00"
  }
 ]
