@@ -1,9 +1,1 @@
-{
- "fecha": "2026-10-16",
- "recaudo": 1640.0,
- "masivos": 15,
- "masivos_monto": 2082.4,
- "pedidos": 0,
- "moneda": "PEN",
- "ts": "2026-10-16T20:33:57-05:00"
-}
+{"fecha": "2026-10-17", "recaudo": 0, "masivos": 0, "masivos_monto": 0, "pedidos": 0, "moneda": "PEN", "ts": "2026-10-17T00:54:26-05:00"}
