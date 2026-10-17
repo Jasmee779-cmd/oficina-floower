@@ -1006,5 +1006,11 @@
   "de": "HERMES",
   "texto": "Arrancó pedidos del día 16/10 (flujo 9 pm).",
   "ts": "2026-10-16T21:10:03-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos 16/10 cerrados: 9 EE, 3 CANC, 6 REPROG, 2 sin tocar.",
+  "ts": "2026-10-16T21:14:50-05:00"
  }
 ]
