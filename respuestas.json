@@ -994,5 +994,11 @@
   "de": "HERMES",
   "texto": "Recaudo 16/10: bloqueado, Aliclik pide iniciar sesión. Masivos 17/10 ya subidos (15/15).",
   "ts": "2026-10-16T20:32:33-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 16/10: S/ 1,640 entregado (14) de S/ 2,462 (22).",
+  "ts": "2026-10-16T20:34:01-05:00"
  }
 ]
