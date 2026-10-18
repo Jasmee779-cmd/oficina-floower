@@ -1018,5 +1018,11 @@
   "de": "HERMES",
   "texto": "Recaudo 17/10: bloqueado, Aliclik pide iniciar sesión. Falta que ALI 2 entre para sacar el reporte.",
   "ts": "2026-10-17T20:40:59-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 17/10: S/ 1,956 entregado (14) de S/ 2,421 (19).",
+  "ts": "2026-10-17T20:44:50-05:00"
  }
 ]
