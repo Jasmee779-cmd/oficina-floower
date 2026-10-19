@@ -1,9 +1,9 @@
 [
  {
   "id": "hermes",
-  "estado": "trabajando",
-  "tarea": "Recaudo del día Aliclik",
-  "ts": "2026-10-18T20:37:42-05:00"
+  "estado": "bloqueado",
+  "tarea": "Recaudo 18/10: Aliclik en login",
+  "ts": "2026-10-18T20:38:37-05:00"
  },
  {
   "id": "ali",
