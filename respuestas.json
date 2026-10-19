@@ -1060,5 +1060,11 @@
   "de": "HERMES",
   "texto": "Reporte semanal 12–18/10: total S/ 10,105 (meta S/ 18,000). Mejor día lun 12/10 S/ 2,108; más flojo mar 13/10 S/ 1,297. +S/ 1,137 vs semana anterior.",
   "ts": "2026-10-19T08:19:49-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Corrección reporte 12–18/10: total S/ 10,105, +S/ 137 vs semana anterior (no +1,137). Mejor día lun 12/10 S/ 2,108.",
+  "ts": "2026-10-19T08:20:05-05:00"
  }
 ]
