@@ -1054,5 +1054,11 @@
   "de": "HERMES",
   "texto": "Recaudo 18/10: S/ 0 (domingo, sin entregas).",
   "ts": "2026-10-18T20:40:06-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Reporte semanal 12–18/10: total S/ 10,105 (meta S/ 18,000). Mejor día lun 12/10 S/ 2,108; más flojo mar 13/10 S/ 1,297. +S/ 1,137 vs semana anterior.",
+  "ts": "2026-10-19T08:19:49-05:00"
  }
 ]
