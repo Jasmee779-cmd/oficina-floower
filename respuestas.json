@@ -1048,5 +1048,11 @@
   "de": "HERMES",
   "texto": "Recaudo 18/10 bloqueado: Aliclik pide iniciar sesión. Masivos 19/10 ya OK (17/17).",
   "ts": "2026-10-18T20:38:43-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 18/10: S/ 0 (domingo, sin entregas).",
+  "ts": "2026-10-18T20:40:06-05:00"
  }
 ]
