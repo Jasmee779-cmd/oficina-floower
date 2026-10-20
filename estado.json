@@ -1,9 +1,9 @@
 [
  {
   "id": "hermes",
-  "estado": "bloqueado",
-  "tarea": "Recaudo 19/10: Aliclik pide login",
-  "ts": "2026-10-19T20:36:08-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-19T20:40:25-05:00"
  },
  {
   "id": "ali",
