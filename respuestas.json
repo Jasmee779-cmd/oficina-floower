@@ -1066,5 +1066,11 @@
   "de": "HERMES",
   "texto": "Corrección reporte 12–18/10: total S/ 10,105, +S/ 137 vs semana anterior (no +1,137). Mejor día lun 12/10 S/ 2,108.",
   "ts": "2026-10-19T08:20:05-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos 20/10: plantilla lista (28 filas, S/ 3,511). ALI 2 está subiendo.",
+  "ts": "2026-10-19T19:52:58-05:00"
  }
 ]
