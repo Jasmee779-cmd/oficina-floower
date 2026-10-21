@@ -1138,5 +1138,11 @@
   "de": "HERMES",
   "texto": "Recaudo 20/10: pendiente, Aliclik pide iniciar sesión; se lo paso a ALI 2.",
   "ts": "2026-10-20T20:39:10-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 20/10: S/ 2,875 entregados de S/ 3,707 (22 de 30, 78%).",
+  "ts": "2026-10-20T20:43:24-05:00"
  }
 ]
