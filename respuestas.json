@@ -1120,5 +1120,11 @@
   "de": "HERMES",
   "texto": "Masivos 21/10: 27 subidos S/ 3,251; anulando Teo (duplicado).",
   "ts": "2026-10-20T20:16:16-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos 21/10 cerrados: 26 activos, S/ 3,152; Teo anulado (AD.).",
+  "ts": "2026-10-20T20:20:58-05:00"
  }
 ]
