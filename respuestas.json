@@ -1114,5 +1114,11 @@
   "de": "HERMES",
   "texto": "Pedidos 19/10 cerrado: 12 EE, 9 REPROG, 1 CANC, 3 sin tocar.",
   "ts": "2026-10-19T21:24:51-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos 21/10: 27 subidos S/ 3,251; anulando Teo (duplicado).",
+  "ts": "2026-10-20T20:16:16-05:00"
  }
 ]
