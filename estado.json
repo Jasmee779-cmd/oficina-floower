@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "trabajando",
-  "tarea": "pedido nuevo Aliclik",
-  "ts": "2026-10-21T21:27:11-05:00"
+  "estado": "bloqueado",
+  "tarea": "Aliclik no deja entrar",
+  "ts": "2026-10-21T21:30:24-05:00"
  },
  {
   "id": "ali2",
