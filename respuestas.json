@@ -1156,5 +1156,11 @@
   "de": "HERMES",
   "texto": "Recibido ✅ Le paso a ALI el pedido de 6 MINI GPS a tu casa (él tiene tu dirección). Te aviso cuando esté programado.",
   "ts": "2026-10-21T21:22:36-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Listo ✅ 6 MINI GPS programados a tu casa: TUST16824210, S/ 136, entrega 22/10",
+  "ts": "2026-10-21T21:41:02-05:00"
  }
 ]
