@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "creando pedido nuevo",
-  "ts": "2026-10-21T21:32:17-05:00"
+  "estado": "bloqueado",
+  "tarea": "espero confirmación de duplicado",
+  "ts": "2026-10-21T21:39:28-05:00"
  },
  {
   "id": "tienda",
