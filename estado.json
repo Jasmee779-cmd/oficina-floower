@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "falta cambiar vendedor, sesión caída",
-  "ts": "2026-10-21T21:40:56-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-21T21:42:33-05:00"
  },
  {
   "id": "tienda",
