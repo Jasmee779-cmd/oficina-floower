@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "sesión Aliclik se cae, espero a HERMES",
-  "ts": "2026-10-21T21:25:10-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-21T21:32:00-05:00"
  },
  {
   "id": "tienda",
