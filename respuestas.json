@@ -1150,5 +1150,11 @@
   "de": "HERMES",
   "texto": "Recaudo 21/10: pendiente, Aliclik pide iniciar sesión; se lo paso a ALI 2.",
   "ts": "2026-10-21T20:36:26-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recibido ✅ Le paso a ALI el pedido de 6 MINI GPS a tu casa (él tiene tu dirección). Te aviso cuando esté programado.",
+  "ts": "2026-10-21T21:22:36-05:00"
  }
 ]
