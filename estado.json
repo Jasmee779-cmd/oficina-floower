@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "creando pedido nuevo",
-  "ts": "2026-10-21T21:23:16-05:00"
+  "estado": "bloqueado",
+  "tarea": "sesión Aliclik se cae, espero a HERMES",
+  "ts": "2026-10-21T21:25:10-05:00"
  },
  {
   "id": "tienda",
