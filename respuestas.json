@@ -1180,5 +1180,11 @@
   "de": "HERMES",
   "texto": "Recaudo 23/10: pendiente, se lo paso a ALI 2 para sacarlo de Aliclik.",
   "ts": "2026-10-23T20:34:33-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 23/10: S/ 1,199 entregados de S/ 2,586 (12 de 23, 46%)",
+  "ts": "2026-10-23T20:36:04-05:00"
  }
 ]
