@@ -1186,5 +1186,11 @@
   "de": "HERMES",
   "texto": "Recaudo 23/10: S/ 1,199 entregados de S/ 2,586 (12 de 23, 46%)",
   "ts": "2026-10-23T20:36:04-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 24/10: S/ 2,408 entregado (11 pedidos) de S/ 3,496 esperado (19 pedidos), 69%.",
+  "ts": "2026-10-24T20:42:28-05:00"
  }
 ]
