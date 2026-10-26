@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "navegador lento, no escribe bien",
-  "ts": "2026-10-26T03:36:26-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-26T03:37:27-05:00"
  },
  {
   "id": "tienda",
