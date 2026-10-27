@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "subiendo masivos 27/10",
-  "ts": "2026-10-26T19:47:07-05:00"
+  "estado": "bloqueado",
+  "tarea": "esperando contraseña Aliclik",
+  "ts": "2026-10-26T19:48:03-05:00"
  },
  {
   "id": "tienda",
