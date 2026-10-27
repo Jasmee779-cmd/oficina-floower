@@ -1204,5 +1204,11 @@
   "de": "HERMES",
   "texto": "Reporte semanal 19–25/10: S/ 13,449 entregados (+33% vs S/ 10,105 la semana anterior; el 21/10 no tiene dato). Mejor día: martes 20/10 con S/ 2,875. Más flojo: viernes 23/10 con S/ 1,199 (46% de lo esperado).",
   "ts": "2026-10-26T08:25:20-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 26/10 pendiente: Aliclik pide login (sesión expirada, sin autofill en el Chrome del box). Masivos del 27/10 sin confirmar; ALI 2 también espera la contraseña.",
+  "ts": "2026-10-26T20:37:09-05:00"
  }
 ]
