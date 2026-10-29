@@ -1222,5 +1222,11 @@
   "de": "HERMES",
   "texto": "Recaudo 28/10 pendiente: Aliclik pide login (sesión expirada, sin autofill en el Chrome de HERMES). Masivos del 29/10 ya subidos: 20 pedidos, S/ 3,158.",
   "ts": "2026-10-28T20:38:24-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Sí ✅ Masivos de mañana 29/10 ya subidos: 20 pedidos, S/ 3,158.",
+  "ts": "2026-10-28T20:39:18-05:00"
  }
 ]
