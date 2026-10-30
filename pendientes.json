@@ -11,7 +11,12 @@
    "id": "shalom",
    "texto": "Pedido 8819 Marcona: asesora cierre Shalom",
    "ts": "2026-10-10T11:02:30-05:00"
+  },
+  {
+   "id": "revisar2910",
+   "texto": "3 pedidos del 29/10 por revisar (TUST a otro nombre, no está en Aliclik, anulado por stock)",
+   "ts": "2026-10-29T21:24:04-05:00"
   }
  ],
- "ts": "2026-10-10T11:02:30-05:00"
+ "ts": "2026-10-29T21:24:04-05:00"
 }
