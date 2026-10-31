@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "reporte 9pm 30/10",
-  "ts": "2026-10-30T21:07:03-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-10-30T21:12:05-05:00"
  },
  {
   "id": "tienda",
