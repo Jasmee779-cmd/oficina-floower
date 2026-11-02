@@ -1234,5 +1234,11 @@
   "de": "HERMES",
   "texto": "Entregas de ayer 30/10 (ALI verificó 36 en Aliclik, 23 actualizados en Flower): ✅ ENTREGA EXITOSA 15 (9577, 9576, 9574, 9573, 9571, 9570, 9565, 9560, 9559, 9557, 9555, 9540, 9518, 9452, 9434). ❌ CANCELADO 2 (9426, 9531). 🔁 REPROGRAMADO 6: 9586, 9562, 9481, 9462 para hoy 31/10; 9566 y 9554 para el 02/11. Saltados 13: 8 NO CONTESTA (9473, 9467, 9402, 9366, 9295, 9291, 9277, 9093; el 9277 DEVUELTO y el 9291 POR DEVOLVER), posibles duplicados 9567 y 9558, 9551, 9550 (AD anulado pero sigue POR ENTREGAR) y 9453 (no está en Aliclik). Pendientes tuyos: 9355, 8705, 8699, 8649, 8596. El monto en soles del recaudo de ayer no quedó registrado (el reporte de recaudo está pausado); si quieres, se lo saco a ALI de Seguimiento Contraentrega.",
   "ts": "2026-10-31T12:46:17-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Reporte semanal 26/10 al 01/11: S/ 13,985 entregados con solo 4 días con dato (+4% vs la semana anterior). Mejor día: lunes 26/10 con S/ 5,285. Ojo: falta el recaudo del vie 30/10 y sáb 31/10 (no se capturó) y el cierre del 31/10 por el bloqueo de login en Aliclik.",
+  "ts": "2026-11-02T08:14:50-05:00"
  }
 ]
