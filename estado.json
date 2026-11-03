@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "trabajando",
-  "tarea": "buscar 3 pedidos Aliclik",
-  "ts": "2026-11-03T00:47:57-05:00"
+  "estado": "bloqueado",
+  "tarea": "sin login Aliclik",
+  "ts": "2026-11-03T00:58:39-05:00"
  },
  {
   "id": "ali2",
