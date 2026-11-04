@@ -1240,5 +1240,11 @@
   "de": "HERMES",
   "texto": "Reporte semanal 26/10 al 01/11: S/ 13,985 entregados con solo 4 días con dato (+4% vs la semana anterior). Mejor día: lunes 26/10 con S/ 5,285. Ojo: falta el recaudo del vie 30/10 y sáb 31/10 (no se capturó) y el cierre del 31/10 por el bloqueo de login en Aliclik.",
   "ts": "2026-11-02T08:14:50-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 03/11 pendiente: Aliclik pide login (sesión cerrada, sin autofill en el Chrome de HERMES). Falta que alguien inicie sesión para sacar el entregado del día.",
+  "ts": "2026-11-03T20:39:31-05:00"
  }
 ]
