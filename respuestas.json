@@ -1246,5 +1246,11 @@
   "de": "HERMES",
   "texto": "Recaudo 03/11 pendiente: Aliclik pide login (sesión cerrada, sin autofill en el Chrome de HERMES). Falta que alguien inicie sesión para sacar el entregado del día.",
   "ts": "2026-11-03T20:39:31-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 04/11: pendiente. Aliclik está con la sesión cerrada (en /login), no se pudo leer Seguimiento Contraentrega ni confirmar el lote de masivos 05/11. Se necesita iniciar sesión en Aliclik.",
+  "ts": "2026-11-04T20:32:13-05:00"
  }
 ]
