@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "trabajando",
-  "tarea": "consulta solo lectura",
-  "ts": "2026-11-05T11:32:05-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-05T11:35:53-05:00"
  },
  {
   "id": "ali2",
