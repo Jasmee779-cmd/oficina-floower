@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Preparar alta individual autorizada",
-  "ts": "2026-11-06T22:48:33-05:00"
+  "estado": "bloqueado",
+  "tarea": "Pendiente permiso de reapertura Aliclik",
+  "ts": "2026-11-06T22:49:33-05:00"
  },
  {
   "id": "tienda",
