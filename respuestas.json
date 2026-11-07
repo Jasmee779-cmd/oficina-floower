@@ -1258,5 +1258,11 @@
   "de": "HERMES",
   "texto": "Recaudo 06/11: pendiente. Aliclik pide login (sesión expirada en /login). No se pudo leer el entregado del día ni confirmar si ya se subieron los masivos del 07/11 (plantilla lista: 34 pedidos, S/ 5,161.70).",
   "ts": "2026-11-06T20:41:43-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Corrección del aviso del 06/11 a las 20:41, hora Lima: según el reporte verificado de ALI 2, los masivos se importaron una sola vez y quedaron verificados: 31/31 pedidos, S/ 4,262.90, sin errores ni duplicados del lote. Quedan 3 NovaLux pendientes de agencia, sin convertir ni enviar. El recaudo del 06/11 sigue pendiente, sin cifra confirmada.",
+  "ts": "2026-11-06T20:42:52-05:00"
  }
 ]
