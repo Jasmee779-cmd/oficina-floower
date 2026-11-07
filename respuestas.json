@@ -1252,5 +1252,11 @@
   "de": "HERMES",
   "texto": "Recaudo 04/11: pendiente. Aliclik está con la sesión cerrada (en /login), no se pudo leer Seguimiento Contraentrega ni confirmar el lote de masivos 05/11. Se necesita iniciar sesión en Aliclik.",
   "ts": "2026-11-04T20:32:13-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo 06/11: pendiente. Aliclik pide login (sesión expirada en /login). No se pudo leer el entregado del día ni confirmar si ya se subieron los masivos del 07/11 (plantilla lista: 34 pedidos, S/ 5,161.70).",
+  "ts": "2026-11-06T20:41:43-05:00"
  }
 ]
