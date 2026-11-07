@@ -14,8 +14,8 @@
  {
   "id": "ali2",
   "estado": "bloqueado",
-  "tarea": "Alta pendiente: formulario altera importe y no fija fecha",
-  "ts": "2026-11-06T23:08:52-05:00"
+  "tarea": "Pendiente resolución de fecha antes de importar pedido único",
+  "ts": "2026-11-06T23:13:27-05:00"
  },
  {
   "id": "tienda",
