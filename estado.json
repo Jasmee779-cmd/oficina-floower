@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "Pendiente autorización de reintento tras rechazo de fecha",
-  "ts": "2026-11-07T00:29:07-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-07T00:39:19-05:00"
  },
  {
   "id": "tienda",
