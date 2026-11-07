@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "Pendiente resolución de fecha antes de importar pedido único",
-  "ts": "2026-11-06T23:13:27-05:00"
+  "estado": "trabajando",
+  "tarea": "Carga única y validación Express del pedido autorizado",
+  "ts": "2026-11-07T00:20:05-05:00"
  },
  {
   "id": "tienda",
