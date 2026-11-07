@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Cotejo documental de pedidos autorizado",
-  "ts": "2026-11-06T21:35:36-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-06T21:41:57-05:00"
  },
  {
   "id": "tienda",
