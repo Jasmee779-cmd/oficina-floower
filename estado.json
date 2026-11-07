@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "bloqueado",
-  "tarea": "Pendiente permiso de reapertura Aliclik",
-  "ts": "2026-11-06T22:49:33-05:00"
+  "estado": "trabajando",
+  "tarea": "Validando importe y fecha antes del alta",
+  "ts": "2026-11-06T23:00:38-05:00"
  },
  {
   "id": "tienda",
