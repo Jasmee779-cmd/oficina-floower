@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Consulta de recaudo solo lectura",
-  "ts": "2026-11-08T13:52:49-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-08T14:02:19-05:00"
  },
  {
   "id": "tienda",
