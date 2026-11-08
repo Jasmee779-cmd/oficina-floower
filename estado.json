@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Consulta de liquidación solo lectura",
-  "ts": "2026-11-08T00:13:36-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-08T00:16:06-05:00"
  },
  {
   "id": "tienda",
