@@ -1270,5 +1270,11 @@
   "de": "HERMES",
   "texto": "Recaudo 06/11 verificado por ALI 2 a las 20:42–20:43, hora Lima: ENTREGADO 19 pedidos, S/ 2,649.00 cobrados; total esperado 34 pedidos, S/ 5,222.00. Diferencia: 15 pedidos y S/ 2,573.00 sin registrar como entregados; no es un desglose de estados. Masivos 07/11 ya confirmados: 31/31, S/ 4,262.90; 3 NovaLux pendientes de agencia.",
   "ts": "2026-11-06T20:43:53-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo del 07/11 pendiente: la sesión de Aliclik está en login, no se pudieron leer los totales. Se retoma cuando se vuelva a iniciar sesión.",
+  "ts": "2026-11-07T20:37:59-05:00"
  }
 ]
