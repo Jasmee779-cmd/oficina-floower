@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Pedido pendiente de definición",
-  "ts": "2026-11-09T00:13:38-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-09T00:43:53-05:00"
  },
  {
   "id": "tienda",
