@@ -1276,5 +1276,11 @@
   "de": "HERMES",
   "texto": "Recaudo del 07/11 pendiente: la sesión de Aliclik está en login, no se pudieron leer los totales. Se retoma cuando se vuelva a iniciar sesión.",
   "ts": "2026-11-07T20:37:59-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Reporte semanal 02–08/11: S/ 8,141 entregados con solo 3 días con dato (−42% vs S/ 13,985 la semana anterior). Mejor día: sábado 07/11 con S/ 3,625. Ojo: falta el recaudo del lun 02/11, mar 03/11, mié 04/11 y dom 08/11 (login de Aliclik; la rutina de recaudo quedó en pausa el 07/11).",
+  "ts": "2026-11-09T08:17:30-05:00"
  }
 ]
