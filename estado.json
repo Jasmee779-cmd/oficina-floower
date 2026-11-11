@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "trabajando",
-  "tarea": "circuito pedidos 10/11 solo lectura",
-  "ts": "2026-11-10T21:04:37-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-10T21:13:07-05:00"
  },
  {
   "id": "ali2",
