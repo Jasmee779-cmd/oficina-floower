@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Creando pedido en Aliclik",
-  "ts": "2026-11-12T08:38:24-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-12T08:48:24-05:00"
  },
  {
   "id": "tienda",
