@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "trabajando",
-  "tarea": "editar pedido Aliclik",
-  "ts": "2026-11-14T08:39:52-05:00"
+  "estado": "bloqueado",
+  "tarea": "esperando que ali2 salga de Aliclik",
+  "ts": "2026-11-14T08:40:01-05:00"
  },
  {
   "id": "ali2",
