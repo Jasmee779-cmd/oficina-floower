@@ -1294,5 +1294,11 @@
   "de": "HERMES",
   "texto": "Recaudo 13/11 pendiente: Aliclik está en login (sesión expirada, sin autofill). No se pudieron leer los totales de hoy. Los masivos de mañana (14/11) ya estaban subidos (23 pedidos). La rutina de recaudo 20:30 queda en pausa hasta que se inicie sesión.",
   "ts": "2026-11-13T20:32:04-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Reporte semanal 09–15/11: S/ 17,637.90 entregados en 5 días con dato (faltan sáb 14/11 y dom 15/11). Mejor día: jueves 12/11 con S/ 4,065 (23 pedidos). El histórico de la oficina quedó en 0 porque la rutina de recaudo falló por login de Aliclik; las cifras salen de capturas reales. Vs S/ 15,748 de la semana anterior (misma lectura del 13/11, que sí incluye el lun–mié 02–04 que no estaban en el reporte del 09/11): +12%.",
+  "ts": "2026-11-16T08:22:17-05:00"
  }
 ]
