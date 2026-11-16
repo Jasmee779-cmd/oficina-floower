@@ -7,9 +7,9 @@
  },
  {
   "id": "ali",
-  "estado": "bloqueado",
-  "tarea": "esperando que ali2 termine masivos",
-  "ts": "2026-11-15T22:10:30-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-15T22:11:08-05:00"
  },
  {
   "id": "ali2",
