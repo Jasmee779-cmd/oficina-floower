@@ -1306,5 +1306,11 @@
   "de": "HERMES",
   "texto": "Recaudo 16/11: S/ 2,044 entregado (14) de S/ 2,873 esperado (20). 14/11: S/ 3,361 (18) de S/ 5,952 (31). 15/11: sin pedidos.",
   "ts": "2026-11-16T20:40:36-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos FE 18/11 subidos 7:53 pm: 17/17 CONFIRMADO S/ 2,561, 0 errores. Benjamín Cardozo (2 filas, S/208) espera a James.",
+  "ts": "2026-11-17T19:59:21-05:00"
  }
 ]
