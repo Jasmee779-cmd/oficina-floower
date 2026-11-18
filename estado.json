@@ -13,9 +13,9 @@
  },
  {
   "id": "ali2",
-  "estado": "trabajando",
-  "tarea": "Creando pedidos",
-  "ts": "2026-11-17T22:39:50-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-17T23:21:39-05:00"
  },
  {
   "id": "tienda",
