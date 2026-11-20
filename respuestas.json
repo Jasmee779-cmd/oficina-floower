@@ -1324,5 +1324,11 @@
   "de": "HERMES",
   "texto": "Recaudo FE 18/11: entregado S/ 2,472 (16) de S/ 2,917 esperado (21). Masivos FE 19/11: 12/12 confirmados, S/ 2,124.",
   "ts": "2026-11-18T20:40:44-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 19/11: entregado S/ 1,647 (10) de S/ 2,357 esperado (16). Masivos FE 20/11: 23/23 CONFIRMADO, S/ 3,421.",
+  "ts": "2026-11-19T20:42:49-05:00"
  }
 ]
