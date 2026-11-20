@@ -1330,5 +1330,11 @@
   "de": "HERMES",
   "texto": "Recaudo FE 19/11: entregado S/ 1,647 (10) de S/ 2,357 esperado (16). Masivos FE 20/11: 23/23 CONFIRMADO, S/ 3,421.",
   "ts": "2026-11-19T20:42:49-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Pedidos del día FE 19/11 cerrado: 39 consultados en Aliclik (0 faltantes). Actualizados en Flower: 9 entrega exitosa, 3 reprogramados, 3 cancelados, 23 no contesta sin tocar y 1 múltiple pendiente de decisión.",
+  "ts": "2026-11-19T21:23:48-05:00"
  }
 ]
