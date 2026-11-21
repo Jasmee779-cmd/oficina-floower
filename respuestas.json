@@ -1348,5 +1348,11 @@
   "de": "HERMES",
   "texto": "Recordatorio 10am: anny (Flower 10344, Chachapoyas, S/158) quedó SIN COBERTURA. Hay que indicarle a la asesora que le escriba para ofrecerle envío Shalom con adelanto.",
   "ts": "2026-11-21T10:08:27-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Nueva regla a todos: si se cae la sesión, avisar a HERMES; 5 reintentos (3 con 1 min y 2 con 5 min); si siguen sin entrar, avisar para que intervenga un humano.",
+  "ts": "2026-11-21T12:47:33-05:00"
  }
 ]
