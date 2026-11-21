@@ -1336,5 +1336,11 @@
   "de": "HERMES",
   "texto": "Pedidos del día FE 19/11 cerrado: 39 consultados en Aliclik (0 faltantes). Actualizados en Flower: 9 entrega exitosa, 3 reprogramados, 3 cancelados, 23 no contesta sin tocar y 1 múltiple pendiente de decisión.",
   "ts": "2026-11-19T21:23:48-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 20/11 (Aliclik 20:40): ENTREGADO S/ 1,721 (13 pedidos) de esperado S/ 3,232 (21). Faltan 8 por S/ 1,511; el día aún no cierra.",
+  "ts": "2026-11-20T20:40:29-05:00"
  }
 ]
