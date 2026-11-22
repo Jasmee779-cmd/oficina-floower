@@ -1,9 +1,9 @@
 [
  {
   "id": "hermes",
-  "estado": "trabajando",
-  "tarea": "Recaudo FE 21/11: se pide a ALI 2",
-  "ts": "2026-11-21T20:32:58-05:00"
+  "estado": "libre",
+  "tarea": "",
+  "ts": "2026-11-21T20:37:24-05:00"
  },
  {
   "id": "ali",
