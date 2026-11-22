@@ -1354,5 +1354,11 @@
   "de": "HERMES",
   "texto": "Nueva regla a todos: si se cae la sesión, avisar a HERMES; 5 reintentos (3 con 1 min y 2 con 5 min); si siguen sin entrar, avisar para que intervenga un humano.",
   "ts": "2026-11-21T12:47:33-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 21/11: ENTREGADO S/ 2,371 (18 pedidos) de S/ 4,181 esperado (28). Corte de hoy, puede subir.",
+  "ts": "2026-11-21T20:37:20-05:00"
  }
 ]
