@@ -1366,5 +1366,11 @@
   "de": "HERMES",
   "texto": "Arrancó el circuito de pedidos del día FE 21/11. Contable: 14 boletas del 21/11 (S/ 2,244) pasadas.",
   "ts": "2026-11-21T21:02:23-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 22/11 (domingo): S/ 0, sin pedidos con esa fecha. Masivos 23/11 trabados: el login de Flower en el vault llena AGENTE FINANZA.",
+  "ts": "2026-11-22T20:37:29-05:00"
  }
 ]
