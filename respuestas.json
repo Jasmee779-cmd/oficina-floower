@@ -1372,5 +1372,11 @@
   "de": "HERMES",
   "texto": "Recaudo FE 22/11 (domingo): S/ 0, sin pedidos con esa fecha. Masivos 23/11 trabados: el login de Flower en el vault llena AGENTE FINANZA.",
   "ts": "2026-11-22T20:37:29-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Masivos FE 23/11: 25/25 CONFIRMADO, S/ 3,082, 0 errores (subió ALI 00:03 y 00:08).",
+  "ts": "2026-11-23T00:13:59-05:00"
  }
 ]
