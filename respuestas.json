@@ -1384,5 +1384,11 @@
   "de": "HERMES",
   "texto": "Reporte semanal 16–22/11: S/ 12,132 entregados (−42% vs S/ 20,998.90 la semana anterior). Mejor día: miércoles 18/11 con S/ 2,472 (16 pedidos). El recaudo bajó frente a la semana previa; el domingo 22/11 quedó en S/ 0 (sin pedidos) y el histórico de la oficina no guardó el viernes 20/11 (S/ 1,721 reales).",
   "ts": "2026-11-23T08:13:28-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 23/11: S/2,230 entregado (16) de S/2,715 esperado (21). Masivos FE 24/11: 14/14 CONFIRMADO, S/1,596.",
+  "ts": "2026-11-23T20:38:22-05:00"
  }
 ]
