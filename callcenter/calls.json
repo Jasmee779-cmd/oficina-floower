@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 12:31:34 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 13:11:56 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,168 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 2,
-      "conectables": 2,
-      "confirmadas": 1,
+      "total": 3,
+      "conectables": 3,
+      "confirmadas": 2,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 0,
-      "tasa_confirmacion_pct": 50,
-      "monto_confirmado": 249.0
+      "tasa_confirmacion_pct": 67,
+      "monto_confirmado": 498.0
     },
     "semana": {
-      "total": 11,
-      "conectables": 4,
-      "confirmadas": 3,
+      "total": 12,
+      "conectables": 5,
+      "confirmadas": 4,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 7,
-      "tasa_confirmacion_pct": 75,
-      "monto_confirmado": 427.0
+      "tasa_confirmacion_pct": 80,
+      "monto_confirmado": 676.0
     },
     "total_historico": {
-      "total": 11,
-      "conectables": 4,
-      "confirmadas": 3,
+      "total": 12,
+      "conectables": 5,
+      "confirmadas": 4,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 7,
-      "tasa_confirmacion_pct": 75,
-      "monto_confirmado": 427.0
+      "tasa_confirmacion_pct": 80,
+      "monto_confirmado": 676.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_4001m89y5pgje95bgx3tbxf6ky48",
+      "fecha_unix": 1795629972,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "1:06:12 pm",
+      "fecha_hora_lima": "25/11/2026 1:06:12 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "—",
+      "fecha_entrega": "mañana",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 141,
+      "duracion_texto": "2 min 21 s",
+      "resumen": "La agente confirmó el pedido de una Cortina LED NovaLux 3x3 con el usuario James. Tras aclarar que el usuario reside en Ica, se acordó el envío a través de la agencia Marisur, con pago del 100% por adelantado y un tiempo de entrega de 24 a 48 horas tras la validación del pago. El usuario aceptó recibir los datos de pago por WhatsApp y proporcionó su DNI para el registro. La agente recapituló los detalles del pedido y finalizó la llamada.",
+      "titulo": "Confirmación pedido Ica",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.1967,
+      "audio_url": "audio/conv_4001m89y5pgje95bgx3tbxf6ky48.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, James! Te saluda Sofía. Te llamo para confirmar tu pedido de Cortina LED NovaLux 3x3..."
+        },
+        {
+          "segundo": 6,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 7,
+          "rol": "agente",
+          "texto": "¡Qué bueno, James! Te comento que esta cortina trae control y aplicación con hasta cien figuras para que la disfrutes al máximo. Tu pedido está siendo alistado hoy para entregarse mañana. ¿Me podrías confirmar tu dirección, referencia y distrito para asegurar que todo esté correcto?"
+        },
+        {
+          "segundo": 27,
+          "rol": "cliente",
+          "texto": "Mmm, pero yo soy de Ica."
+        },
+        {
+          "segundo": 29,
+          "rol": "agente",
+          "texto": "Entiendo, James, muchas gracias por la aclaración. Como el envío es para Ica, se realizaría mediante una agencia de transporte. ¿Qué agencia tiene disponible por allá que le quede bien para el recojo?"
+        },
+        {
+          "segundo": 45,
+          "rol": "cliente",
+          "texto": "En Marisur."
+        },
+        {
+          "segundo": 47,
+          "rol": "agente",
+          "texto": "Entiendo, James. Para envíos por agencias como Marisur, el pago es del cien por ciento antes de realizar el despacho. Si está de acuerdo, le enviaré los datos de nuestras cuentas por WhatsApp para que pueda realizar el pago. ¿Estaría bien para usted?"
+        },
+        {
+          "segundo": 65,
+          "rol": "cliente",
+          "texto": "Eh, ¿cuándo me llegaría?"
+        },
+        {
+          "segundo": 66,
+          "rol": "agente",
+          "texto": "El envío se realiza apenas validemos su pago, y el tiempo de llegada a la agencia en Ica suele ser de veinticuatro a cuarenta y ocho horas aproximadamente. ¿Le parece bien si le envío los datos por WhatsApp para proceder?"
+        },
+        {
+          "segundo": 82,
+          "rol": "cliente",
+          "texto": "Ya, okey. Ajá. Me, me lo envías al WhatsApp en todo caso."
+        },
+        {
+          "segundo": 91,
+          "rol": "agente",
+          "texto": "Perfecto, James. Entonces, para continuar, ¿me podría brindar su número de DNI para registrar el pedido correctamente?"
+        },
+        {
+          "segundo": 101,
+          "rol": "cliente",
+          "texto": "Mmm, claro."
+        },
+        {
+          "segundo": 102,
+          "rol": "agente",
+          "texto": "Quedo a la..."
+        },
+        {
+          "segundo": 102,
+          "rol": "cliente",
+          "texto": "76798192."
+        },
+        {
+          "segundo": 106,
+          "rol": "agente",
+          "texto": "Muchas gracias, James. Entonces, confirmo sus datos: el pedido es una Cortina LED NovaLux 3x3 por un monto de doscientos cuarenta y nueve soles, con destino a Ica para recoger en la agencia Marisur, a nombre de James con DNI siete seis siete nueve ocho uno nueve dos. Apenas tengamos la validación de su pago, lo empaquetamos y realizamos el envío. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 133,
+          "rol": "cliente",
+          "texto": "No, eso sería todo."
+        },
+        {
+          "segundo": 135,
+          "rol": "agente",
+          "texto": "Perfecto, James. Muchas gracias por su compra, que tenga un excelente día. Hasta luego."
+        },
+        {
+          "segundo": 135,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 140,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
+        }
+      ]
+    },
     {
       "id": "conv_4401m89v5bw3enjrk4bc0m11ztr2",
       "fecha_unix": 1795626813,
