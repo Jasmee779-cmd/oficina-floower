@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 14:12:20 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 14:20:41 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -30,35 +30,35 @@
     "hoy": {
       "total": 6,
       "conectables": 5,
-      "confirmadas": 3,
+      "confirmadas": 4,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 2,
+      "no_contesta": 1,
       "errores": 1,
-      "tasa_confirmacion_pct": 60,
-      "monto_confirmado": 747.0
+      "tasa_confirmacion_pct": 80,
+      "monto_confirmado": 996.0
     },
     "semana": {
       "total": 15,
       "conectables": 7,
-      "confirmadas": 5,
+      "confirmadas": 6,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 2,
+      "no_contesta": 1,
       "errores": 8,
-      "tasa_confirmacion_pct": 71,
-      "monto_confirmado": 925.0
+      "tasa_confirmacion_pct": 86,
+      "monto_confirmado": 1174.0
     },
     "total_historico": {
       "total": 15,
       "conectables": 7,
-      "confirmadas": 5,
+      "confirmadas": 6,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 2,
+      "no_contesta": 1,
       "errores": 8,
-      "tasa_confirmacion_pct": 71,
-      "monto_confirmado": 925.0
+      "tasa_confirmacion_pct": 86,
+      "monto_confirmado": 1174.0
     }
   },
   "cola": [],
@@ -76,23 +76,119 @@
       "celular_mask": "+51 928 *** 727",
       "celular_ult4": "6727",
       "pedido_id": "—",
-      "producto": "—",
-      "monto_num": null,
-      "monto_texto": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
       "direccion": "—",
       "fecha_entrega": "—",
-      "resultado": "NO CONTESTA",
+      "resultado": "CONFIRMADO",
       "es_prueba": true,
-      "duracion_secs": 0,
-      "duracion_texto": "0 s",
-      "resumen": "Sin resumen disponible.",
-      "titulo": "Llamada de confirmación",
+      "duracion_secs": 147,
+      "duracion_texto": "2 min 27 s",
+      "resumen": "La agente Sofía contactó a James para confirmar un pedido de una Cortina LED NovaLux 3x3 para Arequipa. James confirmó el pedido y la agente detalló el envío por Shalom a la sede de la Av. Parra 379, Arequipa, con un adelanto de 20 soles y el resto al recoger, por un total de 249 soles. James aceptó las condiciones y proporcionó su nombre (Pepito) y DNI (73515886) para la confirmación. Se acordó que la agente enviaría las cuentas para el adelanto por WhatsApp en media hora, y el envío se realizaría el mismo día. La conversación finalizó sin más consultas por parte de James.",
+      "titulo": "Confirmación pedido Cortina LED",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
-      "terminacion": "",
-      "costo_usd": 0.0,
-      "audio_url": null,
-      "transcripcion": []
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.2518,
+      "audio_url": "audio/conv_3801m8a1vtm0fn8avm9b7b9sb4ae.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, James! Le saluda Sofía. Le llamo para confirmar su..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Revisaré si esta persona está disponible."
+        },
+        {
+          "segundo": 8,
+          "rol": "agente",
+          "texto": "Hola, soy Sofía, llamo para confirmar el pedido de James."
+        },
+        {
+          "segundo": 20,
+          "rol": "cliente",
+          "texto": "Hola."
+        },
+        {
+          "segundo": 22,
+          "rol": "agente",
+          "texto": "Hola, James. Le llamo para confirmar su pedido de la Cortina LED NovaLux tres por tres para Arequipa, ¿es correcto?"
+        },
+        {
+          "segundo": 32,
+          "rol": "cliente",
+          "texto": "Eh, sí."
+        },
+        {
+          "segundo": 33,
+          "rol": "agente",
+          "texto": "Excelente, James. Le comento que esta cortina trae control y aplicación con hasta cien figuras para decorar. Se la podemos enviar por Shalom, a la sede de la avenida Parra trescientos setenta y nueve, con un adelanto de veinte soles. Al llegar a la agencia cancela el restante descontando el adelanto. El pedido llega aproximadamente en veinticuatro a cuarenta y ocho horas después del envío. ¿Estaría bien?"
+        },
+        {
+          "segundo": 62,
+          "rol": "cliente",
+          "texto": "Eh, ¿cuánto cuesta?"
+        },
+        {
+          "segundo": 64,
+          "rol": "agente",
+          "texto": "El monto total es de doscientos cuarenta y nueve soles, James. ¿Le parece bien realizar el envío por Shalom con el adelanto de veinte soles que le comenté?"
+        },
+        {
+          "segundo": 77,
+          "rol": "cliente",
+          "texto": "Sí, está bien."
+        },
+        {
+          "segundo": 79,
+          "rol": "agente",
+          "texto": "Perfecto, James. Para proceder, por favor dígame su nombre completo y su número de DNI."
+        },
+        {
+          "segundo": 88,
+          "rol": "cliente",
+          "texto": "Pepito, 73515886."
+        },
+        {
+          "segundo": 93,
+          "rol": "agente",
+          "texto": "Gracias, James. Entonces, el pedido queda a nombre de Pepito, con DNI siete tres cinco uno cinco ocho ocho seis, para recoger en la sede Shalom de la avenida Parra trescientos setenta y nueve en Arequipa. Por favor, indíqueme un rango de hora en el que pueda realizar el adelanto de veinte soles."
+        },
+        {
+          "segundo": 117,
+          "rol": "cliente",
+          "texto": "Mmm, cerca a media hora."
+        },
+        {
+          "segundo": 119,
+          "rol": "agente",
+          "texto": "Entendido, James. En media hora le estaré enviando por WhatsApp las cuentas de Yape o Plin para que pueda realizar el adelanto. Apenas tengamos su adelanto, lo empaquetamos y hoy mismo lo enviamos. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 138,
+          "rol": "cliente",
+          "texto": "No, estoy bien."
+        },
+        {
+          "segundo": 141,
+          "rol": "agente",
+          "texto": "¡Excelente, James! Muchas gracias por su confirmación y que tenga un excelente día."
+        },
+        {
+          "segundo": 141,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 146,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
+        }
+      ]
     },
     {
       "id": "conv_2001m8a134nkfamawyv8gk4xfkk3",
