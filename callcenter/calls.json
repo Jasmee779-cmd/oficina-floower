@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 17:51:00 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:02:01 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,334 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 17,
-      "conectables": 16,
+      "total": 21,
+      "conectables": 20,
       "confirmadas": 8,
       "reprogramadas": 0,
-      "canceladas": 0,
-      "no_contesta": 8,
+      "canceladas": 1,
+      "no_contesta": 11,
       "errores": 1,
-      "tasa_confirmacion_pct": 50,
+      "tasa_confirmacion_pct": 40,
       "monto_confirmado": 1452.0
     },
     "semana": {
-      "total": 26,
-      "conectables": 18,
+      "total": 30,
+      "conectables": 22,
       "confirmadas": 10,
       "reprogramadas": 0,
-      "canceladas": 0,
-      "no_contesta": 8,
+      "canceladas": 1,
+      "no_contesta": 11,
       "errores": 8,
-      "tasa_confirmacion_pct": 56,
+      "tasa_confirmacion_pct": 45,
       "monto_confirmado": 1630.0
     },
     "total_historico": {
-      "total": 26,
-      "conectables": 18,
+      "total": 30,
+      "conectables": 22,
       "confirmadas": 10,
       "reprogramadas": 0,
-      "canceladas": 0,
-      "no_contesta": 8,
+      "canceladas": 1,
+      "no_contesta": 11,
       "errores": 8,
-      "tasa_confirmacion_pct": 56,
+      "tasa_confirmacion_pct": 45,
       "monto_confirmado": 1630.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_5701m8aexjnwed7v2s4vgt31xqca",
+      "fecha_unix": 1795647535,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:58:55 pm",
+      "fecha_hora_lima": "25/11/2026 5:58:55 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Pedro",
+      "celular_mask": "+51 980 *** 360",
+      "celular_ult4": "9360",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Calle Amatistas 128 urb. San Eulogio 2da etapa, Comas",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 12,
+      "duracion_texto": "12 s",
+      "resumen": "La agente Sofía contactó a Pedro para confirmar su pedido. Pedro respondió que la confirmación es necesaria.",
+      "titulo": "Confirmar pedido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0417,
+      "audio_url": "audio/conv_5701m8aexjnwed7v2s4vgt31xqca.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Pedro! Le saluda Sofía. Le llamo para confirmar su pedido de..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Hay que confirmar."
+        }
+      ]
+    },
+    {
+      "id": "conv_6901m8aetyxtfaxadwv7x23w0tfa",
+      "fecha_unix": 1795647450,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:57:30 pm",
+      "fecha_hora_lima": "25/11/2026 5:57:30 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Pedro",
+      "celular_mask": "+51 980 *** 360",
+      "celular_ult4": "9360",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Calle Amatistas 128 urb. San Eulogio 2da etapa, Comas",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 56,
+      "duracion_texto": "56 s",
+      "resumen": "La agente Sofía llamó a Pedro para confirmar un pedido de un mini GPS para Lima. A pesar de varios intentos, el usuario no respondió. La agente concluyó que no había nadie disponible y finalizó la llamada, indicando que volvería a llamar más tarde.",
+      "titulo": "Pedido GPS sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0902,
+      "audio_url": "audio/conv_6901m8aetyxtfaxadwv7x23w0tfa.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Pedro! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 17,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 18,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Me escucha? Le llamo para confirmar su pedido de el mini GPS para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 32,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 34,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Se encuentra ahí? Le llamo para confirmar su pedido de el mini GPS para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 49,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 50,
+          "rol": "agente",
+          "texto": "Parece que no hay nadie disponible. Volveré a llamar más tarde. Hasta luego."
+        },
+        {
+          "segundo": 50,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 55,
+          "rol": "sistema",
+          "texto": "[end_call: No hubo respuesta tras varios intentos.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_5201m8aeqhn4eqg9edcz04kcnb4k",
+      "fecha_unix": 1795647338,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:55:38 pm",
+      "fecha_hora_lima": "25/11/2026 5:55:38 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Pedro",
+      "celular_mask": "+51 980 *** 360",
+      "celular_ult4": "9360",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Calle Amatistas 128 urb. San Eulogio 2da etapa, Comas",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 53,
+      "duracion_texto": "53 s",
+      "resumen": "La agente Sofía llamó a Pedro para confirmar un pedido de un mini GPS para Lima. A pesar de varios intentos, el usuario no respondió. La agente concluyó que no había nadie en línea y finalizó la llamada, indicando que volvería a llamar más tarde.",
+      "titulo": "Pedido GPS sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0863,
+      "audio_url": "audio/conv_5201m8aeqhn4eqg9edcz04kcnb4k.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Pedro! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 15,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 16,
+          "rol": "agente",
+          "texto": "¿Se encuentra ahí? Le llamo para confirmar su pedido de el mini GPS para Lima, ¿es correcto?"
+        },
+        {
+          "segundo": 30,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 31,
+          "rol": "agente",
+          "texto": "Disculpe, ¿me escucha? Le llamo para confirmar su pedido de el mini GPS para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 46,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 47,
+          "rol": "agente",
+          "texto": "Parece que no hay nadie en línea, volveré a llamar más tarde. Que tenga un buen día."
+        },
+        {
+          "segundo": 47,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 52,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente no respondió tras varios intentos, se procede a finalizar la llamada.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2001m8aeej34f9srk2f2s2mfkt37",
+      "fecha_unix": 1795647053,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:50:53 pm",
+      "fecha_hora_lima": "25/11/2026 5:50:53 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "José",
+      "celular_mask": "+51 913 *** 471",
+      "celular_ult4": "7471",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Unidad Vecinal del Rímac Chalet 2 letra J",
+      "fecha_entrega": "—",
+      "resultado": "CANCELADO",
+      "es_prueba": true,
+      "duracion_secs": 172,
+      "duracion_texto": "2 min 52 s",
+      "resumen": "El agente llamó a José para confirmar un pedido de una antena digital. José aclaró que solo estaba curioseando en línea y no deseaba realizar ninguna compra. Expresó su frustración por las llamadas no solicitadas, mencionando su edad, su experiencia como vendedor y una reciente portabilidad telefónica. El agente comprendió la situación y finalizó la llamada.",
+      "titulo": "Negación de pedido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": "curioso, no la quiere, no le interesó",
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.3912,
+      "audio_url": "audio/conv_2001m8aeej34f9srk2f2s2mfkt37.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 9,
+          "rol": "cliente",
+          "texto": "Ah. Jo-joder. Que, que, que-- vamos, mentira. No, no, no sea tan acelerado, por favor. Yo era-- es que, que-- ¿cómo le digo? Yo soy una persona de 76 años, curioso, como toda mi vida he sido, y ahora que tengo un teléfono que estoy navegando por el ciberespacio, me gustó lo de su antena. Pero eso no quiere decir que yo la quiera. Quisiera tenerla, pero no, no para que me digan que ya tiene, ya tiene usted el pedido listo para-- no. Así-- yo también he sido vendedor, por si acaso, señorita, en mis épocas y de como-Médico veterinario he vendido productos veterinarios y me conozco casi todo mi país, todo el Perú. Entonces, conozco costa, sierra y selva, y he trabajado para una empresa americana, Dar Chargón, que es un laboratorio de prestigio. Entonces, este, he vendido dos productitos, el Ranir y el Ivomec, tanto para caballos como para ganado vacuno, eh, pa-pacuno, vicuñas, o sea, llamas, todo, todo lo pacuno que tenemos nosotros los peruanos. Entonces, este, yo sé cómo son las ventas, yo sé que han cambiado bastante las ventas de la época de-Yo salí del año 73 al 2026. Yo sé que-- a-ahora ya sé más o menos, ¿no? Yo, yo no, no soy ningún tonto. Ahora, eh, la-- el mo-el modo, el modo de vender es: ¡guau!, te dan 100 teléfonos. Ahí está tu chamba diaria. Llama y, eh, y abre de paso. Me supongo, creo yo. Entonces, ya esta es la segunda-- no, no, la de-- en de Win, de Win tengo yo tres veces que me han llamado hoy día. Con ustedes son la tercera. Entonces, este, de-¿Hola? Aló. ¿Hola? Aló. Ya me cortó. No me interesó."
+        },
+        {
+          "segundo": 124,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente su punto, señor José, y le agradezco mucho que me..."
+        },
+        {
+          "segundo": 128,
+          "rol": "cliente",
+          "texto": "Oooy, sí, está va. Ya, muchas gracias. Sí, sí, señorita linda. Yo, este, recién me he hecho yo un-una portabilidad de, de Movistar a Entel hace 15 días. Entonces, este, sería algo inusual que me cambie o haga esto, ¿no? Disculpe."
+        },
+        {
+          "segundo": 151,
+          "rol": "agente",
+          "texto": "Comprendo perfectamente su situación, señor José. Le agradezco mucho por haberme atendido y por compartirme su..."
+        },
+        {
+          "segundo": 158,
+          "rol": "cliente",
+          "texto": "Gracias."
+        },
+        {
+          "segundo": 159,
+          "rol": "agente",
+          "texto": "Muchas gracias, José. Que..."
+        },
+        {
+          "segundo": 159,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 162,
+          "rol": "sistema",
+          "texto": "[end_call: Llamada finalizada]"
+        },
+        {
+          "segundo": 160,
+          "rol": "cliente",
+          "texto": "De acuerdo."
+        },
+        {
+          "segundo": 162,
+          "rol": "agente",
+          "texto": "Muchas gracias, José. Que tenga un excelente día..."
+        },
+        {
+          "segundo": 165,
+          "rol": "cliente",
+          "texto": "Diga mañana. Diga mañana y ."
+        },
+        {
+          "segundo": 170,
+          "rol": "agente",
+          "texto": "Muchas gracias,..."
+        }
+      ]
+    },
     {
       "id": "conv_1401m8ae9nrjemvvgnymqvfv3gca",
       "fecha_unix": 1795646919,
@@ -86,7 +379,7 @@
       "duracion_secs": 61,
       "duracion_texto": "1 min 1 s",
       "resumen": "El agente intentó contactar al usuario para confirmar un pedido de una Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, no hubo respuesta por parte del usuario. La llamada finalizó sin éxito, y el agente indicó que intentaría comunicarse más tarde.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Confirmación pedido sin respuesta",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
