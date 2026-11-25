@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 15:31:21 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 15:58:43 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,155 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 7,
-      "conectables": 6,
+      "total": 9,
+      "conectables": 8,
       "confirmadas": 5,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 1,
+      "no_contesta": 3,
       "errores": 1,
-      "tasa_confirmacion_pct": 83,
+      "tasa_confirmacion_pct": 62,
       "monto_confirmado": 1245.0
     },
     "semana": {
-      "total": 16,
-      "conectables": 8,
+      "total": 18,
+      "conectables": 10,
       "confirmadas": 7,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 1,
+      "no_contesta": 3,
       "errores": 8,
-      "tasa_confirmacion_pct": 88,
+      "tasa_confirmacion_pct": 70,
       "monto_confirmado": 1423.0
     },
     "total_historico": {
-      "total": 16,
-      "conectables": 8,
+      "total": 18,
+      "conectables": 10,
       "confirmadas": 7,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 1,
+      "no_contesta": 3,
       "errores": 8,
-      "tasa_confirmacion_pct": 88,
+      "tasa_confirmacion_pct": 70,
       "monto_confirmado": 1423.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_1301m8a7xnpnf41r5dzbzazccmwj",
+      "fecha_unix": 1795640200,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "3:56:40 pm",
+      "fecha_hora_lima": "25/11/2026 3:56:40 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 60,
+      "duracion_texto": "1 min",
+      "resumen": "La agente Sofía contactó al usuario James para confirmar un pedido de Cortina LED NovaLux 3x3 con destino a Cusco. A pesar de los repetidos intentos de la agente, el usuario no respondió.",
+      "titulo": "Confirmar pedido LED",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.1025,
+      "audio_url": "audio/conv_1301m8a7xnpnf41r5dzbzazccmwj.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, James! Le saluda Sofía. Le llamo para confirmar su pedido de Cortina LED NovaLux 3x3 para Cusco, ¿correcto?"
+        },
+        {
+          "segundo": 23,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 24,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Me escucha? Le saluda Sofía, llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con destino a Cusco, ¿es correcto?"
+        },
+        {
+          "segundo": 49,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 50,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Se encuentra ahí? Le saluda Sofía, llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con..."
+        }
+      ]
+    },
+    {
+      "id": "conv_7001m8a7qq97f6kszn2svcye9x4q",
+      "fecha_unix": 1795640005,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "3:53:25 pm",
+      "fecha_hora_lima": "25/11/2026 3:53:25 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 61,
+      "duracion_texto": "1 min 1 s",
+      "resumen": "El agente intentó contactar al usuario, James, para confirmar un pedido de una Cortina LED NovaLux 3x3 con destino a Arequipa. A pesar de múltiples intentos, el usuario no respondió, lo que impidió la confirmación del pedido.",
+      "titulo": "Llamada sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0734,
+      "audio_url": "audio/conv_7001m8a7qq97f6kszn2svcye9x4q.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, James! Le saluda Sofía. Le llamo para confirmar su pedido de Cortina LED NovaLux 3x3 para Arequipa, ¿correcto?"
+        },
+        {
+          "segundo": 23,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 24,
+          "rol": "agente",
+          "texto": "¿Se encuentra ahí? Le llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con destino a Arequipa."
+        },
+        {
+          "segundo": 47,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 48,
+          "rol": "agente",
+          "texto": "Disculpe, ¿me escucha? Le llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con destino a Arequipa."
+        }
+      ]
+    },
     {
       "id": "conv_6201m8a5ppzgffzaq6wt3tfynxww",
       "fecha_unix": 1795637877,
