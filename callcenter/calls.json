@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 13:11:56 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 13:50:20 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,228 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 3,
-      "conectables": 3,
-      "confirmadas": 2,
+      "total": 4,
+      "conectables": 4,
+      "confirmadas": 3,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 0,
-      "tasa_confirmacion_pct": 67,
-      "monto_confirmado": 498.0
+      "tasa_confirmacion_pct": 75,
+      "monto_confirmado": 747.0
     },
     "semana": {
-      "total": 12,
-      "conectables": 5,
-      "confirmadas": 4,
+      "total": 13,
+      "conectables": 6,
+      "confirmadas": 5,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 7,
-      "tasa_confirmacion_pct": 80,
-      "monto_confirmado": 676.0
+      "tasa_confirmacion_pct": 83,
+      "monto_confirmado": 925.0
     },
     "total_historico": {
-      "total": 12,
-      "conectables": 5,
-      "confirmadas": 4,
+      "total": 13,
+      "conectables": 6,
+      "confirmadas": 5,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 7,
-      "tasa_confirmacion_pct": 80,
-      "monto_confirmado": 676.0
+      "tasa_confirmacion_pct": 83,
+      "monto_confirmado": 925.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_7601m8a01848evs8e3968r8hh5pw",
+      "fecha_unix": 1795631923,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "1:38:43 pm",
+      "fecha_hora_lima": "25/11/2026 1:38:43 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 232,
+      "duracion_texto": "3 min 52 s",
+      "resumen": "La conversación se centró en la confirmación del pedido de James de una Cortina LED NovaLux 3x3 para Arequipa. El agente detalló el producto, el precio total de S/249 y el proceso de envío por Shalom, que requiere un adelanto de S/20. Inicialmente, el usuario seleccionó la sede de Shalom en el Mall Lambramani, pero luego cambió su preferencia a la sede de la avenida Parra 379. El usuario acordó enviar sus datos por WhatsApp para coordinar el adelanto y el envío. La llamada finalizó sin más consultas.",
+      "titulo": "Confirmación pedido cortina LED",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.3844,
+      "audio_url": "audio/conv_7601m8a01848evs8e3968r8hh5pw.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, James! Le saluda Sofía. Le llamo para confirmar su..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Revisaré si esta persona está disponible."
+        },
+        {
+          "segundo": 8,
+          "rol": "agente",
+          "texto": "Hola, soy Sofía, llamo para confirmar el pedido de James de una Cortina LED NovaLux tres por tres para..."
+        },
+        {
+          "segundo": 16,
+          "rol": "cliente",
+          "texto": "Aló."
+        },
+        {
+          "segundo": 18,
+          "rol": "agente",
+          "texto": "¡Hola! Muy buenas tardes. Le saluda Sofía, llamo para confirmar el pedido de James de una Cortina LED NovaLux tres por tres para Arequipa, ¿es correcto?"
+        },
+        {
+          "segundo": 31,
+          "rol": "cliente",
+          "texto": "Sí, para Arequipa."
+        },
+        {
+          "segundo": 33,
+          "rol": "agente",
+          "texto": "¡Excelente, James! Le comento que esta cortina trae control y aplicación con hasta cien figuras para decorar su espacio. Se la podemos enviar por Shalom, a la sede de la avenida Parra trescientos setenta y nueve, con un adelanto de veinte soles. Al llegar a la agencia cancela el restante descontando el adelanto y el pedido llega aproximadamente en veinticuatro a cuarenta y ocho horas después del envío, ¿estaría bien?"
+        },
+        {
+          "segundo": 64,
+          "rol": "cliente",
+          "texto": "Mmm, ¿cuánto es el total?"
+        },
+        {
+          "segundo": 66,
+          "rol": "agente",
+          "texto": "El monto total es de doscientos cuarenta y nueve soles. ¿Le parece bien que procedamos con el envío a la sede de Shalom en la avenida Parra?"
+        },
+        {
+          "segundo": 76,
+          "rol": "cliente",
+          "texto": "Eh, ¿y qué sedes hay?"
+        },
+        {
+          "segundo": 80,
+          "rol": "agente",
+          "texto": "En Arequipa contamos con varias sedes de Shalom, pero la principal y más conveniente es la de la avenida Parra trescientos setenta y nueve. ¿Desea que le enviemos el pedido a esa sede o prefiere alguna otra de la ciudad?"
+        },
+        {
+          "segundo": 96,
+          "rol": "cliente",
+          "texto": "Sí, pero más o menos, ¿por qué lado se encuentra esa sede?"
+        },
+        {
+          "segundo": 101,
+          "rol": "agente",
+          "texto": "La sede de la avenida Parra trescientos setenta y nueve es la principal de la ciudad y es muy conocida por estar en una ubicación céntrica y de fácil acceso. ¿Le gustaría que confirmemos el envío a esa sede o prefiere que le mencione alguna otra de la zona?"
+        },
+        {
+          "segundo": 121,
+          "rol": "cliente",
+          "texto": "A ver, otra sede."
+        },
+        {
+          "segundo": 123,
+          "rol": "agente",
+          "texto": "Claro, James, tenemos otras opciones en Arequipa. Por ejemplo, contamos con una sede en el Mall Lambramani, en la avenida Lambramani trescientos veinticinco, o también una en el distrito de Cayma,..."
+        },
+        {
+          "segundo": 134,
+          "rol": "cliente",
+          "texto": "Ya, esa sí."
+        },
+        {
+          "segundo": 136,
+          "rol": "agente",
+          "texto": "Perfecto, James. Entonces..."
+        },
+        {
+          "segundo": 136,
+          "rol": "cliente",
+          "texto": "Es usted, es usted."
+        },
+        {
+          "segundo": 139,
+          "rol": "agente",
+          "texto": "Entiendo, James. Entonces confirmamos el envío a la sede del Mall Lambramani, ubicada en la avenida Lambramani trescientos veinticinco, en Arequipa. Para continuar con el proceso, ¿podría brindarme su nombre..."
+        },
+        {
+          "segundo": 152,
+          "rol": "cliente",
+          "texto": "Tómese el adelanto."
+        },
+        {
+          "segundo": 154,
+          "rol": "agente",
+          "texto": "Para poder gestionar el adelanto de veinte soles y enviarle las cuentas de Yape o Plin por WhatsApp, necesito que me brinde su nombre completo y su número de DNI, por favor. ¿Me los podría dictar?"
+        },
+        {
+          "segundo": 170,
+          "rol": "cliente",
+          "texto": "Sí, ahí le paso por el WhatsApp."
+        },
+        {
+          "segundo": 172,
+          "rol": "agente",
+          "texto": "Entendido, James. Entonces quedo a la espera de que me envíe sus datos por WhatsApp para poder coordinar el adelanto y proceder con el envío a la sede del Mall Lambramani. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 189,
+          "rol": "cliente",
+          "texto": "No, en el triángulo."
+        },
+        {
+          "segundo": 190,
+          "rol": "agente",
+          "texto": "Entiendo, James. Entonces, ¿se refiere a que desea que el envío sea a la sede de Shalom ubicada en la avenida Parra trescientos setenta y nueve, que es la sede principal?..."
+        },
+        {
+          "segundo": 202,
+          "rol": "cliente",
+          "texto": "Ajá, sí, sí. Sí, ese es el."
+        },
+        {
+          "segundo": 207,
+          "rol": "agente",
+          "texto": "Perfecto, James. Entonces confirmamos el envío a la sede Shalom de la avenida Parra trescientos setenta y nueve. Quedo a la espera de sus datos por WhatsApp para enviarle las cuentas y coordinar el adelanto. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 225,
+          "rol": "cliente",
+          "texto": "No, eso sería todo."
+        },
+        {
+          "segundo": 226,
+          "rol": "agente",
+          "texto": "¡Excelente, James! Muchas gracias por su confirmación. Que tenga un muy buen día."
+        },
+        {
+          "segundo": 227,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 232,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente confirmó el pedido y la sede, y manifestó que no tiene más consultas.]"
+        }
+      ]
+    },
     {
       "id": "conv_4001m89y5pgje95bgx3tbxf6ky48",
       "fecha_unix": 1795629972,
@@ -305,7 +492,7 @@
       "duracion_secs": 41,
       "duracion_texto": "41 s",
       "resumen": "Sin transcripción ni audio útil (llamada no conectada o sin respuesta).",
-      "titulo": "Prueba 1 sin conexión",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -462,8 +649,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de prueba (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -493,8 +680,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de prueba (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -525,7 +712,7 @@
       "duracion_secs": 65,
       "duracion_texto": "1 min 5 s",
       "resumen": "La asistente virtual de FLOOWER.PE contactó a James para confirmar un pedido de un ventilador de techo LED diseño diamante por S/89. La entrega estaba programada para mañana en Lima, contraentrega. James solicitó que la entrega fuera a las 3 PM, lo cual fue confirmado por la agente.",
-      "titulo": "Prueba en widget web",
+      "titulo": "Confirmación entrega pedido",
       "nueva_fecha": "mañana a las tres de la tarde",
       "motivo_cancelacion": null,
       "terminacion": "Client disconnected: 1000",
@@ -591,8 +778,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -622,8 +809,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -653,8 +840,8 @@
       "es_prueba": true,
       "duracion_secs": 1,
       "duracion_texto": "1 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -684,8 +871,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
@@ -715,8 +902,8 @@
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
-      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
-      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Llamada de confirmación",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
