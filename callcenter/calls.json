@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 17:30:57 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 17:51:00 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,267 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 14,
-      "conectables": 13,
+      "total": 17,
+      "conectables": 16,
       "confirmadas": 8,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 5,
+      "no_contesta": 8,
       "errores": 1,
-      "tasa_confirmacion_pct": 62,
+      "tasa_confirmacion_pct": 50,
       "monto_confirmado": 1452.0
     },
     "semana": {
-      "total": 23,
-      "conectables": 15,
+      "total": 26,
+      "conectables": 18,
       "confirmadas": 10,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 5,
+      "no_contesta": 8,
       "errores": 8,
-      "tasa_confirmacion_pct": 67,
+      "tasa_confirmacion_pct": 56,
       "monto_confirmado": 1630.0
     },
     "total_historico": {
-      "total": 23,
-      "conectables": 15,
+      "total": 26,
+      "conectables": 18,
       "confirmadas": 10,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 5,
+      "no_contesta": 8,
       "errores": 8,
-      "tasa_confirmacion_pct": 67,
+      "tasa_confirmacion_pct": 56,
       "monto_confirmado": 1630.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_1401m8ae9nrjemvvgnymqvfv3gca",
+      "fecha_unix": 1795646919,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:48:39 pm",
+      "fecha_hora_lima": "25/11/2026 5:48:39 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Demóstenes",
+      "celular_mask": "+51 943 *** 723",
+      "celular_ult4": "0723",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Jr. Chepén 464, Cajamarca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 61,
+      "duracion_texto": "1 min 1 s",
+      "resumen": "El agente intentó contactar al usuario para confirmar un pedido de una Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, no hubo respuesta por parte del usuario. La llamada finalizó sin éxito, y el agente indicó que intentaría comunicarse más tarde.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0961,
+      "audio_url": "audio/conv_1401m8ae9nrjemvvgnymqvfv3gca.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Demóstenes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿correcto?"
+        },
+        {
+          "segundo": 18,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 19,
+          "rol": "agente",
+          "texto": "¿Se encuentra ahí? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 35,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 36,
+          "rol": "agente",
+          "texto": "Disculpe, ¿me escucha? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 53,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 54,
+          "rol": "agente",
+          "texto": "Parece que no logro comunicarme con usted. Voy a intentar llamarle más tarde. Que tenga un buen día."
+        },
+        {
+          "segundo": 54,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 60,
+          "rol": "sistema",
+          "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_0101m8ae5141ekh8eca902ehdjam",
+      "fecha_unix": 1795646768,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:46:08 pm",
+      "fecha_hora_lima": "25/11/2026 5:46:08 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Demóstenes",
+      "celular_mask": "+51 943 *** 723",
+      "celular_ult4": "0723",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Jr. Chepén 464, Cajamarca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 60,
+      "duracion_texto": "1 min",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, el usuario no respondió. El agente concluyó que no había nadie disponible y decidió finalizar la llamada, indicando que volvería a llamar en otro momento.",
+      "titulo": "Llamada sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0957,
+      "audio_url": "audio/conv_0101m8ae5141ekh8eca902ehdjam.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Demóstenes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿correcto?"
+        },
+        {
+          "segundo": 18,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 19,
+          "rol": "agente",
+          "texto": "¿Me escucha? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 35,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 35,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Se encuentra ahí? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 54,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 55,
+          "rol": "agente",
+          "texto": "Parece que no hay nadie disponible, volveré a llamar en otro momento. Que tenga un buen..."
+        },
+        {
+          "segundo": 55,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 60,
+          "rol": "sistema",
+          "texto": "[end_call: Llamada finalizada]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2601m8ae0d6ae69rhe65amrhwcz4",
+      "fecha_unix": 1795646615,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:43:35 pm",
+      "fecha_hora_lima": "25/11/2026 5:43:35 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Demóstenes",
+      "celular_mask": "+51 943 *** 723",
+      "celular_ult4": "0723",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Jr. Chepén 464, Cajamarca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 54,
+      "duracion_texto": "54 s",
+      "resumen": "El agente llamó para confirmar un pedido de la Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada por falta de comunicación.",
+      "titulo": "Confirmación pedido fallida",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0984,
+      "audio_url": "audio/conv_2601m8ae0d6ae69rhe65amrhwcz4.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Demóstenes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿correcto?"
+        },
+        {
+          "segundo": 17,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 19,
+          "rol": "agente",
+          "texto": "¿Se encuentra ahí? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 35,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 36,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Me escucha? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Cajamarca, ¿es correcto?"
+        },
+        {
+          "segundo": 52,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 53,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 54,
+          "rol": "sistema",
+          "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
+        }
+      ]
+    },
     {
       "id": "conv_8101m8aczrzrf7cayqaqp6br1560",
       "fecha_unix": 1795645518,
