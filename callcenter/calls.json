@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:35:24 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:44:33 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,258 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 29,
-      "conectables": 27,
+      "total": 33,
+      "conectables": 31,
       "confirmadas": 9,
       "reprogramadas": 1,
-      "canceladas": 1,
-      "no_contesta": 16,
+      "canceladas": 2,
+      "no_contesta": 19,
       "errores": 2,
-      "tasa_confirmacion_pct": 33,
+      "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 38,
-      "conectables": 29,
+      "total": 42,
+      "conectables": 33,
       "confirmadas": 11,
       "reprogramadas": 1,
-      "canceladas": 1,
-      "no_contesta": 16,
+      "canceladas": 2,
+      "no_contesta": 19,
       "errores": 9,
-      "tasa_confirmacion_pct": 38,
+      "tasa_confirmacion_pct": 33,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 38,
-      "conectables": 29,
+      "total": 42,
+      "conectables": 33,
       "confirmadas": 11,
       "reprogramadas": 1,
-      "canceladas": 1,
-      "no_contesta": 16,
+      "canceladas": 2,
+      "no_contesta": 19,
       "errores": 9,
-      "tasa_confirmacion_pct": 38,
+      "tasa_confirmacion_pct": 33,
       "monto_confirmado": 1699.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_5501m8ahchk7e30r6yrvcvct7ans",
+      "fecha_unix": 1795650125,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:42:05 pm",
+      "fecha_hora_lima": "25/11/2026 6:42:05 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "—",
+      "celular_mask": "+51 977 *** 851",
+      "celular_ult4": "6851",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Sin resumen disponible.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "",
+      "costo_usd": 0.0,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_9001m8ah8rj3frp8e1jm8d5qnttj",
+      "fecha_unix": 1795650036,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:40:36 pm",
+      "fecha_hora_lima": "25/11/2026 6:40:36 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "José",
+      "celular_mask": "+51 977 *** 851",
+      "celular_ult4": "6851",
+      "pedido_id": "—",
+      "producto": "Cápsulas Desodorante DEOS",
+      "monto_num": 124.0,
+      "monto_texto": "S/124",
+      "direccion": "Jirón Bolívar 414",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 22,
+      "duracion_texto": "22 s",
+      "resumen": "La agente inició la llamada para confirmar un pedido de cápsulas DEOS para Tumbes. Sin embargo, la llamada fue finalizada automáticamente debido al silencio inicial del usuario tras el saludo.",
+      "titulo": "Fin llamada silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0304,
+      "audio_url": "audio/conv_9001m8ah8rj3frp8e1jm8d5qnttj.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido de las cápsulas DEOS para Tumbes, ¿correcto?"
+        },
+        {
+          "segundo": 20,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_9001m8ah1ryhfj1bjk0d1fgx8jhf",
+      "fecha_unix": 1795649772,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:36:12 pm",
+      "fecha_hora_lima": "25/11/2026 6:36:12 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Porfirio",
+      "celular_mask": "+51 980 *** 271",
+      "celular_ult4": "2271",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Aso Lima Tambo mz o lt 2",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 90,
+      "duracion_texto": "1 min 30 s",
+      "resumen": "La agente Sofía contactó a Porfirio para confirmar su pedido de un kit de antena con decodificador para Lima, detallando sus beneficios y el plazo de entrega (24-48 horas). La agente solicitó una referencia para la dirección de entrega (Aso Lima Tambo mz o lt 2, Carabayllo), a lo que el usuario respondió con \"Parque Zonal o Municipalidad Distrital de Carabayllo, al espaldar de la Municipalidad de Carabayllo\". El usuario también corrigió y aclaró la dirección a \"Manzana O, lote dos\" y \"Limatambo, segunda etapa\".",
+      "titulo": "Confirmación Pedido Antena",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.1343,
+      "audio_url": "audio/conv_9001m8ah1ryhfj1bjk0d1fgx8jhf.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Porfirio! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 10,
+          "rol": "cliente",
+          "texto": "Correcto."
+        },
+        {
+          "segundo": 11,
+          "rol": "agente",
+          "texto": "Excelente. Le comento que este kit le permite disfrutar de canales de televisión sin mensualidad de cable, con una excelente calidad de imagen y hasta cien canales según la señal de su zona, incluidos deportes y novelas. Su pedido está siendo alistado hoy para entregarse en veinticuatro a cuarenta y ocho horas. ¿Me confirma si los datos de entrega son correctos? La dirección es Aso Lima Tambo mz o lt 2, en Carabayllo. En el pedido no figura una referencia, ¿me indica una referencia real, por favor, un parque, un colegio o una tienda cerca?"
+        },
+        {
+          "segundo": 52,
+          "rol": "cliente",
+          "texto": "Parque Zonal o Municipalidad Di-Distrital de Carabayllo, al espaldar de la Municipalidad de Carabayllo."
+        },
+        {
+          "segundo": 63,
+          "rol": "agente",
+          "texto": "Entendido, entonces queda en Aso Lima Tambo manzana o lote dos, en Carabayllo, referencia al espaldas de la..."
+        },
+        {
+          "segundo": 68,
+          "rol": "cliente",
+          "texto": "Manzana tres, manzana-"
+        },
+        {
+          "segundo": 71,
+          "rol": "agente",
+          "texto": "Entendido, ..."
+        },
+        {
+          "segundo": 72,
+          "rol": "cliente",
+          "texto": "Manzana O, manzana O, lote dos."
+        },
+        {
+          "segundo": 76,
+          "rol": "agente",
+          "texto": "Perfecto, entonces queda en Aso..."
+        },
+        {
+          "segundo": 78,
+          "rol": "cliente",
+          "texto": "Eh, Limatambo, Limatambo, segunda etapa."
+        },
+        {
+          "segundo": 83,
+          "rol": "agente",
+          "texto": "Muchas gracias por la aclaración. Entonces queda en Aso Limatambo, manzana O, lote..."
+        }
+      ]
+    },
+    {
+      "id": "conv_6901m8agxh0ffbntzvn9nf7n6050",
+      "fecha_unix": 1795649629,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:33:49 pm",
+      "fecha_hora_lima": "25/11/2026 6:33:49 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Giovanni",
+      "celular_mask": "+51 983 *** 035",
+      "celular_ult4": "9035",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Jr. Montani 145",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "CANCELADO",
+      "es_prueba": true,
+      "duracion_secs": 26,
+      "duracion_texto": "26 s",
+      "resumen": "La agente Sofía contactó a Giovanni para confirmar un pedido de mini GPS a Huancayo. Giovanni negó haber realizado dicho pedido, por lo que la agente solicitó su ubicación actual para aclarar la situación.",
+      "titulo": "Pedido mini GPS",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.049,
+      "audio_url": "audio/conv_6901m8agxh0ffbntzvn9nf7n6050.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Giovanni! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 12,
+          "rol": "cliente",
+          "texto": "No. No, pero yo."
+        },
+        {
+          "segundo": 15,
+          "rol": "agente",
+          "texto": "Entiendo, Giovanni. ¿En qué ciudad y distrito se encuentra usted actualmente?"
+        }
+      ]
+    },
     {
       "id": "conv_0301m8agskpreqnrykjdgdf12qwb",
       "fecha_unix": 1795649523,
