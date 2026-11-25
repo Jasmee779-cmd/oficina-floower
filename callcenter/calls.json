@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:02:01 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:16:15 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,252 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 21,
-      "conectables": 20,
+      "total": 25,
+      "conectables": 23,
       "confirmadas": 8,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 11,
-      "errores": 1,
-      "tasa_confirmacion_pct": 40,
+      "no_contesta": 14,
+      "errores": 2,
+      "tasa_confirmacion_pct": 35,
       "monto_confirmado": 1452.0
     },
     "semana": {
-      "total": 30,
-      "conectables": 22,
+      "total": 34,
+      "conectables": 25,
       "confirmadas": 10,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 11,
-      "errores": 8,
-      "tasa_confirmacion_pct": 45,
+      "no_contesta": 14,
+      "errores": 9,
+      "tasa_confirmacion_pct": 40,
       "monto_confirmado": 1630.0
     },
     "total_historico": {
-      "total": 30,
-      "conectables": 22,
+      "total": 34,
+      "conectables": 25,
       "confirmadas": 10,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 11,
-      "errores": 8,
-      "tasa_confirmacion_pct": 45,
+      "no_contesta": 14,
+      "errores": 9,
+      "tasa_confirmacion_pct": 40,
       "monto_confirmado": 1630.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_1201m8afnf01e9vb6heq19sr02x6",
+      "fecha_unix": 1795648329,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:12:09 pm",
+      "fecha_hora_lima": "25/11/2026 6:12:09 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "George",
+      "celular_mask": "+51 992 *** 123",
+      "celular_ult4": "2123",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Psje. San Luis 100, Nueva Cajamarca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 207,
+      "duracion_texto": "3 min 27 s",
+      "resumen": "end_call tool was called.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.3993,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_7601m8afc5kbffs9197zxwnp68pb",
+      "fecha_unix": 1795648042,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:07:22 pm",
+      "fecha_hora_lima": "25/11/2026 6:07:22 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aurelio",
+      "celular_mask": "+51 906 *** 311",
+      "celular_ult4": "3311",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Santa Isabel 2074, El Tambo, Huancayo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 60,
+      "duracion_texto": "1 min",
+      "resumen": "No salió la llamada: No user message received for a long period of time - probably a network error occurred.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "No user message received for a long period of time - probably a network error occurred.",
+      "costo_usd": 0.0798,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_1101m8af824yf2pby3c6jbkvq0v6",
+      "fecha_unix": 1795647888,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:04:48 pm",
+      "fecha_hora_lima": "25/11/2026 6:04:48 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aurelio",
+      "celular_mask": "+51 906 *** 311",
+      "celular_ult4": "3311",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Santa Isabel 2074, El Tambo, Huancayo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 59,
+      "duracion_texto": "59 s",
+      "resumen": "El agente intentó contactar a Aurelio para confirmar un pedido de la Antena Digital TeVeProMax para Huancayo. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada.",
+      "titulo": "Confirmación pedido fallida",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.094,
+      "audio_url": "audio/conv_1101m8af824yf2pby3c6jbkvq0v6.mp3",
+      "transcripcion": [
+        {
+          "segundo": 3,
+          "rol": "agente",
+          "texto": "¡Hola, Aurelio! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Me escucha? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿se encuentra ahí?"
+        },
+        {
+          "segundo": 40,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 41,
+          "rol": "agente",
+          "texto": "Parece que no logro comunicarme con usted. ¿Se encuentra ahí? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax."
+        },
+        {
+          "segundo": 57,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 58,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 58,
+          "rol": "sistema",
+          "texto": "[end_call: No responde tras varios intentos.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_0501m8af2bhafx2t5332yg9267q1",
+      "fecha_unix": 1795647720,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:02:00 pm",
+      "fecha_hora_lima": "25/11/2026 6:02:00 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aurelio",
+      "celular_mask": "+51 906 *** 311",
+      "celular_ult4": "3311",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Santa Isabel 2074, El Tambo, Huancayo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 64,
+      "duracion_texto": "1 min 4 s",
+      "resumen": "El agente intentó contactar a Aurelio para confirmar un pedido de la Antena Digital TeVeProMax para Huancayo. A pesar de varios intentos, el usuario no respondió. El agente finalizó la llamada debido a la falta de comunicación y mencionó que intentaría contactar al cliente en otro momento.",
+      "titulo": "Confirmar pedido fallido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.1004,
+      "audio_url": "audio/conv_0501m8af2bhafx2t5332yg9267q1.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Aurelio! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 17,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 18,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Me escucha? Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿se encuentra ahí?"
+        },
+        {
+          "segundo": 34,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 35,
+          "rol": "agente",
+          "texto": "Disculpe, parece que hay problemas con la comunicación. ¿Se encuentra ahí para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo?"
+        },
+        {
+          "segundo": 55,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 56,
+          "rol": "agente",
+          "texto": "Parece que no logro comunicarme con usted. Voy a intentar llamarlo en otro momento para confirmar su pedido. Muchas gracias."
+        },
+        {
+          "segundo": 56,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 63,
+          "rol": "sistema",
+          "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
+        }
+      ]
+    },
     {
       "id": "conv_5701m8aexjnwed7v2s4vgt31xqca",
       "fecha_unix": 1795647535,
