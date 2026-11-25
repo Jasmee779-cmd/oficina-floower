@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 16:13:52 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 16:17:52 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -72,27 +72,158 @@
       "fecha_hora_lima": "25/11/2026 4:09:57 pm",
       "canal": "Teléfono Twilio",
       "source": "twilio",
-      "cliente": "James",
+      "cliente": "José",
       "celular_mask": "+51 925 *** 971",
       "celular_ult4": "6971",
       "pedido_id": "—",
-      "producto": "—",
-      "monto_num": null,
-      "monto_texto": "—",
+      "producto": "TVMax Pro Antena Full HD 4K, Televisión Gratuita Sin límites",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
       "direccion": "—",
       "fecha_entrega": "—",
       "resultado": "NO CONTESTA",
       "es_prueba": true,
-      "duracion_secs": 0,
-      "duracion_texto": "0 s",
-      "resumen": "Sin resumen disponible.",
-      "titulo": "Llamada de confirmación",
+      "duracion_secs": 207,
+      "duracion_texto": "3 min 27 s",
+      "resumen": "El agente contactó a José para confirmar su pedido de una antena TVMax Pro. José confirmó el pedido y proporcionó la dirección de entrega: Av. Alcázar cuadra siete, cerca de un grifo en Av. Cruz Sec, Rímac. José preguntó sobre la hora de entrega, solicitando una franja horaria (3:00-4:00 p.m.), y el agente indicó que el motorizado coordinaría por WhatsApp. José también consultó sobre la cantidad y tipo de canales, específicamente si incluía canales de cable para ver novelas. El agente aclaró que la antena capta hasta 50 canales de señal abierta, no de cable, lo que decepcionó a José, quien esperaba canales de cable. La conversación finalizó abruptamente.",
+      "titulo": "Confirmación Pedido Antena",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
-      "terminacion": "",
-      "costo_usd": 0.0,
-      "audio_url": null,
-      "transcripcion": []
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.3736,
+      "audio_url": "audio/conv_8101m8a8nt61ftpa2eynqwdgc3br.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido de..."
+        },
+        {
+          "segundo": 6,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 7,
+          "rol": "agente",
+          "texto": "Excelente, José. ¿Me..."
+        },
+        {
+          "segundo": 9,
+          "rol": "cliente",
+          "texto": "Aló."
+        },
+        {
+          "segundo": 11,
+          "rol": "agente",
+          "texto": "Hola, soy Sofía, llamo para confirmar su pedido de la antena TVMax Pro Antena Full HD 4K, con televisión gratuita sin límites para Lima. ¿Es correcto?"
+        },
+        {
+          "segundo": 29,
+          "rol": "cliente",
+          "texto": "Eh, acciona mi entrega."
+        },
+        {
+          "segundo": 31,
+          "rol": "agente",
+          "texto": "Perfecto, José. Su pedido de la antena TVMax Pro, que le permite disfrutar de televisión gratuita en Full HD sin pagar mensualidad, está siendo alistado hoy para entregarse bajo la modalidad contraentrega. ¿Me podría confirmar su dirección exacta, referencia y distrito para el envío?"
+        },
+        {
+          "segundo": 56,
+          "rol": "cliente",
+          "texto": "Sí, Sapor-"
+        },
+        {
+          "segundo": 58,
+          "rol": "agente",
+          "texto": "Entiendo, ¿podría por favor dictarme la dirección completa, alguna referencia..."
+        },
+        {
+          "segundo": 63,
+          "rol": "cliente",
+          "texto": "La altura de la cuadra siete, por la avenida Alcázar y la cuadra siete de la avenida Arancibia."
+        },
+        {
+          "segundo": 71,
+          "rol": "agente",
+          "texto": "Entendido, ..."
+        },
+        {
+          "segundo": 72,
+          "rol": "cliente",
+          "texto": "Justo en Cruz Sec hay un grifo ahí."
+        },
+        {
+          "segundo": 76,
+          "rol": "agente",
+          "texto": "Perfecto, queda anotado. Entonces, su pedido se entregará en la avenida Alcázar, cuadra siete, cerca al grifo en la avenida Cruz Sec, en el distrito del Rímac. Esté pendiente a su celular, el motorizado le escribirá por WhatsApp para coordinar la hora de entrega. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 100,
+          "rol": "cliente",
+          "texto": "Eh, ¿a qué hora dan entrega?"
+        },
+        {
+          "segundo": 103,
+          "rol": "agente",
+          "texto": "El motorizado le escribirá por WhatsApp para coordinar la hora exacta de la entrega, ya que depende de su ruta del día. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 113,
+          "rol": "cliente",
+          "texto": "Podría ser a las 3:00 p.m., 3:30 p.m., 4:00 p.m."
+        },
+        {
+          "segundo": 117,
+          "rol": "agente",
+          "texto": "Entiendo, le transmitiré esa preferencia de horario al motorizado para que lo tenga en cuenta al momento de coordinar su ruta por WhatsApp. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 131,
+          "rol": "cliente",
+          "texto": "Ah, verdad. ¿Cuántos canales da? ¿Puedo ver mis novelas ahí?"
+        },
+        {
+          "segundo": 136,
+          "rol": "agente",
+          "texto": "La cantidad de canales y la calidad de imagen dependen de la señal, la ubicación y las emisoras de su zona, pero sí, puede captar canales nacionales, incluidos deportes y novelas. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 152,
+          "rol": "cliente",
+          "texto": "En canales de cable."
+        },
+        {
+          "segundo": 154,
+          "rol": "agente",
+          "texto": "La antena capta canales de señal abierta, por lo que no incluye canales de cable. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 163,
+          "rol": "cliente",
+          "texto": "Mmm, yo pensé que agarraba canales de cable porque decía 50 canales."
+        },
+        {
+          "segundo": 168,
+          "rol": "agente",
+          "texto": "Entiendo su duda, José. La antena capta hasta cincuenta canales de señal abierta, dependiendo de la cobertura de su zona, pero no incluye canales de televisión por cable. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 187,
+          "rol": "cliente",
+          "texto": "Esa era mi consulta. Yo quería que se vea con cable para ver mis novelitas así."
+        },
+        {
+          "segundo": 194,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, José..."
+        },
+        {
+          "segundo": 199,
+          "rol": "cliente",
+          "texto": "No escucha."
+        }
+      ]
     },
     {
       "id": "conv_1301m8a7xnpnf41r5dzbzazccmwj",
