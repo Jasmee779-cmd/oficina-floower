@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#1d1a22" />
-  <link rel="icon" type="image/png" sizes="192x192" href="../icono-192.png" />
-  <link rel="apple-touch-icon" href="../icono-180.png" />
-  <title>Call Center IA · FLOOWER.PE</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>FLW AI · Call Center</title>
   <style>
     :root {
       --bg: #1d1a22;
@@ -20,7 +21,7 @@
       --azul: #4a9be8;
       --rojo: #e5484d;
       --ambar: #eab308;
-      --rosa: #f07aa0;
+      --turquesa: #2ec8c0;
       --radius: 14px;
     }
     * { box-sizing: border-box; }
@@ -43,7 +44,7 @@
       justify-content: center;
       padding: 20px;
       background:
-        radial-gradient(640px 360px at 20% 10%, rgba(240, 122, 160, 0.12), transparent 65%),
+        radial-gradient(640px 360px at 20% 10%, rgba(46, 200, 192, 0.12), transparent 65%),
         radial-gradient(560px 340px at 85% 90%, rgba(74, 155, 232, 0.10), transparent 65%),
         var(--bg);
     }
@@ -63,12 +64,40 @@
       margin-bottom: 18px;
     }
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid var(--line);
-      background: var(--bg-deep);
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      object-position: center;
+      background: transparent;
+      flex: none;
+    }
+    .login-brand {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .login-logo {
+      width: 168px;
+      max-width: 70%;
+      height: auto;
+      display: block;
+      margin: 0 auto 16px;
+      object-fit: contain;
+      background: transparent;
+    }
+    .login-name {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .login-tag {
+      margin-top: 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--turquesa);
     }
     .brand-title { font-size: 16px; font-weight: 800; letter-spacing: 0.02em; }
     .brand-sub { font-size: 12px; color: var(--soft); margin-top: 2px; }
@@ -85,12 +114,12 @@
       text-align: center;
       outline: none;
     }
-    .pin-input:focus { border-color: var(--rosa); }
+    .pin-input:focus { border-color: var(--turquesa); }
     .btn-primary {
       width: 100%;
       margin-top: 12px;
-      background: var(--rosa);
-      color: #240f1c;
+      background: var(--turquesa);
+      color: #062423;
       border: 0;
       border-radius: 10px;
       padding: 11px 16px;
@@ -172,7 +201,7 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--rosa);
+      background: var(--turquesa);
       opacity: 0;
     }
     .nav-btn.active .dot { opacity: 1; }
@@ -205,7 +234,7 @@
       text-decoration: none;
       text-align: center;
     }
-    .btn-ghost:hover { border-color: var(--rosa); }
+    .btn-ghost:hover { border-color: var(--turquesa); }
 
     /* Main */
     .main {
@@ -261,7 +290,7 @@
     .kpi-val { font-size: 26px; font-weight: 800; margin: 6px 0 3px; }
     .kpi-sub { font-size: 11.5px; color: var(--soft); }
     .kpi-val.green { color: #7ee2ab; }
-    .kpi-val.pink { color: #ffb3cb; }
+    .kpi-val.pink { color: #9eefe9; }
     .kpi-val.blue { color: #8fc7ff; }
     .kpi-val.amber { color: #fde68a; }
 
@@ -324,7 +353,7 @@
     .pill-cancel { background: rgba(229, 72, 77, 0.16); color: #ff9da0; border: 1px solid rgba(229, 72, 77, 0.35); }
     .pill-nc { background: rgba(234, 179, 8, 0.14); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.32); }
     .pill-err { background: rgba(229, 72, 77, 0.14); color: #fca5a5; border: 1px solid rgba(229, 72, 77, 0.3); }
-    .pill-test { background: rgba(240, 122, 160, 0.14); color: #ffc0d5; border: 1px solid rgba(240, 122, 160, 0.35); }
+    .pill-test { background: rgba(46, 200, 192, 0.14); color: #9eefe9; border: 1px solid rgba(46, 200, 192, 0.35); }
     .pill-info { background: rgba(255, 255, 255, 0.08); color: var(--soft); border: 1px solid var(--line); }
 
     /* Filters */
@@ -344,7 +373,7 @@
       font-size: 13.5px;
       outline: none;
     }
-    .search-box:focus { border-color: var(--rosa); }
+    .search-box:focus { border-color: var(--turquesa); }
     .select-box {
       background: var(--bg-deep);
       border: 1px solid var(--line);
@@ -385,7 +414,7 @@
       vertical-align: top;
     }
     tr.click-row { cursor: pointer; transition: background 0.12s; }
-    tr.click-row:hover { background: rgba(240, 122, 160, 0.07); }
+    tr.click-row:hover { background: rgba(46, 200, 192, 0.07); }
     .td-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .subtxt { display: block; font-size: 11.5px; color: var(--soft); margin-top: 2px; }
 
@@ -428,8 +457,8 @@
       width: 28px;
       height: 28px;
       border-radius: 999px;
-      background: rgba(240, 122, 160, 0.18);
-      color: #ffc0d5;
+      background: rgba(46, 200, 192, 0.18);
+      color: #9eefe9;
       font-weight: 800;
       font-size: 13px;
       display: flex;
@@ -550,7 +579,7 @@
     }
     .mobile-nav button.active {
       background: var(--card);
-      color: var(--rosa);
+      color: var(--turquesa);
     }
 
     @media (max-width: 860px) {
@@ -565,12 +594,10 @@
   <!-- LOGIN -->
   <section id="loginView" class="login-wrap">
     <div class="login-card">
-      <div class="brand-row">
-        <img src="../icono-192.png" alt="FLOOWER" class="brand-logo" />
-        <div>
-          <div class="brand-title">FLOOWER.PE · Call Center IA</div>
-          <div class="brand-sub">Consola de confirmaciones por voz</div>
-        </div>
+      <div class="login-brand">
+        <img src="branding/flw-ai-logo.png" alt="FLW AI" class="login-logo" />
+        <div class="login-name">FLW AI</div>
+        <div class="login-tag">Call Center</div>
       </div>
       <h1>Ingresar al panel</h1>
       <p class="login-desc">Introduce tu PIN de acceso para ver el historial de llamadas, transcripciones y grabaciones.</p>
@@ -591,10 +618,10 @@
   <div id="appView" class="shell" hidden>
     <aside class="sidebar">
       <div class="brand-row" style="margin-bottom:4px">
-        <img src="../icono-192.png" alt="FLOOWER" class="brand-logo" />
+        <img src="branding/flw-ai-logo.png" alt="FLW AI" class="brand-logo" />
         <div>
-          <div class="brand-title">Call Center IA</div>
-          <div class="brand-sub">FLOOWER.PE</div>
+          <div class="brand-title">FLW AI</div>
+          <div class="brand-sub">Call Center</div>
         </div>
       </div>
 
@@ -1185,7 +1212,7 @@
         audioBox.innerHTML = `
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px">
             <span style="font-size:12px;color:var(--soft);font-weight:700">GRABACIÓN MP3</span>
-            <a href="${esc(c.audio_url)}" download style="font-size:12px;color:var(--rosa);font-weight:700;text-decoration:none">Descargar MP3</a>
+            <a href="${esc(c.audio_url)}" download style="font-size:12px;color:var(--turquesa);font-weight:700;text-decoration:none">Descargar MP3</a>
           </div>
           <audio controls preload="none" src="${esc(c.audio_url)}"></audio>`;
       } else {
