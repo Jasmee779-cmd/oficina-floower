@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:19:32 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:35:24 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,243 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 25,
-      "conectables": 23,
+      "total": 29,
+      "conectables": 27,
       "confirmadas": 9,
-      "reprogramadas": 0,
+      "reprogramadas": 1,
       "canceladas": 1,
-      "no_contesta": 13,
+      "no_contesta": 16,
       "errores": 2,
-      "tasa_confirmacion_pct": 39,
+      "tasa_confirmacion_pct": 33,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 34,
-      "conectables": 25,
+      "total": 38,
+      "conectables": 29,
       "confirmadas": 11,
-      "reprogramadas": 0,
+      "reprogramadas": 1,
       "canceladas": 1,
-      "no_contesta": 13,
+      "no_contesta": 16,
       "errores": 9,
-      "tasa_confirmacion_pct": 44,
+      "tasa_confirmacion_pct": 38,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 34,
-      "conectables": 25,
+      "total": 38,
+      "conectables": 29,
       "confirmadas": 11,
-      "reprogramadas": 0,
+      "reprogramadas": 1,
       "canceladas": 1,
-      "no_contesta": 13,
+      "no_contesta": 16,
       "errores": 9,
-      "tasa_confirmacion_pct": 44,
+      "tasa_confirmacion_pct": 38,
       "monto_confirmado": 1699.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_0301m8agskpreqnrykjdgdf12qwb",
+      "fecha_unix": 1795649523,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:32:03 pm",
+      "fecha_hora_lima": "25/11/2026 6:32:03 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Elvira",
+      "celular_mask": "+51 950 *** 751",
+      "celular_ult4": "9751",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Asiruni 2da etapa mz x lote 6",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 21,
+      "duracion_texto": "21 s",
+      "resumen": "La agente Sofía llamó a Elvira para confirmar un pedido de un mini GPS con destino a Puno. Sin embargo, la llamada finalizó debido a que no hubo respuesta por parte del usuario, detectándose un silencio inicial.",
+      "titulo": "Fin por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0414,
+      "audio_url": "audio/conv_0301m8agskpreqnrykjdgdf12qwb.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Elvira! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Puno, ¿correcto?"
+        },
+        {
+          "segundo": 20,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado, no hay respuesta del usuario.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_1701m8agebkhf4v9bqp2jw910pzw",
+      "fecha_unix": 1795649155,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:25:55 pm",
+      "fecha_hora_lima": "25/11/2026 6:25:55 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Elvira",
+      "celular_mask": "+51 950 *** 751",
+      "celular_ult4": "9751",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Asiruni 2da etapa mz x lote 6",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 52,
+      "duracion_texto": "52 s",
+      "resumen": "Sin transcripción ni audio útil (llamada no conectada o sin respuesta).",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0698,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_9001m8agavbgfakr4mkcbwr85c5x",
+      "fecha_unix": 1795649040,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:24:00 pm",
+      "fecha_hora_lima": "25/11/2026 6:24:00 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Elvira",
+      "celular_mask": "+51 950 *** 751",
+      "celular_ult4": "9751",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Asiruni 2da etapa mz x lote 6",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 35,
+      "duracion_texto": "35 s",
+      "resumen": "El agente llamó a Elvira para confirmar un pedido de un mini GPS con destino a Puno. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada.",
+      "titulo": "Llamada sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0603,
+      "audio_url": "audio/conv_9001m8agavbgfakr4mkcbwr85c5x.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Elvira! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Puno, ¿correcto?"
+        },
+        {
+          "segundo": 16,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 17,
+          "rol": "agente",
+          "texto": "¿Aló? ¿Se encuentra ahí? Le llamo para confirmar su pedido de el mini GPS para Puno, ¿es correcto?"
+        },
+        {
+          "segundo": 33,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 33,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 34,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente no respondió tras varios intentos.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_1801m8ag7cvjem7sgg55k6b5pm5m",
+      "fecha_unix": 1795648903,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:21:43 pm",
+      "fecha_hora_lima": "25/11/2026 6:21:43 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Ofelia",
+      "celular_mask": "+51 990 *** 502",
+      "celular_ult4": "9502",
+      "pedido_id": "—",
+      "producto": "Antena Digital HD + Codificador TV Libre",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Jirón Huáscar 146",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "REPROGRAMADO",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "La agente Sofía llamó a Ofelia para confirmar un pedido de un kit de antena con decodificador. Ofelia informó que no puede confirmar el pedido en ese momento debido a que su aplicación no funciona y solicitó reprogramar la confirmación para el sábado. La agente entendió y aceptó reprogramar.",
+      "titulo": "Reprogramar pedido antena",
+      "nueva_fecha": "Hasta el sábado",
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0669,
+      "audio_url": "audio/conv_1801m8ag7cvjem7sgg55k6b5pm5m.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Ofelia! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador, ¿correcto?"
+        },
+        {
+          "segundo": 9,
+          "rol": "cliente",
+          "texto": "No todavía, señorita. Hasta el sábado es posible, ¿ya? Porque ahorita no está funcionando mi \"app\"."
+        },
+        {
+          "segundo": 19,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, Ofelia. Entonces, reprogramamos la..."
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "Ya."
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "Ya."
+        }
+      ]
+    },
     {
       "id": "conv_1201m8afnf01e9vb6heq19sr02x6",
       "fecha_unix": 1795648329,
