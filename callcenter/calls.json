@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:44:33 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:52:03 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,115 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 33,
-      "conectables": 31,
-      "confirmadas": 9,
+      "total": 35,
+      "conectables": 33,
+      "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 19,
+      "no_contesta": 20,
       "errores": 2,
-      "tasa_confirmacion_pct": 29,
-      "monto_confirmado": 1521.0
+      "tasa_confirmacion_pct": 30,
+      "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 42,
-      "conectables": 33,
-      "confirmadas": 11,
+      "total": 44,
+      "conectables": 35,
+      "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 19,
+      "no_contesta": 20,
       "errores": 9,
-      "tasa_confirmacion_pct": 33,
-      "monto_confirmado": 1699.0
+      "tasa_confirmacion_pct": 34,
+      "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 42,
-      "conectables": 33,
-      "confirmadas": 11,
+      "total": 44,
+      "conectables": 35,
+      "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 19,
+      "no_contesta": 20,
       "errores": 9,
-      "tasa_confirmacion_pct": 33,
-      "monto_confirmado": 1699.0
+      "tasa_confirmacion_pct": 34,
+      "monto_confirmado": 1823.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_5101m8ahrrneeq3s069z0j55z8k7",
+      "fecha_unix": 1795650525,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:48:45 pm",
+      "fecha_hora_lima": "25/11/2026 6:48:45 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Hugo",
+      "celular_mask": "+51 975 *** 488",
+      "celular_ult4": "1488",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Villa Primavera M30 L27 pampa inalámbrica",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 9,
+      "duracion_texto": "9 s",
+      "resumen": "Sofía contactó a Hugo para confirmar su pedido de un mini GPS con destino a Ilo.",
+      "titulo": "Confirmar pedido GPS",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0107,
+      "audio_url": "audio/conv_5101m8ahrrneeq3s069z0j55z8k7.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Hugo! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Ilo,..."
+        }
+      ]
+    },
+    {
+      "id": "conv_8801m8ahmy1rfghbspmp5g2fcyeh",
+      "fecha_unix": 1795650400,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:46:40 pm",
+      "fecha_hora_lima": "25/11/2026 6:46:40 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Hugo",
+      "celular_mask": "+51 975 *** 488",
+      "celular_ult4": "1488",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Villa Primavera M30 L27 pampa inalámbrica",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 15,
+      "duracion_texto": "15 s",
+      "resumen": "La agente Sofía se comunica con Hugo para confirmar su pedido de un mini GPS con destino a Ilo.",
+      "titulo": "Confirmar pedido GPS",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0192,
+      "audio_url": "audio/conv_8801m8ahmy1rfghbspmp5g2fcyeh.mp3",
+      "transcripcion": [
+        {
+          "segundo": 3,
+          "rol": "agente",
+          "texto": "¡Hola, Hugo! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Ilo, ¿correcto?"
+        }
+      ]
+    },
     {
       "id": "conv_5501m8ahchk7e30r6yrvcvct7ans",
       "fecha_unix": 1795650125,
@@ -72,27 +146,78 @@
       "fecha_hora_lima": "25/11/2026 6:42:05 pm",
       "canal": "Teléfono Twilio",
       "source": "twilio",
-      "cliente": "—",
+      "cliente": "José",
       "celular_mask": "+51 977 *** 851",
       "celular_ult4": "6851",
       "pedido_id": "—",
-      "producto": "—",
-      "monto_num": null,
-      "monto_texto": "—",
-      "direccion": "—",
-      "fecha_entrega": "—",
-      "resultado": "NO CONTESTA",
+      "producto": "Cápsulas Desodorante DEOS",
+      "monto_num": 124.0,
+      "monto_texto": "S/124",
+      "direccion": "Jirón Bolívar 414",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "CONFIRMADO",
       "es_prueba": true,
-      "duracion_secs": 0,
-      "duracion_texto": "0 s",
-      "resumen": "Sin resumen disponible.",
-      "titulo": "Llamada de confirmación",
+      "duracion_secs": 99,
+      "duracion_texto": "1 min 39 s",
+      "resumen": "La agente Sofía contactó a José para confirmar su pedido de tres unidades de cápsulas DEOS para Tumbes. Tras ofrecer una promoción que el usuario declinó, la agente confirmó el pedido de 124 soles y detalló el envío por agencia Shalom. Se solicitó un adelanto de 20 soles, a lo que José respondió que lo realizaría más tarde. La agente acordó enviar los números de cuenta por WhatsApp para el pago posterior y finalizó la llamada.",
+      "titulo": "Confirmación pedido DEOS",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
-      "terminacion": "",
-      "costo_usd": 0.0,
-      "audio_url": null,
-      "transcripcion": []
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.2217,
+      "audio_url": "audio/conv_5501m8ahchk7e30r6yrvcvct7ans.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido de las cápsulas DEOS para Tumbes, ¿correcto?"
+        },
+        {
+          "segundo": 11,
+          "rol": "cliente",
+          "texto": "Sí, señora, dígame."
+        },
+        {
+          "segundo": 13,
+          "rol": "agente",
+          "texto": "Excelente. Le comento que las cápsulas DEOS son ideales para combatir la sudoración y apoyar el control del olor corporal, con una fórmula vegana y sin gluten. Su pedido de tres unidades está siendo alistado para enviarse en un plazo de veinticuatro a cuarenta y ocho horas. Si desea aprovechar la promoción, puede llevar cuatro frascos por ciento cuarenta y nueve soles, ¿quisiera aprovecharla o prefiere mantener las tres unidades?"
+        },
+        {
+          "segundo": 47,
+          "rol": "cliente",
+          "texto": "Pero ya se-- pero eso ya te dije la vez pasada."
+        },
+        {
+          "segundo": 51,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente. Entonces, mantenemos su pedido de tres unidades por ciento veinticuatro soles. Como se encuentra en Tumbes, el envío se realiza por agencia Shalom, a la sede ubicada en la avenida Panamericana Norte sin número, Villa Primavera, pasando Senati frente a Agripac. ¿Estaría bien realizar el adelanto de veinte soles para proceder con el envío?"
+        },
+        {
+          "segundo": 76,
+          "rol": "cliente",
+          "texto": "De aquí le hago, de aquí le hago, ¿ya? Porque ahorita ando, ando fuera de la casa. ¿Ya? ."
+        },
+        {
+          "segundo": 84,
+          "rol": "agente",
+          "texto": "Comprendo, no se preocupe. En estos momentos le compartimos a su WhatsApp los números de cuenta para que pueda realizar el adelanto de veinte soles cuando le sea posible. Muchas gracias, José. Que tenga un excelente día."
+        },
+        {
+          "segundo": 97,
+          "rol": "cliente",
+          "texto": "No, gracias."
+        },
+        {
+          "segundo": 98,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 99,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente se despidió y esperé más de cinco segundos.]"
+        }
+      ]
     },
     {
       "id": "conv_9001m8ah8rj3frp8e1jm8d5qnttj",
