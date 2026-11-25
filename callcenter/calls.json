@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:16:15 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 18:19:32 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -30,35 +30,35 @@
     "hoy": {
       "total": 25,
       "conectables": 23,
-      "confirmadas": 8,
+      "confirmadas": 9,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 14,
+      "no_contesta": 13,
       "errores": 2,
-      "tasa_confirmacion_pct": 35,
-      "monto_confirmado": 1452.0
+      "tasa_confirmacion_pct": 39,
+      "monto_confirmado": 1521.0
     },
     "semana": {
       "total": 34,
       "conectables": 25,
-      "confirmadas": 10,
+      "confirmadas": 11,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 14,
+      "no_contesta": 13,
       "errores": 9,
-      "tasa_confirmacion_pct": 40,
-      "monto_confirmado": 1630.0
+      "tasa_confirmacion_pct": 44,
+      "monto_confirmado": 1699.0
     },
     "total_historico": {
       "total": 34,
       "conectables": 25,
-      "confirmadas": 10,
+      "confirmadas": 11,
       "reprogramadas": 0,
       "canceladas": 1,
-      "no_contesta": 14,
+      "no_contesta": 13,
       "errores": 9,
-      "tasa_confirmacion_pct": 40,
-      "monto_confirmado": 1630.0
+      "tasa_confirmacion_pct": 44,
+      "monto_confirmado": 1699.0
     }
   },
   "cola": [],
@@ -81,18 +81,179 @@
       "monto_texto": "S/69",
       "direccion": "Psje. San Luis 100, Nueva Cajamarca",
       "fecha_entrega": "en 24 a 48 horas",
-      "resultado": "NO CONTESTA",
+      "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 207,
       "duracion_texto": "3 min 27 s",
-      "resumen": "end_call tool was called.",
-      "titulo": "Llamada de confirmación",
+      "resumen": "El agente confirmó el pedido de una Antena Digital TeVeProMax para Nueva Cajamarca. El usuario expresó dificultades para pagar de inmediato y problemas con el uso de Yape, pero enfatizó su necesidad de la antena para informarse. El agente propuso coordinar el envío y que una asesora contactara al usuario por WhatsApp para gestionar un adelanto de veinte soles y los detalles de envío. El usuario aceptó enviar el adelanto y solicitó los datos para hacerlo, los cuales el agente se comprometió a enviar por WhatsApp.",
+      "titulo": "Antena, pago y adelanto",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.3993,
-      "audio_url": null,
-      "transcripcion": []
+      "audio_url": "audio/conv_1201m8afnf01e9vb6heq19sr02x6.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, George! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Nueva Cajamarca, ¿correcto?"
+        },
+        {
+          "segundo": 12,
+          "rol": "cliente",
+          "texto": "Sí, pero ahorita no me pagan, pues. Me pagan más bien diciembre, los primeros días. ¿Cómo hago? Además, yo no puedo-- yo tengo ahí Yape, pero no puedo abrirlo. No, no sé el, el-- la clave, no puedo. Yo miro el banco, no, no, no sé qué me hicieron."
+        },
+        {
+          "segundo": 33,
+          "rol": "agente",
+          "texto": "Entiendo..."
+        },
+        {
+          "segundo": 33,
+          "rol": "cliente",
+          "texto": "No, he decidido comprar otras cosas y no puedo activar lo mi Yape. ¿Cómo hago? No. Pero estoy solo aquí, no hay quien me enseñe eso."
+        },
+        {
+          "segundo": 47,
+          "rol": "agente",
+          "texto": "Comprendo perfect..."
+        },
+        {
+          "segundo": 48,
+          "rol": "cliente",
+          "texto": "Sí, dice ahí."
+        },
+        {
+          "segundo": 49,
+          "rol": "agente",
+          "texto": "Entiendo perfect..."
+        },
+        {
+          "segundo": 50,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 52,
+          "rol": "agente",
+          "texto": "Entiendo,..."
+        },
+        {
+          "segundo": 52,
+          "rol": "cliente",
+          "texto": "Mhm. Sí, es lo que digo, tengo ese problema, nomás que tengo-- acabo de llegar ahorita, acabo de llegar de, de la chacra que estoy cultivando."
+        },
+        {
+          "segundo": 65,
+          "rol": "agente",
+          "texto": "..."
+        },
+        {
+          "segundo": 65,
+          "rol": "cliente",
+          "texto": "Y a veces necesito esa antena para poder ver alguna noticia, oír si, si trae uno todo, porque todo el día la paso yo trabajando. Y necesitaba. Y me dice, y, eh, no te-- eh, esa antena digital, eh, ¿cómo que hace cualquier televisión? No tengo problema."
+        },
+        {
+          "segundo": 90,
+          "rol": "agente",
+          "texto": "La Antena Digital TeVeProMax es compatible con cualquier televisor y le permitirá disfrutar de canales nacionales y algunos internacional..."
+        },
+        {
+          "segundo": 93,
+          "rol": "cliente",
+          "texto": "Mhm. Ah."
+        },
+        {
+          "segundo": 97,
+          "rol": "agente",
+          "texto": "Entiendo..."
+        },
+        {
+          "segundo": 98,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 100,
+          "rol": "agente",
+          "texto": "Comprendo perfectamente su situación, George. Como usted necesita la antena para mantenerse informado, podemos coordinar el envío para que lo reciba cuando esté disponible. Respecto al pago, no se preocupe por el Yape ahora, ya que una asesora le escribirá por WhatsApp para coordinar los detalles del adelanto de veinte soles y el envío por la agencia Shalom en Nueva Cajamarca. ¿Le parece bien que una asesora le brinde seguimiento por ese medio?"
+        },
+        {
+          "segundo": 127,
+          "rol": "cliente",
+          "texto": "Mmm."
+        },
+        {
+          "segundo": 127,
+          "rol": "cliente",
+          "texto": "Yo voy a ver, más o menos posible, aunque sea mandar los, los veinte soles, pero. A ver si, mmm, de acuerdo, me paga y ya cancelo el, el resto."
+        },
+        {
+          "segundo": 143,
+          "rol": "agente",
+          "texto": "Excelente..."
+        },
+        {
+          "segundo": 144,
+          "rol": "cliente",
+          "texto": "Ah, ma-mándemel, mándemel, eh, la ma-- de, de, de-- ¿cómo se dice? La clave, la-- el código, no sé cómo es. Toma, a ver si adelanto los 20 soles. Yo pensaba que ya se habían olvidado."
+        },
+        {
+          "segundo": 163,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente,..."
+        },
+        {
+          "segundo": 165,
+          "rol": "cliente",
+          "texto": "Eh, sí. Mhm. E-eso es todo. Eh, si podría mandarme ahora, yo lo voy a ver. Si trato de, de alguien que me lo-- que me lo envíe."
+        },
+        {
+          "segundo": 182,
+          "rol": "agente",
+          "texto": "Entendido. En estos momentos le compartimos a su WhatsApp los números de cuenta para que pueda realizar el adelanto de veinte soles. Muchas gracias, George. Que..."
+        },
+        {
+          "segundo": 192,
+          "rol": "cliente",
+          "texto": "Ya, muy bien entonces. Te voy a estar esperando."
+        },
+        {
+          "segundo": 195,
+          "rol": "agente",
+          "texto": "Muchas gracias, George. Que tenga un excelente día.\n\n..."
+        },
+        {
+          "segundo": 195,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 199,
+          "rol": "sistema",
+          "texto": "[end_call: Llamada finalizada]"
+        },
+        {
+          "segundo": 198,
+          "rol": "cliente",
+          "texto": "Buen tarde. Igual manera."
+        },
+        {
+          "segundo": 202,
+          "rol": "agente",
+          "texto": "Muchas gracias, George. Que tenga un excelente día.\n\n..."
+        },
+        {
+          "segundo": 202,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 206,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente respondió a la despedida. Esperé los cinco segundos reglamentarios antes de colgar.]"
+        }
+      ]
     },
     {
       "id": "conv_7601m8afc5kbffs9197zxwnp68pb",
