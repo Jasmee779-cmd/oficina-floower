@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 14:20:41 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 15:31:21 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,278 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 6,
-      "conectables": 5,
-      "confirmadas": 4,
+      "total": 7,
+      "conectables": 6,
+      "confirmadas": 5,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 1,
-      "tasa_confirmacion_pct": 80,
-      "monto_confirmado": 996.0
+      "tasa_confirmacion_pct": 83,
+      "monto_confirmado": 1245.0
     },
     "semana": {
-      "total": 15,
-      "conectables": 7,
-      "confirmadas": 6,
+      "total": 16,
+      "conectables": 8,
+      "confirmadas": 7,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 8,
-      "tasa_confirmacion_pct": 86,
-      "monto_confirmado": 1174.0
+      "tasa_confirmacion_pct": 88,
+      "monto_confirmado": 1423.0
     },
     "total_historico": {
-      "total": 15,
-      "conectables": 7,
-      "confirmadas": 6,
+      "total": 16,
+      "conectables": 8,
+      "confirmadas": 7,
       "reprogramadas": 0,
       "canceladas": 0,
       "no_contesta": 1,
       "errores": 8,
-      "tasa_confirmacion_pct": 86,
-      "monto_confirmado": 1174.0
+      "tasa_confirmacion_pct": 88,
+      "monto_confirmado": 1423.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_6201m8a5ppzgffzaq6wt3tfynxww",
+      "fecha_unix": 1795637877,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "3:17:57 pm",
+      "fecha_hora_lima": "25/11/2026 3:17:57 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Joaquín",
+      "celular_mask": "+51 917 *** 600",
+      "celular_ult4": "9600",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 388,
+      "duracion_texto": "6 min 28 s",
+      "resumen": "El agente confirmó el pedido de una Cortina LED NovaLux 3x3 para Puquio con el usuario Joaquín. Se acordó el envío por Olva Courier (en lugar de Shalom) con un adelanto de S/20 y el resto al recoger. El usuario preguntó por descuentos; se le ofreció una promoción de dos unidades por S/469, la cual consideró. Se confirmaron los datos del usuario (Joaquín Garrido Flores, DNI 75173937). El usuario también preguntó sobre las medidas (3x3m), la personalización de diseños (no es posible con nombres, solo figuras predeterminadas) y el control (mediante app y control remoto, no WhatsApp). La conversación concluyó sin más dudas por parte del usuario.",
+      "titulo": "Confirmación pedido cortina LED",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.6773,
+      "audio_url": "audio/conv_6201m8a5ppzgffzaq6wt3tfynxww.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Joaquín! Le saluda Sofía. Le llamo para confirmar su pedido de Cortina LED NovaLux 3x3 para Puquio, ¿correcto?"
+        },
+        {
+          "segundo": 12,
+          "rol": "cliente",
+          "texto": "Sí, correcto."
+        },
+        {
+          "segundo": 14,
+          "rol": "agente",
+          "texto": "¡Qué bueno, Joaquín! Le comento que su cortina trae..."
+        },
+        {
+          "segundo": 17,
+          "rol": "cliente",
+          "texto": "El precio."
+        },
+        {
+          "segundo": 19,
+          "rol": "agente",
+          "texto": "El precio es de doscientos cuarenta y nueve soles. Además, le comento que su cortina trae control y aplicación con hasta cien figuras. Se lo podemos enviar por Shalom, a la sede de Shalom Puquio, con un adelanto de veinte soles. Al llegar a la agencia cancela el restante descontando el adelanto. El pedido llega aproximadamente en veinticuatro a cuarenta y ocho horas después del envío. ¿Estaría bien?"
+        },
+        {
+          "segundo": 48,
+          "rol": "cliente",
+          "texto": "Sí. Pero en donde estoy no existe Shalom. Por Olva, ¿puede ser?"
+        },
+        {
+          "segundo": 59,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, Joaquín. Claro que sí, podemos realizar el envío por Olva Courier, también con el adelanto de veinte soles y el restante lo cancela al recoger su pedido. El tiempo de llegada es el mismo, de veinticuatro a cuarenta y ocho horas después del envío. ¿Le parece bien que procedamos así?"
+        },
+        {
+          "segundo": 87,
+          "rol": "cliente",
+          "texto": "Eh, ¿un descuento me abran?"
+        },
+        {
+          "segundo": 89,
+          "rol": "agente",
+          "texto": "Joaquín, le comento que por el momento no contamos..."
+        },
+        {
+          "segundo": 92,
+          "rol": "cliente",
+          "texto": "Un después."
+        },
+        {
+          "segundo": 93,
+          "rol": "agente",
+          "texto": "Entiendo, Joaquín. Le comento que, si usted se anima a llevar dos unidades, le saldría a cuatrocientos sesenta y nueve soles en total. ¿Desea aprovechar esta promoción o prefiere mantener solo una unidad?"
+        },
+        {
+          "segundo": 115,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 116,
+          "rol": "agente",
+          "texto": "Excelente,..."
+        },
+        {
+          "segundo": 116,
+          "rol": "cliente",
+          "texto": "Ya está, Mateo. Sí, ¿de quién es la orden?"
+        },
+        {
+          "segundo": 125,
+          "rol": "agente",
+          "texto": "El..."
+        },
+        {
+          "segundo": 125,
+          "rol": "cliente",
+          "texto": "¿Y para cuándo me estaría llegando?"
+        },
+        {
+          "segundo": 128,
+          "rol": "agente",
+          "texto": "El pedido le estaría llegando aproximadamente en veinticuatro a cuarenta y ocho horas después de que lo enviemos hoy mismo. Para continuar con el proceso, ¿podría dictarme su nombre completo y su número de DNI, por favor?"
+        },
+        {
+          "segundo": 145,
+          "rol": "cliente",
+          "texto": "Joaquín Garrido Flores."
+        },
+        {
+          "segundo": 148,
+          "rol": "agente",
+          "texto": "Perfecto, Joaquín. ¿Me podría dictar su número de DNI, por favor?"
+        },
+        {
+          "segundo": 155,
+          "rol": "cliente",
+          "texto": "75173937."
+        },
+        {
+          "segundo": 159,
+          "rol": "agente",
+          "texto": "Muchas gracias, Joaquín. He registrado su nombre completo como Joaquín Garrido Flores y su número de DNI como siete cinco uno siete tres nueve tres siete. Apenas tengamos su adelanto de veinte soles lo empaquetamos y hoy mismo lo enviamos por Olva Courier. Le enviaré por WhatsApp las cuentas de Yape o Plin para que pueda realizar el depósito. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 187,
+          "rol": "cliente",
+          "texto": "Y, ¿cuánto es la medida de la cortina?"
+        },
+        {
+          "segundo": 190,
+          "rol": "agente",
+          "texto": "La cortina tiene una medida de tres por tres metros, Joaquín. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 199,
+          "rol": "cliente",
+          "texto": "Eh, ¿se podrá cambiar en las fechas con su nombre? ¿Algo así?"
+        },
+        {
+          "segundo": 205,
+          "rol": "agente",
+          "texto": "No le entiendo muy bien, Joaquín. ¿Se refiere a si puede cambiar la fecha de entrega o si necesita algún otro dato sobre el producto? Si gusta, una asesora le escribirá por..."
+        },
+        {
+          "segundo": 216,
+          "rol": "cliente",
+          "texto": "No, ¿se puede, se puede cambiar los nomes?"
+        },
+        {
+          "segundo": 219,
+          "rol": "agente",
+          "texto": "Entiendo,..."
+        },
+        {
+          "segundo": 220,
+          "rol": "cliente",
+          "texto": "Si puede cambiar los nombres. ¿Ah? Se quedó muda. ¿Se pudo? ¿Se puede cambiar lo-- este, los-- el diseño con los nombres?"
+        },
+        {
+          "segundo": 238,
+          "rol": "agente",
+          "texto": "Comprendo, Joaquín. Le comento que el modelo de cortina que usted ha pedido cuenta con hasta cien figuras predeterminadas, pero no permite personalizar el diseño con nombres específicos. ¿Tiene alguna otra consulta sobre su pedido?"
+        },
+        {
+          "segundo": 262,
+          "rol": "cliente",
+          "texto": "Yyy, y si llevo tres, ¿cuál sería la promoción?"
+        },
+        {
+          "segundo": 268,
+          "rol": "agente",
+          "texto": "Joaquín, la promoción que tenemos disponible es la que le comenté, donde llevando dos unidades el precio es de cuatrocientos sesenta y nueve soles. Si desea llevar tres, el precio de la tercera unidad sería el precio regular. ¿Desea que mantengamos el pedido por las dos unidades de la promoción o prefiere solo una?"
+        },
+        {
+          "segundo": 293,
+          "rol": "cliente",
+          "texto": "Yo llamaré tres, pero a un descuento menos."
+        },
+        {
+          "segundo": 297,
+          "rol": "agente",
+          "texto": "Entiendo, Joaquín. Por el momento, la única promoción vigente es la de dos unidades por cuatrocientos sesenta y nueve soles. No cuento con un descuento adicional para tres unidades, pero si desea, puedo dejar su pedido con las dos unidades de la promoción. ¿Desea proceder así o tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 326,
+          "rol": "cliente",
+          "texto": "¿Mmm?"
+        },
+        {
+          "segundo": 327,
+          "rol": "agente",
+          "texto": "Entiendo que está pensándolo, Joaquín. Si gusta, podemos confirmar su pedido por las dos unidades con la promoción de cuatrocientos sesenta y nueve soles, o si prefiere, podemos dejarlo solo con una unidad como al principio. ¿Qué le gustaría hacer? ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 352,
+          "rol": "cliente",
+          "texto": "Y se podrá manejar con el control de, del WhatsApp, lo de, lo de usted?"
+        },
+        {
+          "segundo": 358,
+          "rol": "agente",
+          "texto": "Joaquín, le comento que la cortina se maneja a través de una aplicación en su celular y también con el control remoto que viene incluido. No se maneja a través de WhatsApp. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 380,
+          "rol": "cliente",
+          "texto": "No, eso es todo. Muchas gracias."
+        },
+        {
+          "segundo": 382,
+          "rol": "agente",
+          "texto": "¡De nada, Joaquín! Ha sido un gusto atenderle. Que tenga un excelente día."
+        },
+        {
+          "segundo": 383,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 388,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
+        }
+      ]
+    },
     {
       "id": "conv_3801m8a1vtm0fn8avm9b7b9sb4ae",
       "fecha_unix": 1795633842,
