@@ -671,8 +671,8 @@
         <div class="card">
           <div class="card-head">
             <div>
-              <h2 class="card-title">Llamadas recientes</h2>
-              <div class="card-sub">Toca una fila para escuchar el audio y leer la transcripción completa</div>
+              <h2 class="card-title">Llamadas realizadas</h2>
+              <div class="card-sub" id="recentSub">Toca una fila para escuchar el audio y leer la transcripción completa</div>
             </div>
             <button class="btn-ghost" type="button" id="verTodasBtn">Ver historial completo</button>
           </div>
@@ -1085,8 +1085,21 @@
     }
 
     function renderRecent() {
-      const list = (DATA?.llamadas || []).filter((l) => l.resultado !== "ERROR").slice(0, 6);
+      const list = (DATA?.llamadas || [])
+        .filter((l) => l.resultado !== "ERROR")
+        .slice()
+        .sort((a, b) => (Number(b.fecha_unix) || 0) - (Number(a.fecha_unix) || 0));
       const tbody = document.getElementById("recentTbody");
+      const sub = document.getElementById("recentSub");
+      if (sub) {
+        sub.textContent = list.length
+          ? list.length + " llamada" + (list.length === 1 ? "" : "s") + " realizada" + (list.length === 1 ? "" : "s") + " · toca una fila para escuchar el audio y leer la transcripción"
+          : "Aún no hay llamadas realizadas";
+      }
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--soft);padding:24px">Aún no hay llamadas realizadas.</td></tr>`;
+        return;
+      }
       tbody.innerHTML = list
         .map(
           (c) => `
