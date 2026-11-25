@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#1d1a22" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../icono-192.png" />
+  <link rel="apple-touch-icon" href="../icono-180.png" />
+  <title>Call Center IA · FLOOWER.PE</title>
+  <style>
+    :root {
+      --bg: #1d1a22;
+      --bg-deep: #151219;
+      --card: #2a2530;
+      --card-2: #221e28;
+      --line: #3a3340;
+      --ink: #f3ece4;
+      --soft: #b9aca0;
+      --verde: #3bb273;
+      --azul: #4a9be8;
+      --rojo: #e5484d;
+      --ambar: #eab308;
+      --rosa: #f07aa0;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Helvetica Neue", Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select { font: inherit; color: inherit; }
+    [hidden] { display: none !important; }
+
+    /* Login PIN */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(640px 360px at 20% 10%, rgba(240, 122, 160, 0.12), transparent 65%),
+        radial-gradient(560px 340px at 85% 90%, rgba(74, 155, 232, 0.10), transparent 65%),
+        var(--bg);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      background: var(--bg-deep);
+    }
+    .brand-title { font-size: 16px; font-weight: 800; letter-spacing: 0.02em; }
+    .brand-sub { font-size: 12px; color: var(--soft); margin-top: 2px; }
+    .login-card h1 { font-size: 20px; margin: 0 0 6px; }
+    .login-desc { font-size: 13.5px; color: var(--soft); margin: 0 0 18px; line-height: 1.45; }
+    .pin-input {
+      width: 100%;
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 20px;
+      letter-spacing: 0.35em;
+      text-align: center;
+      outline: none;
+    }
+    .pin-input:focus { border-color: var(--rosa); }
+    .btn-primary {
+      width: 100%;
+      margin-top: 12px;
+      background: var(--rosa);
+      color: #240f1c;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+    .btn-primary:hover { filter: brightness(1.06); }
+    .login-remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 12.5px;
+      color: var(--soft);
+      cursor: pointer;
+    }
+    .login-err {
+      min-height: 20px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #ff8a8f;
+      font-weight: 600;
+    }
+    .login-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 11.5px;
+      color: var(--soft);
+      line-height: 1.45;
+    }
+
+    /* App shell */
+    .shell {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: var(--bg-deep);
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--soft);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.04); color: var(--ink); }
+    .nav-btn.active {
+      background: var(--card);
+      border-color: var(--line);
+      color: var(--ink);
+    }
+    .nav-btn .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--rosa);
+      opacity: 0;
+    }
+    .nav-btn.active .dot { opacity: 1; }
+    .nav-badge {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--soft);
+    }
+    .sidebar-foot {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--soft);
+    }
+    .btn-ghost {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 8px 11px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+    .btn-ghost:hover { border-color: var(--rosa); }
+
+    /* Main */
+    .main {
+      padding: 20px 24px 80px;
+      max-width: 1260px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .page-title { margin: 0; font-size: 22px; font-weight: 800; }
+    .page-sub { font-size: 13px; color: var(--soft); margin-top: 3px; }
+    .status-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(234, 179, 8, 0.13);
+      border: 1px solid rgba(234, 179, 8, 0.35);
+      color: #fde68a;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ambar);
+      box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.22);
+    }
+
+    /* Cards & Grids */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px 16px;
+    }
+    .kpi-label { font-size: 12px; color: var(--soft); font-weight: 600; }
+    .kpi-val { font-size: 26px; font-weight: 800; margin: 6px 0 3px; }
+    .kpi-sub { font-size: 11.5px; color: var(--soft); }
+    .kpi-val.green { color: #7ee2ab; }
+    .kpi-val.pink { color: #ffb3cb; }
+    .kpi-val.blue { color: #8fc7ff; }
+    .kpi-val.amber { color: #fde68a; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-title { margin: 0; font-size: 16px; font-weight: 800; }
+    .card-sub { font-size: 12.5px; color: var(--soft); }
+
+    .seg {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .seg button {
+      background: transparent;
+      border: 0;
+      border-radius: 7px;
+      padding: 6px 11px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--soft);
+      cursor: pointer;
+    }
+    .seg button.active {
+      background: var(--card);
+      color: var(--ink);
+    }
+
+    /* Pills */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .pill-ok { background: rgba(59, 178, 115, 0.16); color: #8be8b5; border: 1px solid rgba(59, 178, 115, 0.35); }
+    .pill-reprog { background: rgba(74, 155, 232, 0.16); color: #9ad0ff; border: 1px solid rgba(74, 155, 232, 0.35); }
+    .pill-cancel { background: rgba(229, 72, 77, 0.16); color: #ff9da0; border: 1px solid rgba(229, 72, 77, 0.35); }
+    .pill-nc { background: rgba(234, 179, 8, 0.14); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.32); }
+    .pill-err { background: rgba(229, 72, 77, 0.14); color: #fca5a5; border: 1px solid rgba(229, 72, 77, 0.3); }
+    .pill-test { background: rgba(240, 122, 160, 0.14); color: #ffc0d5; border: 1px solid rgba(240, 122, 160, 0.35); }
+    .pill-info { background: rgba(255, 255, 255, 0.08); color: var(--soft); border: 1px solid var(--line); }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+    .search-box {
+      flex: 1 1 230px;
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--rosa); }
+    .select-box {
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 11px;
+      font-size: 13px;
+      outline: none;
+    }
+    .chk-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--soft);
+      cursor: pointer;
+    }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    td {
+      padding: 11px 10px;
+      border-bottom: 1px solid rgba(58, 51, 64, 0.65);
+      vertical-align: top;
+    }
+    tr.click-row { cursor: pointer; transition: background 0.12s; }
+    tr.click-row:hover { background: rgba(240, 122, 160, 0.07); }
+    .td-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .subtxt { display: block; font-size: 11.5px; color: var(--soft); margin-top: 2px; }
+
+    /* Two columns info */
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 14px;
+    }
+    .kv-list { display: flex; flex-direction: column; gap: 8px; }
+    .kv-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(58, 51, 64, 0.6);
+      font-size: 13px;
+    }
+    .kv-item span:first-child { color: var(--soft); }
+    .kv-item strong { text-align: right; }
+
+    .step-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 12px;
+      align-items: start;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(240, 122, 160, 0.18);
+      color: #ffc0d5;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-item h4 { margin: 0 0 4px; font-size: 14px; }
+    .step-item p { margin: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+
+    .script-box {
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e9dfd5;
+    }
+
+    /* Drawer / Modal detail */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 14, 0.72);
+      z-index: 40;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .drawer {
+      width: min(560px, 100vw);
+      height: 100%;
+      background: var(--card);
+      border-left: 1px solid var(--line);
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .drawer-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+    }
+    .close-btn {
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    audio { width: 100%; margin-top: 6px; border-radius: 8px; }
+    .transcript {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bubble {
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 92%;
+    }
+    .bubble.agente {
+      align-self: flex-start;
+      background: #352f3d;
+      border: 1px solid var(--line);
+    }
+    .bubble.cliente {
+      align-self: flex-end;
+      background: rgba(74, 155, 232, 0.16);
+      border: 1px solid rgba(74, 155, 232, 0.35);
+    }
+    .bubble.sistema {
+      align-self: center;
+      background: transparent;
+      border: 1px dashed var(--line);
+      color: var(--soft);
+      font-size: 11.5px;
+      padding: 5px 10px;
+    }
+    .bubble-meta {
+      font-size: 11px;
+      color: var(--soft);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    /* Mobile bottom nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      background: var(--bg-deep);
+      border-top: 1px solid var(--line);
+      padding: 6px 8px;
+      gap: 4px;
+      justify-content: space-around;
+    }
+    .mobile-nav button {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--soft);
+      cursor: pointer;
+    }
+    .mobile-nav button.active {
+      background: var(--card);
+      color: var(--rosa);
+    }
+
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .mobile-nav { display: flex; }
+      .main { padding: 16px 14px 84px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <section id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="brand-row">
+        <img src="../icono-192.png" alt="FLOOWER" class="brand-logo" />
+        <div>
+          <div class="brand-title">FLOOWER.PE · Call Center IA</div>
+          <div class="brand-sub">Consola de confirmaciones por voz</div>
+        </div>
+      </div>
+      <h1>Ingresar al panel</h1>
+      <p class="login-desc">Introduce tu PIN de acceso para ver el historial de llamadas, transcripciones y grabaciones.</p>
+      <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="12" placeholder="••••••" autocomplete="current-password" />
+      <button id="pinBtn" class="btn-primary" type="button">Entrar</button>
+      <label class="login-remember">
+        <input id="rememberChk" type="checkbox" checked />
+        Mantener sesión abierta en este navegador
+      </label>
+      <div id="pinErr" class="login-err"></div>
+      <div class="login-note">
+        Protección básica para web pública estática (GitHub Pages). No almacena contraseñas ni claves de ElevenLabs o Twilio en el navegador.
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <div id="appView" class="shell" hidden>
+    <aside class="sidebar">
+      <div class="brand-row" style="margin-bottom:4px">
+        <img src="../icono-192.png" alt="FLOOWER" class="brand-logo" />
+        <div>
+          <div class="brand-title">Call Center IA</div>
+          <div class="brand-sub">FLOOWER.PE</div>
+        </div>
+      </div>
+
+      <nav class="nav-list" id="desktopNav">
+        <button class="nav-btn active" data-tab="panel"><span>Panel</span><span class="dot"></span></button>
+        <button class="nav-btn" data-tab="llamadas"><span>Llamadas</span><span id="navCount" class="nav-badge">0</span></button>
+        <button class="nav-btn" data-tab="cola"><span>Cola por llamar</span><span id="colaCount" class="nav-badge">0</span></button>
+        <button class="nav-btn" data-tab="flujo"><span>Cómo funciona</span><span class="dot"></span></button>
+        <button class="nav-btn" data-tab="agente"><span>Agente IA</span><span class="dot"></span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div id="syncStamp">Sincronizado: —</div>
+        <a class="btn-ghost" href="../">Volver a Oficina 3D</a>
+        <button id="logoutBtn" class="btn-ghost" type="button">Bloquear con PIN</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h1 class="page-title" id="viewHeading">Panel general</h1>
+          <div class="page-sub" id="viewSub">Zona horaria: Lima (UTC-5)</div>
+        </div>
+        <div class="status-banner">
+          <span class="pulse"></span>
+          <span id="statusBannerTxt">En prueba solo con James — no se llama a clientes</span>
+        </div>
+      </div>
+
+      <!-- TAB: PANEL -->
+      <section id="tab-panel">
+        <div class="card" style="padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px">
+          <div>
+            <strong>Resumen de métricas</strong>
+            <span class="card-sub" id="kpiScopeDesc" style="margin-left:8px">Pruebas registradas</span>
+          </div>
+          <div class="seg" id="kpiRangeSeg">
+            <button data-range="hoy" class="active">Hoy (25/11)</button>
+            <button data-range="semana">Últimos 7 días</button>
+            <button data-range="total_historico">Todo</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Llamadas recientes</h2>
+              <div class="card-sub">Toca una fila para escuchar el audio y leer la transcripción completa</div>
+            </div>
+            <button class="btn-ghost" type="button" id="verTodasBtn">Ver historial completo</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha (Lima)</th>
+                  <th>Cliente / Canal</th>
+                  <th>Producto</th>
+                  <th class="td-num">Monto</th>
+                  <th>Resultado</th>
+                  <th class="td-num">Duración</th>
+                  <th>Audio</th>
+                </tr>
+              </thead>
+              <tbody id="recentTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: LLAMADAS -->
+      <section id="tab-llamadas" hidden>
+        <div class="card">
+          <div class="filters">
+            <input id="qInput" class="search-box" type="search" placeholder="Buscar por nombre, celular (últimos dígitos), pedido o producto..." />
+            <select id="dateFilter" class="select-box">
+              <option value="all">Todas las fechas</option>
+              <option value="2026-11-25">Hoy · 25/11/2026</option>
+              <option value="2026-11-24">Ayer · 24/11/2026</option>
+            </select>
+            <select id="resFilter" class="select-box">
+              <option value="ALL">Todos los resultados</option>
+              <option value="CONFIRMADO">CONFIRMADO</option>
+              <option value="REPROGRAMADO">REPROGRAMADO</option>
+              <option value="CANCELADO">CANCELADO</option>
+              <option value="NO CONTESTA">NO CONTESTA</option>
+              <option value="PRUEBA">Solo PRUEBA</option>
+              <option value="ERROR">ERROR técnico</option>
+            </select>
+            <label class="chk-wrap">
+              <input id="hideErrChk" type="checkbox" />
+              Ocultar errores de arranque
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha (Lima)</th>
+                  <th>Cliente</th>
+                  <th>Celular / Canal</th>
+                  <th>Producto</th>
+                  <th class="td-num">Monto</th>
+                  <th>Resultado</th>
+                  <th class="td-num">Duración</th>
+                  <th>Resumen</th>
+                  <th>Audio</th>
+                </tr>
+              </thead>
+              <tbody id="callsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: COLA -->
+      <section id="tab-cola" hidden>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Cola por llamar</h2>
+              <div class="card-sub">Pedidos nuevos pendientes de confirmación telefónica</div>
+            </div>
+            <span class="pill pill-nc">0 pedidos reales en cola</span>
+          </div>
+          <p class="card-sub" style="margin-top:0;line-height:1.5">
+            El sistema está en fase de pruebas contigo y no marca a clientes reales. Cuando apruebes activarlo, aquí aparecerán los pedidos por confirmar con su horario permitido (propuesto: 9:00 a.m.–8:00 p.m. Lima) y reintentos.
+          </p>
+          <div class="table-wrap" style="margin-top:12px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Pedido</th>
+                  <th>Cliente</th>
+                  <th>Celular</th>
+                  <th>Producto</th>
+                  <th class="td-num">Monto</th>
+                  <th>Fecha entrega</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="colaTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: FLUJO -->
+      <section id="tab-flujo" hidden>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Cómo se va a ejecutar</h2>
+              <div class="card-sub">Flujo completo desde el pedido hasta la actualización en Flower</div>
+            </div>
+          </div>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Llega un pedido nuevo (Shopify / Flower)</h4>
+                <p>Se toman automáticamente los datos requeridos: nombre, celular, producto, monto, dirección y fecha de entrega.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div>
+                <h4>HERMES lanza la llamada saliente</h4>
+                <p>Marca desde +1 908 676 6906 (Twilio) usando el agente FLOOWER Confirmaciones Voz (ElevenLabs).</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div>
+                <h4>La IA confirma los datos con el cliente</h4>
+                <p>Pide CONFIRMAR, REPROGRAMAR (nueva fecha) o CANCELAR (motivo). Si el cliente tiene una consulta, la escucha antes de despedirse (por ajustar).</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div>
+                <h4>Si no contesta (NO CONTESTA / Buzón)</h4>
+                <p>Propuesta: programar hasta 2 reintentos con 2 horas de diferencia dentro del horario permitido.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div>
+                <h4>Registro en esta consola y pase a Flower</h4>
+                <p>Cada llamada guarda audio, transcripción y resumen aquí. Propuesta: pasar los resultados a Confirmaciones / TIENDA para actualizar Flower.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:12px">Ya decidido</h3>
+            <div class="kv-list">
+              <div class="kv-item"><span>Número de salida Twilio</span><strong>+1 908 676 6906</strong></div>
+              <div class="kv-item"><span>Agente de voz</span><strong>FLOOWER Confirmaciones Voz</strong></div>
+              <div class="kv-item"><span>Variables del pedido</span><strong>nombre, producto, monto, direccion, fecha_entrega</strong></div>
+              <div class="kv-item"><span>Colgado automático</span><strong>Cuelga tras confirmar / reprogramar / cancelar</strong></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:12px">Propuestas pendientes de tu OK</h3>
+            <div class="kv-list">
+              <div class="kv-item"><span>Horario de llamadas</span><strong>9:00 a.m. – 8:00 p.m. (Lima)</strong></div>
+              <div class="kv-item"><span>Reintentos sin respuesta</span><strong>2 reintentos cada 2 horas</strong></div>
+              <div class="kv-item"><span>Consultas al cierre</span><strong>No colgar si el cliente pregunta algo</strong></div>
+              <div class="kv-item"><span>Filtro antispam celular</span><strong>Esperar saludo real antes de hablar</strong></div>
+              <div class="kv-item"><span>Sincronización</span><strong>Pasar resultado a TIENDA / Flower</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: AGENTE -->
+      <section id="tab-agente" hidden>
+        <div class="two-col">
+          <div class="card">
+            <h2 class="card-title" style="margin-bottom:12px">Ficha técnica del agente</h2>
+            <div class="kv-list" id="agentProps"></div>
+          </div>
+          <div class="card">
+            <h2 class="card-title" style="margin-bottom:12px">Por mejorar (hallazgos de pruebas)</h2>
+            <div class="kv-list">
+              <div class="kv-item">
+                <span>1. Colgado prematuro</span>
+                <strong>Escuchar consulta antes de usar end_call</strong>
+              </div>
+              <div class="kv-item">
+                <span>2. Filtro del celular</span>
+                <strong>Detectar «Revisaré si está disponible» sin cortar flujo</strong>
+              </div>
+            </div>
+            <h3 class="card-title" style="margin:16px 0 8px;font-size:14px">Saludo inicial configurado</h3>
+            <div class="script-box" id="agentGreeting">—</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title" style="margin-bottom:10px">Reglas del guion</h3>
+          <ul style="margin:0;padding-left:18px;color:var(--soft);font-size:13.5px;line-height:1.6">
+            <li>Confirma producto, monto, dirección o distrito y fecha de entrega sin alterar los datos recibidos.</li>
+            <li>En Lima o Callao indica que el pago es <strong>contraentrega</strong>.</li>
+            <li>Nunca pide tarjetas, transferencias, claves, DNI ni datos bancarios por teléfono.</li>
+            <li>Si el cliente reprograma, repite la nueva fecha en voz alta; si cancela, pregunta el motivo con cortesía.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- MOBILE NAV -->
+    <nav class="mobile-nav" id="mobileNav">
+      <button class="active" data-tab="panel">Panel</button>
+      <button data-tab="llamadas">Llamadas</button>
+      <button data-tab="cola">Cola</button>
+      <button data-tab="flujo">Flujo</button>
+      <button data-tab="agente">Agente</button>
+    </nav>
+  </div>
+
+  <!-- DETAIL DRAWER -->
+  <div id="detailModal" class="modal-backdrop" hidden>
+    <div class="drawer" role="dialog" aria-modal="true">
+      <div class="drawer-head">
+        <div>
+          <h2 id="dTitle" style="margin:0;font-size:18px">Detalle de llamada</h2>
+          <div id="dSub" class="card-sub" style="margin-top:3px">—</div>
+        </div>
+        <button id="closeDrawer" class="close-btn" type="button">Cerrar</button>
+      </div>
+      <div id="dBadges" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      <div id="dAudioBox" class="card" style="margin:0;padding:12px 14px;background:var(--bg-deep)"></div>
+      <div class="card" style="margin:0;padding:12px 14px;background:var(--bg-deep)">
+        <div style="font-size:12px;color:var(--soft);font-weight:700;margin-bottom:6px">RESUMEN</div>
+        <div id="dSummary" style="font-size:13.5px;line-height:1.45"></div>
+      </div>
+      <div class="kv-list" id="dMeta"></div>
+      <div>
+        <div style="font-size:12px;color:var(--soft);font-weight:700;margin-bottom:8px">TRANSCRIPCIÓN</div>
+        <div id="dTranscript" class="transcript"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PIN_SHA256 = "47acfcaeb80bbdfe6fc481e55cdd35c9aa345a6d58fe359a90d1f16933f270eb";
+    const SESSION_KEY = "floower_callcenter_unlocked_v1";
+
+    let DATA = null;
+    let currentRange = "hoy";
+    let currentTab = "panel";
+
+    // Pure-JS SHA-256 fallback in case subtle is unavailable
+    function sha256Fallback(ascii) {
+      function rightRotate(v, a) { return (v >>> a) | (v << (32 - a)); }
+      const maxWord = Math.pow(2, 32);
+      let result = "";
+      const words = [];
+      const asciiBitLength = ascii.length * 8;
+      let hash = (sha256Fallback.h = sha256Fallback.h || []);
+      let k = (sha256Fallback.k = sha256Fallback.k || []);
+      let primeCounter = k.length;
+      const isComposite = {};
+      for (let candidate = 2; primeCounter < 64; candidate++) {
+        if (!isComposite[candidate]) {
+          for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+          hash[primeCounter] = (Math.pow(candidate, 0.5) * maxWord) | 0;
+          k[primeCounter++] = (Math.pow(candidate, 1 / 3) * maxWord) | 0;
+        }
+      }
+      ascii += "\x80";
+      while ((ascii.length % 64) - 56) ascii += "\x00";
+      for (let i = 0; i < ascii.length; i++) {
+        const j = ascii.charCodeAt(i);
+        words[i >> 2] |= j << (((3 - i) % 4) * 8);
+      }
+      words[words.length] = (asciiBitLength / maxWord) | 0;
+      words[words.length] = asciiBitLength;
+      for (let j = 0; j < words.length;) {
+        const w = words.slice(j, (j += 16));
+        const oldHash = hash.slice(0);
+        for (let i = 0; i < 64; i++) {
+          const w15 = w[i - 15], w2 = w[i - 2];
+          const a = hash[0], e = hash[4];
+          const temp1 =
+            hash[7] +
+            (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) +
+            ((e & hash[5]) ^ (~e & hash[6])) +
+            k[i] +
+            (w[i] = i < 16 ? w[i] : (w[i - 16] + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | 0);
+          const temp2 =
+            (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) +
+            ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+          hash = [(temp1 + temp2) | 0].concat(hash);
+          hash[4] = (hash[4] + temp1) | 0;
+        }
+        for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+      }
+      for (let i = 0; i < 8; i++) {
+        for (let j = 3; j + 1; j--) {
+          const b = (hash[i] >> (j * 8)) & 255;
+          result += (b < 16 ? 0 : "") + b.toString(16);
+        }
+      }
+      sha256Fallback.h = [];
+      return result;
+    }
+
+    async function sha256Hex(str) {
+      if (window.crypto && window.crypto.subtle) {
+        const buf = await window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+      return sha256Fallback(str);
+    }
+
+    function esc(s) {
+      return String(s ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function resultPill(res) {
+      const map = {
+        CONFIRMADO: ["pill-ok", "CONFIRMADO"],
+        REPROGRAMADO: ["pill-reprog", "REPROGRAMADO"],
+        CANCELADO: ["pill-cancel", "CANCELADO"],
+        "NO CONTESTA": ["pill-nc", "NO CONTESTA"],
+        ERROR: ["pill-err", "ERROR"],
+      };
+      const [cls, label] = map[res] || ["pill-info", res];
+      return `<span class="pill ${cls}">${esc(label)}</span>`;
+    }
+
+    function fmtSec(s) {
+      const sec = Number(s || 0);
+      const m = Math.floor(sec / 60);
+      const r = sec % 60;
+      return `${m}:${String(r).padStart(2, "0")}`;
+    }
+
+    async function unlockIfValid() {
+      const pin = document.getElementById("pinInput").value.trim();
+      const err = document.getElementById("pinErr");
+      if (!pin) {
+        err.textContent = "Ingresa el PIN.";
+        return;
+      }
+      const hash = await sha256Hex(pin);
+      if (hash !== PIN_SHA256) {
+        err.textContent = "PIN incorrecto.";
+        return;
+      }
+      err.textContent = "";
+      sessionStorage.setItem(SESSION_KEY, "1");
+      if (document.getElementById("rememberChk").checked) {
+        localStorage.setItem(SESSION_KEY, hash);
+      }
+      await enterApp();
+    }
+
+    async function enterApp() {
+      document.getElementById("loginView").hidden = true;
+      document.getElementById("appView").hidden = false;
+      await loadCalls();
+    }
+
+    async function loadCalls() {
+      const resp = await fetch("calls.json?_=" + Date.now());
+      DATA = await resp.json();
+      document.getElementById("syncStamp").textContent = "Actualizado: " + (DATA.generado_lima || "—");
+      document.getElementById("statusBannerTxt").textContent = DATA.estado_sistema || "En prueba";
+      document.getElementById("navCount").textContent = String((DATA.llamadas || []).length);
+      document.getElementById("colaCount").textContent = String((DATA.cola || []).length);
+      renderKpis();
+      renderRecent();
+      renderCallsTable();
+      renderCola();
+      renderAgent();
+    }
+
+    function renderKpis() {
+      if (!DATA) return;
+      const k = (DATA.kpis && DATA.kpis[currentRange]) || {};
+      const desc =
+        currentRange === "hoy"
+          ? "Hoy 25/11/2026 (hora Lima) · solo pruebas"
+          : currentRange === "semana"
+          ? "Últimos 7 días · solo pruebas"
+          : "Todo el histórico almacenado · solo pruebas";
+      document.getElementById("kpiScopeDesc").textContent = desc;
+
+      const cards = [
+        { label: "Llamadas registradas", val: k.total ?? 0, sub: `${k.conectables ?? 0} intentos reales sin error de arranque`, cls: "" },
+        { label: "Confirmadas", val: k.confirmadas ?? 0, sub: `${k.reprogramadas ?? 0} reprogramadas · ${k.canceladas ?? 0} canceladas`, cls: "green" },
+        { label: "Tasa confirmación", val: `${k.tasa_confirmacion_pct ?? 0}%`, sub: `Sobre ${k.conectables ?? 0} llamadas conectables`, cls: "blue" },
+        { label: "No contesta", val: k.no_contesta ?? 0, sub: `${k.errores ?? 0} errores técnicos de arranque`, cls: "amber" },
+        { label: "Monto confirmado (prueba)", val: `S/${k.monto_confirmado ?? 0}`, sub: "No corresponde a pedidos reales", cls: "pink" },
+        { label: "Saldo Twilio", val: `US$${Number(DATA.twilio?.saldo_usd ?? 0).toFixed(2)}`, sub: DATA.twilio?.saldo_nota || "Último dato conocido", cls: "" },
+      ];
+      document.getElementById("kpiGrid").innerHTML = cards
+        .map(
+          (c) => `
+        <div class="kpi-card">
+          <div class="kpi-label">${esc(c.label)}</div>
+          <div class="kpi-val ${c.cls}">${esc(c.val)}</div>
+          <div class="kpi-sub">${esc(c.sub)}</div>
+        </div>`
+        )
+        .join("");
+    }
+
+    function renderRecent() {
+      const list = (DATA?.llamadas || []).filter((l) => l.resultado !== "ERROR").slice(0, 6);
+      const tbody = document.getElementById("recentTbody");
+      tbody.innerHTML = list
+        .map(
+          (c) => `
+        <tr class="click-row" data-id="${esc(c.id)}">
+          <td>${esc(c.fecha_hora_lima)}</td>
+          <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.canal)} · ${esc(c.celular_mask)}</span></td>
+          <td>${esc(c.producto)}</td>
+          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td>${resultPill(c.resultado)} ${c.es_prueba ? '<span class="pill pill-test">PRUEBA</span>' : ""}</td>
+          <td class="td-num">${esc(c.duracion_texto)}</td>
+          <td>${c.audio_url ? '<span class="pill pill-ok">MP3</span>' : '<span class="pill pill-info">Sin audio</span>'}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    function renderCallsTable() {
+      const q = document.getElementById("qInput").value.trim().toLowerCase();
+      const df = document.getElementById("dateFilter").value;
+      const rf = document.getElementById("resFilter").value;
+      const hideErr = document.getElementById("hideErrChk").checked;
+
+      const filtered = (DATA?.llamadas || []).filter((c) => {
+        if (hideErr && c.resultado === "ERROR") return false;
+        if (df !== "all" && c.fecha_iso !== df) return false;
+        if (rf === "PRUEBA" && !c.es_prueba) return false;
+        if (rf !== "ALL" && rf !== "PRUEBA" && c.resultado !== rf) return false;
+        if (q) {
+          const hay = [c.cliente, c.celular_mask, c.celular_ult4, c.pedido_id, c.producto, c.id, c.resumen]
+            .join(" ")
+            .toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const tbody = document.getElementById("callsTbody");
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--soft);padding:24px">No hay llamadas que coincidan con ese filtro.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = filtered
+        .map(
+          (c) => `
+        <tr class="click-row" data-id="${esc(c.id)}">
+          <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
+          <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
+          <td>${esc(c.celular_mask)}<span class="subtxt">${esc(c.canal)}</span></td>
+          <td>${esc(c.producto)}</td>
+          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td>${resultPill(c.resultado)} ${c.es_prueba ? '<span class="pill pill-test">PRUEBA</span>' : ""}</td>
+          <td class="td-num">${esc(c.duracion_texto)}</td>
+          <td style="max-width:290px">${esc(c.resumen)}</td>
+          <td>${c.audio_url ? '<span class="pill pill-ok">Escuchar</span>' : '<span class="pill pill-info">—</span>'}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    function renderCola() {
+      const cola = DATA?.cola || [];
+      const tbody = document.getElementById("colaTbody");
+      if (!cola.length) {
+        tbody.innerHTML = `
+          <tr style="opacity:0.78">
+            <td><span class="pill pill-nc">EJEMPLO</span></td>
+            <td>#00000</td>
+            <td>Cliente de ejemplo</td>
+            <td>900 *** 000</td>
+            <td>Producto de ejemplo</td>
+            <td class="td-num">S/0</td>
+            <td>—</td>
+            <td>Pendiente de confirmar (diseño)</td>
+          </tr>`;
+        return;
+      }
+      tbody.innerHTML = cola
+        .map(
+          (q) => `
+        <tr>
+          <td><span class="pill pill-info">COLA</span></td>
+          <td>${esc(q.pedido_id || "—")}</td>
+          <td>${esc(q.cliente || "—")}</td>
+          <td>${esc(q.celular_mask || "—")}</td>
+          <td>${esc(q.producto || "—")}</td>
+          <td class="td-num">${esc(q.monto_texto || "—")}</td>
+          <td>${esc(q.fecha_entrega || "—")}</td>
+          <td>${esc(q.estado || "Pendiente")}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    function renderAgent() {
+      const a = DATA?.agente || {};
+      const props = [
+        ["Nombre", a.nombre || "FLOOWER Confirmaciones Voz"],
+        ["ID del agente", a.id || "agent_0001m87br4eqf1nvrs7xcr875ys9"],
+        ["Número Twilio", a.numero_salida || "+1 908 676 6906"],
+        ["Idioma", a.idioma || "Español (Perú)"],
+        ["Modelo de voz", a.modelo_voz || "Eleven Flash v2.5"],
+        ["Variables", (a.variables || []).join(", ")],
+        ["Herramientas", (a.herramientas || []).join(", ")],
+      ];
+      document.getElementById("agentProps").innerHTML = props
+        .map(([k, v]) => `<div class="kv-item"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`)
+        .join("");
+      document.getElementById("agentGreeting").textContent = a.saludo_inicial || "—";
+    }
+
+    function openDetail(id) {
+      const c = (DATA?.llamadas || []).find((x) => x.id === id);
+      if (!c) return;
+      document.getElementById("dTitle").textContent = `${c.cliente} · ${c.producto}`;
+      document.getElementById("dSub").textContent = `${c.fecha_hora_lima} · ${c.canal} · ${c.id}`;
+      document.getElementById("dBadges").innerHTML =
+        resultPill(c.resultado) +
+        (c.es_prueba ? ' <span class="pill pill-test">PRUEBA</span>' : "") +
+        ` <span class="pill pill-info">${esc(c.duracion_texto)}</span>`;
+
+      const audioBox = document.getElementById("dAudioBox");
+      if (c.audio_url) {
+        audioBox.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px">
+            <span style="font-size:12px;color:var(--soft);font-weight:700">GRABACIÓN MP3</span>
+            <a href="${esc(c.audio_url)}" download style="font-size:12px;color:var(--rosa);font-weight:700;text-decoration:none">Descargar MP3</a>
+          </div>
+          <audio controls preload="none" src="${esc(c.audio_url)}"></audio>`;
+      } else {
+        audioBox.innerHTML = `<div style="font-size:12.5px;color:var(--soft)">Esta llamada no tiene grabación de audio utilizable.</div>`;
+      }
+
+      document.getElementById("dSummary").textContent = c.resumen;
+
+      const metaRows = [
+        ["Celular", c.celular_mask],
+        ["Monto", c.monto_texto],
+        ["Dirección", c.direccion],
+        ["Fecha entrega", c.fecha_entrega],
+        ["Nueva fecha (si reprogramó)", c.nueva_fecha || "—"],
+        ["Motivo cancelación", c.motivo_cancelacion || "—"],
+        ["Cierre técnico", c.terminacion || "—"],
+      ];
+      document.getElementById("dMeta").innerHTML = metaRows
+        .map(([k, v]) => `<div class="kv-item"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`)
+        .join("");
+
+      const tr = document.getElementById("dTranscript");
+      if (!c.transcripcion || !c.transcripcion.length) {
+        tr.innerHTML = `<div style="font-size:13px;color:var(--soft)">No hubo transcripción registrada.</div>`;
+      } else {
+        tr.innerHTML = c.transcripcion
+          .map((t) => {
+            const cls = t.rol === "cliente" ? "cliente" : t.rol === "sistema" ? "sistema" : "agente";
+            const label = t.rol === "cliente" ? "Cliente" : t.rol === "sistema" ? "Sistema" : "Agente IA";
+            return `
+              <div class="bubble ${cls}">
+                <div class="bubble-meta">${label} · ${fmtSec(t.segundo)}</div>
+                <div>${esc(t.texto)}</div>
+              </div>`;
+          })
+          .join("");
+      }
+
+      document.getElementById("detailModal").hidden = false;
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      ["panel", "llamadas", "cola", "flujo", "agente"].forEach((t) => {
+        document.getElementById("tab-" + t).hidden = t !== tab;
+      });
+      document.querySelectorAll("[data-tab]").forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-tab") === tab);
+      });
+      const titles = {
+        panel: ["Panel general", "KPIs del día y últimos 7 días · hora Lima (UTC-5)"],
+        llamadas: ["Historial de llamadas", "Buscador por nombre, celular o pedido · grabaciones y transcripciones"],
+        cola: ["Cola por llamar", "Pedidos pendientes de confirmación"],
+        flujo: ["Cómo funciona", "Ejecución paso a paso, decisiones tomadas y propuestas"],
+        agente: ["Ficha del agente IA", "Configuración de FLOOWER Confirmaciones Voz y mejoras pendientes"],
+      };
+      const [h, s] = titles[tab] || titles.panel;
+      document.getElementById("viewHeading").textContent = h;
+      document.getElementById("viewSub").textContent = s;
+    }
+
+    // Events
+    document.getElementById("pinBtn").addEventListener("click", unlockIfValid);
+    document.getElementById("pinInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") unlockIfValid();
+    });
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
+      document.getElementById("pinInput").value = "";
+      document.getElementById("appView").hidden = true;
+      document.getElementById("loginView").hidden = false;
+    });
+
+    document.querySelectorAll("[data-tab]").forEach((btn) => {
+      btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
+    });
+    document.getElementById("verTodasBtn").addEventListener("click", () => switchTab("llamadas"));
+
+    document.querySelectorAll("#kpiRangeSeg button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentRange = btn.getAttribute("data-range");
+        document.querySelectorAll("#kpiRangeSeg button").forEach((b) => b.classList.toggle("active", b === btn));
+        renderKpis();
+      });
+    });
+
+    ["qInput", "dateFilter", "resFilter", "hideErrChk"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", renderCallsTable);
+      document.getElementById(id).addEventListener("change", renderCallsTable);
+    });
+
+    document.addEventListener("click", (e) => {
+      const row = e.target.closest("tr.click-row[data-id]");
+      if (row) openDetail(row.getAttribute("data-id"));
+    });
+    document.getElementById("closeDrawer").addEventListener("click", () => {
+      document.getElementById("detailModal").hidden = true;
+    });
+    document.getElementById("detailModal").addEventListener("click", (e) => {
+      if (e.target.id === "detailModal") document.getElementById("detailModal").hidden = true;
+    });
+
+    // Auto-unlock if remembered
+    (async function boot() {
+      const saved = sessionStorage.getItem(SESSION_KEY) === "1" || localStorage.getItem(SESSION_KEY) === PIN_SHA256;
+      if (saved) {
+        await enterApp();
+      }
+    })();
+  </script>
+</body>
+</html>

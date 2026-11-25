@@ -1,0 +1,601 @@
+{
+  "generado_lima": "2026-11-25 12:31:34 Lima (UTC-5)",
+  "estado_sistema": "En prueba solo con James — no se llama a clientes",
+  "agente": {
+    "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
+    "nombre": "FLOOWER Confirmaciones Voz",
+    "numero_salida": "+1 908 676 6906",
+    "idioma": "Español (Perú)",
+    "modelo_voz": "Eleven Flash v2.5",
+    "variables": [
+      "nombre",
+      "producto",
+      "monto",
+      "direccion",
+      "fecha_entrega"
+    ],
+    "herramientas": [
+      "end_call",
+      "voicemail_detection"
+    ],
+    "saludo_inicial": "Hola, {{nombre}}, te habla la asistente virtual de FLOOWER.PE. Te llamo para confirmar tu pedido. Esta llamada puede quedar grabada."
+  },
+  "twilio": {
+    "numero_salida": "+1 908 676 6906",
+    "saldo_usd": 12.94,
+    "saldo_nota": "Último dato conocido (25/11/2026)"
+  },
+  "kpis": {
+    "fecha_referencia_lima": "2026-11-25",
+    "hoy": {
+      "total": 2,
+      "conectables": 2,
+      "confirmadas": 1,
+      "reprogramadas": 0,
+      "canceladas": 0,
+      "no_contesta": 1,
+      "errores": 0,
+      "tasa_confirmacion_pct": 50,
+      "monto_confirmado": 249.0
+    },
+    "semana": {
+      "total": 11,
+      "conectables": 4,
+      "confirmadas": 3,
+      "reprogramadas": 0,
+      "canceladas": 0,
+      "no_contesta": 1,
+      "errores": 7,
+      "tasa_confirmacion_pct": 75,
+      "monto_confirmado": 427.0
+    },
+    "total_historico": {
+      "total": 11,
+      "conectables": 4,
+      "confirmadas": 3,
+      "reprogramadas": 0,
+      "canceladas": 0,
+      "no_contesta": 1,
+      "errores": 7,
+      "tasa_confirmacion_pct": 75,
+      "monto_confirmado": 427.0
+    }
+  },
+  "cola": [],
+  "llamadas": [
+    {
+      "id": "conv_4401m89v5bw3enjrk4bc0m11ztr2",
+      "fecha_unix": 1795626813,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "12:13:33 pm",
+      "fecha_hora_lima": "25/11/2026 12:13:33 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "Av. Arenales 1387, Jesús María",
+      "fecha_entrega": "mañana 26 de noviembre",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 61,
+      "duracion_texto": "1 min 1 s",
+      "resumen": "El agente de FLOOWER.PE contactó a James para confirmar un pedido de una Cortina LED NovaLux de 249 soles, con entrega programada para el 26 de noviembre en Av. Arenales 1387, Jesús María. James confirmó los datos del pedido y la dirección de entrega. El agente reiteró que el pago es contraentrega y finalizó la llamada tras la confirmación.",
+      "titulo": "Confirmación Pedido Cortina LED",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0824,
+      "audio_url": "audio/conv_4401m89v5bw3enjrk4bc0m11ztr2.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "Hola, James, te habla la asistente virtual de..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "De tu llamada. Revisaré si esta persona está disponible."
+        },
+        {
+          "segundo": 8,
+          "rol": "agente",
+          "texto": "Entiendo, James. Te llamo de parte de FLOOWER punto PE para confirmar el pedido de tu Cortina LED NovaLux tres por tres, por un monto de doscientos cuarenta y nueve soles, para ser entregado mañana veintiséis de noviembre en la avenida Arenales mil trescientos ochenta y siete, en Jesús María. ¿Me podrías confirmar si los datos son correctos para proceder con la entrega? Te comento que esta llamada puede ser grabada."
+        },
+        {
+          "segundo": 39,
+          "rol": "cliente",
+          "texto": "Okey."
+        },
+        {
+          "segundo": 40,
+          "rol": "agente",
+          "texto": "Perfecto, James..."
+        },
+        {
+          "segundo": 41,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 55,
+          "rol": "sistema",
+          "texto": "[end_call: Llamada finalizada]"
+        },
+        {
+          "segundo": 41,
+          "rol": "cliente",
+          "texto": "Eh, aquí lo van a entregar."
+        },
+        {
+          "segundo": 43,
+          "rol": "agente",
+          "texto": "Entendido, James. Entonces confirmamos la entrega de tu Cortina LED NovaLux para mañana veintiséis de noviembre en la dirección indicada. Recuerda que el pago es contraentrega al recibir tu pedido. ¡Muchas gracias, que tengas un buen día, hasta luego!"
+        },
+        {
+          "segundo": 43,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 60,
+          "rol": "sistema",
+          "texto": "[end_call: Pedido confirmado por el cliente.]"
+        },
+        {
+          "segundo": 59,
+          "rol": "cliente",
+          "texto": "Eh, una consulta."
+        }
+      ]
+    },
+    {
+      "id": "conv_0301m89v3gn0f74s3fk50g6s6625",
+      "fecha_unix": 1795626753,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "12:12:33 pm",
+      "fecha_hora_lima": "25/11/2026 12:12:33 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 928 *** 727",
+      "celular_ult4": "6727",
+      "pedido_id": "—",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 249.0,
+      "monto_texto": "S/249",
+      "direccion": "Av. Arenales 1387, Jesús María",
+      "fecha_entrega": "mañana 26 de noviembre",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 41,
+      "duracion_texto": "41 s",
+      "resumen": "Sin transcripción ni audio útil (llamada no conectada o sin respuesta).",
+      "titulo": "Prueba 1 sin conexión",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0537,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_3101m87hvyzpe5zss0ewvczgp75q",
+      "fecha_unix": 1795549966,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "2:52:46 pm",
+      "fecha_hora_lima": "24/11/2026 2:52:46 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 925 *** 971",
+      "celular_ult4": "6971",
+      "pedido_id": "—",
+      "producto": "Ventilador de techo LED Diseño Diamante",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Lima, contraentrega",
+      "fecha_entrega": "mañana",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 133,
+      "duracion_texto": "2 min 13 s",
+      "resumen": "La asistente virtual de FLOOWER.PE contactó a James para confirmar su pedido de un ventilador de techo LED diseño diamante. La entrega está programada para mañana en Lima, con un costo de 89 soles a pagar contraentrega.\n\nJames solicitó que la entrega fuera a partir de las 3:00 p.m., lo cual la agente anotó. También preguntó sobre una promoción de \"dos por uno\", pero la agente solo tenía registrado un ventilador. Finalmente, se confirmó el pedido de un solo ventilador para mañana.",
+      "titulo": "Confirmación de pedido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.1818,
+      "audio_url": "audio/conv_3101m87hvyzpe5zss0ewvczgp75q.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "Hola, James, te habla la asistente virtual de FLOOWER.PE. Te llamo para confirmar tu pedido. Esta llamada puede quedar grabada."
+        },
+        {
+          "segundo": 20,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 20,
+          "rol": "agente",
+          "texto": "Hola, ¿me escucha? ¿Se encuentra..."
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "Sí, sí. Eh, ¿cuándo me entregas el pedido?"
+        },
+        {
+          "segundo": 26,
+          "rol": "agente",
+          "texto": "Hola, James. Confirmando tu pedido del ventilador de techo LED diseño diamante, la entrega está programada para el día de mañana en Lima. El monto a pagar es de ochenta y nueve..."
+        },
+        {
+          "segundo": 35,
+          "rol": "cliente",
+          "texto": "Así es."
+        },
+        {
+          "segundo": 36,
+          "rol": "agente",
+          "texto": "Perfecto,..."
+        },
+        {
+          "segundo": 37,
+          "rol": "cliente",
+          "texto": "¿A qué hora es la entrega?"
+        },
+        {
+          "segundo": 39,
+          "rol": "agente",
+          "texto": "Como es un pedido contraentrega en Lima, el repartidor se comunicará contigo el día de mañana para coordinar la hora exacta de llegada. ¿Tienes alguna otra duda o podemos confirmar tu pedido así?"
+        },
+        {
+          "segundo": 52,
+          "rol": "cliente",
+          "texto": "Eh, quisiera que sea a partir de las 3:00 p.m. ¿Se puede?"
+        },
+        {
+          "segundo": 56,
+          "rol": "agente",
+          "texto": "Entiendo, James. Voy a anotar que prefieres la entrega a partir de las tres de la tarde para que el repartidor lo tenga en cuenta al llamarte mañana. Entonces, confirmamos tu pedido del ventilador de techo LED diseño diamante por ochenta y nueve soles para mañana, muchas gracias."
+        },
+        {
+          "segundo": 76,
+          "rol": "cliente",
+          "texto": "Y la promoción de dos."
+        },
+        {
+          "segundo": 78,
+          "rol": "agente",
+          "texto": "Disculpa, James, en este momento solo tengo registrado el pedido de un ventilador de techo LED diseño diamante por ochenta y nueve soles. No cuento con información sobre una promoción por dos..."
+        },
+        {
+          "segundo": 90,
+          "rol": "cliente",
+          "texto": "Ya, confirma una entrega mañana."
+        },
+        {
+          "segundo": 91,
+          "rol": "agente",
+          "texto": "Entendido, James. Queda confirmado entonces tu pedido de un ventilador de techo LED diseño diamante para el día de mañana, con el pago contraentrega de ochenta y nueve soles. Muchas gracias por tu compra y que tengas un buen día."
+        },
+        {
+          "segundo": 113,
+          "rol": "cliente",
+          "texto": "Okey."
+        },
+        {
+          "segundo": 115,
+          "rol": "agente",
+          "texto": "Muchas gracias por confirmar, James. Que tengas una excelente tarde, hasta luego."
+        },
+        {
+          "segundo": 125,
+          "rol": "cliente",
+          "texto": "Hasta luego."
+        },
+        {
+          "segundo": 127,
+          "rol": "agente",
+          "texto": "Hasta luego, James."
+        }
+      ]
+    },
+    {
+      "id": "conv_5801m87hr63jebbtfnqynm9781fa",
+      "fecha_unix": 1795549845,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "2:50:45 pm",
+      "fecha_hora_lima": "24/11/2026 2:50:45 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "—",
+      "celular_mask": "—",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de prueba (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0001,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_0901m87hp8x4fehb17xx0hy3pp8a",
+      "fecha_unix": 1795549776,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "2:49:36 pm",
+      "fecha_hora_lima": "24/11/2026 2:49:36 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "—",
+      "celular_mask": "—",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de prueba (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0001,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_8801m87c51vzemeabhp5rhkpa9sz",
+      "fecha_unix": 1795543959,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:12:39 pm",
+      "fecha_hora_lima": "24/11/2026 1:12:39 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "James",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "Ventilador de techo LED Diseño Diamante",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Lima contraentrega",
+      "fecha_entrega": "mañana",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 65,
+      "duracion_texto": "1 min 5 s",
+      "resumen": "La asistente virtual de FLOOWER.PE contactó a James para confirmar un pedido de un ventilador de techo LED diseño diamante por S/89. La entrega estaba programada para mañana en Lima, contraentrega. James solicitó que la entrega fuera a las 3 PM, lo cual fue confirmado por la agente.",
+      "titulo": "Prueba en widget web",
+      "nueva_fecha": "mañana a las tres de la tarde",
+      "motivo_cancelacion": null,
+      "terminacion": "Client disconnected: 1000",
+      "costo_usd": 0.0869,
+      "audio_url": "audio/conv_8801m87c51vzemeabhp5rhkpa9sz.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "Hola, James, te habla la asistente virtual de FLOOWER.PE. Te llamo para confirmar tu pedido. Esta llamada puede quedar grabada."
+        },
+        {
+          "segundo": 10,
+          "rol": "cliente",
+          "texto": "Okey, ¿cuándo me entregan mi pedido?"
+        },
+        {
+          "segundo": 13,
+          "rol": "agente",
+          "texto": "Tu pedido del ventilador de techo LED diseño diamante, por un monto de ochenta y nueve soles, está programado para ser entregado mañana en Lima bajo la modalidad de contraentrega. ¿Está usted de acuerdo con esta fecha o desea realizar algún cambio?"
+        },
+        {
+          "segundo": 30,
+          "rol": "cliente",
+          "texto": "Lo quiero para las tres de la tarde, ¿se puede?"
+        },
+        {
+          "segundo": 33,
+          "rol": "agente",
+          "texto": "Entiendo, tomaré nota de que prefieres la entrega para las tres de la tarde de mañana. Confirmado entonces, el pedido del ventilador de techo LED diseño diamante por ochenta y nueve soles queda programado para mañana a esa hora en Lima contraentrega. Muchas gracias por tu tiempo, que tengas un buen día."
+        },
+        {
+          "segundo": 54,
+          "rol": "cliente",
+          "texto": "Gracias."
+        },
+        {
+          "segundo": 55,
+          "rol": "agente",
+          "texto": "De nada, James. Que tengas un excelente día, hasta luego."
+        }
+      ]
+    },
+    {
+      "id": "conv_1601m87c4e1gf4arg34p1d3049n1",
+      "fecha_unix": 1795543939,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:12:19 pm",
+      "fecha_hora_lima": "24/11/2026 1:12:19 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "—",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0003,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_4101m87c3vxxfd7bn0h6zg8nd6dc",
+      "fecha_unix": 1795543920,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:12:00 pm",
+      "fecha_hora_lima": "24/11/2026 1:12:00 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "—",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0003,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_6101m87c3p95fpntq0kky1kqqc0s",
+      "fecha_unix": 1795543914,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:11:54 pm",
+      "fecha_hora_lima": "24/11/2026 1:11:54 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "—",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 1,
+      "duracion_texto": "1 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0003,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_0301m87c3gnpfs3v8xspqmdwrq9x",
+      "fecha_unix": 1795543909,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:11:49 pm",
+      "fecha_hora_lima": "24/11/2026 1:11:49 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "—",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0003,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_4101m87c3d3refnvqq48br0jmwpr",
+      "fecha_unix": 1795543905,
+      "fecha_iso": "2026-11-24",
+      "fecha_corta": "24/11/2026",
+      "hora_lima": "1:11:45 pm",
+      "fecha_hora_lima": "24/11/2026 1:11:45 pm",
+      "canal": "Widget web",
+      "source": "react_sdk",
+      "cliente": "—",
+      "celular_mask": "Widget web",
+      "celular_ult4": "",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "ERROR",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Missing required dynamic variables in first message: {'nombre'}",
+      "titulo": "Error técnico de widget (faltaba variable nombre)",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
+      "costo_usd": 0.0003,
+      "audio_url": null,
+      "transcripcion": []
+    }
+  ]
+}
