@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 17:07:27 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 17:26:23 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,251 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 11,
-      "conectables": 10,
-      "confirmadas": 6,
+      "total": 14,
+      "conectables": 13,
+      "confirmadas": 7,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 4,
+      "no_contesta": 6,
       "errores": 1,
-      "tasa_confirmacion_pct": 60,
-      "monto_confirmado": 1314.0
+      "tasa_confirmacion_pct": 54,
+      "monto_confirmado": 1383.0
     },
     "semana": {
-      "total": 20,
-      "conectables": 12,
-      "confirmadas": 8,
+      "total": 23,
+      "conectables": 15,
+      "confirmadas": 9,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 4,
+      "no_contesta": 6,
       "errores": 8,
-      "tasa_confirmacion_pct": 67,
-      "monto_confirmado": 1492.0
+      "tasa_confirmacion_pct": 60,
+      "monto_confirmado": 1561.0
     },
     "total_historico": {
-      "total": 20,
-      "conectables": 12,
-      "confirmadas": 8,
+      "total": 23,
+      "conectables": 15,
+      "confirmadas": 9,
       "reprogramadas": 0,
       "canceladas": 0,
-      "no_contesta": 4,
+      "no_contesta": 6,
       "errores": 8,
-      "tasa_confirmacion_pct": 67,
-      "monto_confirmado": 1492.0
+      "tasa_confirmacion_pct": 60,
+      "monto_confirmado": 1561.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_8101m8aczrzrf7cayqaqp6br1560",
+      "fecha_unix": 1795645518,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:25:18 pm",
+      "fecha_hora_lima": "25/11/2026 5:25:18 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "James",
+      "celular_mask": "+51 925 *** 971",
+      "celular_ult4": "6971",
+      "pedido_id": "—",
+      "producto": "—",
+      "monto_num": null,
+      "monto_texto": "—",
+      "direccion": "—",
+      "fecha_entrega": "—",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Sin resumen disponible.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "",
+      "costo_usd": 0.0,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_4901m8acjmtmf3av8ngb7269npaf",
+      "fecha_unix": 1795645093,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:18:13 pm",
+      "fecha_hora_lima": "25/11/2026 5:18:13 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "José",
+      "celular_mask": "+51 925 *** 971",
+      "celular_ult4": "6971",
+      "pedido_id": "—",
+      "producto": "TVMax Pro™ ANTENA FULL HD 4K, Televisión Gratuita Sin límites",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Av. Alcázar cuadra 7",
+      "fecha_entrega": "mañana jueves 26 de noviembre",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 152,
+      "duracion_texto": "2 min 32 s",
+      "resumen": "La agente Sofía llamó a José para confirmar su pedido de una Antena Digital TeVeProMax. Se verificó la dirección de entrega en Av. Alcázar cuadra siete, Rímac, y José proporcionó detalles adicionales: lote tres, departamento 2005, al costado del parque de su vivienda. La entrega está programada para el 26 de noviembre. José declinó una oferta de dos antenas por S/99, confirmando la compra de una sola unidad por S/69. La llamada concluyó sin más consultas.",
+      "titulo": "Confirmación pedido antena",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.2632,
+      "audio_url": "audio/conv_4901m8acjmtmf3av8ngb7269npaf.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 10,
+          "rol": "cliente",
+          "texto": "Eh, correcto."
+        },
+        {
+          "segundo": 12,
+          "rol": "agente",
+          "texto": "Excelente. Le comento que su pedido de la Antena Digital TeVeProMax le permite disfrutar de televisión gratuita en Full HD sin pagar mensualidad, con canales nacionales y algunos internacionales hasta cincuenta según la cobertura de su zona. Su pedido está siendo alistado hoy para entregarse mañana jueves veintiséis de noviembre. ¿Me confirma si los datos de entrega son correctos? La dirección es avenida Alcázar cuadra siete, en el Rímac. En el pedido no figura una referencia, ¿me indica una referencia real, por favor, un parque, un colegio o una tienda cerca?"
+        },
+        {
+          "segundo": 54,
+          "rol": "cliente",
+          "texto": "Ah"
+        },
+        {
+          "segundo": 55,
+          "rol": "agente",
+          "texto": "¿Me podría indicar alguna referencia cer..."
+        },
+        {
+          "segundo": 55,
+          "rol": "cliente",
+          "texto": "Al costado del parque-- sí, al costado del parque de mi vivienda."
+        },
+        {
+          "segundo": 61,
+          "rol": "agente",
+          "texto": "Entendido. ¿Me indica el número de casa, el lote o el departamento, por favor?"
+        },
+        {
+          "segundo": 68,
+          "rol": "cliente",
+          "texto": "Lote tres, departamento 2005."
+        },
+        {
+          "segundo": 71,
+          "rol": "agente",
+          "texto": "Perfecto. Entonces queda en avenida Alcázar cuadra siete, lote tres, departamento dos mil cinco, en el Rímac, referencia al costado del parque de su vivienda. ¿Es correcto?"
+        },
+        {
+          "segundo": 85,
+          "rol": "cliente",
+          "texto": "Mmm, sí."
+        },
+        {
+          "segundo": 88,
+          "rol": "agente",
+          "texto": "Esté pendiente a su celular, el motorizado le escribirá por WhatsApp para coordinar la hora. Si desea llevar dos, le sale a noventa y nueve soles. ¿Quiere aprovecharlo o prefiere mantener una unidad?"
+        },
+        {
+          "segundo": 109,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 110,
+          "rol": "agente",
+          "texto": "¿Desea aprovechar la promoción de dos antenas por noventa y nueve soles o prefiere mantener..."
+        },
+        {
+          "segundo": 115,
+          "rol": "cliente",
+          "texto": "De una, una unidad."
+        },
+        {
+          "segundo": 118,
+          "rol": "agente",
+          "texto": "Entendido, se mantiene una unidad por se..."
+        },
+        {
+          "segundo": 119,
+          "rol": "cliente",
+          "texto": "Una unidad. Mhm."
+        },
+        {
+          "segundo": 121,
+          "rol": "agente",
+          "texto": "Perfecto, queda confirmada una unidad por sesenta y nueve soles. ¿Tiene alguna otra consulta?"
+        },
+        {
+          "segundo": 138,
+          "rol": "cliente",
+          "texto": "No, eso es todo."
+        },
+        {
+          "segundo": 139,
+          "rol": "agente",
+          "texto": "Muchas gracias, José. Que tenga un excelente día."
+        },
+        {
+          "segundo": 151,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 151,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 152,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente se despidió, esperé más de cinco segundos y no hubo respuesta.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2201m8ac9brdfdttbc3vxaf32xdb",
+      "fecha_unix": 1795644775,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "5:12:55 pm",
+      "fecha_hora_lima": "25/11/2026 5:12:55 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "José",
+      "celular_mask": "+51 925 *** 971",
+      "celular_ult4": "6971",
+      "pedido_id": "—",
+      "producto": "TVMax Pro™ ANTENA FULL HD 4K, Televisión Gratuita Sin límites",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Av. Alcázar cuadra 7",
+      "fecha_entrega": "mañana jueves 26 de noviembre",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 14,
+      "duracion_texto": "14 s",
+      "resumen": "La agente Sofía inició la conversación saludando a José y solicitando la confirmación de un pedido para Lima.",
+      "titulo": "Confirmar pedido Lima",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.018,
+      "audio_url": "audio/conv_2201m8ac9brdfdttbc3vxaf32xdb.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido para Lima, ¿correcto?"
+        }
+      ]
+    },
     {
       "id": "conv_5801m8ab9yq3ehgsmrbf8f04npdv",
       "fecha_unix": 1795643744,
