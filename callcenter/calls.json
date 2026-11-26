@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 19:04:12 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 19:36:52 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,213 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 37,
-      "conectables": 35,
+      "total": 41,
+      "conectables": 39,
       "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 22,
+      "no_contesta": 26,
       "errores": 2,
-      "tasa_confirmacion_pct": 29,
+      "tasa_confirmacion_pct": 26,
       "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 46,
-      "conectables": 37,
+      "total": 50,
+      "conectables": 41,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 22,
+      "no_contesta": 26,
       "errores": 9,
-      "tasa_confirmacion_pct": 32,
+      "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 46,
-      "conectables": 37,
+      "total": 50,
+      "conectables": 41,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 22,
+      "no_contesta": 26,
       "errores": 9,
-      "tasa_confirmacion_pct": 32,
+      "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1823.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_2601m8amcb4xefq8sypk2jgbxnrt",
+      "fecha_unix": 1795653298,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:34:58 pm",
+      "fecha_hora_lima": "25/11/2026 7:34:58 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Yaquelin",
+      "celular_mask": "+51 955 *** 622",
+      "celular_ult4": "7622",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Ciudad Nueva mt lt.27",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0429,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Yaquelin! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Tacna, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado, el usuario no respondió.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2201m8am4qcvf4j931knbxt5nvs8",
+      "fecha_unix": 1795653000,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:30:00 pm",
+      "fecha_hora_lima": "25/11/2026 7:30:00 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Yaquelin",
+      "celular_mask": "+51 955 *** 622",
+      "celular_ult4": "7622",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Ciudad Nueva mt lt.27",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 0,
+      "duracion_texto": "0 s",
+      "resumen": "Sin resumen disponible.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "",
+      "costo_usd": 0.0,
+      "audio_url": null,
+      "transcripcion": []
+    },
+    {
+      "id": "conv_9301m8am0w2bfh0rph2sgdgt758n",
+      "fecha_unix": 1795652891,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:28:11 pm",
+      "fecha_hora_lima": "25/11/2026 7:28:11 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Fridolino",
+      "celular_mask": "+51 952 *** 124",
+      "celular_ult4": "2124",
+      "pedido_id": "—",
+      "producto": "Cápsulas Desodorante DEOS",
+      "monto_num": 124.0,
+      "monto_texto": "S/124",
+      "direccion": "P",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 4,
+      "duracion_texto": "4 s",
+      "resumen": "El agente inició la conversación saludando al usuario, Fridolino, y presentándose como Sofía.",
+      "titulo": "Saludo de Sofía",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0052,
+      "audio_url": "audio/conv_9301m8am0w2bfh0rph2sgdgt758n.mp3",
+      "transcripcion": [
+        {
+          "segundo": 1,
+          "rol": "agente",
+          "texto": "¡Hola, Fridolino! Le saluda Sofía..."
+        }
+      ]
+    },
+    {
+      "id": "conv_3201m8akx678f62t98n56nc03brh",
+      "fecha_unix": 1795652796,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:26:36 pm",
+      "fecha_hora_lima": "25/11/2026 7:26:36 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Fridolino",
+      "celular_mask": "+51 952 *** 124",
+      "celular_ult4": "2124",
+      "pedido_id": "—",
+      "producto": "Cápsulas Desodorante DEOS",
+      "monto_num": 124.0,
+      "monto_texto": "S/124",
+      "direccion": "P",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 22,
+      "duracion_texto": "22 s",
+      "resumen": "La agente Sofía inició la llamada para confirmar un pedido de cápsulas DEOS para Pampas con el usuario Fridolino. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo automático de la agente.",
+      "titulo": "Silencio inicial llamada",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.031,
+      "audio_url": "audio/conv_3201m8akx678f62t98n56nc03brh.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Fridolino! Le saluda Sofía. Le llamo para confirmar su pedido de las cápsulas DEOS para Pampas, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_1401m8aj0knpfswrkf545ykzrfv6",
       "fecha_unix": 1795650790,
