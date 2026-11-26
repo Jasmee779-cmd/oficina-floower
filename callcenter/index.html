@@ -776,7 +776,7 @@
           <div class="card-head">
             <div>
               <h2 class="card-title">Clientes confirmados</h2>
-              <div class="card-sub" id="confirmadosSub">Quienes aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba</div>
+              <div class="card-sub" id="confirmadosSub">Quienes aceptaron (CONFIRMADO, ADELANTO o adelanto con CONSULTA PENDIENTE) · sin llamadas de prueba</div>
             </div>
           </div>
           <div class="table-wrap">
@@ -1393,9 +1393,50 @@
       return u === "CONFIRMADO" || u === "ADELANTO" || u.includes("CONFIRMADO") || u.includes("ADELANTO");
     }
 
+    function isConsultaPendiente(res) {
+      return String(res || "").toUpperCase().includes("CONSULTA PENDIENTE");
+    }
+
+    function truthyAcepta(val) {
+      if (val === true || val === 1) return true;
+      const u = String(val ?? "").trim().toLowerCase();
+      return u === "true" || u === "1" || u === "si" || u === "sí" || u === "yes" || u === "y";
+    }
+
+    function confirmadosExtra() {
+      const extra = DATA?.confirmados_extra || {};
+      const phones = new Set(
+        (extra.celulares || [])
+          .map((x) => String(x || "").replace(/\D/g, ""))
+          .filter((x) => x.length >= 7)
+      );
+      const ids = new Set(
+        (extra.conversation_ids || extra.conv_ids || []).map((x) => String(x || "").trim()).filter(Boolean)
+      );
+      return { phones, ids };
+    }
+
+    function groupAcceptedAdvance(g) {
+      return truthyAcepta(g.resultCall?.acepta_adelanto) || (g.attempts || []).some((a) => truthyAcepta(a.acepta_adelanto));
+    }
+
+    function groupInConfirmadosExtra(g) {
+      const extra = confirmadosExtra();
+      const phone = phoneKey(g.resultCall) || phoneKey(g.latest);
+      if (phone && extra.phones.has(phone)) return true;
+      return (g.attempts || []).some((a) => extra.ids.has(a.id));
+    }
+
+    function belongsInConfirmados(g) {
+      const res = g.resultCall?.resultado;
+      if (isAcceptedResult(res)) return true;
+      if (isConsultaPendiente(res) && (groupAcceptedAdvance(g) || groupInConfirmadosExtra(g))) return true;
+      return false;
+    }
+
     function confirmedGroups() {
       const list = (DATA?.llamadas || []).filter((c) => !c.es_prueba);
-      return groupCalls(list).filter((g) => isAcceptedResult(g.resultCall.resultado));
+      return groupCalls(list).filter(belongsInConfirmados);
     }
 
     function confRowHtml(c) {
@@ -1457,7 +1498,7 @@
           ? groups.length +
             " cliente" +
             (groups.length === 1 ? "" : "s") +
-            " que aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba · toca una fila para ver intentos, audio y transcripción"
+            " que aceptaron · sin llamadas de prueba · toca una fila para ver intentos, audio y transcripción"
           : "Aún no hay clientes confirmados (sin contar llamadas de prueba)";
       }
       const tbody = document.getElementById("confirmadosTbody");
@@ -1591,7 +1632,7 @@
       const titles = {
         panel: ["Panel general", "KPIs del día y últimos 7 días · hora Lima (UTC-5)"],
         llamadas: ["Historial de llamadas", "Buscador por nombre, celular o pedido · grabaciones y transcripciones"],
-        confirmados: ["Confirmados", "Clientes que aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba"],
+        confirmados: ["Confirmados", "Clientes que aceptaron (CONFIRMADO, ADELANTO o adelanto con CONSULTA PENDIENTE) · sin llamadas de prueba"],
         cola: ["Cola por llamar", "Pedidos pendientes de confirmación"],
         flujo: ["Cómo funciona", "Ejecución paso a paso, decisiones tomadas y propuestas"],
         agente: ["Ficha del agente IA", "Configuración de FLOOWER Confirmaciones Voz y mejoras pendientes"],
