@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 19:38:23 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 19:39:39 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,88 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 42,
-      "conectables": 40,
+      "total": 43,
+      "conectables": 41,
       "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 27,
+      "no_contesta": 28,
       "errores": 2,
-      "tasa_confirmacion_pct": 25,
+      "tasa_confirmacion_pct": 24,
       "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 51,
-      "conectables": 42,
+      "total": 52,
+      "conectables": 43,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 27,
+      "no_contesta": 28,
       "errores": 9,
-      "tasa_confirmacion_pct": 29,
+      "tasa_confirmacion_pct": 28,
       "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 51,
-      "conectables": 42,
+      "total": 52,
+      "conectables": 43,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 27,
+      "no_contesta": 28,
       "errores": 9,
-      "tasa_confirmacion_pct": 29,
+      "tasa_confirmacion_pct": 28,
       "monto_confirmado": 1823.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_2501m8amkrc0fm5aj9qbspg6nzy0",
+      "fecha_unix": 1795653544,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:39:04 pm",
+      "fecha_hora_lima": "25/11/2026 7:39:04 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Marcos",
+      "celular_mask": "+51 984 *** 250",
+      "celular_ult4": "0250",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Calle Federico Bulume 132",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 7,
+      "duracion_texto": "7 s",
+      "resumen": "El agente saludó al usuario, quien interrumpió para pedir que le dejaran cualquier mensaje. Esto llevó a la detección de un buzón de voz.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "voicemail_detection tool was called.",
+      "costo_usd": 0.0106,
+      "audio_url": "audio/conv_2501m8amkrc0fm5aj9qbspg6nzy0.mp3",
+      "transcripcion": [
+        {
+          "segundo": 1,
+          "rol": "agente",
+          "texto": "¡Hola, Marcos! Le saluda Sofía. Le..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Cualquier mensaje me lo deja, por favor."
+        },
+        {
+          "segundo": 7,
+          "rol": "sistema",
+          "texto": "[herramienta: voicemail_detection]"
+        }
+      ]
+    },
     {
       "id": "conv_0601m8amg04rfcgs6xkct8hr4re0",
       "fecha_unix": 1795653387,
@@ -86,12 +133,12 @@
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna con Yaquelin. Sin embargo, el usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Llamada finalizada por silencio",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.043,
-      "audio_url": null,
+      "audio_url": "audio/conv_0601m8amg04rfcgs6xkct8hr4re0.mp3",
       "transcripcion": [
         {
           "segundo": 0,
@@ -138,7 +185,7 @@
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Llamada finalizada por silencio",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
