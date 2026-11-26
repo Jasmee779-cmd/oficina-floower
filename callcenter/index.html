@@ -709,6 +709,7 @@
               <option value="ALL">Todos los resultados</option>
               <option value="CONFIRMADO">CONFIRMADO</option>
               <option value="REPROGRAMADO">REPROGRAMADO</option>
+              <option value="CONSULTA PENDIENTE">CONSULTA PENDIENTE</option>
               <option value="CANCELADO">CANCELADO</option>
               <option value="NO CONTESTA">NO CONTESTA</option>
               <option value="PRUEBA">Solo PRUEBA</option>
@@ -998,7 +999,9 @@
       const map = {
         CONFIRMADO: ["pill-ok", "CONFIRMADO"],
         REPROGRAMADO: ["pill-reprog", "REPROGRAMADO"],
+        "CONSULTA PENDIENTE": ["pill-reprog", "CONSULTA PENDIENTE"],
         CANCELADO: ["pill-cancel", "CANCELADO"],
+        "PEDIDO FALSO": ["pill-cancel", "PEDIDO FALSO"],
         "NO CONTESTA": ["pill-nc", "NO CONTESTA"],
         ERROR: ["pill-err", "ERROR"],
       };
