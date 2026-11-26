@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 18:52:03 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 19:04:12 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,130 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 35,
-      "conectables": 33,
+      "total": 37,
+      "conectables": 35,
       "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 20,
+      "no_contesta": 22,
       "errores": 2,
-      "tasa_confirmacion_pct": 30,
+      "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 44,
-      "conectables": 35,
+      "total": 46,
+      "conectables": 37,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 20,
+      "no_contesta": 22,
       "errores": 9,
-      "tasa_confirmacion_pct": 34,
+      "tasa_confirmacion_pct": 32,
       "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 44,
-      "conectables": 35,
+      "total": 46,
+      "conectables": 37,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 20,
+      "no_contesta": 22,
       "errores": 9,
-      "tasa_confirmacion_pct": 34,
+      "tasa_confirmacion_pct": 32,
       "monto_confirmado": 1823.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_1401m8aj0knpfswrkf545ykzrfv6",
+      "fecha_unix": 1795650790,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:53:10 pm",
+      "fecha_hora_lima": "25/11/2026 6:53:10 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Fridolino",
+      "celular_mask": "+51 952 *** 124",
+      "celular_ult4": "2124",
+      "pedido_id": "—",
+      "producto": "Cápsulas Desodorante DEOS",
+      "monto_num": 124.0,
+      "monto_texto": "S/124",
+      "direccion": "P",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 8,
+      "duracion_texto": "8 s",
+      "resumen": "La agente Sofía contactó a Fridolino para confirmar su pedido de cápsulas DEOS para Pampas.",
+      "titulo": "Confirmación pedido DEOS",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0112,
+      "audio_url": "audio/conv_1401m8aj0knpfswrkf545ykzrfv6.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Fridolino! Le saluda Sofía. Le llamo para confirmar su pedido de las cápsulas DEOS para Pampas, ¿correcto?"
+        }
+      ]
+    },
+    {
+      "id": "conv_2701m8ahw7y2fs198ffm4bvqh5ar",
+      "fecha_unix": 1795650666,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "6:51:06 pm",
+      "fecha_hora_lima": "25/11/2026 6:51:06 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Hugo",
+      "celular_mask": "+51 975 *** 488",
+      "celular_ult4": "1488",
+      "pedido_id": "—",
+      "producto": "MINI GPS PREMIUM A1",
+      "monto_num": 89.0,
+      "monto_texto": "S/89",
+      "direccion": "Villa Primavera M30 L27 pampa inalámbrica",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 22,
+      "duracion_texto": "22 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de un mini GPS para Ilo. Sin embargo, la llamada finalizó debido a la falta de respuesta del usuario, detectándose un silencio inicial.",
+      "titulo": "Llamada finalizada por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0316,
+      "audio_url": "audio/conv_2701m8ahw7y2fs198ffm4bvqh5ar.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Hugo! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Ilo, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado, no hubo respuesta del usuario.]"
+        }
+      ]
+    },
     {
       "id": "conv_5101m8ahrrneeq3s069z0j55z8k7",
       "fecha_unix": 1795650525,
