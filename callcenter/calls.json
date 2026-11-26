@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:49:05 Lima (UTC-5)",
+  "generado_lima": "2026-11-26 14:52:04 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -26,17 +26,17 @@
     "saldo_nota": "Último dato conocido (25/11/2026)"
   },
   "kpis": {
-    "fecha_referencia_lima": "2026-11-25",
+    "fecha_referencia_lima": "2026-11-26",
     "hoy": {
-      "total": 83,
-      "conectables": 80,
-      "confirmadas": 9,
-      "reprogramadas": 1,
-      "canceladas": 4,
-      "no_contesta": 63,
-      "errores": 3,
-      "tasa_confirmacion_pct": 11,
-      "monto_confirmado": 1521.0
+      "total": 0,
+      "conectables": 0,
+      "confirmadas": 0,
+      "reprogramadas": 0,
+      "canceladas": 0,
+      "no_contesta": 0,
+      "errores": 0,
+      "tasa_confirmacion_pct": 0,
+      "monto_confirmado": 0
     },
     "semana": {
       "total": 92,
@@ -97,12 +97,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Ica",
+      "acepta_adelanto": null,
       "resultado": "CANCELADO",
       "es_prueba": false,
       "duracion_secs": 60,
       "duracion_texto": "1 min",
       "resumen": "La agente llamó para confirmar un pedido de cortinas de luces. La usuaria aclaró que su hija había realizado el pedido a su nombre y solicitó cancelarlo por el momento. Indicó que podría contactarlos nuevamente a principios de diciembre para realizar el pedido. La agente confirmó la cancelación temporal del pedido.",
       "titulo": "Pedido luces cancelado",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": "Mi, mi hija es que había hecho esto con mi nombre. Disculpa, no, no, por ahora no.",
       "terminacion": "Call ended by remote party",
@@ -184,8 +191,7 @@
           "rol": "agente",
           "texto": "Muchas gracias, Floriele. Que tenga un excelente día."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8001m8avmyepeefvtzy86kd6qy41",
@@ -211,12 +217,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Ica",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "La agente Sofía inició la llamada para confirmar un pedido de cortina de luces para Ica. Tras el saludo de la agente, el usuario permaneció en silencio, lo que llevó a la agente a finalizar la llamada.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -243,8 +256,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_9501m8avgkmxf5hs5w9y4h8nwv6g",
@@ -270,12 +282,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Lima. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -302,8 +321,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_4201m8avctbsfv2rvk83ac56j3b9",
@@ -329,12 +347,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. La conversación finalizó abruptamente debido al silencio del usuario tras el saludo inicial del agente.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -361,8 +386,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8701m8av8azce21v4s8m21kasdnt",
@@ -388,12 +412,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. La conversación fue breve y finalizó porque el usuario no respondió tras el saludo inicial del agente.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -420,8 +451,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3201m8atzfe0e10v2dg5yzgt1e5v",
@@ -447,12 +477,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Puquio",
+      "acepta_adelanto": true,
       "resultado": "CONSULTA PENDIENTE",
       "es_prueba": false,
       "duracion_secs": 100,
       "duracion_texto": "1 min 40 s",
       "resumen": "El agente confirmó con Mario su pedido de la Antena Digital TeVeProMax para Puquio. Se explicó que el envío se realizará por Olva Courier con un adelanto de veinte soles, ya que no hay sede Shalom en la ciudad. Mario indicó que actualmente está en el campo y bajará al distrito mañana. Se acordó coordinar la entrega para cuando él esté en el distrito, y una asesora se contactará por WhatsApp para los detalles y el pago del adelanto.",
       "titulo": "Confirmación Pedido Antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -504,8 +541,7 @@
           "rol": "agente",
           "texto": "Muchas gracias, Mario. Una asesora le escribirá por WhatsApp para coordinar los detalles. Que tenga un excelente día."
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_6701m8atw0xdfqzasevtpyakx3yt",
@@ -531,12 +567,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Puquio",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Puquio. Tras el saludo del agente, se detectó silencio por parte del usuario, lo que llevó a la finalización de la llamada.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -563,8 +606,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6301m8atra57echvrpc75zj0bwba",
@@ -590,12 +632,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo del agente.",
       "titulo": "Confirmación pedido silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -622,8 +671,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_9501m8atmwnffecaar2hmsxy2h6s",
@@ -649,12 +697,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo. El usuario no respondió, por lo que la llamada fue terminada por el agente.",
       "titulo": "Confirmación pedido sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -681,8 +736,7 @@
           "rol": "sistema",
           "texto": "[end_call: El usuario no respondió tras el saludo inicial.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_4801m8athd07favr3zhnh3pedks5",
@@ -708,12 +762,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax con el usuario Francisco. La conversación concluyó abruptamente debido a la falta de respuesta inicial del usuario, lo que llevó al agente a finalizar la llamada.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -740,8 +801,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8401m8atdxape6naktpnce4w5nbd",
@@ -767,12 +827,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una rosa eterna y un collar con destino a Arequipa. Sin embargo, la usuaria no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -799,8 +866,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8401m8ataexke939bb1f17mcjgeh",
@@ -826,12 +892,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente inició la llamada saludando a Michelle y confirmando un pedido de una rosa eterna y un collar para Arequipa. Ante el silencio inicial de la usuaria, la agente procedió a finalizar la llamada.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -858,8 +931,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2501m8at6xq5eyqsbcw08zzgsnmh",
@@ -885,12 +957,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 25,
       "duracion_texto": "25 s",
       "resumen": "El agente inició una llamada con Michelle para confirmar un pedido de una rosa eterna y un collar con destino a Arequipa. La llamada finalizó debido al silencio inicial del usuario.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -917,8 +996,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8001m8at395pfx2a9kr1ncyp31n2",
@@ -944,12 +1022,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para La Esperanza. El usuario permaneció en silencio, lo que llevó al agente a finalizar la llamada.",
       "titulo": "Silencio inicial",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -976,8 +1061,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5701m8aszkwpf14shsefmsyxzs70",
@@ -1003,12 +1087,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente Sofía inició la conversación para confirmar un pedido de Antena Digital TeVeProMax con el usuario Elmer. Sin embargo, al no recibir respuesta del usuario, la llamada fue finalizada por la agente debido al silencio inicial.",
       "titulo": "Confirmación pedido, silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1035,8 +1126,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, no hubo respuesta del usuario.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_4701m8asvzapemps827n1erbw7hp",
@@ -1062,12 +1152,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. El usuario permaneció en silencio, lo que llevó al agente a finalizar la llamada automáticamente.",
       "titulo": "Silencio inicial llamada",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1094,8 +1191,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial después del saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6901m8asqjccfq4s5p3cf9whn203",
@@ -1121,19 +1217,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": false,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Override for field 'first_message' is not allowed by config.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Override for field 'first_message' is not allowed by config.",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_6901m8askk9me5avqmvqyy21zyz4",
@@ -1159,19 +1261,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "Sin resumen disponible.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_7401m8asekm0e15rpnn2mg3cxq9e",
@@ -1197,19 +1305,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "Sin resumen disponible.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_4301m8as8pjyfemr6dm17cze4720",
@@ -1235,19 +1349,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · La Esperanza",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "Sin resumen disponible.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_2801m8as4d9ye1jar1aa590yfcyp",
@@ -1273,12 +1393,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huari",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "La agente Sofía inició la llamada para confirmar un pedido de la \"Antena Digital TeVeProMax\" para Huari con Oswaldo. Ante el silencio inicial del usuario, la agente finalizó la llamada.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1305,8 +1432,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0501m8as10zzfpytvq2mk0ahccdd",
@@ -1332,12 +1458,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huari",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 26,
       "duracion_texto": "26 s",
       "resumen": "El agente inició la llamada saludando a Oswaldo y solicitando la confirmación de un pedido de una Antena Digital TeVeProMax para Huari. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1364,8 +1497,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, el usuario no respondió nada.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_4501m8arxeabeg1r5kh7m74js8rw",
@@ -1391,12 +1523,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huari",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 28,
       "duracion_texto": "28 s",
       "resumen": "El agente llamó a Oswaldo para confirmar un pedido de una Antena Digital TeVeProMax. La llamada finalizó debido a que se detectó silencio inicial por parte del usuario después del saludo del agente.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1423,8 +1562,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado después del saludo.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2701m8aptpc6ezmbmm711vdx5k0f",
@@ -1450,12 +1588,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Trujillo",
+      "acepta_adelanto": false,
       "resultado": "CONSULTA PENDIENTE",
       "es_prueba": false,
       "duracion_secs": 115,
       "duracion_texto": "1 min 55 s",
       "resumen": "La agente confirmó un pedido de una rosa eterna y un collar para Trujillo. El usuario confirmó el pedido, pero expresó su descontento con la agencia de envío Shalom, solicitando usar Trafesa o Flores. La agente explicó que para otras agencias se requiere el pago total por adelantado. El usuario aceptó, pero manifestó preocupación por la entrega. Finalmente, el usuario optó por ser contactado por una asesora vía WhatsApp para coordinar los detalles del envío.",
       "titulo": "Coordinar envío pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1547,8 +1692,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente aceptó que una asesora le escriba por WhatsApp. La llamada ha finalizado tras la despedida y la espera de cinco segundos.]"
         }
-      ],
-      "acepta_adelanto": false
+      ]
     },
     {
       "id": "conv_7701m8apngvxffb9praxvgw1y2yh",
@@ -1574,12 +1718,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Trujillo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 24,
       "duracion_texto": "24 s",
       "resumen": "El agente inició la llamada saludando a Karla y solicitando la confirmación de un pedido de una rosa eterna y un collar para Trujillo. La llamada finalizó debido al silencio inicial del usuario tras el saludo automático del agente.",
       "titulo": "Confirmación pedido fallida",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1606,8 +1757,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2501m8aphsxze8crnqsdk829hmfn",
@@ -1633,12 +1783,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Trujillo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente llamó a Karla para confirmar un pedido de una rosa eterna y un collar para Trujillo. La usuaria permaneció en silencio, por lo que la llamada fue terminada automáticamente.",
       "titulo": "Silencio tras saludo",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1665,8 +1822,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5701m8apdhhhfqm9r8bkvv6wrckm",
@@ -1692,12 +1848,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente Sofía inició la llamada para confirmar el pedido de una Antena Digital TeVeProMax para Lima con el usuario Leonardo. Ante el silencio inicial del usuario, la llamada fue finalizada.",
       "titulo": "Fin llamada silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1724,8 +1887,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6101m8ap9z9kecarpv7bpcdq64tp",
@@ -1751,12 +1913,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. El usuario respondió con silencio, lo que llevó a la agente a finalizar la llamada automáticamente.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1783,8 +1952,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3901m8ap6anafvx9b2a61ax4aanp",
@@ -1810,12 +1978,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Lima con Leonardo. Sin embargo, la llamada finalizó debido a que se detectó silencio inicial por parte del usuario tras el saludo del agente.",
       "titulo": "Confirmación antena fallida",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -1842,8 +2017,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_7601m8ap25v0edmr2jkg6q8hygys",
@@ -1869,12 +2043,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huari",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "El agente llamó a Oswaldo para confirmar un pedido de la Antena Digital TeVeProMax para Huari. Oswaldo solicitó que le devolvieran la llamada en media hora.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -1896,8 +2077,7 @@
           "rol": "agente",
           "texto": "Entiendo perfectamente,..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3601m8anx1wrfqt8mmajkr7d01fp",
@@ -1923,12 +2103,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "CANCELADO",
       "es_prueba": false,
       "duracion_secs": 18,
       "duracion_texto": "18 s",
       "resumen": "La agente Sofía contactó a Doraliza para confirmar un pedido de un kit de antena con decodificador para Lima. Doraliza aclaró que no había realizado tal pedido. La agente agradeció la aclaración.",
       "titulo": "Pedido antena negado",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": "No he pedido ninguna antena.",
       "terminacion": "Call ended by remote party",
@@ -1950,8 +2137,7 @@
           "rol": "agente",
           "texto": "Entiendo, Doraliza. Muchas gracias por..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2401m8ansg3qepdvmnhjsdgvxtns",
@@ -1977,12 +2163,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo con el usuario Pedro. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo del agente.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2009,8 +2202,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3201m8annwb1e31arfd6st5pd32w",
@@ -2036,12 +2228,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 25,
       "duracion_texto": "25 s",
       "resumen": "El agente inició una llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo con el usuario Pedro. Tras el saludo del agente, el usuario permaneció en silencio, lo que llevó al agente a finalizar la llamada automáticamente.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2068,8 +2267,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8701m8anj8wjf1gb8fg1j8wfdwh0",
@@ -2095,12 +2293,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 25,
       "duracion_texto": "25 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo con el usuario Pedro. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo automático del agente.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2127,8 +2332,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_7001m8ana30gf2kvvjswaf8pqbsd",
@@ -2154,12 +2358,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 47,
       "duracion_texto": "47 s",
       "resumen": "La agente Sofía contactó a Porfirio para confirmar un pedido de un kit de antena con decodificador para Lima. Porfirio expresó su deseo de hablar con alguien. La agente, a pesar de la solicitud, procedió a verificar los detalles de entrega del pedido.",
       "titulo": "Confirmación de pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -2181,8 +2392,7 @@
           "rol": "agente",
           "texto": "Entiendo perfectamente, Porfirio. Estoy aquí para ayudarle con la confirmación de su pedido. ¿Me confirma si los datos de entrega son correctos? La dirección es Aso Limatambo manzana O lote 2, segunda etapa, la referencia es Parque Zonal, atrás de la Municipalidad Distrital de Carabayllo, en el distrito de Carabayllo."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_9001m8an5tavfs8sqmbwaenq6mm3",
@@ -2208,12 +2418,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancavelica",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de un kit de antena con decodificador para Huancavelica. Al no recibir respuesta del usuario, la llamada fue terminada debido al silencio inicial.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2240,8 +2457,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2901m8an29fcegm8fwz9s49w7mkv",
@@ -2267,12 +2483,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancavelica",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente Sofía llamó a Sergio para confirmar un pedido de un kit de antena con decodificador para Huancavelica. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo automático.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2299,8 +2522,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3201m8amymj7fbxrxqdwybb98a1m",
@@ -2326,12 +2548,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancavelica",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de un kit de antena con decodificador. Tras el saludo del agente, el usuario permaneció en silencio, lo que llevó al agente a finalizar la llamada automáticamente.",
       "titulo": "Confirmación de pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2358,8 +2587,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_7501m8amvb58em6tnzcmagqp0g4y",
@@ -2385,12 +2613,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 9,
       "duracion_texto": "9 s",
       "resumen": "El agente inició una llamada para confirmar algo con Marcos. El usuario interrumpió, pidiendo que se le dejara cualquier mensaje, lo que llevó al agente a detectar que se trataba de un buzón de voz.",
       "titulo": "Buzón de voz",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "voicemail_detection tool was called.",
@@ -2412,8 +2647,7 @@
           "rol": "sistema",
           "texto": "[herramienta: voicemail_detection]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2601m8amqv08et7vy4f22gx1tfda",
@@ -2439,12 +2673,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 7,
       "duracion_texto": "7 s",
       "resumen": "La agente Sofía intentó contactar a Marcos, pero la llamada fue directamente al buzón de voz. Marcos indicó que se le dejara cualquier mensaje. El sistema detectó un saludo automático.",
       "titulo": "Buzón de voz detectado",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "voicemail_detection tool was called.",
@@ -2466,8 +2707,7 @@
           "rol": "sistema",
           "texto": "[herramienta: voicemail_detection]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2501m8amkrc0fm5aj9qbspg6nzy0",
@@ -2493,12 +2733,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 7,
       "duracion_texto": "7 s",
       "resumen": "El agente saludó al usuario, quien interrumpió para pedir que le dejaran cualquier mensaje. Esto llevó a la detección de un buzón de voz.",
       "titulo": "Buzón de voz detectado",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "voicemail_detection tool was called.",
@@ -2520,8 +2767,7 @@
           "rol": "sistema",
           "texto": "[herramienta: voicemail_detection]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0601m8amg04rfcgs6xkct8hr4re0",
@@ -2547,12 +2793,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Tacna",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna con Yaquelin. Sin embargo, el usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2579,8 +2832,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, el usuario no respondió.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2601m8amcb4xefq8sypk2jgbxnrt",
@@ -2606,12 +2858,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Tacna",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2638,8 +2897,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, el usuario no respondió.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2201m8am4qcvf4j931knbxt5nvs8",
@@ -2665,19 +2923,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Tacna",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "Sin resumen disponible.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_9301m8am0w2bfh0rph2sgdgt758n",
@@ -2703,12 +2967,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Pampas",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 4,
       "duracion_texto": "4 s",
       "resumen": "El agente inició la conversación saludando al usuario, Fridolino, y presentándose como Sofía.",
       "titulo": "Saludo de Sofía",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -2720,8 +2991,7 @@
           "rol": "agente",
           "texto": "¡Hola, Fridolino! Le saluda Sofía..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_3201m8akx678f62t98n56nc03brh",
@@ -2747,12 +3017,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Pampas",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "La agente Sofía inició la llamada para confirmar un pedido de cápsulas DEOS para Pampas con el usuario Fridolino. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo automático de la agente.",
       "titulo": "Silencio inicial llamada",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2779,8 +3056,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1401m8aj0knpfswrkf545ykzrfv6",
@@ -2806,12 +3082,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Pampas",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 8,
       "duracion_texto": "8 s",
       "resumen": "La agente Sofía contactó a Fridolino para confirmar su pedido de cápsulas DEOS para Pampas.",
       "titulo": "Confirmación pedido DEOS",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -2823,8 +3106,7 @@
           "rol": "agente",
           "texto": "¡Hola, Fridolino! Le saluda Sofía. Le llamo para confirmar su pedido de las cápsulas DEOS para Pampas, ¿correcto?"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2701m8ahw7y2fs198ffm4bvqh5ar",
@@ -2850,12 +3132,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Ilo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de un mini GPS para Ilo. Sin embargo, la llamada finalizó debido a la falta de respuesta del usuario, detectándose un silencio inicial.",
       "titulo": "Llamada finalizada por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -2882,8 +3171,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, no hubo respuesta del usuario.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5101m8ahrrneeq3s069z0j55z8k7",
@@ -2909,12 +3197,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Ilo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 9,
       "duracion_texto": "9 s",
       "resumen": "Sofía contactó a Hugo para confirmar su pedido de un mini GPS con destino a Ilo.",
       "titulo": "Confirmar pedido GPS",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -2926,8 +3221,7 @@
           "rol": "agente",
           "texto": "¡Hola, Hugo! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Ilo,..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8801m8ahmy1rfghbspmp5g2fcyeh",
@@ -2953,12 +3247,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Ilo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 15,
       "duracion_texto": "15 s",
       "resumen": "La agente Sofía se comunica con Hugo para confirmar su pedido de un mini GPS con destino a Ilo.",
       "titulo": "Confirmar pedido GPS",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -2970,8 +3271,7 @@
           "rol": "agente",
           "texto": "¡Hola, Hugo! Le saluda Sofía. Le llamo para confirmar su pedido de el mini GPS para Ilo, ¿correcto?"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5501m8ahchk7e30r6yrvcvct7ans",
@@ -2997,12 +3297,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Tumbes",
+      "acepta_adelanto": true,
       "resultado": "CONSULTA PENDIENTE",
       "es_prueba": false,
       "duracion_secs": 99,
       "duracion_texto": "1 min 39 s",
       "resumen": "La agente Sofía contactó a José para confirmar su pedido de tres unidades de cápsulas DEOS para Tumbes. Tras ofrecer una promoción que el usuario declinó, la agente confirmó el pedido de 124 soles y detalló el envío por agencia Shalom. Se solicitó un adelanto de 20 soles, a lo que José respondió que lo realizaría más tarde. La agente acordó enviar los números de cuenta por WhatsApp para el pago posterior y finalizó la llamada.",
       "titulo": "Confirmación pedido DEOS",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": "De aquí le hago",
+      "nota": "De aquí le hago",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3059,8 +3366,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente se despidió y esperé más de cinco segundos.]"
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_9001m8ah8rj3frp8e1jm8d5qnttj",
@@ -3086,12 +3392,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Tumbes",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "La agente inició la llamada para confirmar un pedido de cápsulas DEOS para Tumbes. Sin embargo, la llamada fue finalizada automáticamente debido al silencio inicial del usuario tras el saludo.",
       "titulo": "Fin llamada silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3118,8 +3431,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_9001m8ah1ryhfj1bjk0d1fgx8jhf",
@@ -3145,12 +3457,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 90,
       "duracion_texto": "1 min 30 s",
       "resumen": "La agente Sofía contactó a Porfirio para confirmar su pedido de un kit de antena con decodificador para Lima, detallando sus beneficios y el plazo de entrega (24-48 horas). La agente solicitó una referencia para la dirección de entrega (Aso Lima Tambo mz o lt 2, Carabayllo), a lo que el usuario respondió con \"Parque Zonal o Municipalidad Distrital de Carabayllo, al espaldar de la Municipalidad de Carabayllo\". El usuario también corrigió y aclaró la dirección a \"Manzana O, lote dos\" y \"Limatambo, segunda etapa\".",
       "titulo": "Confirmación Pedido Antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -3212,8 +3531,7 @@
           "rol": "agente",
           "texto": "Muchas gracias por la aclaración. Entonces queda en Aso Limatambo, manzana O, lote..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6901m8agxh0ffbntzvn9nf7n6050",
@@ -3239,12 +3557,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "CANCELADO",
       "es_prueba": false,
       "duracion_secs": 26,
       "duracion_texto": "26 s",
       "resumen": "La agente Sofía contactó a Giovanni para confirmar un pedido de mini GPS a Huancayo. Giovanni negó haber realizado dicho pedido, por lo que la agente solicitó su ubicación actual para aclarar la situación.",
       "titulo": "Pedido mini GPS",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -3266,8 +3591,7 @@
           "rol": "agente",
           "texto": "Entiendo, Giovanni. ¿En qué ciudad y distrito se encuentra usted actualmente?"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0301m8agskpreqnrykjdgdf12qwb",
@@ -3293,12 +3617,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Puno",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 21,
       "duracion_texto": "21 s",
       "resumen": "La agente Sofía llamó a Elvira para confirmar un pedido de un mini GPS con destino a Puno. Sin embargo, la llamada finalizó debido a que no hubo respuesta por parte del usuario, detectándose un silencio inicial.",
       "titulo": "Fin por silencio",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3325,8 +3656,7 @@
           "rol": "sistema",
           "texto": "[end_call: Silencio inicial detectado, no hay respuesta del usuario.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1701m8agebkhf4v9bqp2jw910pzw",
@@ -3352,19 +3682,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Puno",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 52,
       "duracion_texto": "52 s",
       "resumen": "Sin transcripción ni audio útil (llamada no conectada o sin respuesta).",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
       "costo_usd": 0.0698,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_9001m8agavbgfakr4mkcbwr85c5x",
@@ -3390,12 +3726,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Puno",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 35,
       "duracion_texto": "35 s",
       "resumen": "El agente llamó a Elvira para confirmar un pedido de un mini GPS con destino a Puno. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada.",
       "titulo": "Llamada sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3432,8 +3775,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente no respondió tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1801m8ag7cvjem7sgg55k6b5pm5m",
@@ -3459,12 +3801,19 @@
       "agencia": "",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Agencia (adelanto)",
+      "acepta_adelanto": null,
       "resultado": "REPROGRAMADO",
       "es_prueba": false,
       "duracion_secs": 23,
       "duracion_texto": "23 s",
       "resumen": "La agente Sofía llamó a Ofelia para confirmar un pedido de un kit de antena con decodificador. Ofelia informó que no puede confirmar el pedido en ese momento debido a que su aplicación no funciona y solicitó reprogramar la confirmación para el sábado. La agente entendió y aceptó reprogramar.",
       "titulo": "Reprogramar pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": "Hasta el sábado",
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -3496,8 +3845,7 @@
           "rol": "cliente",
           "texto": "Ya."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1201m8afnf01e9vb6heq19sr02x6",
@@ -3523,12 +3871,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Nueva Cajamarca",
+      "acepta_adelanto": true,
       "resultado": "CONFIRMADO",
       "es_prueba": false,
       "duracion_secs": 207,
       "duracion_texto": "3 min 27 s",
       "resumen": "El agente confirmó el pedido de una Antena Digital TeVeProMax para Nueva Cajamarca. El usuario expresó dificultades para pagar de inmediato y problemas con el uso de Yape, pero enfatizó su necesidad de la antena para informarse. El agente propuso coordinar el envío y que una asesora contactara al usuario por WhatsApp para gestionar un adelanto de veinte soles y los detalles de envío. El usuario aceptó enviar el adelanto y solicitó los datos para hacerlo, los cuales el agente se comprometió a enviar por WhatsApp.",
       "titulo": "Antena, pago y adelanto",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3695,8 +4050,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente respondió a la despedida. Esperé los cinco segundos reglamentarios antes de colgar.]"
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_7601m8afc5kbffs9197zxwnp68pb",
@@ -3722,19 +4076,25 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": false,
       "duracion_secs": 60,
       "duracion_texto": "1 min",
       "resumen": "No salió la llamada: No user message received for a long period of time - probably a network error occurred.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "No user message received for a long period of time - probably a network error occurred.",
       "costo_usd": 0.0798,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_1101m8af824yf2pby3c6jbkvq0v6",
@@ -3760,12 +4120,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 59,
       "duracion_texto": "59 s",
       "resumen": "El agente intentó contactar a Aurelio para confirmar un pedido de la Antena Digital TeVeProMax para Huancayo. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada.",
       "titulo": "Confirmación pedido fallida",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3812,8 +4179,7 @@
           "rol": "sistema",
           "texto": "[end_call: No responde tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0501m8af2bhafx2t5332yg9267q1",
@@ -3839,12 +4205,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Huancayo",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 64,
       "duracion_texto": "1 min 4 s",
       "resumen": "El agente intentó contactar a Aurelio para confirmar un pedido de la Antena Digital TeVeProMax para Huancayo. A pesar de varios intentos, el usuario no respondió. El agente finalizó la llamada debido a la falta de comunicación y mencionó que intentaría contactar al cliente en otro momento.",
       "titulo": "Confirmar pedido fallido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -3896,8 +4269,7 @@
           "rol": "sistema",
           "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5701m8aexjnwed7v2s4vgt31xqca",
@@ -3923,12 +4295,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 12,
       "duracion_texto": "12 s",
       "resumen": "La agente Sofía contactó a Pedro para confirmar su pedido. Pedro respondió que la confirmación es necesaria.",
       "titulo": "Confirmar pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -3945,8 +4324,7 @@
           "rol": "cliente",
           "texto": "Hay que confirmar."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6901m8aetyxtfaxadwv7x23w0tfa",
@@ -3972,12 +4350,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 56,
       "duracion_texto": "56 s",
       "resumen": "La agente Sofía llamó a Pedro para confirmar un pedido de un mini GPS para Lima. A pesar de varios intentos, el usuario no respondió. La agente concluyó que no había nadie disponible y finalizó la llamada, indicando que volvería a llamar más tarde.",
       "titulo": "Pedido GPS sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4029,8 +4414,7 @@
           "rol": "sistema",
           "texto": "[end_call: No hubo respuesta tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5201m8aeqhn4eqg9edcz04kcnb4k",
@@ -4056,12 +4440,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 53,
       "duracion_texto": "53 s",
       "resumen": "La agente Sofía llamó a Pedro para confirmar un pedido de un mini GPS para Lima. A pesar de varios intentos, el usuario no respondió. La agente concluyó que no había nadie en línea y finalizó la llamada, indicando que volvería a llamar más tarde.",
       "titulo": "Pedido GPS sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4113,8 +4504,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente no respondió tras varios intentos, se procede a finalizar la llamada.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2001m8aeej34f9srk2f2s2mfkt37",
@@ -4140,12 +4530,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "CANCELADO",
       "es_prueba": false,
       "duracion_secs": 172,
       "duracion_texto": "2 min 52 s",
       "resumen": "El agente llamó a José para confirmar un pedido de una antena digital. José aclaró que solo estaba curioseando en línea y no deseaba realizar ninguna compra. Expresó su frustración por las llamadas no solicitadas, mencionando su edad, su experiencia como vendedor y una reciente portabilidad telefónica. El agente comprendió la situación y finalizó la llamada.",
       "titulo": "Negación de pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": "curioso, no la quiere, no le interesó",
       "terminacion": "Call ended by remote party",
@@ -4217,8 +4614,7 @@
           "rol": "agente",
           "texto": "Muchas gracias,..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1401m8ae9nrjemvvgnymqvfv3gca",
@@ -4244,12 +4640,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Cajamarca",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 61,
       "duracion_texto": "1 min 1 s",
       "resumen": "El agente intentó contactar al usuario para confirmar un pedido de una Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, no hubo respuesta por parte del usuario. La llamada finalizó sin éxito, y el agente indicó que intentaría comunicarse más tarde.",
       "titulo": "Confirmación pedido sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4301,8 +4704,7 @@
           "rol": "sistema",
           "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0101m8ae5141ekh8eca902ehdjam",
@@ -4328,12 +4730,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Cajamarca",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 60,
       "duracion_texto": "1 min",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, el usuario no respondió. El agente concluyó que no había nadie disponible y decidió finalizar la llamada, indicando que volvería a llamar en otro momento.",
       "titulo": "Llamada sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -4385,8 +4794,7 @@
           "rol": "sistema",
           "texto": "[end_call: Llamada finalizada]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2601m8ae0d6ae69rhe65amrhwcz4",
@@ -4412,12 +4820,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Cajamarca",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": false,
       "duracion_secs": 54,
       "duracion_texto": "54 s",
       "resumen": "El agente llamó para confirmar un pedido de la Antena Digital TeVeProMax para Cajamarca. A pesar de varios intentos, el usuario no respondió, por lo que la llamada fue finalizada por falta de comunicación.",
       "titulo": "Confirmación pedido fallida",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4464,8 +4879,7 @@
           "rol": "sistema",
           "texto": "[end_call: No hubo respuesta del cliente tras varios intentos.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8101m8aczrzrf7cayqaqp6br1560",
@@ -4491,12 +4905,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Lima",
+      "acepta_adelanto": true,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 164,
       "duracion_texto": "2 min 44 s",
       "resumen": "La agente Sofía contactó a Stephanie Flores (inicialmente confundida con José) para confirmar su pedido de la Antena Digital TeVeProMax. Stephanie confirmó su ubicación en Ica. Se acordó el envío por la agencia Shalom con un adelanto de 20 soles y el resto al recoger, con entrega en 24-48 horas.\n\nStephanie solicitó ser notificada a la llegada del pedido y que le enviaran los datos de cuenta por WhatsApp. Aprovechó una promoción, cambiando su pedido de una unidad a tres antenas por un total de 139 soles. Se solicitó su DNI para el envío y se le informó que se le enviarían los números de cuenta para el adelanto.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -4603,8 +5024,7 @@
           "rol": "cliente",
           "texto": "Igualmente. Gracias."
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_4901m8acjmtmf3av8ngb7269npaf",
@@ -4630,12 +5050,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 152,
       "duracion_texto": "2 min 32 s",
       "resumen": "La agente Sofía llamó a José para confirmar su pedido de una Antena Digital TeVeProMax. Se verificó la dirección de entrega en Av. Alcázar cuadra siete, Rímac, y José proporcionó detalles adicionales: lote tres, departamento 2005, al costado del parque de su vivienda. La entrega está programada para el 26 de noviembre. José declinó una oferta de dos antenas por S/99, confirmando la compra de una sola unidad por S/69. La llamada concluyó sin más consultas.",
       "titulo": "Confirmación pedido antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4752,8 +5179,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente se despidió, esperé más de cinco segundos y no hubo respuesta.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_2201m8ac9brdfdttbc3vxaf32xdb",
@@ -4779,12 +5205,19 @@
       "agencia": "",
       "tipo_envio": "contraentrega",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": true,
       "duracion_secs": 14,
       "duracion_texto": "14 s",
       "resumen": "La agente Sofía inició la conversación saludando a José y solicitando la confirmación de un pedido para Lima.",
       "titulo": "Confirmar pedido Lima",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -4796,8 +5229,7 @@
           "rol": "agente",
           "texto": "¡Hola, José! Le saluda Sofía. Le llamo para confirmar su pedido para Lima, ¿correcto?"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5801m8ab9yq3ehgsmrbf8f04npdv",
@@ -4823,12 +5255,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 115,
       "duracion_texto": "1 min 55 s",
       "resumen": "El agente confirmó con José su pedido de una antena TVMax Pro para entrega en Av. Alcázar cuadra siete, Rímac, programada para el día siguiente. José confirmó la dirección. El agente ofreció una promoción de dos antenas y un kit con decodificador, pero José prefirió mantener su pedido original de una antena. José preguntó sobre la cantidad de canales, y el agente explicó que capta hasta 50 canales nacionales e internacionales sin mensualidad. La llamada finalizó tras confirmar el pedido.",
       "titulo": "Confirmación pedido antena TVMax",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -4915,8 +5354,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente se despidió, la llamada ha finalizado y se ha cumplido el objetivo de confirmación.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_8101m8a8nt61ftpa2eynqwdgc3br",
@@ -4942,12 +5380,19 @@
       "agencia": "",
       "tipo_envio": "CONTRAENTREGA",
       "envio_texto": "Contraentrega · Lima",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": true,
       "duracion_secs": 207,
       "duracion_texto": "3 min 27 s",
       "resumen": "El agente contactó a José para confirmar su pedido de una antena TVMax Pro. José confirmó el pedido y proporcionó la dirección de entrega: Av. Alcázar cuadra siete, cerca de un grifo en Av. Cruz Sec, Rímac. José preguntó sobre la hora de entrega, solicitando una franja horaria (3:00-4:00 p.m.), y el agente indicó que el motorizado coordinaría por WhatsApp. José también consultó sobre la cantidad y tipo de canales, específicamente si incluía canales de cable para ver novelas. El agente aclaró que la antena capta hasta 50 canales de señal abierta, no de cable, lo que decepcionó a José, quien esperaba canales de cable. La conversación finalizó abruptamente.",
       "titulo": "Confirmación Pedido Antena",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -5084,8 +5529,7 @@
           "rol": "cliente",
           "texto": "No escucha."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1301m8a7xnpnf41r5dzbzazccmwj",
@@ -5111,12 +5555,19 @@
       "agencia": "Shalom",
       "tipo_envio": "agencia",
       "envio_texto": "Shalom · Cusco",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": true,
       "duracion_secs": 60,
       "duracion_texto": "1 min",
       "resumen": "La agente Sofía contactó al usuario James para confirmar un pedido de Cortina LED NovaLux 3x3 con destino a Cusco. A pesar de los repetidos intentos de la agente, el usuario no respondió.",
       "titulo": "Confirmar pedido LED",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -5148,8 +5599,7 @@
           "rol": "agente",
           "texto": "¿Aló? ¿Se encuentra ahí? Le saluda Sofía, llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con..."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_7001m8a7qq97f6kszn2svcye9x4q",
@@ -5175,12 +5625,19 @@
       "agencia": "Shalom",
       "tipo_envio": "agencia",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": true,
       "duracion_secs": 61,
       "duracion_texto": "1 min 1 s",
       "resumen": "El agente intentó contactar al usuario, James, para confirmar un pedido de una Cortina LED NovaLux 3x3 con destino a Arequipa. A pesar de múltiples intentos, el usuario no respondió, lo que impidió la confirmación del pedido.",
       "titulo": "Llamada sin respuesta",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -5212,8 +5669,7 @@
           "rol": "agente",
           "texto": "Disculpe, ¿me escucha? Le llamo para confirmar su pedido de la Cortina LED NovaLux 3x3 con destino a Arequipa."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_6201m8a5ppzgffzaq6wt3tfynxww",
@@ -5239,12 +5695,19 @@
       "agencia": "Olva Courier",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Olva Courier · Puquio",
+      "acepta_adelanto": true,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 388,
       "duracion_texto": "6 min 28 s",
       "resumen": "El agente confirmó el pedido de una Cortina LED NovaLux 3x3 para Puquio con el usuario Joaquín. Se acordó el envío por Olva Courier (en lugar de Shalom) con un adelanto de S/20 y el resto al recoger. El usuario preguntó por descuentos; se le ofreció una promoción de dos unidades por S/469, la cual consideró. Se confirmaron los datos del usuario (Joaquín Garrido Flores, DNI 75173937). El usuario también preguntó sobre las medidas (3x3m), la personalización de diseños (no es posible con nombres, solo figuras predeterminadas) y el control (mediante app y control remoto, no WhatsApp). La conversación concluyó sin más dudas por parte del usuario.",
       "titulo": "Confirmación pedido cortina LED",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -5456,8 +5919,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_3801m8a1vtm0fn8avm9b7b9sb4ae",
@@ -5483,12 +5945,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": true,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 147,
       "duracion_texto": "2 min 27 s",
       "resumen": "La agente Sofía contactó a James para confirmar un pedido de una Cortina LED NovaLux 3x3 para Arequipa. James confirmó el pedido y la agente detalló el envío por Shalom a la sede de la Av. Parra 379, Arequipa, con un adelanto de 20 soles y el resto al recoger, por un total de 249 soles. James aceptó las condiciones y proporcionó su nombre (Pepito) y DNI (73515886) para la confirmación. Se acordó que la agente enviaría las cuentas para el adelanto por WhatsApp en media hora, y el envío se realizaría el mismo día. La conversación finalizó sin más consultas por parte de James.",
       "titulo": "Confirmación pedido Cortina LED",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": "cerca a media hora",
+      "nota": "cerca a media hora",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -5590,8 +6059,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_2001m8a134nkfamawyv8gk4xfkk3",
@@ -5617,19 +6085,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "Sin resumen disponible.",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "",
       "costo_usd": 0.0,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_7601m8a01848evs8e3968r8hh5pw",
@@ -5655,12 +6129,19 @@
       "agencia": "Shalom",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Shalom · Arequipa",
+      "acepta_adelanto": true,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 232,
       "duracion_texto": "3 min 52 s",
       "resumen": "La conversación se centró en la confirmación del pedido de James de una Cortina LED NovaLux 3x3 para Arequipa. El agente detalló el producto, el precio total de S/249 y el proceso de envío por Shalom, que requiere un adelanto de S/20. Inicialmente, el usuario seleccionó la sede de Shalom en el Mall Lambramani, pero luego cambió su preferencia a la sede de la avenida Parra 379. El usuario acordó enviar sus datos por WhatsApp para coordinar el adelanto y el envío. La llamada finalizó sin más consultas.",
       "titulo": "Confirmación pedido cortina LED",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -5822,8 +6303,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente confirmó el pedido y la sede, y manifestó que no tiene más consultas.]"
         }
-      ],
-      "acepta_adelanto": true
+      ]
     },
     {
       "id": "conv_4001m89y5pgje95bgx3tbxf6ky48",
@@ -5849,12 +6329,19 @@
       "agencia": "Marisur",
       "tipo_envio": "AGENCIA_ADELANTO",
       "envio_texto": "Marisur · Lima",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 141,
       "duracion_texto": "2 min 21 s",
       "resumen": "La agente confirmó el pedido de una Cortina LED NovaLux 3x3 con el usuario James. Tras aclarar que el usuario reside en Ica, se acordó el envío a través de la agencia Marisur, con pago del 100% por adelantado y un tiempo de entrega de 24 a 48 horas tras la validación del pago. El usuario aceptó recibir los datos de pago por WhatsApp y proporcionó su DNI para el registro. La agente recapituló los detalles del pedido y finalizó la llamada.",
       "titulo": "Confirmación pedido Ica",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -5956,8 +6443,7 @@
           "rol": "sistema",
           "texto": "[end_call: El cliente indicó que no tiene más consultas y se despidió.]"
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_4401m89v5bw3enjrk4bc0m11ztr2",
@@ -5983,12 +6469,19 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 61,
       "duracion_texto": "1 min 1 s",
       "resumen": "El agente de FLOOWER.PE contactó a James para confirmar un pedido de una Cortina LED NovaLux de 249 soles, con entrega programada para el 26 de noviembre en Av. Arenales 1387, Jesús María. James confirmó los datos del pedido y la dirección de entrega. El agente reiteró que el pago es contraentrega y finalizó la llamada tras la confirmación.",
       "titulo": "Confirmación Pedido Cortina LED",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
@@ -6055,8 +6548,7 @@
           "rol": "cliente",
           "texto": "Eh, una consulta."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_0301m89v3gn0f74s3fk50g6s6625",
@@ -6082,19 +6574,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "NO CONTESTA",
       "es_prueba": true,
       "duracion_secs": 41,
       "duracion_texto": "41 s",
       "resumen": "Sin transcripción ni audio útil (llamada no conectada o sin respuesta).",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
       "costo_usd": 0.0537,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_3101m87hvyzpe5zss0ewvczgp75q",
@@ -6120,12 +6618,19 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 133,
       "duracion_texto": "2 min 13 s",
       "resumen": "La asistente virtual de FLOOWER.PE contactó a James para confirmar su pedido de un ventilador de techo LED diseño diamante. La entrega está programada para mañana en Lima, con un costo de 89 soles a pagar contraentrega.\n\nJames solicitó que la entrega fuera a partir de las 3:00 p.m., lo cual la agente anotó. También preguntó sobre una promoción de \"dos por uno\", pero la agente solo tenía registrado un ventilador. Finalmente, se confirmó el pedido de un solo ventilador para mañana.",
       "titulo": "Confirmación de pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
@@ -6227,8 +6732,7 @@
           "rol": "agente",
           "texto": "Hasta luego, James."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_5801m87hr63jebbtfnqynm9781fa",
@@ -6254,19 +6758,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0001,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_0901m87hp8x4fehb17xx0hy3pp8a",
@@ -6292,19 +6802,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0001,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_8801m87c51vzemeabhp5rhkpa9sz",
@@ -6330,12 +6846,19 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "CONFIRMADO",
       "es_prueba": true,
       "duracion_secs": 65,
       "duracion_texto": "1 min 5 s",
       "resumen": "La asistente virtual de FLOOWER.PE contactó a James para confirmar un pedido de un ventilador de techo LED diseño diamante por S/89. La entrega estaba programada para mañana en Lima, contraentrega. James solicitó que la entrega fuera a las 3 PM, lo cual fue confirmado por la agente.",
       "titulo": "Confirmación entrega pedido",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": "mañana a las tres de la tarde",
       "motivo_cancelacion": null,
       "terminacion": "Client disconnected: 1000",
@@ -6377,8 +6900,7 @@
           "rol": "agente",
           "texto": "De nada, James. Que tengas un excelente día, hasta luego."
         }
-      ],
-      "acepta_adelanto": null
+      ]
     },
     {
       "id": "conv_1601m87c4e1gf4arg34p1d3049n1",
@@ -6404,19 +6926,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0003,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_4101m87c3vxxfd7bn0h6zg8nd6dc",
@@ -6442,19 +6970,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0003,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_6101m87c3p95fpntq0kky1kqqc0s",
@@ -6480,19 +7014,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 1,
       "duracion_texto": "1 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0003,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_0301m87c3gnpfs3v8xspqmdwrq9x",
@@ -6518,19 +7058,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0003,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     },
     {
       "id": "conv_4101m87c3d3refnvqq48br0jmwpr",
@@ -6556,19 +7102,25 @@
       "agencia": "",
       "tipo_envio": "",
       "envio_texto": "",
+      "acepta_adelanto": null,
       "resultado": "ERROR",
       "es_prueba": true,
       "duracion_secs": 0,
       "duracion_texto": "0 s",
       "resumen": "No salió la llamada: Missing required dynamic variables in first message: {'nombre'}",
       "titulo": "Llamada de confirmación",
+      "es_recordatorio": false,
+      "resultado_recordatorio": null,
+      "nuevo_monto_adelanto": null,
+      "nuevo_monto_texto": "",
+      "fecha_adelanto_prometida": null,
+      "nota": "",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Missing required dynamic variables in first message: {'nombre'}",
       "costo_usd": 0.0003,
       "audio_url": null,
-      "transcripcion": [],
-      "acepta_adelanto": null
+      "transcripcion": []
     }
   ]
 }

@@ -355,6 +355,8 @@
     .pill-err { background: rgba(229, 72, 77, 0.14); color: #fca5a5; border: 1px solid rgba(229, 72, 77, 0.3); }
     .pill-test { background: rgba(46, 200, 192, 0.14); color: #9eefe9; border: 1px solid rgba(46, 200, 192, 0.35); }
     .pill-info { background: rgba(255, 255, 255, 0.08); color: var(--soft); border: 1px solid var(--line); }
+    .pill-rec { background: rgba(167, 139, 250, 0.16); color: #ddd6fe; border: 1px solid rgba(167, 139, 250, 0.38); }
+    td.td-nota { max-width: 220px; white-space: normal; font-size: 12.5px; color: var(--text); line-height: 1.35; }
 
     /* Filters */
     .filters {
@@ -736,6 +738,7 @@
                   <th>Resultado</th>
                   <th class="td-num">Duración</th>
                   <th>Audio</th>
+                  <th>Nota</th>
                 </tr>
               </thead>
               <tbody id="recentTbody"></tbody>
@@ -761,6 +764,7 @@
               <option value="CONSULTA PENDIENTE">CONSULTA PENDIENTE</option>
               <option value="CANCELADO">CANCELADO</option>
               <option value="NO CONTESTA">NO CONTESTA</option>
+              <option value="RECORDATORIO">RECORDATORIO</option>
               <option value="PRUEBA">Solo PRUEBA</option>
               <option value="ERROR">ERROR técnico</option>
             </select>
@@ -783,6 +787,7 @@
                   <th class="td-num">Duración</th>
                   <th>Resumen</th>
                   <th>Audio</th>
+                  <th>Nota</th>
                 </tr>
               </thead>
               <tbody id="callsTbody"></tbody>
@@ -813,6 +818,7 @@
                   <th>Agencia / Envío</th>
                   <th>Resultado</th>
                   <th>Audio</th>
+                  <th>Nota</th>
                 </tr>
               </thead>
               <tbody id="confirmadosTbody"></tbody>
@@ -1076,7 +1082,32 @@
         .replace(/"/g, "&quot;");
     }
 
-    function resultPill(res) {
+    function isRecordatorioCall(c) {
+      if (!c || typeof c !== "object") return false;
+      if (c.es_recordatorio === true) return true;
+      const tipo = String(c.tipo_envio || "").trim().toUpperCase().replace(/ /g, "_");
+      return tipo === "RECORDATORIO_ADELANTO" || tipo === "RECORDATORIO";
+    }
+
+    const RECORDATORIO_RESULTS = new Set(["VA A PAGAR", "YA PAGO", "NO QUIERE", "OTRO DIA", "DUDA", "RECORDATORIO"]);
+
+    function resultPill(res, call) {
+      const rec = isRecordatorioCall(call) || RECORDATORIO_RESULTS.has(String(res || "").toUpperCase().trim());
+      const recLabels = {
+        "VA A PAGAR": "RECORDATORIO · VA A PAGAR",
+        "YA PAGO": "RECORDATORIO · YA PAGÓ",
+        "NO QUIERE": "RECORDATORIO · NO QUIERE",
+        "OTRO DIA": "RECORDATORIO · OTRO DÍA",
+        "DUDA": "RECORDATORIO · DUDA",
+        "RECORDATORIO": "RECORDATORIO",
+        "NO CONTESTA": "RECORDATORIO · NO CONTESTA",
+        ERROR: "RECORDATORIO · ERROR",
+      };
+      if (rec) {
+        const key = String(res || "").toUpperCase().trim();
+        const label = recLabels[key] || ("RECORDATORIO · " + (res || "—"));
+        return `<span class="pill pill-rec">${esc(label)}</span>`;
+      }
       const map = {
         CONFIRMADO: ["pill-ok", "CONFIRMADO"],
         ADELANTO: ["pill-ok", "ADELANTO"],
@@ -1089,6 +1120,20 @@
       };
       const [cls, label] = map[res] || ["pill-info", res];
       return `<span class="pill ${cls}">${esc(label)}</span>`;
+    }
+
+    function notaCell(c) {
+      const n = String(c?.nota || "").trim();
+      return `<td class="td-nota">${n ? esc(n) : "—"}</td>`;
+    }
+
+    function montoCell(c) {
+      const base = esc(c?.monto_texto || "—");
+      const nuevo = String(c?.nuevo_monto_texto || "").trim();
+      if (nuevo && nuevo !== "—") {
+        return `${base}<span class="subtxt">adelanto ${esc(nuevo)}</span>`;
+      }
+      return base;
     }
 
     function fmtSec(s) {
@@ -1264,7 +1309,11 @@
     }
 
     function pickGroupResult(attempts) {
+      if (attempts[0] && isRecordatorioCall(attempts[0]) && RECORDATORIO_RESULTS.has(String(attempts[0].resultado || "").toUpperCase().trim())) {
+        return attempts[0];
+      }
       for (const a of attempts) {
+        if (isRecordatorioCall(a)) continue;
         if (isDecisiveResult(a.resultado)) return a;
       }
       return attempts[0];
@@ -1311,10 +1360,11 @@
           <td>${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
-          <td>${resultPill(c.resultado)}${pruebaMark(c.es_prueba)}</td>
+          <td class="td-num">${montoCell(c)}</td>
+          <td>${resultPill(c.resultado, c)}${pruebaMark(c.es_prueba)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td>${audioPill(c, "MP3")}</td>
+          ${notaCell(c)}
         </tr>`;
     }
 
@@ -1327,10 +1377,11 @@
           <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
-          <td>${resultPill(res.resultado)}${pruebaMark(res.es_prueba)}</td>
+          <td class="td-num">${montoCell(c)}</td>
+          <td>${resultPill(res.resultado, res)}${pruebaMark(res.es_prueba)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td>${audioPill(c, "MP3")}</td>
+          ${notaCell(res)}
         </tr>`;
       if (open) {
         for (const a of g.attempts) {
@@ -1339,10 +1390,11 @@
           <td>${esc(a.fecha_hora_lima)}</td>
           <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento · ${phoneWithCopy(a)}</span></td>
           <td>${esc(a.producto)}</td>
-          <td class="td-num">${esc(a.monto_texto)}</td>
-          <td>${resultPill(a.resultado)}${pruebaMark(a.es_prueba)}</td>
+          <td class="td-num">${montoCell(a)}</td>
+          <td>${resultPill(a.resultado, a)}${pruebaMark(a.es_prueba)}</td>
           <td class="td-num">${esc(a.duracion_texto)}</td>
           <td>${audioPill(a, "MP3")}</td>
+          ${notaCell(a)}
         </tr>`;
         }
       }
@@ -1356,11 +1408,12 @@
           <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
           <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
-          <td>${resultPill(c.resultado)}${pruebaMark(c.es_prueba)}</td>
+          <td class="td-num">${montoCell(c)}</td>
+          <td>${resultPill(c.resultado, c)}${pruebaMark(c.es_prueba)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td style="max-width:290px">${esc(c.resumen)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
+          ${notaCell(c)}
         </tr>`;
     }
 
@@ -1374,11 +1427,12 @@
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
           <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
-          <td>${resultPill(res.resultado)}${pruebaMark(res.es_prueba)}</td>
+          <td class="td-num">${montoCell(c)}</td>
+          <td>${resultPill(res.resultado, res)}${pruebaMark(res.es_prueba)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td style="max-width:290px">${esc(c.resumen)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
+          ${notaCell(res)}
         </tr>`;
       if (open) {
         for (const a of g.attempts) {
@@ -1388,11 +1442,12 @@
           <td><strong>${esc(a.cliente)}</strong><span class="subtxt">${esc(a.pedido_id !== "—" ? "Pedido " + a.pedido_id : a.titulo)}</span></td>
           <td>${phoneWithCopy(a)}<span class="subtxt">Intento · ${esc(a.canal)}</span></td>
           <td>${esc(a.producto)}</td>
-          <td class="td-num">${esc(a.monto_texto)}</td>
-          <td>${resultPill(a.resultado)}${pruebaMark(a.es_prueba)}</td>
+          <td class="td-num">${montoCell(a)}</td>
+          <td>${resultPill(a.resultado, a)}${pruebaMark(a.es_prueba)}</td>
           <td class="td-num">${esc(a.duracion_texto)}</td>
           <td style="max-width:290px">${esc(a.resumen)}</td>
           <td>${audioPill(a, "Escuchar")}</td>
+          ${notaCell(a)}
         </tr>`;
         }
       }
@@ -1426,7 +1481,7 @@
           : "Aún no hay llamadas realizadas";
       }
       if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--soft);padding:24px">Aún no hay llamadas realizadas.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--soft);padding:24px">Aún no hay llamadas realizadas.</td></tr>`;
         return;
       }
       tbody.innerHTML = renderGroupedRows(list, recentRowHtml, recentGroupHtml);
@@ -1442,9 +1497,11 @@
         if (hideErr && c.resultado === "ERROR") return false;
         if (df !== "all" && c.fecha_iso !== df) return false;
         if (rf === "PRUEBA" && !c.es_prueba) return false;
-        if (rf !== "ALL" && rf !== "PRUEBA" && c.resultado !== rf) return false;
+        if (rf === "RECORDATORIO") {
+          if (!isRecordatorioCall(c) && !RECORDATORIO_RESULTS.has(String(c.resultado || "").toUpperCase().trim())) return false;
+        } else if (rf !== "ALL" && rf !== "PRUEBA" && c.resultado !== rf) return false;
         if (q) {
-          const hay = [c.cliente, c.celular, c.celular_digits, c.celular_mask, c.celular_ult4, c.pedido_id, c.producto, c.id, c.resumen]
+          const hay = [c.cliente, c.celular, c.celular_digits, c.celular_mask, c.celular_ult4, c.pedido_id, c.producto, c.id, c.resumen, c.nota, c.fecha_adelanto_prometida]
             .join(" ")
             .toLowerCase();
           if (!hay.includes(q)) return false;
@@ -1454,7 +1511,7 @@
 
       const tbody = document.getElementById("callsTbody");
       if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--soft);padding:24px">No hay llamadas que coincidan con ese filtro.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--soft);padding:24px">No hay llamadas que coincidan con ese filtro.</td></tr>`;
         return;
       }
       tbody.innerHTML = renderGroupedRows(filtered, histRowHtml, histGroupHtml);
@@ -1512,14 +1569,17 @@
     }
 
     function belongsInConfirmados(g) {
-      const res = g.resultCall?.resultado;
+      const nonRec = (g.attempts || []).filter((a) => !isRecordatorioCall(a));
+      if (!nonRec.length) return false;
+      const resCall = pickGroupResult(nonRec);
+      const res = resCall?.resultado;
       if (isAcceptedResult(res)) return true;
-      if (isConsultaPendiente(res) && (groupAcceptedAdvance(g) || groupInConfirmadosExtra(g))) return true;
+      if (isConsultaPendiente(res) && (groupAcceptedAdvance({ ...g, resultCall: resCall, attempts: nonRec }) || groupInConfirmadosExtra({ ...g, resultCall: resCall, attempts: nonRec }))) return true;
       return false;
     }
 
     function confirmedGroups() {
-      const list = (DATA?.llamadas || []).filter((c) => !c.es_prueba);
+      const list = (DATA?.llamadas || []).filter((c) => !c.es_prueba && !isRecordatorioCall(c));
       return groupCalls(list).filter(belongsInConfirmados);
     }
 
@@ -1531,10 +1591,11 @@
           <td>${phoneWithCopy(c)}</td>
           <td>${esc(displayPedido(c))}</td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td class="td-num">${montoCell(c)}</td>
           <td>${esc(displayEnvio(c))}</td>
-          <td>${resultPill(c.resultado)}</td>
+          <td>${resultPill(c.resultado, c)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
+          ${notaCell(c)}
         </tr>`;
     }
 
@@ -1548,10 +1609,11 @@
           <td>${phoneWithCopy(c)}</td>
           <td>${esc(displayPedido(c))}</td>
           <td>${esc(c.producto)}</td>
-          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td class="td-num">${montoCell(c)}</td>
           <td>${esc(displayEnvio(c))}</td>
-          <td>${resultPill((g.resultCall || c).resultado)}</td>
+          <td>${resultPill((g.resultCall || c).resultado, g.resultCall || c)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
+          ${notaCell(g.resultCall || c)}
         </tr>`;
       if (open) {
         for (const a of g.attempts) {
@@ -1562,10 +1624,11 @@
           <td>${phoneWithCopy(a)}</td>
           <td>${esc(displayPedido(a))}</td>
           <td>${esc(a.producto)}</td>
-          <td class="td-num">${esc(a.monto_texto)}</td>
+          <td class="td-num">${montoCell(a)}</td>
           <td>${esc(displayEnvio(a))}</td>
-          <td>${resultPill(a.resultado)}</td>
+          <td>${resultPill(a.resultado, a)}</td>
           <td>${audioPill(a, "Escuchar")}</td>
+          ${notaCell(a)}
         </tr>`;
         }
       }
@@ -1587,7 +1650,7 @@
       }
       const tbody = document.getElementById("confirmadosTbody");
       if (!groups.length) {
-        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--soft);padding:24px">Aún no hay clientes confirmados (sin contar llamadas de prueba).</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--soft);padding:24px">Aún no hay clientes confirmados (sin contar llamadas de prueba).</td></tr>`;
         return;
       }
       tbody.innerHTML = groups
@@ -1652,7 +1715,7 @@
       document.getElementById("dTitle").textContent = `${c.cliente} · ${c.producto}`;
       document.getElementById("dSub").textContent = `${c.fecha_hora_lima} · ${c.canal} · ${c.id}`;
       document.getElementById("dBadges").innerHTML =
-        resultPill(c.resultado) +
+        resultPill(c.resultado, c) +
         (c.es_prueba ? ' <span class="pill pill-test">PRUEBA</span>' : "") +
         ` <span class="pill pill-info">${esc(c.duracion_texto)}</span>`;
 
@@ -1674,9 +1737,11 @@
         ["Pedido", displayPedido(c)],
         ["Celular", displayPhone(c)],
         ["Monto", c.monto_texto],
+        ["Nuevo adelanto", (c.nuevo_monto_texto && String(c.nuevo_monto_texto).trim() && c.nuevo_monto_texto !== "—") ? c.nuevo_monto_texto : "—"],
         ["Agencia / Envío", displayEnvio(c)],
         ["Dirección", c.direccion],
         ["Fecha entrega", c.fecha_entrega],
+        ["Nota / fecha del adelanto", c.nota || c.fecha_adelanto_prometida || "—"],
         ["Nueva fecha (si reprogramó)", c.nueva_fecha || "—"],
         ["Motivo cancelación", c.motivo_cancelacion || "—"],
         ["Cierre técnico", c.terminacion || "—"],
