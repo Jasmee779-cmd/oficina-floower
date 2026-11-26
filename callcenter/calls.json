@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 19:36:52 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 19:38:23 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,34 +28,34 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 41,
-      "conectables": 39,
+      "total": 42,
+      "conectables": 40,
       "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 26,
+      "no_contesta": 27,
       "errores": 2,
-      "tasa_confirmacion_pct": 26,
+      "tasa_confirmacion_pct": 25,
       "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 50,
-      "conectables": 41,
+      "total": 51,
+      "conectables": 42,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 26,
+      "no_contesta": 27,
       "errores": 9,
       "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 50,
-      "conectables": 41,
+      "total": 51,
+      "conectables": 42,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 26,
+      "no_contesta": 27,
       "errores": 9,
       "tasa_confirmacion_pct": 29,
       "monto_confirmado": 1823.0
@@ -63,6 +63,58 @@
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_0601m8amg04rfcgs6xkct8hr4re0",
+      "fecha_unix": 1795653387,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:36:27 pm",
+      "fecha_hora_lima": "25/11/2026 7:36:27 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Yaquelin",
+      "celular_mask": "+51 955 *** 622",
+      "celular_ult4": "7622",
+      "pedido_id": "—",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Ciudad Nueva mt lt.27",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Tacna con Yaquelin. Sin embargo, el usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.043,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Yaquelin! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Tacna, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado, el usuario no respondió.]"
+        }
+      ]
+    },
     {
       "id": "conv_2601m8amcb4xefq8sypk2jgbxnrt",
       "fecha_unix": 1795653298,
@@ -91,7 +143,7 @@
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.0429,
-      "audio_url": null,
+      "audio_url": "audio/conv_2601m8amcb4xefq8sypk2jgbxnrt.mp3",
       "transcripcion": [
         {
           "segundo": 0,
