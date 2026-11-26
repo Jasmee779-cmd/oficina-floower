@@ -417,6 +417,27 @@
     tr.click-row:hover { background: rgba(46, 200, 192, 0.07); }
     .td-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .subtxt { display: block; font-size: 11.5px; color: var(--soft); margin-top: 2px; }
+    .phone-copy-wrap { white-space: nowrap; }
+    .copy-phone {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+      min-width: 28px;
+      min-height: 28px;
+      padding: 0 3px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--soft);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      vertical-align: middle;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .copy-phone:hover { color: var(--ink); background: rgba(255, 255, 255, 0.08); }
+    .copy-phone.copied { color: var(--verde); font-size: 12px; font-weight: 800; }
     .chevron {
       display: inline-block;
       width: 1em;
@@ -1166,6 +1187,69 @@
       return "—";
     }
 
+    function digitsToCopy(c) {
+      const digits =
+        String(c?.celular_digits || "").replace(/\D/g, "") ||
+        String(c?.celular || "").replace(/\D/g, "");
+      if (!digits) return "";
+      if (digits.startsWith("51") && digits.length === 11) return digits.slice(2);
+      if (digits.length === 9) return digits;
+      if (digits.length > 9) return digits.slice(-9);
+      return digits;
+    }
+
+    function phoneWithCopy(c) {
+      const shown = displayPhone(c);
+      const digits = digitsToCopy(c);
+      if (!digits || shown === "—") return esc(shown);
+      return `<span class="phone-copy-wrap">${esc(shown)}<button type="button" class="copy-phone" data-phone="${esc(digits)}" title="Copiar ${esc(digits)}" aria-label="Copiar celular ${esc(digits)}">📋</button></span>`;
+    }
+
+    async function copyTextToClipboard(text) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+      } catch (err) {}
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.left = "-9999px";
+      ta.style.fontSize = "16px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (err) {
+        ok = false;
+      }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    async function handleCopyPhone(btn) {
+      const digits = (btn.getAttribute("data-phone") || "").replace(/\D/g, "");
+      if (!digits) return;
+      const ok = await copyTextToClipboard(digits);
+      if (!ok) return;
+      btn.classList.add("copied");
+      btn.textContent = "✓";
+      btn.setAttribute("aria-label", "Copiado " + digits);
+      clearTimeout(btn._copyTimer);
+      btn._copyTimer = setTimeout(() => {
+        btn.classList.remove("copied");
+        btn.textContent = "📋";
+        btn.setAttribute("aria-label", "Copiar celular " + digits);
+      }, 1200);
+    }
+
+
     function phoneKey(c) {
       const digits =
         String(c?.celular_digits || "").replace(/\D/g, "") ||
@@ -1225,7 +1309,7 @@
       return `
         <tr class="click-row" data-id="${esc(c.id)}">
           <td>${esc(c.fecha_hora_lima)}</td>
-          <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.canal)} · ${esc(displayPhone(c))}</span></td>
+          <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
           <td>${resultPill(c.resultado)}${pruebaMark(c.es_prueba)}</td>
@@ -1241,7 +1325,7 @@
       let html = `
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
-          <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.canal)} · ${esc(displayPhone(c))}</span></td>
+          <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
           <td>${resultPill(res.resultado)}${pruebaMark(res.es_prueba)}</td>
@@ -1253,7 +1337,7 @@
           html += `
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
           <td>${esc(a.fecha_hora_lima)}</td>
-          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento · ${esc(displayPhone(a))}</span></td>
+          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento · ${phoneWithCopy(a)}</span></td>
           <td>${esc(a.producto)}</td>
           <td class="td-num">${esc(a.monto_texto)}</td>
           <td>${resultPill(a.resultado)}${pruebaMark(a.es_prueba)}</td>
@@ -1270,7 +1354,7 @@
         <tr class="click-row" data-id="${esc(c.id)}">
           <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
-          <td>${esc(displayPhone(c))}<span class="subtxt">${esc(c.canal)}</span></td>
+          <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
           <td>${resultPill(c.resultado)}${pruebaMark(c.es_prueba)}</td>
@@ -1288,7 +1372,7 @@
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
-          <td>${esc(displayPhone(c))}<span class="subtxt">${esc(c.canal)}</span></td>
+          <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
           <td>${resultPill(res.resultado)}${pruebaMark(res.es_prueba)}</td>
@@ -1302,7 +1386,7 @@
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
           <td style="white-space:nowrap">${esc(a.fecha_hora_lima)}</td>
           <td><strong>${esc(a.cliente)}</strong><span class="subtxt">${esc(a.pedido_id !== "—" ? "Pedido " + a.pedido_id : a.titulo)}</span></td>
-          <td>${esc(displayPhone(a))}<span class="subtxt">Intento · ${esc(a.canal)}</span></td>
+          <td>${phoneWithCopy(a)}<span class="subtxt">Intento · ${esc(a.canal)}</span></td>
           <td>${esc(a.producto)}</td>
           <td class="td-num">${esc(a.monto_texto)}</td>
           <td>${resultPill(a.resultado)}${pruebaMark(a.es_prueba)}</td>
@@ -1444,7 +1528,7 @@
         <tr class="click-row" data-id="${esc(c.id)}">
           <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong></td>
-          <td>${esc(displayPhone(c))}</td>
+          <td>${phoneWithCopy(c)}</td>
           <td>${esc(displayPedido(c))}</td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
@@ -1461,7 +1545,7 @@
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}</td>
-          <td>${esc(displayPhone(c))}</td>
+          <td>${phoneWithCopy(c)}</td>
           <td>${esc(displayPedido(c))}</td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${esc(c.monto_texto)}</td>
@@ -1475,7 +1559,7 @@
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
           <td style="white-space:nowrap">${esc(a.fecha_hora_lima)}</td>
           <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento</span></td>
-          <td>${esc(displayPhone(a))}</td>
+          <td>${phoneWithCopy(a)}</td>
           <td>${esc(displayPedido(a))}</td>
           <td>${esc(a.producto)}</td>
           <td class="td-num">${esc(a.monto_texto)}</td>
@@ -1673,7 +1757,22 @@
       document.getElementById(id).addEventListener("change", renderCallsTable);
     });
 
+    document.addEventListener(
+      "click",
+      (e) => {
+        const copyBtn = e.target.closest("button.copy-phone");
+        if (copyBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          handleCopyPhone(copyBtn);
+        }
+      },
+      true
+    );
+
     document.addEventListener("click", (e) => {
+      if (e.target.closest("button.copy-phone")) return;
       const group = e.target.closest("tr.group-row[data-group]");
       if (group) {
         const key = group.getAttribute("data-group");
