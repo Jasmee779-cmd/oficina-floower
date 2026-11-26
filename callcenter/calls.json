@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 19:39:39 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 19:55:37 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,338 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 43,
-      "conectables": 41,
+      "total": 49,
+      "conectables": 47,
       "confirmadas": 10,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 28,
+      "no_contesta": 34,
       "errores": 2,
-      "tasa_confirmacion_pct": 24,
+      "tasa_confirmacion_pct": 21,
       "monto_confirmado": 1645.0
     },
     "semana": {
-      "total": 52,
-      "conectables": 43,
+      "total": 58,
+      "conectables": 49,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 28,
+      "no_contesta": 34,
       "errores": 9,
-      "tasa_confirmacion_pct": 28,
+      "tasa_confirmacion_pct": 24,
       "monto_confirmado": 1823.0
     },
     "total_historico": {
-      "total": 52,
-      "conectables": 43,
+      "total": 58,
+      "conectables": 49,
       "confirmadas": 12,
       "reprogramadas": 1,
       "canceladas": 2,
-      "no_contesta": 28,
+      "no_contesta": 34,
       "errores": 9,
-      "tasa_confirmacion_pct": 28,
+      "tasa_confirmacion_pct": 24,
       "monto_confirmado": 1823.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_7001m8ana30gf2kvvjswaf8pqbsd",
+      "fecha_unix": 1795654239,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:50:39 pm",
+      "fecha_hora_lima": "25/11/2026 7:50:39 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Porfirio",
+      "celular_mask": "+51 980 *** 271",
+      "celular_ult4": "2271",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Aso Limatambo manzana O lote 2, segunda etapa",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 47,
+      "duracion_texto": "47 s",
+      "resumen": "La agente Sofía contactó a Porfirio para confirmar un pedido de un kit de antena con decodificador para Lima. Porfirio expresó su deseo de hablar con alguien. La agente, a pesar de la solicitud, procedió a verificar los detalles de entrega del pedido.",
+      "titulo": "Confirmación de pedido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.0638,
+      "audio_url": "audio/conv_7001m8ana30gf2kvvjswaf8pqbsd.mp3",
+      "transcripcion": [
+        {
+          "segundo": 1,
+          "rol": "agente",
+          "texto": "¡Hola, Porfirio! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 12,
+          "rol": "cliente",
+          "texto": "Quería conversar con alguien."
+        },
+        {
+          "segundo": 15,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, Porfirio. Estoy aquí para ayudarle con la confirmación de su pedido. ¿Me confirma si los datos de entrega son correctos? La dirección es Aso Limatambo manzana O lote 2, segunda etapa, la referencia es Parque Zonal, atrás de la Municipalidad Distrital de Carabayllo, en el distrito de Carabayllo."
+        }
+      ]
+    },
+    {
+      "id": "conv_9001m8an5tavfs8sqmbwaenq6mm3",
+      "fecha_unix": 1795654120,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:48:40 pm",
+      "fecha_hora_lima": "25/11/2026 7:48:40 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Sergio",
+      "celular_mask": "+51 954 *** 761",
+      "celular_ult4": "8761",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Pasaje Occopampa 123",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de un kit de antena con decodificador para Huancavelica. Al no recibir respuesta del usuario, la llamada fue terminada debido al silencio inicial.",
+      "titulo": "Llamada finalizada por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0436,
+      "audio_url": "audio/conv_9001m8an5tavfs8sqmbwaenq6mm3.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Sergio! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador para Huancavelica, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2901m8an29fcegm8fwz9s49w7mkv",
+      "fecha_unix": 1795654003,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:46:43 pm",
+      "fecha_hora_lima": "25/11/2026 7:46:43 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Sergio",
+      "celular_mask": "+51 954 *** 761",
+      "celular_ult4": "8761",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Pasaje Occopampa 123",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "La agente Sofía llamó a Sergio para confirmar un pedido de un kit de antena con decodificador para Huancavelica. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo automático.",
+      "titulo": "Fin por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.044,
+      "audio_url": "audio/conv_2901m8an29fcegm8fwz9s49w7mkv.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Sergio! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador para Huancavelica, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_3201m8amymj7fbxrxqdwybb98a1m",
+      "fecha_unix": 1795653883,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:44:43 pm",
+      "fecha_hora_lima": "25/11/2026 7:44:43 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Sergio",
+      "celular_mask": "+51 954 *** 761",
+      "celular_ult4": "8761",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Pasaje Occopampa 123",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de un kit de antena con decodificador. Tras el saludo del agente, el usuario permaneció en silencio, lo que llevó al agente a finalizar la llamada automáticamente.",
+      "titulo": "Confirmación de pedido",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.044,
+      "audio_url": "audio/conv_3201m8amymj7fbxrxqdwybb98a1m.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Sergio! Le saluda Sofía. Le llamo para confirmar su pedido de el kit de antena con decodificador para Huancavelica, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_7501m8amvb58em6tnzcmagqp0g4y",
+      "fecha_unix": 1795653792,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:43:12 pm",
+      "fecha_hora_lima": "25/11/2026 7:43:12 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Marcos",
+      "celular_mask": "+51 984 *** 250",
+      "celular_ult4": "0250",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Calle Federico Bulume 132",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 9,
+      "duracion_texto": "9 s",
+      "resumen": "El agente inició una llamada para confirmar algo con Marcos. El usuario interrumpió, pidiendo que se le dejara cualquier mensaje, lo que llevó al agente a detectar que se trataba de un buzón de voz.",
+      "titulo": "Buzón de voz",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "voicemail_detection tool was called.",
+      "costo_usd": 0.0275,
+      "audio_url": "audio/conv_7501m8amvb58em6tnzcmagqp0g4y.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Marcos! Le saluda Sofía. Le llamo para confirmar su..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Cualquier mensaje me lo deja, por favor. Graciasss."
+        },
+        {
+          "segundo": 9,
+          "rol": "sistema",
+          "texto": "[herramienta: voicemail_detection]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2601m8amqv08et7vy4f22gx1tfda",
+      "fecha_unix": 1795653677,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "7:41:17 pm",
+      "fecha_hora_lima": "25/11/2026 7:41:17 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Marcos",
+      "celular_mask": "+51 984 *** 250",
+      "celular_ult4": "0250",
+      "pedido_id": "—",
+      "producto": "Kit Antena + Codificador",
+      "monto_num": 119.0,
+      "monto_texto": "S/119",
+      "direccion": "Calle Federico Bulume 132",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 7,
+      "duracion_texto": "7 s",
+      "resumen": "La agente Sofía intentó contactar a Marcos, pero la llamada fue directamente al buzón de voz. Marcos indicó que se le dejara cualquier mensaje. El sistema detectó un saludo automático.",
+      "titulo": "Buzón de voz detectado",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "voicemail_detection tool was called.",
+      "costo_usd": 0.0106,
+      "audio_url": "audio/conv_2601m8amqv08et7vy4f22gx1tfda.mp3",
+      "transcripcion": [
+        {
+          "segundo": 1,
+          "rol": "agente",
+          "texto": "¡Hola, Marcos! Le saluda Sofía. Le..."
+        },
+        {
+          "segundo": 4,
+          "rol": "cliente",
+          "texto": "Cualquier mensaje me lo deja, por favor."
+        },
+        {
+          "segundo": 7,
+          "rol": "sistema",
+          "texto": "[herramienta: voicemail_detection]"
+        }
+      ]
+    },
     {
       "id": "conv_2501m8amkrc0fm5aj9qbspg6nzy0",
       "fecha_unix": 1795653544,
@@ -86,7 +383,7 @@
       "duracion_secs": 7,
       "duracion_texto": "7 s",
       "resumen": "El agente saludó al usuario, quien interrumpió para pedir que le dejaran cualquier mensaje. Esto llevó a la detección de un buzón de voz.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Buzón de voz detectado",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "voicemail_detection tool was called.",
