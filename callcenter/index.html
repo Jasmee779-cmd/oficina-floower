@@ -598,8 +598,8 @@
       background: transparent;
       border: 0;
       border-radius: 8px;
-      padding: 8px 4px;
-      font-size: 11px;
+      padding: 8px 2px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--soft);
       cursor: pointer;
@@ -655,6 +655,7 @@
       <nav class="nav-list" id="desktopNav">
         <button class="nav-btn active" data-tab="panel"><span>Panel</span><span class="dot"></span></button>
         <button class="nav-btn" data-tab="llamadas"><span>Llamadas</span><span id="navCount" class="nav-badge">0</span></button>
+        <button class="nav-btn" data-tab="confirmados"><span>Confirmados</span><span id="confCount" class="nav-badge">0</span></button>
         <button class="nav-btn" data-tab="cola"><span>Cola por llamar</span><span id="colaCount" class="nav-badge">0</span></button>
         <button class="nav-btn" data-tab="flujo"><span>Cómo funciona</span><span class="dot"></span></button>
         <button class="nav-btn" data-tab="agente"><span>Agente IA</span><span class="dot"></span></button>
@@ -764,6 +765,36 @@
                 </tr>
               </thead>
               <tbody id="callsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: CONFIRMADOS -->
+      <section id="tab-confirmados" hidden>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Clientes confirmados</h2>
+              <div class="card-sub" id="confirmadosSub">Quienes aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha (Lima)</th>
+                  <th>Cliente</th>
+                  <th>Celular</th>
+                  <th>Pedido</th>
+                  <th>Producto</th>
+                  <th class="td-num">Monto</th>
+                  <th>Agencia / Envío</th>
+                  <th>Resultado</th>
+                  <th>Audio</th>
+                </tr>
+              </thead>
+              <tbody id="confirmadosTbody"></tbody>
             </table>
           </div>
         </div>
@@ -912,6 +943,7 @@
     <nav class="mobile-nav" id="mobileNav">
       <button class="active" data-tab="panel">Panel</button>
       <button data-tab="llamadas">Llamadas</button>
+      <button data-tab="confirmados">Confirmados</button>
       <button data-tab="cola">Cola</button>
       <button data-tab="flujo">Flujo</button>
       <button data-tab="agente">Agente</button>
@@ -1026,6 +1058,7 @@
     function resultPill(res) {
       const map = {
         CONFIRMADO: ["pill-ok", "CONFIRMADO"],
+        ADELANTO: ["pill-ok", "ADELANTO"],
         REPROGRAMADO: ["pill-reprog", "REPROGRAMADO"],
         "CONSULTA PENDIENTE": ["pill-reprog", "CONSULTA PENDIENTE"],
         CANCELADO: ["pill-cancel", "CANCELADO"],
@@ -1080,6 +1113,7 @@
       renderKpis();
       renderRecent();
       renderCallsTable();
+      renderConfirmados();
       renderCola();
       renderAgent();
     }
@@ -1342,6 +1376,100 @@
       tbody.innerHTML = renderGroupedRows(filtered, histRowHtml, histGroupHtml);
     }
 
+    function displayEnvio(c) {
+      const t = String(c?.envio_texto || "").trim();
+      if (t && t !== "—") return t;
+      const parts = [c?.agencia, c?.ciudad].filter((x) => String(x || "").trim() && String(x).trim() !== "—");
+      return parts.length ? parts.join(" · ") : "—";
+    }
+
+    function displayPedido(c) {
+      const p = String(c?.pedido_id || "").trim();
+      return p && p !== "—" ? p : "—";
+    }
+
+    function isAcceptedResult(res) {
+      const u = String(res || "").toUpperCase().trim();
+      return u === "CONFIRMADO" || u === "ADELANTO" || u.includes("CONFIRMADO") || u.includes("ADELANTO");
+    }
+
+    function confirmedGroups() {
+      const list = (DATA?.llamadas || []).filter((c) => !c.es_prueba);
+      return groupCalls(list).filter((g) => isAcceptedResult(g.resultCall.resultado));
+    }
+
+    function confRowHtml(c) {
+      return `
+        <tr class="click-row" data-id="${esc(c.id)}">
+          <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
+          <td><strong>${esc(c.cliente)}</strong></td>
+          <td>${esc(displayPhone(c))}</td>
+          <td>${esc(displayPedido(c))}</td>
+          <td>${esc(c.producto)}</td>
+          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td>${esc(displayEnvio(c))}</td>
+          <td>${resultPill(c.resultado)}</td>
+          <td>${audioPill(c, "Escuchar")}</td>
+        </tr>`;
+    }
+
+    function confGroupHtml(g) {
+      const open = expandedGroups.has(g.key);
+      const c = g.resultCall || g.latest;
+      let html = `
+        <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
+          <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
+          <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}</td>
+          <td>${esc(displayPhone(c))}</td>
+          <td>${esc(displayPedido(c))}</td>
+          <td>${esc(c.producto)}</td>
+          <td class="td-num">${esc(c.monto_texto)}</td>
+          <td>${esc(displayEnvio(c))}</td>
+          <td>${resultPill((g.resultCall || c).resultado)}</td>
+          <td>${audioPill(c, "Escuchar")}</td>
+        </tr>`;
+      if (open) {
+        for (const a of g.attempts) {
+          html += `
+        <tr class="click-row sub-row" data-id="${esc(a.id)}">
+          <td style="white-space:nowrap">${esc(a.fecha_hora_lima)}</td>
+          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento</span></td>
+          <td>${esc(displayPhone(a))}</td>
+          <td>${esc(displayPedido(a))}</td>
+          <td>${esc(a.producto)}</td>
+          <td class="td-num">${esc(a.monto_texto)}</td>
+          <td>${esc(displayEnvio(a))}</td>
+          <td>${resultPill(a.resultado)}</td>
+          <td>${audioPill(a, "Escuchar")}</td>
+        </tr>`;
+        }
+      }
+      return html;
+    }
+
+    function renderConfirmados() {
+      const groups = confirmedGroups();
+      const confCount = document.getElementById("confCount");
+      if (confCount) confCount.textContent = String(groups.length);
+      const sub = document.getElementById("confirmadosSub");
+      if (sub) {
+        sub.textContent = groups.length
+          ? groups.length +
+            " cliente" +
+            (groups.length === 1 ? "" : "s") +
+            " que aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba · toca una fila para ver intentos, audio y transcripción"
+          : "Aún no hay clientes confirmados (sin contar llamadas de prueba)";
+      }
+      const tbody = document.getElementById("confirmadosTbody");
+      if (!groups.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--soft);padding:24px">Aún no hay clientes confirmados (sin contar llamadas de prueba).</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = groups
+        .map((g) => (g.attempts.length === 1 ? confRowHtml(g.resultCall || g.latest) : confGroupHtml(g)))
+        .join("");
+    }
+
     function renderCola() {
       const cola = DATA?.cola || [];
       const tbody = document.getElementById("colaTbody");
@@ -1418,8 +1546,10 @@
       document.getElementById("dSummary").textContent = c.resumen;
 
       const metaRows = [
+        ["Pedido", displayPedido(c)],
         ["Celular", displayPhone(c)],
         ["Monto", c.monto_texto],
+        ["Agencia / Envío", displayEnvio(c)],
         ["Dirección", c.direccion],
         ["Fecha entrega", c.fecha_entrega],
         ["Nueva fecha (si reprogramó)", c.nueva_fecha || "—"],
@@ -1452,7 +1582,7 @@
 
     function switchTab(tab) {
       currentTab = tab;
-      ["panel", "llamadas", "cola", "flujo", "agente"].forEach((t) => {
+      ["panel", "llamadas", "confirmados", "cola", "flujo", "agente"].forEach((t) => {
         document.getElementById("tab-" + t).hidden = t !== tab;
       });
       document.querySelectorAll("[data-tab]").forEach((btn) => {
@@ -1461,6 +1591,7 @@
       const titles = {
         panel: ["Panel general", "KPIs del día y últimos 7 días · hora Lima (UTC-5)"],
         llamadas: ["Historial de llamadas", "Buscador por nombre, celular o pedido · grabaciones y transcripciones"],
+        confirmados: ["Confirmados", "Clientes que aceptaron (CONFIRMADO o ADELANTO) · sin llamadas de prueba"],
         cola: ["Cola por llamar", "Pedidos pendientes de confirmación"],
         flujo: ["Cómo funciona", "Ejecución paso a paso, decisiones tomadas y propuestas"],
         agente: ["Ficha del agente IA", "Configuración de FLOOWER Confirmaciones Voz y mejoras pendientes"],
@@ -1508,6 +1639,7 @@
         if (expandedGroups.has(key)) expandedGroups.delete(key);
         else expandedGroups.add(key);
         if (group.closest("#recentTbody")) renderRecent();
+        else if (group.closest("#confirmadosTbody")) renderConfirmados();
         else renderCallsTable();
         return;
       }
