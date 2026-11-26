@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 20:13:22 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 20:20:25 Lima (UTC-5)",
   "estado_sistema": "En prueba solo con James — no se llama a clientes",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,262 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 57,
-      "conectables": 55,
-      "confirmadas": 10,
+      "total": 60,
+      "conectables": 58,
+      "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 41,
+      "no_contesta": 43,
       "errores": 2,
-      "tasa_confirmacion_pct": 18,
-      "monto_confirmado": 1645.0
+      "tasa_confirmacion_pct": 19,
+      "monto_confirmado": 1784.0
     },
     "semana": {
-      "total": 66,
-      "conectables": 57,
-      "confirmadas": 12,
+      "total": 69,
+      "conectables": 60,
+      "confirmadas": 13,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 41,
+      "no_contesta": 43,
       "errores": 9,
-      "tasa_confirmacion_pct": 21,
-      "monto_confirmado": 1823.0
+      "tasa_confirmacion_pct": 22,
+      "monto_confirmado": 1962.0
     },
     "total_historico": {
-      "total": 66,
-      "conectables": 57,
-      "confirmadas": 12,
+      "total": 69,
+      "conectables": 60,
+      "confirmadas": 13,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 41,
+      "no_contesta": 43,
       "errores": 9,
-      "tasa_confirmacion_pct": 21,
-      "monto_confirmado": 1823.0
+      "tasa_confirmacion_pct": 22,
+      "monto_confirmado": 1962.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_2701m8aptpc6ezmbmm711vdx5k0f",
+      "fecha_unix": 1795655838,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "8:17:18 pm",
+      "fecha_hora_lima": "25/11/2026 8:17:18 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Karla",
+      "celular_mask": "+51 971 *** 132",
+      "celular_ult4": "1132",
+      "pedido_id": "—",
+      "producto": "Rosa eterna y collar A mi hija",
+      "monto_num": 139.0,
+      "monto_texto": "S/139",
+      "direccion": "Av. 28 de julio 130 2do piso, Trujillo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "CONFIRMADO",
+      "es_prueba": true,
+      "duracion_secs": 115,
+      "duracion_texto": "1 min 55 s",
+      "resumen": "La agente confirmó un pedido de una rosa eterna y un collar para Trujillo. El usuario confirmó el pedido, pero expresó su descontento con la agencia de envío Shalom, solicitando usar Trafesa o Flores. La agente explicó que para otras agencias se requiere el pago total por adelantado. El usuario aceptó, pero manifestó preocupación por la entrega. Finalmente, el usuario optó por ser contactado por una asesora vía WhatsApp para coordinar los detalles del envío.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.2509,
+      "audio_url": "audio/conv_2701m8aptpc6ezmbmm711vdx5k0f.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Karla! Le saluda Sofía. Le llamo para confirmar su pedido de el regalo de la rosa eterna y el collar para Trujillo, ¿correcto?"
+        },
+        {
+          "segundo": 13,
+          "rol": "cliente",
+          "texto": "Sí, correcto."
+        },
+        {
+          "segundo": 15,
+          "rol": "agente",
+          "texto": "Excelente. Le comento que este regalo incluye la rosa eterna y el collar A mi hija, en presentación de regalo. Como se encuentra en Trujillo, el envío se realiza por la agencia Shalom, con un adelanto de veinte soles. ¿Estaría..."
+        },
+        {
+          "segundo": 29,
+          "rol": "cliente",
+          "texto": "Ah, lo peor es que lo hagas por Shalom. No, lo peor es que lo hagas por Shalom porque nada sale bien en Shalom."
+        },
+        {
+          "segundo": 37,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente su preocupación. En ese..."
+        },
+        {
+          "segundo": 40,
+          "rol": "cliente",
+          "texto": "Eh, eh, ¿podrías enviármelo en \"trafesa\"?"
+        },
+        {
+          "segundo": 44,
+          "rol": "agente",
+          "texto": "Comprendo su preferencia. Le explico..."
+        },
+        {
+          "segundo": 45,
+          "rol": "cliente",
+          "texto": "O cualquier-cualquiera que quiere, o Flores, no sé. Shalom no, no, no trae las cosas bien."
+        },
+        {
+          "segundo": 54,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente su preferencia por otra agencia. Le comento que, para enviarlo por una agencia distinta como Flores, el pago es del cien por ciento antes de realizar el envío. ¿Estaría de acuerdo con realizar el pago total para proceder con el despacho?"
+        },
+        {
+          "segundo": 63,
+          "rol": "cliente",
+          "texto": "Claro."
+        },
+        {
+          "segundo": 63,
+          "rol": "cliente",
+          "texto": "¿Y qué tal si no me lo envías?"
+        },
+        {
+          "segundo": 73,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente su duda. Le aseguro que somos una tienda seria y, una vez que usted realice el pago y nos envíe la captura, procedemos de inmediato a empaquetar y enviar su pedido, el cual llega aproximadamente en veinticuatro a cuarenta y ocho horas. ¿Desea que procedamos con el envío por la agencia Flores o prefiere que una asesora le escriba por WhatsApp para coordinar otra opción?"
+        },
+        {
+          "segundo": 101,
+          "rol": "cliente",
+          "texto": "Sí, prefiero una asesora."
+        },
+        {
+          "segundo": 104,
+          "rol": "agente",
+          "texto": "Entendido, Karla. Una asesora le escribirá por WhatsApp para coordinar los detalles de su pedido. Muchas gracias por su tiempo."
+        },
+        {
+          "segundo": 112,
+          "rol": "cliente",
+          "texto": "Okey."
+        },
+        {
+          "segundo": 113,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 114,
+          "rol": "sistema",
+          "texto": "[end_call: El cliente aceptó que una asesora le escriba por WhatsApp. La llamada ha finalizado tras la despedida y la espera de cinco segundos.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_7701m8apngvxffb9praxvgw1y2yh",
+      "fecha_unix": 1795655687,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "8:14:47 pm",
+      "fecha_hora_lima": "25/11/2026 8:14:47 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Karla",
+      "celular_mask": "+51 971 *** 132",
+      "celular_ult4": "1132",
+      "pedido_id": "—",
+      "producto": "Rosa eterna y collar A mi hija",
+      "monto_num": 139.0,
+      "monto_texto": "S/139",
+      "direccion": "Av. 28 de julio 130 2do piso, Trujillo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada saludando a Karla y solicitando la confirmación de un pedido de una rosa eterna y un collar para Trujillo. La llamada finalizó debido al silencio inicial del usuario tras el saludo automático del agente.",
+      "titulo": "Confirmación pedido fallida",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0445,
+      "audio_url": "audio/conv_7701m8apngvxffb9praxvgw1y2yh.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Karla! Le saluda Sofía. Le llamo para confirmar su pedido de el regalo de la rosa eterna y el collar para Trujillo, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_2501m8aphsxze8crnqsdk829hmfn",
+      "fecha_unix": 1795655566,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "8:12:46 pm",
+      "fecha_hora_lima": "25/11/2026 8:12:46 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Karla",
+      "celular_mask": "+51 971 *** 132",
+      "celular_ult4": "1132",
+      "pedido_id": "—",
+      "producto": "Rosa eterna y collar A mi hija",
+      "monto_num": 139.0,
+      "monto_texto": "S/139",
+      "direccion": "Av. 28 de julio 130 2do piso, Trujillo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": true,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente llamó a Karla para confirmar un pedido de una rosa eterna y un collar para Trujillo. La usuaria permaneció en silencio, por lo que la llamada fue terminada automáticamente.",
+      "titulo": "Silencio tras saludo",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0434,
+      "audio_url": "audio/conv_2501m8aphsxze8crnqsdk829hmfn.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Karla! Le saluda Sofía. Le llamo para confirmar su pedido de el regalo de la rosa eterna y el collar para Trujillo, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_5701m8apdhhhfqm9r8bkvv6wrckm",
       "fecha_unix": 1795655393,
