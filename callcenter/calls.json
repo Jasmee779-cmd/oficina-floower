@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:18:36 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 21:28:12 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,301 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 71,
-      "conectables": 68,
+      "total": 76,
+      "conectables": 73,
       "confirmadas": 9,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 53,
+      "no_contesta": 58,
       "errores": 3,
-      "tasa_confirmacion_pct": 13,
+      "tasa_confirmacion_pct": 12,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 80,
-      "conectables": 70,
+      "total": 85,
+      "conectables": 75,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 53,
+      "no_contesta": 58,
       "errores": 10,
-      "tasa_confirmacion_pct": 16,
+      "tasa_confirmacion_pct": 15,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 80,
-      "conectables": 70,
+      "total": 85,
+      "conectables": 75,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 53,
+      "no_contesta": 58,
       "errores": 10,
-      "tasa_confirmacion_pct": 16,
+      "tasa_confirmacion_pct": 15,
       "monto_confirmado": 1699.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_6301m8atra57echvrpc75zj0bwba",
+      "fecha_unix": 1795659949,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:25:49 pm",
+      "fecha_hora_lima": "25/11/2026 9:25:49 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Francisco",
+      "celular_mask": "+51 927 *** 138",
+      "celular_ult4": "9138",
+      "pedido_id": "39138",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Pasaje Cóndor s/n, Chilca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo. Sin embargo, la llamada finalizó debido al silencio inicial del usuario tras el saludo del agente.",
+      "titulo": "Confirmación pedido silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0448,
+      "audio_url": "audio/conv_6301m8atra57echvrpc75zj0bwba.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Francisco! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_9501m8atmwnffecaar2hmsxy2h6s",
+      "fecha_unix": 1795659835,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:23:55 pm",
+      "fecha_hora_lima": "25/11/2026 9:23:55 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Francisco",
+      "celular_mask": "+51 927 *** 138",
+      "celular_ult4": "9138",
+      "pedido_id": "39138",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Pasaje Cóndor s/n, Chilca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Huancayo. El usuario no respondió, por lo que la llamada fue terminada por el agente.",
+      "titulo": "Confirmación pedido sin respuesta",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0446,
+      "audio_url": "audio/conv_9501m8atmwnffecaar2hmsxy2h6s.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Francisco! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: El usuario no respondió tras el saludo inicial.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_4801m8athd07favr3zhnh3pedks5",
+      "fecha_unix": 1795659721,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:22:01 pm",
+      "fecha_hora_lima": "25/11/2026 9:22:01 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Francisco",
+      "celular_mask": "+51 927 *** 138",
+      "celular_ult4": "9138",
+      "pedido_id": "39138",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Pasaje Cóndor s/n, Chilca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax con el usuario Francisco. La conversación concluyó abruptamente debido a la falta de respuesta inicial del usuario, lo que llevó al agente a finalizar la llamada.",
+      "titulo": "Confirmación pedido antena",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0331,
+      "audio_url": "audio/conv_4801m8athd07favr3zhnh3pedks5.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Francisco! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Huancayo, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_8401m8atdxape6naktpnce4w5nbd",
+      "fecha_unix": 1795659635,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:20:35 pm",
+      "fecha_hora_lima": "25/11/2026 9:20:35 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Michelle",
+      "celular_mask": "+51 982 *** 755",
+      "celular_ult4": "8755",
+      "pedido_id": "39137",
+      "producto": "Rosa eterna y collar A mi hija",
+      "monto_num": 139.0,
+      "monto_texto": "S/139",
+      "direccion": "Urb. Tahuaycani I 21, Sachaca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una rosa eterna y un collar con destino a Arequipa. Sin embargo, la usuaria no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
+      "titulo": "Llamada finalizada por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.033,
+      "audio_url": "audio/conv_8401m8atdxape6naktpnce4w5nbd.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Michelle! Le saluda Sofía. Le llamo para confirmar su pedido de el regalo de la rosa eterna y el collar para Arequipa, ¿correcto?"
+        },
+        {
+          "segundo": 22,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_8401m8ataexke939bb1f17mcjgeh",
+      "fecha_unix": 1795659521,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:18:41 pm",
+      "fecha_hora_lima": "25/11/2026 9:18:41 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Michelle",
+      "celular_mask": "+51 982 *** 755",
+      "celular_ult4": "8755",
+      "pedido_id": "39137",
+      "producto": "Rosa eterna y collar A mi hija",
+      "monto_num": 139.0,
+      "monto_texto": "S/139",
+      "direccion": "Urb. Tahuaycani I 21, Sachaca",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "La agente inició la llamada saludando a Michelle y confirmando un pedido de una rosa eterna y un collar para Arequipa. Ante el silencio inicial de la usuaria, la agente procedió a finalizar la llamada.",
+      "titulo": "Llamada finalizada por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.044,
+      "audio_url": "audio/conv_8401m8ataexke939bb1f17mcjgeh.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Michelle! Le saluda Sofía. Le llamo para confirmar su pedido de el regalo de la rosa eterna y el collar para Arequipa, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_2501m8at6xq5eyqsbcw08zzgsnmh",
       "fecha_unix": 1795659402,
