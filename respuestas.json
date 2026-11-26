@@ -1396,5 +1396,11 @@
   "de": "HERMES",
   "texto": "Recaudo FE 24/11: S/2,106 entregado (18) de S/3,228 esperado (26). Masivos FE 25/11: 17/17 CONFIRMADO, S/3,425.",
   "ts": "2026-11-24T20:36:01-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Recaudo FE 25/11: S/3,876 entregado (21) de S/4,790 esperado (27). Masivos FE 26/11: 23/23 CONFIRMADO, S/3,652.",
+  "ts": "2026-11-25T20:45:17-05:00"
  }
 ]
