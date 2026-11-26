@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:28:12 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 21:32:42 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,170 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 76,
-      "conectables": 73,
+      "total": 78,
+      "conectables": 75,
       "confirmadas": 9,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 58,
+      "no_contesta": 59,
       "errores": 3,
       "tasa_confirmacion_pct": 12,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 85,
-      "conectables": 75,
+      "total": 87,
+      "conectables": 77,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 58,
+      "no_contesta": 59,
       "errores": 10,
-      "tasa_confirmacion_pct": 15,
+      "tasa_confirmacion_pct": 14,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 85,
-      "conectables": 75,
+      "total": 87,
+      "conectables": 77,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 58,
+      "no_contesta": 59,
       "errores": 10,
-      "tasa_confirmacion_pct": 15,
+      "tasa_confirmacion_pct": 14,
       "monto_confirmado": 1699.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_3201m8atzfe0e10v2dg5yzgt1e5v",
+      "fecha_unix": 1795660190,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:29:50 pm",
+      "fecha_hora_lima": "25/11/2026 9:29:50 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Mario",
+      "celular_mask": "+51 927 *** 383",
+      "celular_ult4": "6383",
+      "pedido_id": "39139",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Jirón Angamos 640, Puquio",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "CONSULTA PENDIENTE",
+      "es_prueba": false,
+      "duracion_secs": 100,
+      "duracion_texto": "1 min 40 s",
+      "resumen": "El agente confirmó con Mario su pedido de la Antena Digital TeVeProMax para Puquio. Se explicó que el envío se realizará por Olva Courier con un adelanto de veinte soles, ya que no hay sede Shalom en la ciudad. Mario indicó que actualmente está en el campo y bajará al distrito mañana. Se acordó coordinar la entrega para cuando él esté en el distrito, y una asesora se contactará por WhatsApp para los detalles y el pago del adelanto.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.1636,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Mario! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Puquio, ¿correcto?"
+        },
+        {
+          "segundo": 11,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 13,
+          "rol": "agente",
+          "texto": "Excelente. ¿En qué distrito de Puquio se encuentra?"
+        },
+        {
+          "segundo": 18,
+          "rol": "cliente",
+          "texto": "Distrito de Puquio."
+        },
+        {
+          "segundo": 20,
+          "rol": "agente",
+          "texto": "Entendido. Le comento que con la Antena Digital TeVeProMax usted podrá disfrutar de televisión gratuita en Full HD sin pagar mensualidad, captando canales nacionales y algunos internacionales hasta cincuenta según la cobertura de su zona.\n\nComo en su ciudad no hay una sede Shalom, se lo podemos enviar por Olva Courier con un adelanto de veinte soles. Al recoger cancela el restante descontando el adelanto. El pedido llega aproximadamente en veinticuatro a cuarenta y ocho horas después del envío. ¿Estaría bien?"
+        },
+        {
+          "segundo": 60,
+          "rol": "cliente",
+          "texto": "Ya, es que ahorita me encuentro en la chacra. Voy a-- mañana voy a bajar al distrito para ver."
+        },
+        {
+          "segundo": 65,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, Mario. Entonces, ¿le parece bien si dejamos el envío coordinado para que lo pueda recoger en Olva Courier apenas baje al distrito? Una asesora le escribirá por WhatsApp para confirmarle los detalles de la entrega y enviarle los números de cuenta para el adelanto de veinte soles. ¿Estaría bien?"
+        },
+        {
+          "segundo": 88,
+          "rol": "cliente",
+          "texto": "Ya, ya, ya, señora."
+        },
+        {
+          "segundo": 91,
+          "rol": "agente",
+          "texto": "Muchas gracias, Mario. Una asesora le escribirá por WhatsApp para coordinar los detalles. Que tenga un excelente día."
+        }
+      ]
+    },
+    {
+      "id": "conv_6701m8atw0xdfqzasevtpyakx3yt",
+      "fecha_unix": 1795660105,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:28:25 pm",
+      "fecha_hora_lima": "25/11/2026 9:28:25 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Mario",
+      "celular_mask": "+51 927 *** 383",
+      "celular_ult4": "6383",
+      "pedido_id": "39139",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Jirón Angamos 640, Puquio",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 22,
+      "duracion_texto": "22 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Puquio. Tras el saludo del agente, se detectó silencio por parte del usuario, lo que llevó a la finalización de la llamada.",
+      "titulo": "Llamada de confirmación",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0314,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Mario! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Puquio, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_6301m8atra57echvrpc75zj0bwba",
       "fecha_unix": 1795659949,
