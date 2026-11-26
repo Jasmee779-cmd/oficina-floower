@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:32:42 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 21:37:47 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,34 +28,34 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 78,
-      "conectables": 75,
+      "total": 79,
+      "conectables": 76,
       "confirmadas": 9,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 59,
+      "no_contesta": 60,
       "errores": 3,
       "tasa_confirmacion_pct": 12,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 87,
-      "conectables": 77,
+      "total": 88,
+      "conectables": 78,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 59,
+      "no_contesta": 60,
       "errores": 10,
       "tasa_confirmacion_pct": 14,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 87,
-      "conectables": 77,
+      "total": 88,
+      "conectables": 78,
       "confirmadas": 11,
       "reprogramadas": 1,
       "canceladas": 3,
-      "no_contesta": 59,
+      "no_contesta": 60,
       "errores": 10,
       "tasa_confirmacion_pct": 14,
       "monto_confirmado": 1699.0
@@ -63,6 +63,58 @@
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_8701m8av8azce21v4s8m21kasdnt",
+      "fecha_unix": 1795660471,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:34:31 pm",
+      "fecha_hora_lima": "25/11/2026 9:34:31 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aristedes",
+      "celular_mask": "+51 913 *** 437",
+      "celular_ult4": "9437",
+      "pedido_id": "39140",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Avenida Tupac Amaru k19, Carabayllo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. La conversación fue breve y finalizó porque el usuario no respondió tras el saludo inicial del agente.",
+      "titulo": "Confirmación pedido antena",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0438,
+      "audio_url": "audio/conv_8701m8av8azce21v4s8m21kasdnt.mp3",
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Aristedes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_3201m8atzfe0e10v2dg5yzgt1e5v",
       "fecha_unix": 1795660190,
@@ -86,12 +138,12 @@
       "duracion_secs": 100,
       "duracion_texto": "1 min 40 s",
       "resumen": "El agente confirmó con Mario su pedido de la Antena Digital TeVeProMax para Puquio. Se explicó que el envío se realizará por Olva Courier con un adelanto de veinte soles, ya que no hay sede Shalom en la ciudad. Mario indicó que actualmente está en el campo y bajará al distrito mañana. Se acordó coordinar la entrega para cuando él esté en el distrito, y una asesora se contactará por WhatsApp para los detalles y el pago del adelanto.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Confirmación Pedido Antena",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "Call ended by remote party",
       "costo_usd": 0.1636,
-      "audio_url": null,
+      "audio_url": "audio/conv_3201m8atzfe0e10v2dg5yzgt1e5v.mp3",
       "transcripcion": [
         {
           "segundo": 0,
@@ -163,12 +215,12 @@
       "duracion_secs": 22,
       "duracion_texto": "22 s",
       "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Puquio. Tras el saludo del agente, se detectó silencio por parte del usuario, lo que llevó a la finalización de la llamada.",
-      "titulo": "Llamada de confirmación",
+      "titulo": "Llamada finalizada por silencio",
       "nueva_fecha": null,
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.0314,
-      "audio_url": null,
+      "audio_url": "audio/conv_6701m8atw0xdfqzasevtpyakx3yt.mp3",
       "transcripcion": [
         {
           "segundo": 0,
