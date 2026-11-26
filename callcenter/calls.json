@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:46:57 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 21:49:05 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -91,7 +91,7 @@
       "motivo_cancelacion": "Mi, mi hija es que había hecho esto con mi nombre. Disculpa, no, no, por ahora no.",
       "terminacion": "Call ended by remote party",
       "costo_usd": 0.1166,
-      "audio_url": null,
+      "audio_url": "audio/conv_5901m8avshxmecka265k5eej95xg.mp3",
       "transcripcion": [
         {
           "segundo": 0,
@@ -198,7 +198,7 @@
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.0419,
-      "audio_url": null,
+      "audio_url": "audio/conv_8001m8avmyepeefvtzy86kd6qy41.mp3",
       "transcripcion": [
         {
           "segundo": 0,
@@ -250,7 +250,7 @@
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.0315,
-      "audio_url": null,
+      "audio_url": "audio/conv_9501m8avgkmxf5hs5w9y4h8nwv6g.mp3",
       "transcripcion": [
         {
           "segundo": 0,
@@ -302,7 +302,7 @@
       "motivo_cancelacion": null,
       "terminacion": "end_call tool was called.",
       "costo_usd": 0.0437,
-      "audio_url": null,
+      "audio_url": "audio/conv_4201m8avctbsfv2rvk83ac56j3b9.mp3",
       "transcripcion": [
         {
           "segundo": 1,
