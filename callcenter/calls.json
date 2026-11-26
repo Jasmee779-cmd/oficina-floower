@@ -1,5 +1,5 @@
 {
-  "generado_lima": "2026-11-25 21:37:47 Lima (UTC-5)",
+  "generado_lima": "2026-11-25 21:46:57 Lima (UTC-5)",
   "estado_sistema": "En vivo — lote de confirmaciones reales (desde 25/11/2026 17:39 Lima)",
   "agente": {
     "id": "agent_0001m87br4eqf1nvrs7xcr875ys9",
@@ -28,41 +28,304 @@
   "kpis": {
     "fecha_referencia_lima": "2026-11-25",
     "hoy": {
-      "total": 79,
-      "conectables": 76,
+      "total": 83,
+      "conectables": 80,
       "confirmadas": 9,
       "reprogramadas": 1,
-      "canceladas": 3,
-      "no_contesta": 60,
+      "canceladas": 4,
+      "no_contesta": 63,
       "errores": 3,
-      "tasa_confirmacion_pct": 12,
+      "tasa_confirmacion_pct": 11,
       "monto_confirmado": 1521.0
     },
     "semana": {
-      "total": 88,
-      "conectables": 78,
+      "total": 92,
+      "conectables": 82,
       "confirmadas": 11,
       "reprogramadas": 1,
-      "canceladas": 3,
-      "no_contesta": 60,
+      "canceladas": 4,
+      "no_contesta": 63,
       "errores": 10,
-      "tasa_confirmacion_pct": 14,
+      "tasa_confirmacion_pct": 13,
       "monto_confirmado": 1699.0
     },
     "total_historico": {
-      "total": 88,
-      "conectables": 78,
+      "total": 92,
+      "conectables": 82,
       "confirmadas": 11,
       "reprogramadas": 1,
-      "canceladas": 3,
-      "no_contesta": 60,
+      "canceladas": 4,
+      "no_contesta": 63,
       "errores": 10,
-      "tasa_confirmacion_pct": 14,
+      "tasa_confirmacion_pct": 13,
       "monto_confirmado": 1699.0
     }
   },
   "cola": [],
   "llamadas": [
+    {
+      "id": "conv_5901m8avshxmecka265k5eej95xg",
+      "fecha_unix": 1795661051,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:44:11 pm",
+      "fecha_hora_lima": "25/11/2026 9:44:11 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Floriele",
+      "celular_mask": "+51 980 *** 502",
+      "celular_ult4": "6502",
+      "pedido_id": "39141",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 469.0,
+      "monto_texto": "S/469",
+      "direccion": "Urb Sol de Ica E 29, Frente a la Reniec",
+      "fecha_entrega": "aproximadamente en 24 a 48 horas después del envío",
+      "resultado": "CANCELADO",
+      "es_prueba": false,
+      "duracion_secs": 60,
+      "duracion_texto": "1 min",
+      "resumen": "La agente llamó para confirmar un pedido de cortinas de luces. La usuaria aclaró que su hija había realizado el pedido a su nombre y solicitó cancelarlo por el momento. Indicó que podría contactarlos nuevamente a principios de diciembre para realizar el pedido. La agente confirmó la cancelación temporal del pedido.",
+      "titulo": "Pedido luces cancelado",
+      "nueva_fecha": null,
+      "motivo_cancelacion": "Mi, mi hija es que había hecho esto con mi nombre. Disculpa, no, no, por ahora no.",
+      "terminacion": "Call ended by remote party",
+      "costo_usd": 0.1166,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Floriele! Le saluda Sofía. Le llamo para confirmar su pedido de la cortina de luces para Ica, ¿correcto?"
+        },
+        {
+          "segundo": 10,
+          "rol": "cliente",
+          "texto": "Cortinas de lu-"
+        },
+        {
+          "segundo": 12,
+          "rol": "agente",
+          "texto": "Sí,..."
+        },
+        {
+          "segundo": 12,
+          "rol": "cliente",
+          "texto": "Ay, disculpa."
+        },
+        {
+          "segundo": 15,
+          "rol": "agente",
+          "texto": "No..."
+        },
+        {
+          "segundo": 15,
+          "rol": "cliente",
+          "texto": "Disculpa, es que ¿sabes qué? Mi, mi hija es que había hecho esto con mi nombre. Disculpa, no, no, por ahora no. Quizás sí va a serlo, voy a hacerlo, pero más adelante. Antes de-- para el mes de diciembre."
+        },
+        {
+          "segundo": 30,
+          "rol": "agente",
+          "texto": "Entiendo perfectamente, Floriele. Entonces, por el momento dejamos el pedido como..."
+        },
+        {
+          "segundo": 33,
+          "rol": "cliente",
+          "texto": "Ya."
+        },
+        {
+          "segundo": 33,
+          "rol": "cliente",
+          "texto": "Sí."
+        },
+        {
+          "segundo": 36,
+          "rol": "agente",
+          "texto": "Está bien,..."
+        },
+        {
+          "segundo": 36,
+          "rol": "cliente",
+          "texto": "Sí, como cancelado, pero en, en diciembre, sí, los primeros días de diciembre. Ya yo les contacto nuevamente."
+        },
+        {
+          "segundo": 44,
+          "rol": "agente",
+          "texto": "Entendido, Floriele. Queda entonces como cancelado por el momento. Muchas gracias por su..."
+        },
+        {
+          "segundo": 47,
+          "rol": "cliente",
+          "texto": "Ya."
+        },
+        {
+          "segundo": 47,
+          "rol": "cliente",
+          "texto": "Por el momento. Gracias también, gracias."
+        },
+        {
+          "segundo": 54,
+          "rol": "agente",
+          "texto": "Muchas gracias, Floriele. Que tenga un excelente día."
+        }
+      ]
+    },
+    {
+      "id": "conv_8001m8avmyepeefvtzy86kd6qy41",
+      "fecha_unix": 1795660912,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:41:52 pm",
+      "fecha_hora_lima": "25/11/2026 9:41:52 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Floriele",
+      "celular_mask": "+51 980 *** 502",
+      "celular_ult4": "6502",
+      "pedido_id": "39141",
+      "producto": "Cortina LED NovaLux 3x3",
+      "monto_num": 469.0,
+      "monto_texto": "S/469",
+      "direccion": "Urb Sol de Ica E 29, Frente a la Reniec",
+      "fecha_entrega": "aproximadamente en 24 a 48 horas después del envío",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 22,
+      "duracion_texto": "22 s",
+      "resumen": "La agente Sofía inició la llamada para confirmar un pedido de cortina de luces para Ica. Tras el saludo de la agente, el usuario permaneció en silencio, lo que llevó a la agente a finalizar la llamada.",
+      "titulo": "Fin por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0419,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Floriele! Le saluda Sofía. Le llamo para confirmar su pedido de la cortina de luces para Ica, ¿correcto?"
+        },
+        {
+          "segundo": 20,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 21,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial detectado tras el saludo.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_9501m8avgkmxf5hs5w9y4h8nwv6g",
+      "fecha_unix": 1795660741,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:39:01 pm",
+      "fecha_hora_lima": "25/11/2026 9:39:01 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aristedes",
+      "celular_mask": "+51 913 *** 437",
+      "celular_ult4": "9437",
+      "pedido_id": "39140",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Avenida Tupac Amaru k19, Carabayllo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 23,
+      "duracion_texto": "23 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax para Lima. El usuario no respondió, lo que llevó al agente a finalizar la llamada debido al silencio inicial.",
+      "titulo": "Fin por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0315,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 0,
+          "rol": "agente",
+          "texto": "¡Hola, Aristedes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
+    {
+      "id": "conv_4201m8avctbsfv2rvk83ac56j3b9",
+      "fecha_unix": 1795660617,
+      "fecha_iso": "2026-11-25",
+      "fecha_corta": "25/11/2026",
+      "hora_lima": "9:36:57 pm",
+      "fecha_hora_lima": "25/11/2026 9:36:57 pm",
+      "canal": "Teléfono Twilio",
+      "source": "twilio",
+      "cliente": "Aristedes",
+      "celular_mask": "+51 913 *** 437",
+      "celular_ult4": "9437",
+      "pedido_id": "39140",
+      "producto": "TVMax Pro ANTENA",
+      "monto_num": 69.0,
+      "monto_texto": "S/69",
+      "direccion": "Avenida Tupac Amaru k19, Carabayllo",
+      "fecha_entrega": "en 24 a 48 horas",
+      "resultado": "NO CONTESTA",
+      "es_prueba": false,
+      "duracion_secs": 24,
+      "duracion_texto": "24 s",
+      "resumen": "El agente inició la llamada para confirmar un pedido de una Antena Digital TeVeProMax. La conversación finalizó abruptamente debido al silencio del usuario tras el saludo inicial del agente.",
+      "titulo": "Fin por silencio",
+      "nueva_fecha": null,
+      "motivo_cancelacion": null,
+      "terminacion": "end_call tool was called.",
+      "costo_usd": 0.0437,
+      "audio_url": null,
+      "transcripcion": [
+        {
+          "segundo": 1,
+          "rol": "agente",
+          "texto": "¡Hola, Aristedes! Le saluda Sofía. Le llamo para confirmar su pedido de la Antena Digital TeVeProMax para Lima, ¿correcto?"
+        },
+        {
+          "segundo": 21,
+          "rol": "cliente",
+          "texto": "..."
+        },
+        {
+          "segundo": 22,
+          "rol": "sistema",
+          "texto": "[herramienta: end_call]"
+        },
+        {
+          "segundo": 23,
+          "rol": "sistema",
+          "texto": "[end_call: Silencio inicial tras el saludo automático.]"
+        }
+      ]
+    },
     {
       "id": "conv_8701m8av8azce21v4s8m21kasdnt",
       "fecha_unix": 1795660471,
