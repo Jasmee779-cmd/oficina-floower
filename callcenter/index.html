@@ -499,6 +499,80 @@
       margin-left: 6px;
       vertical-align: middle;
     }
+
+    /* Etiquetas de ciclo D1/D2/D3 (pedido James 27/11/2026):
+       píldora celeste + check verde + Xn al lado, apiladas en vertical. */
+    .ciclo-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+    .ciclo-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .ciclo-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #d4eefc;
+      color: #0a3a66;
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1.25;
+      border: 1px solid #b6def5;
+    }
+    .ciclo-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #22c55e;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .ciclo-xn {
+      color: #cde9ff;
+      font-weight: 800;
+      font-size: 12.5px;
+      letter-spacing: 0.02em;
+    }
+    .ciclo-outcome { margin-top: 4px; }
+    tr.ciclo-confirmado {
+      background: rgba(245, 158, 11, 0.22);
+    }
+    tr.ciclo-confirmado:hover,
+    tr.ciclo-confirmado.open,
+    tr.ciclo-confirmado.open:hover {
+      background: rgba(245, 158, 11, 0.30);
+    }
+    tr.ciclo-confirmado td:first-child {
+      box-shadow: inset 4px 0 0 #f59e0b;
+    }
+    tr.ciclo-confirmado .ciclo-xn,
+    tr.ciclo-cancelado .ciclo-xn {
+      color: #0a3a66;
+    }
+    tr.ciclo-cancelado {
+      background: rgba(229, 72, 77, 0.16);
+    }
+    tr.ciclo-cancelado:hover,
+    tr.ciclo-cancelado.open,
+    tr.ciclo-cancelado.open:hover {
+      background: rgba(229, 72, 77, 0.22);
+    }
+    tr.ciclo-cancelado td:first-child {
+      box-shadow: inset 4px 0 0 #ef4444;
+    }
     tr.sub-row {
       background: rgba(158, 239, 233, 0.10);
     }
@@ -808,7 +882,7 @@
                   <th>Cliente / Canal</th>
                   <th>Producto</th>
                   <th class="td-num">Monto</th>
-                  <th>Resultado</th>
+                  <th>Estado</th>
                   <th class="td-num">Duración</th>
                   <th>Audio</th>
                   <th>Nota</th>
@@ -1412,6 +1486,131 @@
       });
     }
 
+    /* Ciclo de confirmación (James, 26/11/2026; 25/11 cuenta como Día 1):
+       Día 1 = 25/11/2026.
+       Día 2 = 26/11 (ronda 1, noche) + 27/11 (rondas 2 y 3).
+       Día 3 = solo WhatsApp; hasta que aplique se muestra "Por iniciar".
+       Se cuentan llamadas reales: no prueba, no recordatorio de adelanto. */
+    const CICLO_DAY_BY_ISO = {
+      "2026-11-25": 1,
+      "2026-11-26": 2,
+      "2026-11-27": 2,
+    };
+    const CICLO_TOTAL_DAYS = 3;
+    const CICLO_RESOLVED = new Set([
+      "CANCELADO",
+      "CONFIRMADO",
+      "ADELANTO",
+      "REPROGRAMADO",
+      "CONSULTA PENDIENTE",
+      "PEDIDO FALSO",
+    ]);
+
+    function callIsoDate(c) {
+      const iso = String(c?.fecha_iso || "").trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+      const corta = String(c?.fecha_corta || "").trim();
+      const m = corta.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0");
+      return "";
+    }
+
+    function cicloDayOf(c) {
+      const iso = callIsoDate(c);
+      return iso ? (CICLO_DAY_BY_ISO[iso] || null) : null;
+    }
+
+    function isCycleCall(c) {
+      if (!c || c.es_prueba) return false;
+      if (typeof isRecordatorioCall === "function" && isRecordatorioCall(c)) return false;
+      return cicloDayOf(c) != null;
+    }
+
+    function isCicloResolvedResult(res) {
+      const u = String(res || "").toUpperCase().trim();
+      if (CICLO_RESOLVED.has(u)) return true;
+      return u.includes("CONFIRMADO") || u.includes("ADELANTO");
+    }
+
+    function cicloInfoForPhone(phone, fallbackCalls) {
+      const all = (DATA?.llamadas || []).filter((c) => {
+        if (!isCycleCall(c)) return false;
+        if (!phone) return false;
+        return phoneKey(c) === phone;
+      });
+      const calls = all.length ? all : (fallbackCalls || []).filter(isCycleCall);
+      const counts = { 1: 0, 2: 0, 3: 0 };
+      let resolvedDay = null;
+      let resolvedRes = "";
+      const chrono = calls.slice().sort((a, b) => (Number(a.fecha_unix) || 0) - (Number(b.fecha_unix) || 0));
+      for (const c of chrono) {
+        const d = cicloDayOf(c);
+        if (!d) continue;
+        counts[d] += 1;
+        if (isCicloResolvedResult(c.resultado)) {
+          resolvedDay = d;
+          resolvedRes = String(c.resultado || "").toUpperCase().trim();
+        }
+      }
+      if (!resolvedDay && phone && typeof confirmadosExtra === "function") {
+        const extra = confirmadosExtra();
+        const inExtra = extra.phones.has(phone) || chrono.some((c) => extra.ids.has(c.id));
+        if (inExtra) {
+          for (let d = CICLO_TOTAL_DAYS; d >= 1; d--) {
+            if (counts[d]) {
+              resolvedDay = d;
+              resolvedRes = String(chrono[chrono.length - 1]?.resultado || "").toUpperCase().trim();
+              break;
+            }
+          }
+        }
+      }
+      return { counts, resolvedDay, resolvedRes, hasCycle: calls.length > 0 };
+    }
+
+    function cicloInfoForCall(c) {
+      if (!c || c.es_prueba) return { hasCycle: false, counts: { 1: 0, 2: 0, 3: 0 }, resolvedDay: null, resolvedRes: "" };
+      return cicloInfoForPhone(phoneKey(c), [c]);
+    }
+
+    function cicloInfoForGroup(g) {
+      const sample = g.resultCall || g.latest;
+      const attempts = g.attempts || [];
+      if (sample?.es_prueba && !attempts.some((a) => !a.es_prueba)) {
+        return { hasCycle: false, counts: { 1: 0, 2: 0, 3: 0 }, resolvedDay: null, resolvedRes: "" };
+      }
+      const phone = (g.key && !String(g.key).startsWith("id:")) ? g.key : phoneKey(sample);
+      return cicloInfoForPhone(phone, attempts);
+    }
+
+    function cicloRowClass(info) {
+      if (!info || !info.hasCycle || !info.resolvedDay) return "";
+      const r = info.resolvedRes || "";
+      if (r === "CANCELADO" || r === "PEDIDO FALSO") return " ciclo-cancelado";
+      return " ciclo-confirmado";
+    }
+
+    function cicloStackHtml(info, resultCallForPill) {
+      if (!info || !info.hasCycle) {
+        return resultCallForPill
+          ? resultPill(resultCallForPill.resultado, resultCallForPill) + pruebaMark(resultCallForPill.es_prueba)
+          : "";
+      }
+      const days = info.resolvedDay ? [info.resolvedDay] : [1, 2, 3];
+      const lines = days.map((d) => {
+        const n = info.counts[d] || 0;
+        if (n > 0) {
+          return '<div class="ciclo-line"><span class="ciclo-chip">D' + d + ': Llamado</span><span class="ciclo-check" title="Llamado" aria-hidden="true">✓</span><span class="ciclo-xn">X' + n + "</span></div>";
+        }
+        return '<div class="ciclo-line"><span class="ciclo-chip">D' + d + ": Por iniciar</span></div>";
+      });
+      let html = '<div class="ciclo-stack">' + lines.join("") + "</div>";
+      if (info.resolvedDay && resultCallForPill && isCicloResolvedResult(resultCallForPill.resultado)) {
+        html += '<div class="ciclo-outcome">' + resultPill(resultCallForPill.resultado, resultCallForPill) + "</div>";
+      }
+      return html;
+    }
+
     function pruebaMark(flag) {
       return flag ? ' <span class="pill pill-test">PRUEBA</span>' : "";
     }
@@ -1442,13 +1641,14 @@
     }
 
     function recentRowHtml(c) {
+      const ciclo = cicloInfoForCall(c);
       return `
-        <tr class="click-row" data-id="${esc(c.id)}">
+        <tr class="click-row${cicloRowClass(ciclo)}" data-id="${esc(c.id)}">
           <td>${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
-          <td>${resultPill(c.resultado, c)}${pruebaMark(c.es_prueba)}</td>
+          <td>${cicloStackHtml(ciclo, c)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td>${audioPill(c, "MP3")}</td>
           ${notaCell(c)}
@@ -1459,13 +1659,14 @@
       const open = expandedGroups.has(g.key);
       const c = g.latest;
       const res = g.resultCall;
+      const ciclo = cicloInfoForGroup(g);
       let html = `
-        <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
+        <tr class="group-row${open ? " open" : ""}${cicloRowClass(ciclo)}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
-          <td>${resultPill(res.resultado, res)}${pruebaMark(res.es_prueba)}</td>
+          <td>${cicloStackHtml(ciclo, res)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td>${audioPill(c, "MP3")}</td>
           ${notaCell(res)}
@@ -1489,14 +1690,15 @@
     }
 
     function histRowHtml(c) {
+      const ciclo = cicloInfoForCall(c);
       return `
-        <tr class="click-row" data-id="${esc(c.id)}">
+        <tr class="click-row${cicloRowClass(ciclo)}" data-id="${esc(c.id)}">
           <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong><span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
           <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
-          <td>${resultPill(c.resultado, c)}${pruebaMark(c.es_prueba)}</td>
+          <td>${cicloStackHtml(ciclo, c)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td style="max-width:290px">${esc(c.resumen)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
@@ -1508,14 +1710,15 @@
       const open = expandedGroups.has(g.key);
       const c = g.latest;
       const res = g.resultCall;
+      const ciclo = cicloInfoForGroup(g);
       let html = `
-        <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
+        <tr class="group-row${open ? " open" : ""}${cicloRowClass(ciclo)}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
           <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
-          <td>${resultPill(res.resultado, res)}${pruebaMark(res.es_prueba)}</td>
+          <td>${cicloStackHtml(ciclo, res)}</td>
           <td class="td-num">${esc(c.duracion_texto)}</td>
           <td style="max-width:290px">${esc(c.resumen)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
@@ -1675,8 +1878,9 @@
     }
 
     function confRowHtml(c) {
+      const ciclo = cicloInfoForCall(c);
       return `
-        <tr class="click-row" data-id="${esc(c.id)}">
+        <tr class="click-row${cicloRowClass(ciclo)}" data-id="${esc(c.id)}">
           <td style="white-space:nowrap">${esc(c.fecha_hora_lima)}</td>
           <td><strong>${esc(c.cliente)}</strong></td>
           <td>${phoneWithCopy(c)}</td>
@@ -1684,7 +1888,7 @@
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
           <td>${esc(displayEnvio(c))}</td>
-          <td>${resultPill(c.resultado, c)}</td>
+          <td>${cicloStackHtml(ciclo, c)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
           ${notaCell(c)}
         </tr>`;
@@ -1693,8 +1897,9 @@
     function confGroupHtml(g) {
       const open = expandedGroups.has(g.key);
       const c = g.resultCall || g.latest;
+      const ciclo = cicloInfoForGroup(g);
       let html = `
-        <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
+        <tr class="group-row${open ? " open" : ""}${cicloRowClass(ciclo)}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
           ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}</td>
           <td>${phoneWithCopy(c)}</td>
@@ -1702,7 +1907,7 @@
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
           <td>${esc(displayEnvio(c))}</td>
-          <td>${resultPill((g.resultCall || c).resultado, g.resultCall || c)}</td>
+          <td>${cicloStackHtml(ciclo, g.resultCall || c)}</td>
           <td>${audioPill(c, "Escuchar")}</td>
           ${notaCell(g.resultCall || c)}
         </tr>`;
