@@ -875,7 +875,7 @@
           <div class="card-head">
             <div>
               <h2 class="card-title">Clientes confirmados</h2>
-              <div class="card-sub" id="confirmadosSub">Quienes aceptaron (CONFIRMADO, ADELANTO o adelanto con CONSULTA PENDIENTE) · sin llamadas de prueba</div>
+              <div class="card-sub" id="confirmadosSub">CONFIRMADO, ADELANTO, REPROGRAMADO y CONSULTA PENDIENTE · sin llamadas de prueba</div>
             </div>
           </div>
           <div class="table-wrap">
@@ -1625,6 +1625,10 @@
       return String(res || "").toUpperCase().includes("CONSULTA PENDIENTE");
     }
 
+    function isReprogramado(res) {
+      return String(res || "").toUpperCase().includes("REPROGRAMADO");
+    }
+
     function truthyAcepta(val) {
       if (val === true || val === 1) return true;
       const u = String(val ?? "").trim().toLowerCase();
@@ -1660,8 +1664,8 @@
       if (!nonRec.length) return false;
       const resCall = pickGroupResult(nonRec);
       const res = resCall?.resultado;
-      if (isAcceptedResult(res)) return true;
-      if (isConsultaPendiente(res) && (groupAcceptedAdvance({ ...g, resultCall: resCall, attempts: nonRec }) || groupInConfirmadosExtra({ ...g, resultCall: resCall, attempts: nonRec }))) return true;
+      if (isAcceptedResult(res) || isReprogramado(res) || isConsultaPendiente(res)) return true;
+      if (groupInConfirmadosExtra({ ...g, resultCall: resCall, attempts: nonRec })) return true;
       return false;
     }
 
@@ -1722,22 +1726,45 @@
       return html;
     }
 
+    function confirmadosBreakdown(groups) {
+      const counts = { CONFIRMADO: 0, ADELANTO: 0, REPROGRAMADO: 0, "CONSULTA PENDIENTE": 0 };
+      for (const g of groups) {
+        const res = String((g.resultCall || g.latest)?.resultado || "").toUpperCase().trim();
+        if (res in counts) counts[res] += 1;
+        else if (res.includes("CONSULTA PENDIENTE")) counts["CONSULTA PENDIENTE"] += 1;
+        else if (res.includes("REPROGRAMADO")) counts.REPROGRAMADO += 1;
+        else if (res.includes("ADELANTO")) counts.ADELANTO += 1;
+        else if (res.includes("CONFIRMADO")) counts.CONFIRMADO += 1;
+      }
+      const parts = [];
+      if (counts.CONFIRMADO) parts.push(counts.CONFIRMADO + " CONFIRMADO");
+      if (counts.ADELANTO) parts.push(counts.ADELANTO + " ADELANTO");
+      if (counts.REPROGRAMADO) parts.push(counts.REPROGRAMADO + " REPROGRAMADO");
+      if (counts["CONSULTA PENDIENTE"]) parts.push(counts["CONSULTA PENDIENTE"] + " CONSULTA PENDIENTE");
+      return parts;
+    }
+
     function renderConfirmados() {
       const groups = confirmedGroups();
       const confCount = document.getElementById("confCount");
       if (confCount) confCount.textContent = String(groups.length);
       const sub = document.getElementById("confirmadosSub");
       if (sub) {
-        sub.textContent = groups.length
-          ? groups.length +
+        if (!groups.length) {
+          sub.textContent = "Aún no hay clientes en Confirmados (sin contar llamadas de prueba)";
+        } else {
+          const bits = confirmadosBreakdown(groups);
+          sub.textContent =
+            groups.length +
             " cliente" +
             (groups.length === 1 ? "" : "s") +
-            " que aceptaron · sin llamadas de prueba · toca una fila para ver intentos, audio y transcripción"
-          : "Aún no hay clientes confirmados (sin contar llamadas de prueba)";
+            (bits.length ? " · " + bits.join(" · ") : "") +
+            " · sin llamadas de prueba · toca una fila para ver intentos, audio y transcripción";
+        }
       }
       const tbody = document.getElementById("confirmadosTbody");
       if (!groups.length) {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--soft);padding:24px">Aún no hay clientes confirmados (sin contar llamadas de prueba).</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--soft);padding:24px">Aún no hay clientes en Confirmados (sin contar llamadas de prueba).</td></tr>`;
         return;
       }
       tbody.innerHTML = groups
@@ -1868,7 +1895,7 @@
       const titles = {
         panel: ["Panel general", "KPIs del día y últimos 7 días · hora Lima (UTC-5)"],
         llamadas: ["Historial de llamadas", "Buscador por nombre, celular o pedido · grabaciones y transcripciones"],
-        confirmados: ["Confirmados", "Clientes que aceptaron (CONFIRMADO, ADELANTO o adelanto con CONSULTA PENDIENTE) · sin llamadas de prueba"],
+        confirmados: ["Confirmados", "Clientes para revisar (CONFIRMADO, ADELANTO, REPROGRAMADO y CONSULTA PENDIENTE) · sin llamadas de prueba"],
         cola: ["Cola por llamar", "Pedidos pendientes de confirmación"],
         flujo: ["Cómo funciona", "Ejecución paso a paso, decisiones tomadas y propuestas"],
         agente: ["Ficha del agente IA", "Configuración de FLOOWER Confirmaciones Voz y mejoras pendientes"],
