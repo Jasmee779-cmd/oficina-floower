@@ -242,6 +242,7 @@
       max-width: 1260px;
       width: 100%;
       margin: 0 auto;
+      min-width: 0;
     }
     .topbar {
       display: flex;
@@ -300,6 +301,8 @@
       border-radius: var(--radius);
       padding: 18px;
       margin-bottom: 16px;
+      max-width: 100%;
+      min-width: 0;
     }
     .card-head {
       display: flex;
@@ -394,7 +397,11 @@
     }
 
     /* Table */
-    .table-wrap { overflow-x: auto; }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -440,32 +447,98 @@
     }
     .copy-phone:hover { color: var(--ink); background: rgba(255, 255, 255, 0.08); }
     .copy-phone.copied { color: var(--verde); font-size: 12px; font-weight: 800; }
-    .chevron {
+    .td-fecha {
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    .td-fecha .fecha-text {
       display: inline-block;
-      width: 1em;
-      color: var(--soft);
-      font-size: 12px;
-      transition: transform 0.15s ease;
-      margin-right: 4px;
+      vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+    }
+    .expand-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+      border-radius: 8px;
+      background: rgba(46, 200, 192, 0.16);
+      border: 1px solid rgba(46, 200, 192, 0.42);
+      color: #9eefe9;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .expand-toggle .chevron-icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      transition: transform 0.18s ease;
     }
     tr.group-row { cursor: pointer; transition: background 0.12s; }
     tr.group-row:hover { background: rgba(46, 200, 192, 0.07); }
-    tr.group-row.open .chevron { transform: rotate(90deg); }
+    tr.group-row.open {
+      background: rgba(46, 200, 192, 0.14);
+    }
+    tr.group-row.open:hover { background: rgba(46, 200, 192, 0.18); }
+    tr.group-row.open td:first-child {
+      box-shadow: inset 4px 0 0 var(--turquesa);
+    }
+    tr.group-row.open .expand-toggle {
+      background: rgba(46, 200, 192, 0.32);
+      border-color: rgba(46, 200, 192, 0.65);
+    }
+    tr.group-row.open .chevron-icon { transform: rotate(90deg); }
     .pill-intentos {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--ink);
-      border: 1px solid var(--line);
+      background: rgba(46, 200, 192, 0.16);
+      color: #9eefe9;
+      border: 1px solid rgba(46, 200, 192, 0.38);
       font-size: 10.5px;
       padding: 2px 7px;
       margin-left: 6px;
       vertical-align: middle;
     }
-    tr.sub-row { background: rgba(0, 0, 0, 0.22); }
-    tr.sub-row:hover { background: rgba(46, 200, 192, 0.07); }
-    tr.sub-row td:first-child { padding-left: 28px; }
-    tr.sub-row td:first-child::before {
-      content: "↳ ";
-      color: var(--soft);
+    tr.sub-row {
+      background: rgba(158, 239, 233, 0.10);
+    }
+    tr.sub-row:hover { background: rgba(46, 200, 192, 0.16); }
+    tr.sub-row td {
+      border-bottom-color: rgba(46, 200, 192, 0.18);
+    }
+    tr.sub-row td:first-child {
+      padding-left: 18px;
+      box-shadow: inset 4px 0 0 var(--turquesa);
+    }
+    .td-intento {
+      white-space: normal;
+      min-width: 148px;
+    }
+    .intento-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding-left: 14px;
+    }
+    .intento-tag {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(46, 200, 192, 0.18);
+      color: #9eefe9;
+      border: 1px solid rgba(46, 200, 192, 0.4);
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 860px) {
+      .expand-toggle { width: 30px; height: 30px; margin-right: 10px; }
+      .expand-toggle .chevron-icon { width: 18px; height: 18px; }
+      tr.sub-row td:first-child { padding-left: 14px; }
+      .intento-stack { padding-left: 10px; }
     }
 
     /* Two columns info */
@@ -1348,6 +1421,20 @@
       return ` <span class="pill pill-intentos">${n} intentos</span>`;
     }
 
+    const CHEVRON_SVG = '<svg class="chevron-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9.3 5.3a1 1 0 0 1 1.4 0l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 1 1-1.4-1.4L14.58 12 9.3 6.7a1 1 0 0 1 0-1.4z"/></svg>';
+
+    function groupFechaCell(fecha) {
+      return `<td class="td-fecha"><span class="expand-toggle" aria-hidden="true">${CHEVRON_SVG}</span><span class="fecha-text">${esc(fecha)}</span></td>`;
+    }
+
+    function intentoFechaCell(fecha, n) {
+      return `<td class="td-fecha td-intento"><div class="intento-stack"><span class="intento-tag">Intento ${n}</span><span class="fecha-text">${esc(fecha)}</span></div></td>`;
+    }
+
+    function attemptsChrono(g) {
+      return g.attempts.slice().sort((a, b) => (Number(a.fecha_unix) || 0) - (Number(b.fecha_unix) || 0));
+    }
+
     function audioPill(c, label) {
       return c.audio_url
         ? `<span class="pill pill-ok">${label}</span>`
@@ -1374,7 +1461,7 @@
       const res = g.resultCall;
       let html = `
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
-          <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
+          ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.canal)} · ${phoneWithCopy(c)}</span></td>
           <td>${esc(c.producto)}</td>
           <td class="td-num">${montoCell(c)}</td>
@@ -1384,11 +1471,11 @@
           ${notaCell(res)}
         </tr>`;
       if (open) {
-        for (const a of g.attempts) {
+        attemptsChrono(g).forEach((a, i) => {
           html += `
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
-          <td>${esc(a.fecha_hora_lima)}</td>
-          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento · ${phoneWithCopy(a)}</span></td>
+          ${intentoFechaCell(a.fecha_hora_lima, i + 1)}
+          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">${phoneWithCopy(a)}</span></td>
           <td>${esc(a.producto)}</td>
           <td class="td-num">${montoCell(a)}</td>
           <td>${resultPill(a.resultado, a)}${pruebaMark(a.es_prueba)}</td>
@@ -1396,7 +1483,7 @@
           <td>${audioPill(a, "MP3")}</td>
           ${notaCell(a)}
         </tr>`;
-        }
+        });
       }
       return html;
     }
@@ -1423,7 +1510,7 @@
       const res = g.resultCall;
       let html = `
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
-          <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
+          ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}<span class="subtxt">${esc(c.pedido_id !== "—" ? "Pedido " + c.pedido_id : c.titulo)}</span></td>
           <td>${phoneWithCopy(c)}<span class="subtxt">${esc(c.canal)}</span></td>
           <td>${esc(c.producto)}</td>
@@ -1435,12 +1522,12 @@
           ${notaCell(res)}
         </tr>`;
       if (open) {
-        for (const a of g.attempts) {
+        attemptsChrono(g).forEach((a, i) => {
           html += `
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
-          <td style="white-space:nowrap">${esc(a.fecha_hora_lima)}</td>
+          ${intentoFechaCell(a.fecha_hora_lima, i + 1)}
           <td><strong>${esc(a.cliente)}</strong><span class="subtxt">${esc(a.pedido_id !== "—" ? "Pedido " + a.pedido_id : a.titulo)}</span></td>
-          <td>${phoneWithCopy(a)}<span class="subtxt">Intento · ${esc(a.canal)}</span></td>
+          <td>${phoneWithCopy(a)}<span class="subtxt">${esc(a.canal)}</span></td>
           <td>${esc(a.producto)}</td>
           <td class="td-num">${montoCell(a)}</td>
           <td>${resultPill(a.resultado, a)}${pruebaMark(a.es_prueba)}</td>
@@ -1449,7 +1536,7 @@
           <td>${audioPill(a, "Escuchar")}</td>
           ${notaCell(a)}
         </tr>`;
-        }
+        });
       }
       return html;
     }
@@ -1604,7 +1691,7 @@
       const c = g.resultCall || g.latest;
       let html = `
         <tr class="group-row${open ? " open" : ""}" data-group="${esc(g.key)}" aria-expanded="${open ? "true" : "false"}">
-          <td style="white-space:nowrap"><span class="chevron" aria-hidden="true">▸</span>${esc(c.fecha_hora_lima)}</td>
+          ${groupFechaCell(c.fecha_hora_lima)}
           <td><strong>${esc(c.cliente)}</strong>${intentosBadge(g.attempts.length)}</td>
           <td>${phoneWithCopy(c)}</td>
           <td>${esc(displayPedido(c))}</td>
@@ -1616,11 +1703,11 @@
           ${notaCell(g.resultCall || c)}
         </tr>`;
       if (open) {
-        for (const a of g.attempts) {
+        attemptsChrono(g).forEach((a, i) => {
           html += `
         <tr class="click-row sub-row" data-id="${esc(a.id)}">
-          <td style="white-space:nowrap">${esc(a.fecha_hora_lima)}</td>
-          <td><strong>${esc(a.cliente)}</strong><span class="subtxt">Intento</span></td>
+          ${intentoFechaCell(a.fecha_hora_lima, i + 1)}
+          <td><strong>${esc(a.cliente)}</strong></td>
           <td>${phoneWithCopy(a)}</td>
           <td>${esc(displayPedido(a))}</td>
           <td>${esc(a.producto)}</td>
@@ -1630,7 +1717,7 @@
           <td>${audioPill(a, "Escuchar")}</td>
           ${notaCell(a)}
         </tr>`;
-        }
+        });
       }
       return html;
     }
