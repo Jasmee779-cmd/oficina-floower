@@ -1414,5 +1414,11 @@
   "de": "HERMES",
   "texto": "Recaudo 27/11: S/2,995 entregado (18 de 26 pedidos). Masivos 28/11: 24/24 subidos, S/3,879.",
   "ts": "2026-11-27T20:42:09-05:00"
+ },
+ {
+  "id": "hermes",
+  "de": "HERMES",
+  "texto": "Cierre pedidos FE 27/11: 61 revisados, 16 entrega exitosa, 8 cancelados, 6 reprogramados, 31 sin tocar.",
+  "ts": "2026-11-27T23:34:09-05:00"
  }
 ]
